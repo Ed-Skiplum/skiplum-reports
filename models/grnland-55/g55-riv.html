@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G55_RIV.ifc — IFC Helsesjekk</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1a1d2e;
+  background: #ffffff;
+  line-height: 1.5;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px;
+  font-size: 14px;
+}
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Score colors */
+.score-god { color: #16a34a; }
+.score-akseptabel { color: #ca8a04; }
+.score-kritisk { color: #dc2626; }
+.bg-god { background: #16a34a; }
+.bg-akseptabel { background: #ca8a04; }
+.bg-kritisk { background: #dc2626; }
+.tag-god { background: #dcfce7; color: #166534; }
+.tag-akseptabel { background: #fef9c3; color: #854d0e; }
+.tag-kritisk { background: #fee2e2; color: #991b1b; }
+
+/* Header */
+.header { margin-bottom: 16px; }
+.header h1 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.header .meta { font-size: 12px; color: #6b7280; }
+
+/* Score ring */
+.score-ring-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.score-ring-wrap .info h2 { font-size: 16px; font-weight: 600; }
+.score-ring-wrap .info .subtitle { font-size: 12px; color: #6b7280; }
+
+/* Tag/pill */
+.tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Score pill (small, for tables) */
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+}
+
+/* Summary bar */
+.summary-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.summary-bar .count { font-weight: 600; }
+
+/* Section bars */
+.section-bars { margin-bottom: 16px; }
+.section-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13px;
+}
+.section-row:last-child { border-bottom: none; }
+.section-label { width: 180px; flex-shrink: 0; }
+.section-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.section-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+.section-score {
+  width: 60px;
+  text-align: right;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 12px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+/* Model table */
+.model-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+.model-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 8px;
+  border-bottom: 2px solid #e5e7eb;
+}
+.model-table td {
+  padding: 8px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13px;
+  vertical-align: middle;
+}
+.model-table tr:hover td { background: #f9fafb; }
+
+/* Issues */
+.issues-group { margin-bottom: 14px; }
+.issues-group h3 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.issue {
+  border-left: 3px solid;
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  border-radius: 0 4px 4px 0;
+  font-size: 13px;
+}
+.issue-critical { border-color: #dc2626; background: #fef2f2; }
+.issue-warning { border-color: #ca8a04; background: #fefce8; }
+.issue-info { border-color: #9ca3af; background: #f9fafb; }
+.issue .message { font-weight: 500; }
+.issue .detail { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.issue .section-tag {
+  float: right;
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Footer */
+.footer {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 11px;
+  color: #9ca3af;
+}
+</style>
+</head>
+<body>
+
+<div class="score-ring-wrap">
+  
+
+
+
+
+<svg width="72" height="72" style="transform: rotate(-90deg); flex-shrink: 0;">
+  <circle cx="36.0" cy="36.0" r="33.0"
+          fill="none" stroke="#e5e7eb" stroke-width="5"/>
+  <circle cx="36.0" cy="36.0" r="33.0"
+          fill="none" stroke="#ca8a04" stroke-width="5"
+          stroke-dasharray="207.34493999999998"
+          stroke-dashoffset="60.13003259999999"
+          stroke-linecap="round"/>
+  <text x="36.0" y="36.0"
+        transform="rotate(90 36.0 36.0)"
+        text-anchor="middle" dominant-baseline="central"
+        style="font-size: 25px; font-weight: 700; fill: #ca8a04;
+               font-family: ui-monospace, 'Cascadia Code', Menlo, monospace;">
+    71
+  </text>
+</svg>
+
+  <div class="info">
+    <h2>G55_RIV.ifc</h2>
+    <div class="subtitle">
+      
+<span class="tag tag-akseptabel">Akseptabel</span>
+
+      &middot; MagiCAD For Revit 2025 UR-2
+      &middot; IFC4
+      &middot; 106.6 MB
+    </div>
+    <div class="subtitle">Analysert på 9.6s</div>
+  </div>
+</div>
+
+<div class="section-bars">
+  
+  
+
+
+<div class="section-row">
+  <span class="section-label">Identity</span>
+  <div class="section-bar-bg">
+    <div class="section-bar-fill" style="width: 50%; background: #ca8a04;"></div>
+  </div>
+  <span class="section-score">5/10</span>
+</div>
+
+  
+  
+
+
+<div class="section-row">
+  <span class="section-label">Units</span>
+  <div class="section-bar-bg">
+    <div class="section-bar-fill" style="width: 100%; background: #16a34a;"></div>
+  </div>
+  <span class="section-score">15/15</span>
+</div>
+
+  
+  
+
+
+<div class="section-row">
+  <span class="section-label">Types</span>
+  <div class="section-bar-bg">
+    <div class="section-bar-fill" style="width: 40%; background: #dc2626;"></div>
+  </div>
+  <span class="section-score">10/25</span>
+</div>
+
+  
+  
+
+
+<div class="section-row">
+  <span class="section-label">Spatial</span>
+  <div class="section-bar-bg">
+    <div class="section-bar-fill" style="width: 100%; background: #16a34a;"></div>
+  </div>
+  <span class="section-score">15/15</span>
+</div>
+
+  
+  
+
+
+<div class="section-row">
+  <span class="section-label">Integrity</span>
+  <div class="section-bar-bg">
+    <div class="section-bar-fill" style="width: 100%; background: #16a34a;"></div>
+  </div>
+  <span class="section-score">8/8</span>
+</div>
+
+  
+  
+
+
+<div class="section-row">
+  <span class="section-label">Coordinates</span>
+  <div class="section-bar-bg">
+    <div class="section-bar-fill" style="width: 60%; background: #ca8a04;"></div>
+  </div>
+  <span class="section-score">6/10</span>
+</div>
+
+  
+</div>
+
+
+<div class="issues-group">
+  <h3 style="color:#dc2626;">Kritisk (1)</h3>
+  
+  
+<div class="issue issue-critical">
+  <span class="section-tag">Types</span>
+  <div class="message">30886 elements (100%) have no type</div>
+  
+</div>
+
+  
+</div>
+
+
+
+<div class="issues-group">
+  <h3 style="color:#ca8a04;">Advarsel (2)</h3>
+  
+  
+<div class="issue issue-warning">
+  <span class="section-tag">Identity</span>
+  <div class="message">IfcProject has no name</div>
+  
+</div>
+
+  
+  
+<div class="issue issue-warning">
+  <span class="section-tag">Types</span>
+  <div class="message">261 type definitions with zero instances</div>
+  
+</div>
+
+  
+</div>
+
+
+
+<div class="issues-group">
+  <h3 style="color:#6b7280;">Info (1)</h3>
+  
+  
+<div class="issue issue-info">
+  <span class="section-tag">Coordinates</span>
+  <div class="message">No coordinate reference system (IfcProjectedCRS)</div>
+  
+</div>
+
+  
+</div>
+
+
+<div class="footer">Generert av Skiplum Automasjon &middot; 07.04.2026 19:28</div>
+</body>
+</html>
