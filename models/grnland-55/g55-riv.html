@@ -1,335 +1,534 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="nb">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>G55_RIV.ifc — IFC Helsesjekk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #1a1d2e;
-  background: #ffffff;
-  line-height: 1.5;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 16px;
-  font-size: 14px;
-}
-a { color: #2563eb; text-decoration: none; }
-a:hover { text-decoration: underline; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Score colors */
-.score-god { color: #16a34a; }
-.score-akseptabel { color: #ca8a04; }
-.score-kritisk { color: #dc2626; }
-.bg-god { background: #16a34a; }
-.bg-akseptabel { background: #ca8a04; }
-.bg-kritisk { background: #dc2626; }
-.tag-god { background: #dcfce7; color: #166534; }
-.tag-akseptabel { background: #fef9c3; color: #854d0e; }
-.tag-kritisk { background: #fee2e2; color: #991b1b; }
+  :root {
+    --bg: #eeeeed;
+    --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+    --card: #ffffff;
+    --primary: #157954;
+    --primary-light: rgba(21, 121, 84, 0.1);
+    --accent: #D0D34D;
+    --navy: #21263A;
+    --text-primary: #21263A;
+    --text-secondary: #525d78;
+    --text-tertiary: #717b94;
+    --border: #d2d4d3;
+    --radius: 0.75rem;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --tl-green-bg: #dcfce7;
+    --tl-green-text: #166534;
+    --tl-green-dot: #22c55e;
+    --tl-yellow-bg: #fef9c3;
+    --tl-yellow-text: #854d0e;
+    --tl-yellow-dot: #eab308;
+    --tl-red-bg: #fee2e2;
+    --tl-red-text: #991b1b;
+    --tl-red-dot: #ef4444;
+    --tl-gray-bg: #f1f5f9;
+    --tl-gray-text: #94a3b8;
+  }
 
-/* Header */
-.header { margin-bottom: 16px; }
-.header h1 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
-.header .meta { font-size: 12px; color: #6b7280; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    padding: var(--space-lg) var(--space-xl);
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 12px;
+    line-height: 1.5;
+  }
 
-/* Score ring */
-.score-ring-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-.score-ring-wrap .info h2 { font-size: 16px; font-weight: 600; }
-.score-ring-wrap .info .subtitle { font-size: 12px; color: #6b7280; }
+  /* Top accent */
+  .top-accent {
+    height: 3px;
+    background: linear-gradient(to right, #D0D34D, #157954, #21263A);
+    border-radius: 2px;
+    margin-bottom: var(--space-lg);
+  }
 
-/* Tag/pill */
-.tag {
-  display: inline-block;
-  padding: 1px 8px;
-  border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-}
+  /* Page header */
+  .page-header { margin-bottom: 20px; }
+  .page-header h1 { font-size: 20px; font-weight: 700; }
+  .page-header-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
 
-/* Score pill (small, for tables) */
-.score-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  font-weight: 700;
-  font-size: 12px;
-  color: #fff;
-  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
-}
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    overflow: hidden;
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .card-title {
+    font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+  .card-sub { font-size: 10px; color: var(--text-tertiary); margin-top: 4px; }
 
-/* Summary bar */
-.summary-bar {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 10px 14px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  font-size: 13px;
-}
-.summary-bar .count { font-weight: 600; }
+  /* KPI strip */
+  .kpi-strip { display: flex; gap: 10px; margin-bottom: var(--space-md); }
+  .kpi-chip {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 10px 14px;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .kpi-val {
+    font-size: 20px; font-weight: 700; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-val.primary { color: var(--primary); }
+  .kpi-val.green { color: var(--tl-green-text); }
+  .kpi-val.yellow { color: var(--tl-yellow-text); }
+  .kpi-val.red { color: var(--tl-red-text); }
+  .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
 
-/* Section bars */
-.section-bars { margin-bottom: 16px; }
-.section-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 0;
-  border-bottom: 1px solid #f3f4f6;
-  font-size: 13px;
-}
-.section-row:last-child { border-bottom: none; }
-.section-label { width: 180px; flex-shrink: 0; }
-.section-bar-bg {
-  flex: 1;
-  height: 8px;
-  background: #f3f4f6;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.section-bar-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.3s;
-}
-.section-score {
-  width: 60px;
-  text-align: right;
-  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
-  font-size: 12px;
-  color: #6b7280;
-  flex-shrink: 0;
-}
+  /* Traffic lights */
+  .tl { display: inline-flex; align-items: center; gap: 6px; }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tl-dot.green { background: var(--tl-green-dot); }
+  .tl-dot.yellow { background: var(--tl-yellow-dot); }
+  .tl-dot.red { background: var(--tl-red-dot); }
+  .tl-cell {
+    padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    font-size: 11px; font-weight: 500; text-align: center;
+  }
+  .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+  .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+  .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+  .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
 
-/* Model table */
-.model-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-.model-table th {
-  text-align: left;
-  font-size: 11px;
-  font-weight: 600;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 6px 8px;
-  border-bottom: 2px solid #e5e7eb;
-}
-.model-table td {
-  padding: 8px;
-  border-bottom: 1px solid #f3f4f6;
-  font-size: 13px;
-  vertical-align: middle;
-}
-.model-table tr:hover td { background: #f9fafb; }
+  /* Tags */
+  .tag {
+    display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+    font-size: 11px; font-weight: 500; margin: 1px 2px;
+  }
+  .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+  .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+  .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+  .tag-gray { background: var(--tl-gray-bg); color: #475569; }
 
-/* Issues */
-.issues-group { margin-bottom: 14px; }
-.issues-group h3 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-.issue {
-  border-left: 3px solid;
-  padding: 6px 10px;
-  margin-bottom: 4px;
-  border-radius: 0 4px 4px 0;
-  font-size: 13px;
-}
-.issue-critical { border-color: #dc2626; background: #fef2f2; }
-.issue-warning { border-color: #ca8a04; background: #fefce8; }
-.issue-info { border-color: #9ca3af; background: #f9fafb; }
-.issue .message { font-weight: 500; }
-.issue .detail { font-size: 12px; color: #6b7280; margin-top: 2px; }
-.issue .section-tag {
-  float: right;
-  font-size: 11px;
-  color: #9ca3af;
-  font-weight: 400;
-}
+  /* Discipline tags */
+  .disc-tag {
+    padding: 2px var(--space-sm); border-radius: 4px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.03em;
+  }
+  .disc-ark { background: #e8f0fe; color: #1a56db; }
+  .disc-rib { background: #fef3c7; color: #92400e; }
+  .disc-riv { background: #d1fae5; color: #065f46; }
+  .disc-rie { background: #fce7f3; color: #9d174d; }
+  .disc-rig { background: #f0fdf4; color: #065f46; }
+  .disc-lark { background: #ecfdf5; color: #047857; }
+  .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+  .disc-default { background: var(--tl-gray-bg); color: #475569; }
 
-/* Footer */
-.footer {
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid #e5e7eb;
-  font-size: 11px;
-  color: #9ca3af;
-}
+  /* Progress bars */
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-label {
+    font-size: 11px; color: var(--text-secondary); width: 140px; flex-shrink: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+  .bar-fill.green { background: var(--tl-green-dot); }
+  .bar-fill.yellow { background: var(--tl-yellow-dot); }
+  .bar-fill.red { background: var(--tl-red-dot); }
+  .bar-fill.primary { background: var(--primary); }
+  .bar-count {
+    font-size: 11px; font-weight: 600; color: var(--text-primary);
+    width: 50px; text-align: right; flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Tables */
+  .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .dash-table th {
+    text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+    color: var(--text-secondary); background: var(--tl-gray-bg);
+    border-bottom: 2px solid #cbd5e1; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .dash-table th.center, .dash-table td.center { text-align: center; }
+  .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+  .dash-table tr:hover td { background: #f8fafc; }
+  .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .dash-table a { color: var(--text-primary); text-decoration: none; font-weight: 500; }
+  .dash-table a:hover { color: var(--primary); }
+
+  /* Quality checklist */
+  .q-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+  }
+  .q-row:last-child { border-bottom: none; }
+  .q-label { color: var(--text-secondary); }
+  .q-val {
+    font-weight: 600; font-variant-numeric: tabular-nums;
+    padding: 1px 8px; border-radius: 4px; font-size: 11px;
+  }
+  .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+  .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+  .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+  /* Issue items */
+  .issue-list { list-style: none; }
+  .issue-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+    font-size: 12px;
+  }
+  .issue-item:last-child { border-bottom: none; }
+  .issue-status {
+    width: 20px; height: 20px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 11px;
+  }
+  .issue-status.critical { background: var(--tl-red-bg); color: var(--tl-red-text); }
+  .issue-status.warning { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+  .issue-status.info { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+  .issue-text { flex: 1; color: var(--text-primary); }
+  .issue-detail { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }
+  .issue-section { font-size: 10px; color: var(--text-tertiary); white-space: nowrap; }
+
+  /* Badge */
+  .badge {
+    display: inline-flex; align-items: center; gap: var(--space-xs);
+    padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+  }
+  .badge-version { background: var(--primary-light); color: var(--primary); }
+
+  /* Bento grid */
+  .bento { display: grid; gap: 12px; margin-bottom: var(--space-md); }
+  .bento-2 { grid-template-columns: 1fr 1fr; }
+  .bento-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .bento-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  /* Score ring SVG */
+  .score-ring-wrap { display: flex; align-items: center; gap: var(--space-md); }
+
+  /* ID grid */
+  .id-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; }
+  .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+  .id-key { color: var(--text-secondary); }
+  .id-key::after { content: ':'; }
+  .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+  /* Animations */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.25s ease both; }
+
+  /* Footer */
+  .footer {
+    margin-top: 20px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px; color: var(--text-tertiary);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .footer-brand {
+    width: 16px; height: 16px; background: var(--primary); color: white;
+    border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    font-size: 8px; font-weight: 700;
+  }
 </style>
 </head>
 <body>
+<div class="top-accent"></div>
 
-<div class="score-ring-wrap">
+<!-- Header with score ring -->
+<div class="fade-in" style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: 20px;">
   
 
 
 
 
 <svg width="72" height="72" style="transform: rotate(-90deg); flex-shrink: 0;">
-  <circle cx="36.0" cy="36.0" r="33.0"
-          fill="none" stroke="#e5e7eb" stroke-width="5"/>
-  <circle cx="36.0" cy="36.0" r="33.0"
-          fill="none" stroke="#ca8a04" stroke-width="5"
-          stroke-dasharray="207.34493999999998"
-          stroke-dashoffset="60.13003259999999"
+  <circle cx="36.0" cy="36.0" r="32.0"
+          fill="none" stroke="#e5e7eb" stroke-width="6"/>
+  <circle cx="36.0" cy="36.0" r="32.0"
+          fill="none" stroke="#ca8a04" stroke-width="6"
+          stroke-dasharray="201.06176"
+          stroke-dashoffset="58.3079104"
           stroke-linecap="round"/>
   <text x="36.0" y="36.0"
         transform="rotate(90 36.0 36.0)"
         text-anchor="middle" dominant-baseline="central"
-        style="font-size: 25px; font-weight: 700; fill: #ca8a04;
-               font-family: ui-monospace, 'Cascadia Code', Menlo, monospace;">
+        style="font-size: 23px; font-weight: 700; fill: #ca8a04;
+               font-family: 'Inter', ui-monospace, monospace;">
     71
   </text>
 </svg>
 
-  <div class="info">
-    <h2>G55_RIV.ifc</h2>
-    <div class="subtitle">
+  <div>
+    <h1 style="font-size: 18px; font-weight: 700;">G55_RIV.ifc</h1>
+    <div style="display: flex; align-items: center; gap: var(--space-sm); margin-top: 4px; flex-wrap: wrap;">
       
-<span class="tag tag-akseptabel">Akseptabel</span>
 
-      &middot; MagiCAD For Revit 2025 UR-2
-      &middot; IFC4
-      &middot; 106.6 MB
+<span class="tag tag-yellow">Akseptabel</span>
+
+
+      
+
+
+<span class="disc-tag disc-riv">RIV</span>
+
+
+      <span class="tag tag-gray">IFC4</span>
     </div>
-    <div class="subtitle">Analysert på 9.6s</div>
+    <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 4px;">
+      MagiCAD For Revit 2025 UR-2
+      &middot; 106.6 MB
+      &middot; 9.7s analysetid
+    </div>
   </div>
 </div>
 
-<div class="section-bars">
-  
-  
-
-
-<div class="section-row">
-  <span class="section-label">Identity</span>
-  <div class="section-bar-bg">
-    <div class="section-bar-fill" style="width: 50%; background: #ca8a04;"></div>
+<!-- KPI chips -->
+<div class="kpi-strip fade-in">
+  <div class="kpi-chip">
+    <span class="kpi-val primary">71</span>
+    <span class="kpi-lbl">Score</span>
   </div>
-  <span class="section-score">5/10</span>
-</div>
-
-  
-  
-
-
-<div class="section-row">
-  <span class="section-label">Units</span>
-  <div class="section-bar-bg">
-    <div class="section-bar-fill" style="width: 100%; background: #16a34a;"></div>
+  <div class="kpi-chip">
+    <span class="kpi-val red">1</span>
+    <span class="kpi-lbl">Kritiske</span>
   </div>
-  <span class="section-score">15/15</span>
-</div>
-
-  
-  
-
-
-<div class="section-row">
-  <span class="section-label">Types</span>
-  <div class="section-bar-bg">
-    <div class="section-bar-fill" style="width: 40%; background: #dc2626;"></div>
+  <div class="kpi-chip">
+    <span class="kpi-val yellow">2</span>
+    <span class="kpi-lbl">Advarsler</span>
   </div>
-  <span class="section-score">10/25</span>
-</div>
-
-  
-  
-
-
-<div class="section-row">
-  <span class="section-label">Spatial</span>
-  <div class="section-bar-bg">
-    <div class="section-bar-fill" style="width: 100%; background: #16a34a;"></div>
+  <div class="kpi-chip">
+    <span class="kpi-val" style="color: var(--text-secondary);">6</span>
+    <span class="kpi-lbl">Seksjoner</span>
   </div>
-  <span class="section-score">15/15</span>
 </div>
 
-  
-  
-
-
-<div class="section-row">
-  <span class="section-label">Integrity</span>
-  <div class="section-bar-bg">
-    <div class="section-bar-fill" style="width: 100%; background: #16a34a;"></div>
+<!-- Section breakdown -->
+<div class="card fade-in" style="margin-bottom: var(--space-md);">
+  <div class="card-header">
+    <span class="card-title">Kvalitetsseksjoner</span>
   </div>
-  <span class="section-score">8/8</span>
-</div>
-
   
   
 
 
-<div class="section-row">
-  <span class="section-label">Coordinates</span>
-  <div class="section-bar-bg">
-    <div class="section-bar-fill" style="width: 60%; background: #ca8a04;"></div>
+<div class="bar-row">
+  <span class="bar-label">Identity</span>
+  <div class="bar-track">
+    <div class="bar-fill yellow" style="width: 50%;"></div>
   </div>
-  <span class="section-score">6/10</span>
+  <span class="bar-count">5/10</span>
+</div>
+
+  
+  
+
+
+<div class="bar-row">
+  <span class="bar-label">Units</span>
+  <div class="bar-track">
+    <div class="bar-fill green" style="width: 100%;"></div>
+  </div>
+  <span class="bar-count">15/15</span>
+</div>
+
+  
+  
+
+
+<div class="bar-row">
+  <span class="bar-label">Types</span>
+  <div class="bar-track">
+    <div class="bar-fill red" style="width: 40%;"></div>
+  </div>
+  <span class="bar-count">10/25</span>
+</div>
+
+  
+  
+
+
+<div class="bar-row">
+  <span class="bar-label">Spatial</span>
+  <div class="bar-track">
+    <div class="bar-fill green" style="width: 100%;"></div>
+  </div>
+  <span class="bar-count">15/15</span>
+</div>
+
+  
+  
+
+
+<div class="bar-row">
+  <span class="bar-label">Integrity</span>
+  <div class="bar-track">
+    <div class="bar-fill green" style="width: 100%;"></div>
+  </div>
+  <span class="bar-count">8/8</span>
+</div>
+
+  
+  
+
+
+<div class="bar-row">
+  <span class="bar-label">Coordinates</span>
+  <div class="bar-track">
+    <div class="bar-fill yellow" style="width: 60%;"></div>
+  </div>
+  <span class="bar-count">6/10</span>
 </div>
 
   
 </div>
 
-
-<div class="issues-group">
-  <h3 style="color:#dc2626;">Kritisk (1)</h3>
+<!-- Quality checklist card -->
+<div class="card fade-in" style="margin-bottom: var(--space-md);">
+  <div class="card-header">
+    <span class="card-title">Seksjonsstatus</span>
+  </div>
   
   
-<div class="issue issue-critical">
-  <span class="section-tag">Types</span>
-  <div class="message">30886 elements (100%) have no type</div>
+  <div class="q-row">
+    <span class="q-label">Identity</span>
+    <span class="q-val q-warn">
+      50%
+    </span>
+  </div>
+  
+  
+  <div class="q-row">
+    <span class="q-label">Units</span>
+    <span class="q-val q-ok">
+      100%
+    </span>
+  </div>
+  
+  
+  <div class="q-row">
+    <span class="q-label">Types</span>
+    <span class="q-val q-fail">
+      40%
+    </span>
+  </div>
+  
+  
+  <div class="q-row">
+    <span class="q-label">Spatial</span>
+    <span class="q-val q-ok">
+      100%
+    </span>
+  </div>
+  
+  
+  <div class="q-row">
+    <span class="q-label">Integrity</span>
+    <span class="q-val q-ok">
+      100%
+    </span>
+  </div>
+  
+  
+  <div class="q-row">
+    <span class="q-label">Coordinates</span>
+    <span class="q-val q-warn">
+      60%
+    </span>
+  </div>
   
 </div>
 
-  
+<!-- Issues -->
+
+<div class="card fade-in">
+  <div class="card-header">
+    <span class="card-title">Funn (4)</span>
+  </div>
+  <ul class="issue-list">
+    
+    
+<li class="issue-item">
+  <span class="issue-status critical">
+    ✕
+  </span>
+  <div class="issue-text">
+    30886 elements (100%) have no type
+    
+  </div>
+  <span class="issue-section">Types</span>
+</li>
+
+    
+    
+    
+<li class="issue-item">
+  <span class="issue-status warning">
+    !
+  </span>
+  <div class="issue-text">
+    IfcProject has no name
+    
+  </div>
+  <span class="issue-section">Identity</span>
+</li>
+
+    
+    
+<li class="issue-item">
+  <span class="issue-status warning">
+    !
+  </span>
+  <div class="issue-text">
+    261 type definitions with zero instances
+    
+  </div>
+  <span class="issue-section">Types</span>
+</li>
+
+    
+    
+    
+<li class="issue-item">
+  <span class="issue-status info">
+    i
+  </span>
+  <div class="issue-text">
+    No coordinate reference system (IfcProjectedCRS)
+    
+  </div>
+  <span class="issue-section">Coordinates</span>
+</li>
+
+    
+  </ul>
 </div>
 
 
 
-<div class="issues-group">
-  <h3 style="color:#ca8a04;">Advarsel (2)</h3>
-  
-  
-<div class="issue issue-warning">
-  <span class="section-tag">Identity</span>
-  <div class="message">IfcProject has no name</div>
-  
+
+<div class="footer fade-in">
+  <span class="footer-brand">S</span>
+  Generert av Skiplum Automasjon &middot; 07.04.2026 19:43
 </div>
-
-  
-  
-<div class="issue issue-warning">
-  <span class="section-tag">Types</span>
-  <div class="message">261 type definitions with zero instances</div>
-  
-</div>
-
-  
-</div>
-
-
-
-<div class="issues-group">
-  <h3 style="color:#6b7280;">Info (1)</h3>
-  
-  
-<div class="issue issue-info">
-  <span class="section-tag">Coordinates</span>
-  <div class="message">No coordinate reference system (IfcProjectedCRS)</div>
-  
-</div>
-
-  
-</div>
-
-
-<div class="footer">Generert av Skiplum Automasjon &middot; 07.04.2026 19:28</div>
 </body>
 </html>
