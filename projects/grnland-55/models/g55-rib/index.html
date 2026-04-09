@@ -672,6 +672,53 @@
     /* Animations */
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
   </style>
 </head>
 <body>
@@ -707,16 +754,14 @@
     <div class="nav-section">
       <div class="nav-section-label">Data</div>
       <div class="nav-section-items">
-        <span class="nav-item disabled">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/types/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
           Typer
-          <span class="nav-soon">snart</span>
-        </span>
-        <span class="nav-item disabled">
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/materials/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
           Materialer
-          <span class="nav-soon">snart</span>
-        </span>
+        </a>
       </div>
     </div>
   </nav>
@@ -873,31 +918,45 @@
       </div>
       <div class="treemap-grid">
         
-        <div class="tm-cell" style="grid-column: 1/5; grid-row: 1/5; background: #157954;">
+        <div class="tm-cell drill-target"
+             style="grid-column: 1/5; grid-row: 1/5; background: #157954;"
+             onclick="drillIfcClass('IfcBuildingElementProxy')">
           IfcBuildingElementProxy<br><span class="tm-count">398</span>
         </div>
         
-        <div class="tm-cell" style="grid-column: 5/8; grid-row: 1/4; background: #1e9268;">
+        <div class="tm-cell drill-target"
+             style="grid-column: 5/8; grid-row: 1/4; background: #1e9268;"
+             onclick="drillIfcClass('IfcBeam')">
           IfcBeam<br><span class="tm-count">159</span>
         </div>
         
-        <div class="tm-cell" style="grid-column: 8/11; grid-row: 1/4; background: #27ab7d;">
+        <div class="tm-cell drill-target"
+             style="grid-column: 8/11; grid-row: 1/4; background: #27ab7d;"
+             onclick="drillIfcClass('IfcOpeningElement')">
           IfcOpeningElement<br><span class="tm-count">150</span>
         </div>
         
-        <div class="tm-cell" style="grid-column: 5/8; grid-row: 4/7; background: #5dbf99;">
+        <div class="tm-cell drill-target"
+             style="grid-column: 5/8; grid-row: 4/7; background: #5dbf99;"
+             onclick="drillIfcClass('IfcWallStandardCase')">
           IfcWallStandardCase<br><span class="tm-count">75</span>
         </div>
         
-        <div class="tm-cell" style="grid-column: 1/5; grid-row: 5/7; background: #8dd4b8;">
+        <div class="tm-cell drill-target"
+             style="grid-column: 1/5; grid-row: 5/7; background: #8dd4b8;"
+             onclick="drillIfcClass('IfcSlab')">
           IfcSlab<br><span class="tm-count">54</span>
         </div>
         
-        <div class="tm-cell" style="grid-column: 8/10; grid-row: 4/7; background: #b3e2ce;">
+        <div class="tm-cell drill-target"
+             style="grid-column: 8/10; grid-row: 4/7; background: #b3e2ce;"
+             onclick="drillIfcClass('IfcElementAssembly')">
           IfcElementAssembly<br><span class="tm-count">54</span>
         </div>
         
-        <div class="tm-cell" style="grid-column: 10/11; grid-row: 4/7; background: #d4eee2;color: var(--text-secondary);">
+        <div class="tm-cell drill-target"
+             style="grid-column: 10/11; grid-row: 4/7; background: #d4eee2;color: var(--text-secondary);"
+             onclick="drillIfcClass('+')">
           +<br><span class="tm-count">74</span>
         </div>
         
@@ -968,56 +1027,56 @@
         <div class="card-title">Elementer per etasje</div>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 08T')">
         <span class="storey-name">Plan 08T</span>
         <span class="storey-elev">+27.5</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 17%;"></div></div>
         <span class="storey-count">29</span>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 07')">
         <span class="storey-name">Plan 07</span>
         <span class="storey-elev">+23.9</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 19%;"></div></div>
         <span class="storey-count">31</span>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 06')">
         <span class="storey-name">Plan 06</span>
         <span class="storey-elev">+20.3</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 78%;"></div></div>
         <span class="storey-count">131</span>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 05')">
         <span class="storey-name">Plan 05</span>
         <span class="storey-elev">+16.7</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 31%;"></div></div>
         <span class="storey-count">52</span>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 04')">
         <span class="storey-name">Plan 04</span>
         <span class="storey-elev">+13.1</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 14%;"></div></div>
         <span class="storey-count">23</span>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 03')">
         <span class="storey-name">Plan 03</span>
         <span class="storey-elev">+9.5</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 34%;"></div></div>
         <span class="storey-count">57</span>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 02')">
         <span class="storey-name">Plan 02</span>
         <span class="storey-elev">+5.9</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 7%;"></div></div>
         <span class="storey-count">12</span>
       </div>
       
-      <div class="storey-row">
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 01')">
         <span class="storey-name">Plan 01</span>
         <span class="storey-elev">+2.3</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
@@ -1033,31 +1092,31 @@
       </div>
       <div style="display: flex; flex-direction: column; gap: 4px;">
         
-        <div class="bar-row">
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuildingElementProxy')">
           <span class="bar-label" style="width: 110px;">IfcBuildingElementProxy</span>
           <div class="bar-track"><div class="bar-fill primary" style="width: 41%;"></div></div>
           <span class="bar-count" style="width: 36px;">398</span>
         </div>
         
-        <div class="bar-row">
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBeam')">
           <span class="bar-label" style="width: 110px;">IfcBeam</span>
           <div class="bar-track"><div class="bar-fill primary" style="width: 16%;"></div></div>
           <span class="bar-count" style="width: 36px;">159</span>
         </div>
         
-        <div class="bar-row">
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcOpeningElement')">
           <span class="bar-label" style="width: 110px;">IfcOpeningElement</span>
           <div class="bar-track"><div class="bar-fill primary" style="width: 16%;"></div></div>
           <span class="bar-count" style="width: 36px;">150</span>
         </div>
         
-        <div class="bar-row">
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcWallStandardCase')">
           <span class="bar-label" style="width: 110px;">IfcWallStandardCase</span>
           <div class="bar-track"><div class="bar-fill primary" style="width: 8%;"></div></div>
           <span class="bar-count" style="width: 36px;">75</span>
         </div>
         
-        <div class="bar-row">
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcSlab')">
           <span class="bar-label" style="width: 110px;">IfcSlab</span>
           <div class="bar-track"><div class="bar-fill primary" style="width: 6%;"></div></div>
           <span class="bar-count" style="width: 36px;">54</span>
@@ -1079,32 +1138,32 @@
       <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">Mest brukt:</div>
       <div style="display: flex; flex-direction: column; gap: 3px; font-size: 11px;">
         
-        <div style="display: flex; align-items: center; gap: 6px; padding: 2px 0;">
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('&lt;Unnamed&gt;')">
           <span class="legend-dot" style="background: #157954;"></span>
           <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">&lt;Unnamed&gt;</span>
         </div>
         
-        <div style="display: flex; align-items: center; gap: 6px; padding: 2px 0;">
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('B35')">
           <span class="legend-dot" style="background: #5dbf99;"></span>
           <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">B35</span>
         </div>
         
-        <div style="display: flex; align-items: center; gap: 6px; padding: 2px 0;">
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Betong Plasstøpt - B30')">
           <span class="legend-dot" style="background: #8dd4b8;"></span>
           <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Betong Plasstøpt - B30</span>
         </div>
         
-        <div style="display: flex; align-items: center; gap: 6px; padding: 2px 0;">
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Betong Plasstøpt - B35')">
           <span class="legend-dot" style="background: #b3e2ce;"></span>
           <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Betong Plasstøpt - B35</span>
         </div>
         
-        <div style="display: flex; align-items: center; gap: 6px; padding: 2px 0;">
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Betong Plasstøpt - B45')">
           <span class="legend-dot" style="background: #cbd5e1;"></span>
           <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Betong Plasstøpt - B45</span>
         </div>
         
-        <div style="display: flex; align-items: center; gap: 6px; padding: 2px 0;">
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Betong Prefabrikert')">
           <span class="legend-dot" style="background: #94a3b8;"></span>
           <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Betong Prefabrikert</span>
         </div>
@@ -1401,8 +1460,27 @@
       
     </div>
   </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
   
+<script id="model-data" type="application/json">{"types": [{"ifc_class": "IfcBuildingElementProxyType", "instance_count": 58, "materials": ["Steel"], "name": "Wedge Anchor W-FAZ FaceBased:M12X20-40X115", "storeys": {"Havniv\u00e5": 56, "Plan 01": 2}}, {"ifc_class": "IfcBeamType", "instance_count": 34, "materials": ["Steel - S355"], "name": "HFRHS (EN 10210-2):HFRHS150x100x8", "storeys": {"Plan 03": 9, "Plan 04": 8, "Plan 06": 9, "Plan 07": 8}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 28, "materials": ["Steel - SB FZV"], "name": "Washer FZV:Washer FZV", "storeys": {"Plan 01": 12, "Plan 06": 14, "Plan U1": 2}}, {"ifc_class": "IfcSlabType", "instance_count": 24, "materials": ["Betong Plasst\u00f8pt - B30", "Isolasjon - mineralull"], "name": "Floor:Betonghelle 50mm+iso", "storeys": {"Plan 08T": 24}}, {"ifc_class": "IfcWallType", "instance_count": 23, "materials": ["Betong eksisterende"], "name": "Basic Wall:Vegg t=250", "storeys": {"Plan 01": 2, "Plan U1": 21}}, {"ifc_class": "IfcWallType", "instance_count": 20, "materials": ["Betong Plasst\u00f8pt - B35"], "name": "Basic Wall:Vegg t=100", "storeys": {"Plan 01": 20}}, {"ifc_class": "IfcBeamType", "instance_count": 18, "materials": [], "name": "T-baneskinne rettvendt:T-baneskinne rettvendt", "storeys": {"Plan 05": 4, "Plan 06": 12, "Plan 07": 2}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 15, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 15, "materials": ["Steel"], "name": "Wedge Anchor W-FAZ FaceBased:M12X20-40X115", "storeys": {"Havniv\u00e5": 15}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 12, "materials": ["Steel"], "name": "Screwed Pin:M16", "storeys": {"Plan 07": 2, "Plan U1": 10}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 12, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 07": 2, "Plan U1": 10}}, {"ifc_class": "IfcTypeProduct", "instance_count": 9, "materials": [], "name": "Structural Framing Assembly:SK10", "storeys": {"Plan 01": 1, "Plan 02": 1, "Plan 03": 1, "Plan 04": 1, "Plan 05": 1, "Plan 06": 1, "Plan 07": 2, "Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 9, "materials": ["Steel - S355"], "name": "Bjelke VL:VL 100x100x10", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 9, "materials": ["Steel"], "name": "Concrete Screw W-BSS Hexagon Head FaceBased:10X60/5-15", "storeys": {"Plan 01": 1, "Plan 02": 1, "Plan 04": 1, "Plan 05": 1, "Plan 06": 2, "Plan 07": 2, "Plan U1": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 9, "materials": ["Steel"], "name": "Bolt:M12", "storeys": {"Plan 01": 2, "Plan 02": 1, "Plan 05": 1, "Plan 06": 1, "Plan 07": 1, "Plan U1": 3}}, {"ifc_class": "IfcMemberType", "instance_count": 9, "materials": ["Structural Framing Fireproofing"], "name": "Beam KR Solid:KR 16", "storeys": {}}, {"ifc_class": "IfcWallType", "instance_count": 9, "materials": ["Weber Lex block UH-125"], "name": "Basic Wall:Weber Sein\u00e4 - Lex harko UH-125", "storeys": {"Plan U1": 9}}, {"ifc_class": "IfcBeamType", "instance_count": 8, "materials": ["Betong eksisterende"], "name": "Concrete-Rectangular-Beam:800x550", "storeys": {"Plan 01": 8}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 8, "materials": ["Steel - SB FZV"], "name": "Bolt Washer and void:M16x40", "storeys": {"Plan 06": 7, "Plan U1": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 8, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 1, "Plan 02": 1, "Plan 04": 2, "Plan 05": 2, "Plan 07": 2}}, {"ifc_class": "IfcColumnType", "instance_count": 8, "materials": ["Steel - S355"], "name": "Rundsta\u030al Column:RO21.3x3.2", "storeys": {"Plan 06": 8}}, {"ifc_class": "IfcWallType", "instance_count": 8, "materials": ["Betong Plasst\u00f8pt - B35"], "name": "Basic Wall:Heisgrube t=400", "storeys": {"Plan U1": 8}}, {"ifc_class": "IfcWallType", "instance_count": 7, "materials": ["Betong eksisterende"], "name": "Basic Wall:Vegg t=350", "storeys": {"Plan U1": 7}}, {"ifc_class": "IfcTypeProduct", "instance_count": 6, "materials": [], "name": "Structural Framing Assembly:SBX-2_3", "storeys": {"Plan 03": 1, "Plan 04": 1, "Plan 05": 1, "Plan 06": 1, "Plan 07": 1, "Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["B35", "Betong eksisterende"], "name": "Concrete-Rectangular-Beam:Knytte dekker 300x750", "storeys": {"Plan 01": 6}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=170 k +2450", "storeys": {"Plan 01": 6}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["Steel - S355"], "name": "HE-A:HEA140", "storeys": {}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["Steel - S355"], "name": "Bjelke VL:VL 90x90x9", "storeys": {"Plan 05": 3}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["Steel - S355"], "name": "UPE:UPE270", "storeys": {}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["Steel - S355"], "name": "UPE:UPE140", "storeys": {}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["Steel - S355"], "name": "HE-A:HEA240", "storeys": {"Plan 01": 2, "Plan 02": 4}}, {"ifc_class": "IfcBeamType", "instance_count": 6, "materials": ["Steel - S355"], "name": "Bjelke VL:VL 60x60x6", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 6, "materials": ["Steel - SB FZV"], "name": "Bolt Washer and void:M16x40", "storeys": {"Plan 01": 6}}, {"ifc_class": "IfcPlateType", "instance_count": 6, "materials": [], "name": "Building_Materials_Reinforcement_Hex_Nuts_Class-8:M20", "storeys": {"Plan 08T": 5, "Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 5, "materials": [], "name": "Structural Columns Assembly:SS7_2", "storeys": {"Plan 03": 2, "Plan 05": 1, "Plan 06": 1, "Plan U1": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 5, "materials": ["Betong eksisterende"], "name": "Floor:Bet.dekke eksist. T=300", "storeys": {"Plan 01": 2, "Plan U1": 3}}, {"ifc_class": "IfcTypeProduct", "instance_count": 4, "materials": [], "name": "Generic Models Assembly:SK11", "storeys": {"Plan 02": 1, "Plan 03": 1, "Plan 04": 1, "Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 4, "materials": ["Steel - S355"], "name": "Bjelke VL:VL 120x120x11", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 4, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 4, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 4, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 4, "materials": ["Steel"], "name": "Concrete Screw W-BSS Hexagon Head FaceBased:10X100/15-45", "storeys": {"Plan U1": 4}}, {"ifc_class": "IfcColumnType", "instance_count": 4, "materials": ["Steel - S355"], "name": "S\u00f8yle CFRS:CFRS 120x120x6.3", "storeys": {"Plan U1": 4}}, {"ifc_class": "IfcColumnType", "instance_count": 4, "materials": ["Steel - S355"], "name": "Rundsta\u030al Column:RO21.3x3.2", "storeys": {"Plan 07": 4}}, {"ifc_class": "IfcSlabType", "instance_count": 4, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:P\u00e5st\u00f8p t=80mm", "storeys": {"Plan 01": 4}}, {"ifc_class": "IfcSlabType", "instance_count": 4, "materials": ["Metal - Aluminium - Matte"], "name": "Floor:G55 - Skraperist", "storeys": {"Plan 01": 4}}, {"ifc_class": "IfcWallType", "instance_count": 4, "materials": ["Betong Plasst\u00f8pt - B35"], "name": "Basic Wall:Vegg t=200", "storeys": {"Plan 01": 4}}, {"ifc_class": "IfcBeamType", "instance_count": 3, "materials": ["B35", "Betong eksisterende"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=170 k +2450 lav", "storeys": {"Plan 01": 3}}, {"ifc_class": "IfcBeamType", "instance_count": 3, "materials": ["B35", "Betong eksisterende"], "name": "Concrete-Rectangular-Beam:800x1100", "storeys": {"Plan 01": 3}}, {"ifc_class": "IfcBeamType", "instance_count": 3, "materials": ["Steel - S355"], "name": "HE-A:HEA280", "storeys": {"Plan 05": 3}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 3, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 1, "Plan 04": 2}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 3, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 1, "Plan 04": 2}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 3, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 1, "Plan 05": 2}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 3, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 3, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcSlabType", "instance_count": 3, "materials": ["Betong eksisterende"], "name": "Floor:Bet.dekke eksist. T=150", "storeys": {"Plan 01": 1, "Plan 04": 1, "Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 2, "materials": [], "name": "Structural Framing Assembly:SBX-1_3", "storeys": {"Plan 02": 1, "Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 2, "materials": [], "name": "Structural Framing Assembly:SB16", "storeys": {"Plan 07": 1, "Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 2, "materials": [], "name": "Structural Framing Assembly:SB17", "storeys": {"Plan 07": 1, "Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 2, "materials": ["Steel - S355"], "name": "IPE:IPE200", "storeys": {}}, {"ifc_class": "IfcBeamType", "instance_count": 2, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=170 k +4,225", "storeys": {"Plan 01": 2}}, {"ifc_class": "IfcBeamType", "instance_count": 2, "materials": ["Steel - S355"], "name": "UPE:UPE300", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 2, "materials": ["Structural Steel - S235"], "name": "Round Bars:RB 16", "storeys": {"Plan 06": 2}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 2, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 2}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 2, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 1, "Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 2, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 2}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 2, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 02": 1, "Plan 06": 1}}, {"ifc_class": "IfcColumnType", "instance_count": 2, "materials": ["Steel - S355"], "name": "Column HUP:HUP 100x50x8", "storeys": {"Plan 01": 2}}, {"ifc_class": "IfcWallType", "instance_count": 2, "materials": ["Betong eksisterende"], "name": "Basic Wall:Vegg t=150", "storeys": {"Plan 01": 2}}, {"ifc_class": "IfcWallType", "instance_count": 2, "materials": ["Weber Lex block RUH-200"], "name": "Basic Wall:Weber Sein\u00e4 - Lex harko RUH-200", "storeys": {"Plan U1": 2}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SB12.1", "storeys": {"Plan 04": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SB12.2", "storeys": {"Plan 04": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SB13", "storeys": {"Plan 04": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS7_1", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS7_7A", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS7_6B", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS7_7B", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SBX-1_8", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SBX-1_8.", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SBX-1_7", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SBX-1_3,", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SBX-1_3.", "storeys": {"Plan 04": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS6_61", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS6_62", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS6_63", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Columns Assembly:SS6_64", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SB6_61", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SB6_62", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SB6_63", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:L120x11-01", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Generic Models Assembly:L120x11-02", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Generic Models Assembly:L120x11-03", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Generic Models Assembly:L120x11-04", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_count": 1, "materials": [], "name": "Structural Framing Assembly:SB15", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Steel - S355"], "name": "HE-B:HEB200", "storeys": {}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=170 k +4,450", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=170 k +4,375", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=170 k +4,300", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=100 k +4050", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=100 k +2450", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:Betongsokkel t=170 k +2270", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Concrete-Rectangular-Beam:800x550", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:800x750", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:800x750", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:800x750", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:800x850", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:600x650", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:600x1100", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:800x1150", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["B35"], "name": "Concrete-Rectangular-Beam:500x550", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Concrete-Rectangular-Beam:500x1000", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Concrete-Rectangular-Beam:800x550", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Steel - S355"], "name": "SHS (EN 10219-2):HUP100x100x6", "storeys": {}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Steel - S355"], "name": "IPE:IPE400", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBeamType", "instance_count": 1, "materials": ["Steel - S355"], "name": "UPE:UPE240", "storeys": {"Plan 02": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": [], "name": "Kube-prosjektsnullpunkt:Kube-prosjektsnullpunkt", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Sveiseplate Rektangul\u00e6r FB:Sveiseplate Rektangul\u00e6r FB", "storeys": {}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn1:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn2:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn3:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn4:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn5:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn6:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn7:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn8:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn9:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn10:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn11:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn12:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn13:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn14:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn15:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn16:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn17:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn18:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn19:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn20:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn21:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn24:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn25:Trinn", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 2:Trinn 2", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 1:Trinn 2", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 3:Trinn 2", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 4:Trinn 2", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 5:Trinn 2", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 6:Trinn 2", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 7:Trinn 2", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn22:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn23:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn26:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn27:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn28:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn29:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn30:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn31:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn32:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn33:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn34:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn35:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn36:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn37:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn38:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn39:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn40:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn41:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn42:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn43:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn44:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn45:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn46:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn47:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 8:Trinn 2", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 9:Trinn 2", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 10:Trinn 2", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 11:Trinn 2", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 12:Trinn 2", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 13:Trinn 2", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "St\u00e5l - S355"], "name": "Trinn 14:Trinn 2", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn48:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn49:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn50:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn51:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn52:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn53:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn54:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn55:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn56:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn57:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn58:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn59:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn60:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn61:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn62:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn63:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn64:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn65:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn66:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn67:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn68:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn69:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn70:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn71:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn72:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn73:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn74:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn75:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn76:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn77:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn78:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn79:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn80:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn81:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn82:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn83:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn84:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn85:Trinn", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn114:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn115:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn120:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn121:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn86:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn87:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn88:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn89:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn90:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn91:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn92:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn93:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn94:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn95:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn96:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn97:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn100:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn101:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn102:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn103:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn104:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn105:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn106:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn107:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn108:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn109:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn110:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn111:Trinn", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn98:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn99:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn112:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn113:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn116:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn117:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn122:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn123:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn124:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn125:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn126:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn127:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn128:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn129:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn130:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn131:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn132:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn133:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn134:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn135:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn136:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn137:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn138:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn139:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn140:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn141:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn142:Trinn", "storeys": {"Plan 07": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn143:Trinn", "storeys": {"Plan 07": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn144:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn145:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn146:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn147:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn148:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn149:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn150:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn151:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn152:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn153:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Trinn154:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Trinn155:Trinn", "storeys": {"Plan 06": 1}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "Column HUP:HUP 150x100x5", "storeys": {}}, {"ifc_class": "IfcColumnType", "instance_count": 1, "materials": ["Steel - S355"], "name": "S\u00f8yle RHSS:RHSS 200x200x10", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcMemberType", "instance_count": 1, "materials": [], "name": "T-baneskinne rettvendt:T-baneskinne rettvendt", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcMemberType", "instance_count": 1, "materials": [], "name": "T-baneskinne rettvendt:T-baneskinne rettvendt", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate1:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate2:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate3:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate4:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate5:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate6:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate7:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate8:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate9:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate10:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcPlateType", "instance_count": 1, "materials": ["St\u00e5l - S355"], "name": "Plate11:Plate", "storeys": {"Plan 03": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": [], "name": "SurveyMarker:Custom", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Floor:Bunnplate t=600, B45", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Floor:Bet.dekke eksist. T=260", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B45"], "name": "Floor:Bunnplate forsenkning t=550, B45", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B45"], "name": "Floor:Bunnplate t=600, B45 grube", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Floor:Dekke t=265", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:Gulv p\u00e5 grunn, T=120, B30", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:Dekke t=300", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B35"], "name": "Floor:Dekke t=260", "storeys": {"Plan 07": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "Betong Prefabrikert", "Isolasjon - EPS/XPS"], "name": "Floor:Gulv p\u00e5 grunn, T=120 m/iso og dren, B30", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:St\u00f8peplater - t=180mm", "storeys": {"Plan 05": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30", "Betong Prefabrikert", "Isolasjon - EPS/XPS"], "name": "Floor:Gulv p\u00e5 grunn, T=120 m/iso og dren, B30 2", "storeys": {"Plan U1": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:Bet.dekke, T=150, B30", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcSlabType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Floor:Bet.dekke eksist. T=450", "storeys": {"Plan 01": 1}}, {"ifc_class": "IfcWallType", "instance_count": 1, "materials": ["Betong eksisterende"], "name": "Basic Wall:Betongsokkel t=100 k +2400-4050", "storeys": {"Plan 01": 1}}]}</script>
 <script>
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
   function switchTab(name) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -1416,7 +1494,69 @@
     var body = header.nextElementSibling;
     body.classList.toggle('collapsed');
   }
+
+  function drillIfcClass(cls) {
+    var entries = (DRILL.types || []).filter(function (t) { return t.ifc_class === cls; });
+    entries.sort(function (a, b) { return b.instance_count - a.instance_count; });
+    var totalInstances = entries.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openDrillModal(
+      cls,
+      entries.length + ' typer · ' + totalInstances + ' instanser',
+      entries.map(function (t) { return { name: t.name, count: t.instance_count }; })
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var entries = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    entries.sort(function (a, b) { return (b.storeys[storeyName] || 0) - (a.storeys[storeyName] || 0); });
+    var totalInstances = entries.reduce(function (s, t) { return s + (t.storeys[storeyName] || 0); }, 0);
+    openDrillModal(
+      'Etasje: ' + storeyName,
+      entries.length + ' typer · ' + totalInstances + ' instanser',
+      entries.map(function (t) {
+        return { name: t.ifc_class + ' — ' + t.name, count: t.storeys[storeyName] };
+      })
+    );
+  }
+
+  function drillMaterial(matName) {
+    var entries = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    entries.sort(function (a, b) { return b.instance_count - a.instance_count; });
+    var totalInstances = entries.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openDrillModal(
+      'Materiale: ' + matName,
+      entries.length + ' typer · ' + totalInstances + ' instanser',
+      entries.map(function (t) { return { name: t.ifc_class + ' — ' + t.name, count: t.instance_count }; })
+    );
+  }
 </script>
 
+  <script>
+    function openDrillModal(title, subtitle, rows) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+  </script>
 </body>
 </html>

@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grønland 55 — Materialbibliotek</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
+
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
+
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
+
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
+
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
+
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
+
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+    }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      display: grid; width: 100%; aspect-ratio: 16/10;
+      grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(6, 1fr);
+      gap: 2px; border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.8; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 10px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SF</span>
+      <span class="brand-name">Spruce Forge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Grønland 55</div>
+
+    <div style="margin-top: 8px;">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialer
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </div>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+  <div class="top-accent"></div>
+
+  <div class="tb-header">
+    <h1>Materialbibliotek</h1>
+    <span class="tb-stats" style="margin-left: 16px;">
+      <span><strong>150</strong> unike materialer</span>
+      <span>&middot;</span>
+      <span><strong>149</strong> navngitte</span>
+      
+      <span>&middot;</span>
+      <span style="color: var(--tl-yellow-text);"><strong>1</strong> uten navn</span>
+      
+      <span>&middot;</span>
+      <span style="color: var(--text-tertiary);">Grønland 55</span>
+    </span>
+  </div>
+
+  <div class="tb-filters">
+    <div class="tb-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="mat-search-input" placeholder="Søk i materialer…" oninput="filterMaterials()">
+    </div>
+    <select class="tb-select" id="mat-model-filter" onchange="filterMaterials()">
+      <option value="">Alle modeller</option>
+      
+      <option value="G55_ARK.ifc">G55_ARK.ifc</option>
+      
+      <option value="G55_RIV.ifc">G55_RIV.ifc</option>
+      
+      <option value="G55_RIE.ifc">G55_RIE.ifc</option>
+      
+      <option value="G55_RIB.ifc">G55_RIB.ifc</option>
+      
+    </select>
+    <span class="tb-count" id="mat-count">Viser 150 av 150</span>
+  </div>
+
+  <div style="flex: 1; overflow: auto; padding: 0;">
+    <table class="dash-table" id="mat-table" style="font-size: 11px;">
+      <thead>
+        <tr>
+          <th style="width: 30px;"></th>
+          <th>Materialnavn</th>
+          <th class="num">Modeller</th>
+          <th class="num">Brukt i typer</th>
+          <th>Forekommer i</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr class="mat-row" data-name="rgb 244-244-244" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">RGB 244-244-244</td>
+          <td class="num">1</td>
+          <td class="num">2612</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rgb 249-249-249" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">RGB 249-249-249</td>
+          <td class="num">1</td>
+          <td class="num">685</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rgb 225-247-255" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">RGB 225-247-255</td>
+          <td class="num">1</td>
+          <td class="num">166</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rgb 240-251-255" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">RGB 240-251-255</td>
+          <td class="num">1</td>
+          <td class="num">147</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="stål - s355" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Stål - S355</td>
+          <td class="num">1</td>
+          <td class="num">104</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="betong plasstøpt - b30" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Betong Plasstøpt - B30</td>
+          <td class="num">1</td>
+          <td class="num">99</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rgb 179-185-205" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">RGB 179-185-205</td>
+          <td class="num">1</td>
+          <td class="num">98</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="wood 14 g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Wood 14 G55</td>
+          <td class="num">1</td>
+          <td class="num">87</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 jotun - grounded red" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">G55 Jotun - Grounded Red</td>
+          <td class="num">1</td>
+          <td class="num">21</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="steel - s355" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">Steel - S355</td>
+          <td class="num">1</td>
+          <td class="num">21</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="betong eksisterende" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">Betong eksisterende</td>
+          <td class="num">1</td>
+          <td class="num">17</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="b35" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">B35</td>
+          <td class="num">1</td>
+          <td class="num">15</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g 55 glassplater systemvegg" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">G 55 Glassplater systemvegg</td>
+          <td class="num">1</td>
+          <td class="num">12</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 - ral 310-m" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">G55 - RAL 310-M</td>
+          <td class="num">1</td>
+          <td class="num">11</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_vegg- innervegg betong" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">A_vegg- Innervegg Betong</td>
+          <td class="num">1</td>
+          <td class="num">10</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="default" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Default</td>
+          <td class="num">1</td>
+          <td class="num">9</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="kjøkken benkeplate" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">KJØKKEN BENKEPLATE</td>
+          <td class="num">1</td>
+          <td class="num">8</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="kjøkken front" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">KJØKKEN FRONT</td>
+          <td class="num">1</td>
+          <td class="num">8</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_vegg- yttervegg betong" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">A_vegg- Yttervegg Betong</td>
+          <td class="num">1</td>
+          <td class="num">7</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="e_copper matt1" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">E_Copper MATT1</td>
+          <td class="num">1</td>
+          <td class="num">7</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_byggeplater_gipsplate habito_skruefast_13 mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate Habito_Skruefast_13 mm</td>
+          <td class="num">1</td>
+          <td class="num">6</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_byggeplater_gipsplate_12,5 mm (standard) - g55 - gjenbruk" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_12,5 mm (Standard) - G55 - Gjenbruk</td>
+          <td class="num">1</td>
+          <td class="num">6</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="kjøkken front slett" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">KJØKKEN FRONT SLETT</td>
+          <td class="num">1</td>
+          <td class="num">6</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="porselen" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Porselen</td>
+          <td class="num">1</td>
+          <td class="num">6</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_byggeplater_gipsplate_fuktresistent (våtrom)_12,5 mm (aquapanel indoor) g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_Fuktresistent (Våtrom)_12,5 mm (Aquapanel indoor) G55</td>
+          <td class="num">1</td>
+          <td class="num">5</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_himling 600mmx600mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">A_himling 600mmx600mm</td>
+          <td class="num">1</td>
+          <td class="num">5</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="e_glass reflectance 2" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">E_Glass Reflectance 2</td>
+          <td class="num">1</td>
+          <td class="num">5</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 - ral 330-m" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">G55 - RAL 330-M</td>
+          <td class="num">1</td>
+          <td class="num">5</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 metal_powdercoatedsteel_black" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">G55 Metal_PowderCoatedSteel_Black</td>
+          <td class="num">1</td>
+          <td class="num">5</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="steel" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Steel</td>
+          <td class="num">1</td>
+          <td class="num">5</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_gulv_plasstøpt betong" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">A_gulv_Plasstøpt betong</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="betong plasstøpt - b35" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Betong Plasstøpt - B35</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="elve_tre" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">ELVE_Tre</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 - flis - quintessenza modulo mattone base" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">G55 - Flis - Quintessenza Modulo Mattone Base</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 metall - e_copper matt" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">G55 METALL - E_Copper MATT</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="kjøkken vask" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">KJØKKEN VASK</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rustfritt stål" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Rustfritt Stål</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="tre - heltre - c24" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Tre - Heltre - C24</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="vindusprofiler lakkert (utv. grå/innv. hvit) - ref. skjema" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">Vindusprofiler lakkert (utv. grå/innv. hvit) - ref. skjema</td>
+          <td class="num">1</td>
+          <td class="num">4</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_stenderprofiler_stål_100 mm_stålstender (uisolert)" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_100 mm_Stålstender (uisolert)</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_stenderprofiler_stål_100 mm_stålstender med min. 070 mm mineralull" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_100 mm_Stålstender med min. 070 mm mineralull</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_kermisk flis 20x145" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">A_KERMISK FLIS 20x145</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_vegg-branngips 15mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">A_vegg-Branngips 15mm</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="bad &amp; wc - rustfritt" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">Bad &amp; WC - Rustfritt</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="bølgeblikk" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Bølgeblikk</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="elve - plantefelt" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">ELVE - Plantefelt</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 jotun - savanna sunset" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">G55 Jotun - Savanna Sunset</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="metal - aluminium - matte" data-models="g55_ark.ifc, g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Metal - Aluminium - Matte</td>
+          <td class="num">2</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc, G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="metal - steel, polished" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">Metal - Steel, Polished</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rilleglass" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">Rilleglass</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rubber black" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">Rubber Black</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="sort karm(1)" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">Sort karm(1)</td>
+          <td class="num">1</td>
+          <td class="num">3</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_stenderprofiler_stål_100 mm_stålstender forskutt i 150mm - g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_100 mm_Stålstender forskutt i 150mm - G55</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_flis 60x60 -  kado 60x60 cm ice flakes rett" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">A_FLIS 60x60 -  KADO 60X60 cm ICE FLAKES RETT</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="betong plasstøpt - b45" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">Betong Plasstøpt - B45</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="betong prefabrikert" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Betong Prefabrikert</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="elve naturstein wc" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">ELVE Naturstein WC</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="elve_metall - bronze ish" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">ELVE_Metall - bronze ish</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="e_stainless steel" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">E_Stainless Steel</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 - pigmentert tre" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">G55 - PIGMENTERT TRE</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 jotun - refleksjon" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">G55 Jotun - Refleksjon</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55_ecophon akutex - wet sand" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">G55_Ecophon Akutex - Wet Sand</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="glass - g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">Glass - G55</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hvit" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Hvit</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hylle" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">Hylle</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="isolasjon - eps/xps" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">Isolasjon - EPS/XPS</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="liftup - metal - stainless steel" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">Liftup - Metal - Stainless Steel</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="lys" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">Lys</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="paint_black" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Paint_black</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="spilehimling" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Spilehimling</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="steel - sb fzv" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">Steel - SB FZV</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="wood planks" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Wood Planks</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="black metall" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">black metall</td>
+          <td class="num">1</td>
+          <td class="num">2</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_byggeplater_gipsplate_12,5 mm (standard)" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_12,5 mm (Standard)</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_byggeplater_gipsplate_fuktresistent (våtrom)_12,5 mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_Fuktresistent (Våtrom)_12,5 mm</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_hulrom+spalte_min. 25 mm spalte / klaring" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Hulrom+Spalte_min. 25 mm Spalte / Klaring</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_leca_125 mm fasadblokk - g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Leca_125 mm fasadblokk - G55</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_leca_150 mm leca blokk pusset på hver side - g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Leca_150 mm Leca blokk pusset på hver side - G55</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_puss_10 mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Puss_10 mm</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_stenderprofiler_stål_050 mm_påforing i stål (uisolert)" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_050 mm_Påforing i stål (uisolert)</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_stenderprofiler_stål_070 mm_stålstender med 70 mm mineralull" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_070 mm_Stålstender med 70 mm mineralull</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="alab_24x_innervegger_stenderprofiler_tre_048 mm_trestender (uisolert)" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Tre_048 mm_Trestender (uisolert)</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="axor - axor one - 677 matte black" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">AXOR - AXOR One - 677 Matte Black</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_yttervegger_luftespalte_50 mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">A_Yttervegger_luftespalte_50 mm</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_yttervegger_teglstei fasade" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">A_Yttervegger_teglstei fasade</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_gulv-betong 200mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">A_gulv-Betong 200mm</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_gulv-eikeparkett" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">A_gulv-Eikeparkett</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_himling 600mmx600mm - g55 - sonaspray/troldtekt" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">A_himling 600mmx600mm - G55 - sonaspray/troldtekt</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_himling-600x1200mm meta metall klemkasett himling mesh" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">A_himling-600X1200mm Meta metall klemkasett himling mesh</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_himling-fast gipshimling" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">A_himling-Fast gipshimling</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_himling-hygiene-600mmx600mm" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">A_himling-Hygiene-600mmx600mm</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="a_søyle_plasstøpt betong" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">A_søyle_Plasstøpt betong</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="flis granitt" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Flis granitt</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 - himling forrom wc" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">G55 - Himling forrom WC</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 - himling toaletter kontor" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">G55 - Himling toaletter kontor</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 - speil" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">G55 - Speil</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 flis - vegg" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">G55 FLIS - VEGG</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 flis - vegg 1200 mm fra ok fk" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">G55 FLIS - VEGG 1200 MM FRA OK FK</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 jotun - coastal blue" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">G55 Jotun - Coastal Blue</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55 kvadrat atom tekstil" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">G55 Kvadrat Atom tekstil</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="g55_flis granitt - eksist." data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">G55_Flis granitt - eksist.</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="glass" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Glass</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi - 40 chrome" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">HEWI - 40 Chrome</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi - dx matt white" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">HEWI - DX Matt white</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi - white" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">HEWI - White</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi paper towel dispenser 900-06-00960 - 900-06-00960 - 40 chrome" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">HEWI Paper towel dispenser 900-06-00960 - 900-06-00960 - 40 Chrome</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi paper towel dispenser 900-06-00960 - 900-06-00960 - dx matt white" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">HEWI Paper towel dispenser 900-06-00960 - 900-06-00960 - DX Matt white</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi paperholder" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">HEWI Paperholder</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi wastepaper bin 900-05-00360 - 900-05-00360 - 40 chrome" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">HEWI Wastepaper bin 900-05-00360 - 900-05-00360 - 40 Chrome</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="hewi wastepaper bin 900-05-00360 - 900-05-00360 - dx matt white" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">HEWI Wastepaper bin 900-05-00360 - 900-05-00360 - DX Matt white</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="isolasjon - mineralull" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">Isolasjon - mineralull</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="jmn_pvc, flexible" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">JMN_PVC, Flexible</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="jmn_plastikk_hvit" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">JMN_Plastikk_Hvit</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="kb_fasade_48x48_mm_horisontal_lekting" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">KB_FASADE_48x48_MM_HORISONTAL_LEKTING</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="liftup - plastic - dark grey" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">Liftup - Plastic - Dark Grey</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="liftup - plastic - non-skid linoleum" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">Liftup - Plastic - Non-skid Linoleum</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="liftup - polycarbonate - smoke" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Liftup - Polycarbonate - Smoke</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="liftup - wood - walnut" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Liftup - Wood - Walnut</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="light gray matte" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">Light Gray Matte</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="metal - aluminium" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Metal - Aluminium</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="metal - chrome polished" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">Metal - Chrome Polished</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="paint" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">Paint</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="papp" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">Papp</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="perforert aluhimling" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">Perforert aluhimling</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="pute garderobe" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Pute garderobe</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rgb 196-255-255" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">RGB 196-255-255</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rgb 247-247-247" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">RGB 247-247-247</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="stainless steel" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">Stainless Steel</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="structural framing fireproofing" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">Structural Framing Fireproofing</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="structural steel - s235" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">Structural Steel - S235</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="tettfelt - akustisk g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">TETTFELT - akustisk G55</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="weber lex block ruh-200" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">Weber Lex block RUH-200</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="weber lex block uh-125" data-models="g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">Weber Lex block UH-125</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="wood grønnbeiset g55" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Wood grønnbeiset G55</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="nbl_conceptglass" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">nbl_ConceptGlass</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="nbl_conceptsolid" data-models="g55_ark.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">nbl_ConceptSolid</td>
+          <td class="num">1</td>
+          <td class="num">1</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="&lt;unnamed&gt;" data-models="g55_ark.ifc, g55_rib.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500; color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</td>
+          <td class="num">2</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_ARK.ifc, G55_RIB.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="cu" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">Cu</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="ma" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">MA</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="mm" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">MM</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="pe drens dn" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">PE Drens DN</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="pe100" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">PE100</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="pe80" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">PE80</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="pex" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td style="font-weight: 500;">PEX</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="pp" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">PP</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="pvc" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td style="font-weight: 500;">PVC</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="rs dn" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">RS DN</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="ril dn" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td style="font-weight: 500;">Ril DN</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="ss dn" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td style="font-weight: 500;">SS DN</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+        <tr class="mat-row" data-name="søm dn" data-models="g55_riv.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Søm DN</td>
+          <td class="num">1</td>
+          <td class="num">0</td>
+          <td style="color: var(--text-secondary); font-size: 10px; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            G55_RIV.ifc
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  
+<script>
+  function filterMaterials() {
+    var search = document.getElementById('mat-search-input').value.toLowerCase();
+    var modelFilter = document.getElementById('mat-model-filter').value.toLowerCase();
+    var rows = document.querySelectorAll('.mat-row');
+    var visible = 0;
+    rows.forEach(function (row) {
+      var name = row.getAttribute('data-name');
+      var models = row.getAttribute('data-models');
+      var matchSearch = !search || name.indexOf(search) >= 0;
+      var matchModel = !modelFilter || models.indexOf(modelFilter) >= 0;
+      if (matchSearch && matchModel) {
+        row.style.display = '';
+        visible++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+    document.getElementById('mat-count').textContent = 'Viser ' + visible + ' av ' + rows.length;
+  }
+</script>
+
+  <script>
+    function openDrillModal(title, subtitle, rows) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
