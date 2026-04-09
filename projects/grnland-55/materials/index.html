@@ -673,6 +673,27 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .fade-in { animation: fadeIn 0.25s ease both; }
 
+    /* Wrapping/sizable columns: cells wrap between min and max width */
+    table.wrappable td, table.wrappable th {
+      white-space: normal !important;
+      word-break: break-word;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      vertical-align: top;
+    }
+    table.wrappable td.wrap-tags { line-height: 1.7; }
+
+    /* Resizable table columns (drag handles in header) */
+    table.resizable { table-layout: auto; }
+    table.resizable th { position: relative; }
+    table.resizable th .col-resizer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 6px;
+      cursor: col-resize; user-select: none;
+      background: transparent; transition: background 0.15s;
+    }
+    table.resizable th .col-resizer:hover,
+    table.resizable th .col-resizer.dragging { background: var(--primary); opacity: 0.4; }
+
     /* Drill-down popup */
     .drill-target { cursor: pointer; transition: all 0.15s; }
     .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
@@ -9294,10 +9315,16 @@
   </div>
 
   <div style="flex: 1; overflow: auto; padding: 0;">
-    <table class="dash-table" id="mat-table" style="font-size: 11px;">
+    <table class="dash-table resizable wrappable" id="mat-table" style="font-size: 11px;">
+      <colgroup>
+        <col style="width: 30px;">
+        <col style="min-width: 260px; max-width: 520px;">
+        <col style="min-width: 60px; max-width: 80px;">
+        <col style="min-width: 240px; max-width: 480px;">
+      </colgroup>
       <thead>
         <tr>
-          <th style="width: 30px;"></th>
+          <th></th>
           <th>Materialnavn</th>
           <th class="num">Typer</th>
           <th>Modeller</th>
@@ -9312,7 +9339,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">RGB 244-244-244</td>
           <td class="num">2612</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2612</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2612</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9322,7 +9349,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">RGB 249-249-249</td>
           <td class="num">685</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>685</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>685</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9332,7 +9359,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">RGB 225-247-255</td>
           <td class="num">166</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>166</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>166</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9342,7 +9369,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">RGB 240-251-255</td>
           <td class="num">147</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>147</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>147</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9352,7 +9379,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Stål - S355</td>
           <td class="num">104</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>104</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>104</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9362,7 +9389,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Betong Plasstøpt - B30</td>
           <td class="num">99</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>99</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>99</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9372,7 +9399,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">RGB 179-185-205</td>
           <td class="num">98</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>98</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>98</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9382,7 +9409,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Wood 14 G55</td>
           <td class="num">87</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>87</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>87</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9392,7 +9419,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">G55 Jotun - Grounded Red</td>
           <td class="num">21</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>21</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>21</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9402,7 +9429,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Steel - S355</td>
           <td class="num">21</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>21</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>21</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9412,7 +9439,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Betong eksisterende</td>
           <td class="num">17</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>17</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>17</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9422,7 +9449,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">B35</td>
           <td class="num">15</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>15</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>15</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9432,7 +9459,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">G 55 Glassplater systemvegg</td>
           <td class="num">12</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>12</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>12</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9442,7 +9469,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">G55 - RAL 310-M</td>
           <td class="num">11</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>11</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>11</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9452,7 +9479,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">A_vegg- Innervegg Betong</td>
           <td class="num">10</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>10</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>10</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9462,7 +9489,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Default</td>
           <td class="num">9</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>9</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>9</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9472,7 +9499,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">KJØKKEN BENKEPLATE</td>
           <td class="num">8</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>8</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>8</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9482,7 +9509,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">KJØKKEN FRONT</td>
           <td class="num">8</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>8</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>8</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9492,7 +9519,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">A_vegg- Yttervegg Betong</td>
           <td class="num">7</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>7</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>7</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9502,7 +9529,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">E_Copper MATT1</td>
           <td class="num">7</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>7</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>7</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9512,7 +9539,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate Habito_Skruefast_13 mm</td>
           <td class="num">6</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9522,7 +9549,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_12,5 mm (Standard) - G55 - Gjenbruk</td>
           <td class="num">6</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9532,7 +9559,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">KJØKKEN FRONT SLETT</td>
           <td class="num">6</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9542,7 +9569,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Porselen</td>
           <td class="num">6</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>6</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9552,7 +9579,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_Fuktresistent (Våtrom)_12,5 mm (Aquapanel indoor) G55</td>
           <td class="num">5</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9562,7 +9589,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">A_himling 600mmx600mm</td>
           <td class="num">5</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9572,7 +9599,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">E_Glass Reflectance 2</td>
           <td class="num">5</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9582,7 +9609,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">G55 - RAL 330-M</td>
           <td class="num">5</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9592,7 +9619,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">G55 Metal_PowderCoatedSteel_Black</td>
           <td class="num">5</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>5</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9602,7 +9629,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Steel</td>
           <td class="num">5</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>5</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>5</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9612,7 +9639,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">A_gulv_Plasstøpt betong</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9622,7 +9649,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Betong Plasstøpt - B35</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9632,7 +9659,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">ELVE_Tre</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9642,7 +9669,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">G55 - Flis - Quintessenza Modulo Mattone Base</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9652,7 +9679,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">G55 METALL - E_Copper MATT</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9662,7 +9689,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">KJØKKEN VASK</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9672,7 +9699,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Rustfritt Stål</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9682,7 +9709,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Tre - Heltre - C24</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9692,7 +9719,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Vindusprofiler lakkert (utv. grå/innv. hvit) - ref. skjema</td>
           <td class="num">4</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>4</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9702,7 +9729,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_100 mm_Stålstender (uisolert)</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9712,7 +9739,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_100 mm_Stålstender med min. 070 mm mineralull</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9722,7 +9749,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">A_KERMISK FLIS 20x145</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9732,7 +9759,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">A_vegg-Branngips 15mm</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9742,7 +9769,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Bad &amp; WC - Rustfritt</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9752,7 +9779,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Bølgeblikk</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9762,7 +9789,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">ELVE - Plantefelt</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9772,7 +9799,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">G55 Jotun - Savanna Sunset</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9782,7 +9809,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Metal - Aluminium - Matte</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9792,7 +9819,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Metal - Steel, Polished</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9802,7 +9829,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Rilleglass</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9812,7 +9839,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Rubber Black</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9822,7 +9849,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Sort karm(1)</td>
           <td class="num">3</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>3</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9832,7 +9859,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_100 mm_Stålstender forskutt i 150mm - G55</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9842,7 +9869,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">A_FLIS 60x60 -  KADO 60X60 cm ICE FLAKES RETT</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9852,7 +9879,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Betong Plasstøpt - B45</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9862,7 +9889,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Betong Prefabrikert</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9872,7 +9899,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">ELVE Naturstein WC</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9882,7 +9909,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">ELVE_Metall - bronze ish</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9892,7 +9919,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">E_Stainless Steel</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9902,7 +9929,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">G55 - PIGMENTERT TRE</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9912,7 +9939,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">G55 Jotun - Refleksjon</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9922,7 +9949,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">G55_Ecophon Akutex - Wet Sand</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9932,7 +9959,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Glass - G55</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9942,7 +9969,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Hvit</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9952,7 +9979,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Hylle</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9962,7 +9989,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Isolasjon - EPS/XPS</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9972,7 +9999,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Liftup - Metal - Stainless Steel</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9982,7 +10009,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Lys</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -9992,7 +10019,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Paint_black</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10002,7 +10029,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Spilehimling</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10012,7 +10039,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Steel - SB FZV</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10022,7 +10049,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Wood Planks</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10032,7 +10059,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">black metall</td>
           <td class="num">2</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>2</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10042,7 +10069,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_12,5 mm (Standard)</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10052,7 +10079,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Byggeplater_Gipsplate_Fuktresistent (Våtrom)_12,5 mm</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10062,7 +10089,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Hulrom+Spalte_min. 25 mm Spalte / Klaring</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10072,7 +10099,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Leca_125 mm fasadblokk - G55</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10082,7 +10109,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Leca_150 mm Leca blokk pusset på hver side - G55</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10092,7 +10119,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Puss_10 mm</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10102,7 +10129,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_050 mm_Påforing i stål (uisolert)</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10112,7 +10139,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Stål_070 mm_Stålstender med 70 mm mineralull</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10122,7 +10149,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">ALAB_24x_INNERVEGGER_Stenderprofiler_Tre_048 mm_Trestender (uisolert)</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10132,7 +10159,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">AXOR - AXOR One - 677 Matte Black</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10142,7 +10169,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">A_Yttervegger_luftespalte_50 mm</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10152,7 +10179,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">A_Yttervegger_teglstei fasade</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10162,7 +10189,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">A_gulv-Betong 200mm</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10172,7 +10199,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">A_gulv-Eikeparkett</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10182,7 +10209,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">A_himling 600mmx600mm - G55 - sonaspray/troldtekt</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10192,7 +10219,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">A_himling-600X1200mm Meta metall klemkasett himling mesh</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10202,7 +10229,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">A_himling-Fast gipshimling</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10212,7 +10239,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">A_himling-Hygiene-600mmx600mm</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10222,7 +10249,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">A_søyle_Plasstøpt betong</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10232,7 +10259,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Flis granitt</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10242,7 +10269,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">G55 - Himling forrom WC</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10252,7 +10279,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">G55 - Himling toaletter kontor</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10262,7 +10289,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">G55 - Speil</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10272,7 +10299,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">G55 FLIS - VEGG</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10282,7 +10309,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">G55 FLIS - VEGG 1200 MM FRA OK FK</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10292,7 +10319,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">G55 Jotun - Coastal Blue</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10302,7 +10329,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">G55 Kvadrat Atom tekstil</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10312,7 +10339,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">G55_Flis granitt - eksist.</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10322,7 +10349,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Glass</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10332,7 +10359,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">HEWI - 40 Chrome</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10342,7 +10369,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">HEWI - DX Matt white</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10352,7 +10379,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">HEWI - White</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10362,7 +10389,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">HEWI Paper towel dispenser 900-06-00960 - 900-06-00960 - 40 Chrome</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10372,7 +10399,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">HEWI Paper towel dispenser 900-06-00960 - 900-06-00960 - DX Matt white</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10382,7 +10409,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">HEWI Paperholder</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10392,7 +10419,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">HEWI Wastepaper bin 900-05-00360 - 900-05-00360 - 40 Chrome</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10402,7 +10429,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">HEWI Wastepaper bin 900-05-00360 - 900-05-00360 - DX Matt white</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10412,7 +10439,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Isolasjon - mineralull</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10422,7 +10449,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">JMN_PVC, Flexible</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10432,7 +10459,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">JMN_Plastikk_Hvit</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10442,7 +10469,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">KB_FASADE_48x48_MM_HORISONTAL_LEKTING</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10452,7 +10479,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Liftup - Plastic - Dark Grey</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10462,7 +10489,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Liftup - Plastic - Non-skid Linoleum</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10472,7 +10499,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Liftup - Polycarbonate - Smoke</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10482,7 +10509,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Liftup - Wood - Walnut</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10492,7 +10519,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Light Gray Matte</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10502,7 +10529,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Metal - Aluminium</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10512,7 +10539,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Metal - Chrome Polished</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10522,7 +10549,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Paint</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10532,7 +10559,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Papp</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10542,7 +10569,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Perforert aluhimling</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10552,7 +10579,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Pute garderobe</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10562,7 +10589,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">RGB 196-255-255</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10572,7 +10599,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">RGB 247-247-247</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10582,7 +10609,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Stainless Steel</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10592,7 +10619,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Structural Framing Fireproofing</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10602,7 +10629,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Structural Steel - S235</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10612,7 +10639,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">TETTFELT - akustisk G55</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10622,7 +10649,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Weber Lex block RUH-200</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10632,7 +10659,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Weber Lex block UH-125</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10642,7 +10669,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Wood grønnbeiset G55</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10652,7 +10679,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">nbl_ConceptGlass</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10662,7 +10689,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">nbl_ConceptSolid</td>
           <td class="num">1</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>1</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10672,7 +10699,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500; color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>0</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_ARK <strong>0</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIB <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10682,7 +10709,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Cu</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10692,7 +10719,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">MA</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10702,7 +10729,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">MM</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10712,7 +10739,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">PE Drens DN</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10722,7 +10749,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">PE100</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10732,7 +10759,7 @@
           <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">PE80</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10742,7 +10769,7 @@
           <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">PEX</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10752,7 +10779,7 @@
           <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">PP</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10762,7 +10789,7 @@
           <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">PVC</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10772,7 +10799,7 @@
           <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">RS DN</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10782,7 +10809,7 @@
           <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Ril DN</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10792,7 +10819,7 @@
           <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">SS DN</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -10802,7 +10829,7 @@
           <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Søm DN</td>
           <td class="num">0</td>
-          <td style="font-size: 10px; max-width: 480px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">G55_RIV <strong>0</strong></span></td>
         </tr>
         
       </tbody>
@@ -10854,6 +10881,45 @@
 </script>
 
   <script>
+    // ── Resizable table columns ──
+    (function () {
+      function initResizable(table) {
+        var storageKey = 'colw:' + location.pathname + ':' + (table.id || 'tbl');
+        var saved = {};
+        try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (e) {}
+
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach(function (th, i) {
+          if (saved[i]) th.style.width = saved[i] + 'px';
+          var grip = document.createElement('div');
+          grip.className = 'col-resizer';
+          th.appendChild(grip);
+          grip.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            grip.classList.add('dragging');
+            var startX = e.clientX;
+            var startW = th.offsetWidth;
+            function onMove(ev) {
+              var w = Math.max(40, startW + (ev.clientX - startX));
+              th.style.width = w + 'px';
+            }
+            function onUp() {
+              document.removeEventListener('mousemove', onMove);
+              document.removeEventListener('mouseup', onUp);
+              grip.classList.remove('dragging');
+              saved[i] = th.offsetWidth;
+              try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (e) {}
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('table.resizable').forEach(initResizable);
+      });
+    })();
+
     function openDrillModal(title, subtitle, rows) {
       document.getElementById('modal-title').textContent = title;
       document.getElementById('modal-sub').textContent = subtitle || '';
