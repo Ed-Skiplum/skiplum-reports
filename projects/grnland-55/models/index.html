@@ -249,7 +249,9 @@
     .bento-overview {
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-rows: auto auto auto;
+      align-items: start;
     }
+    .bento-overview > .card { overflow: visible; }
     .bento-12 {
       grid-template-columns: repeat(12, 1fr);
       grid-auto-rows: minmax(0, auto);
@@ -689,7 +691,7 @@
     .browser-viz .card-title { font-size: 10px; }
     .browser-viz .treemap-grid { aspect-ratio: 16/8; }
 
-    .top-bar-list { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+    .top-bar-list { display: flex; flex-direction: column; gap: 4px; }
     .top-bar-row {
       display: grid; grid-template-columns: 180px 1fr 50px; gap: 8px;
       align-items: center; font-size: 11px;
