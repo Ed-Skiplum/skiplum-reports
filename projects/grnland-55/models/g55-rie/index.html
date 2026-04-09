@@ -461,16 +461,18 @@
 
     .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
     .treemap-grid {
-      display: grid; width: 100%; aspect-ratio: 16/10;
-      grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(6, 1fr);
-      gap: 2px; border-radius: 6px; overflow: hidden;
+      position: relative; width: 100%; aspect-ratio: 16/10;
+      border-radius: 6px; overflow: hidden;
     }
     .tm-cell {
+      position: absolute;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
       line-height: 1.2;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.5);
     }
-    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.8; }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.85; }
 
     .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
     .q-row {
@@ -1004,45 +1006,45 @@
       <div class="treemap-grid">
         
         <div class="tm-cell drill-target"
-             style="grid-column: 1/5; grid-row: 1/5; background: #157954;"
-             onclick="drillIfcClass('IfcFlowTerminal')">
+             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 48.3987%; background: #157954;"
+             data-drill-class="IfcFlowTerminal" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
           IfcFlowTerminal<br><span class="tm-count">2 826</span>
         </div>
         
         <div class="tm-cell drill-target"
-             style="grid-column: 5/8; grid-row: 1/4; background: #1e9268;"
-             onclick="drillIfcClass('IfcDistributionControlElement')">
+             style="left: 0.0%; top: 48.3987%; width: 62.6227%; height: 38.397%; background: #1e9268;"
+             data-drill-class="IfcDistributionControlElement" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
           IfcDistributionControlElement<br><span class="tm-count">1 404</span>
         </div>
         
         <div class="tm-cell drill-target"
-             style="grid-column: 8/11; grid-row: 1/4; background: #27ab7d;"
-             onclick="drillIfcClass('IfcFlowSegment')">
+             style="left: 62.6227%; top: 48.3987%; width: 37.3773%; height: 38.397%; background: #27ab7d;"
+             data-drill-class="IfcFlowSegment" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
           IfcFlowSegment<br><span class="tm-count">838</span>
         </div>
         
         <div class="tm-cell drill-target"
-             style="grid-column: 5/8; grid-row: 4/7; background: #5dbf99;"
-             onclick="drillIfcClass('IfcFlowFitting')">
+             style="left: 0.0%; top: 86.7957%; width: 60.9211%; height: 13.0159%; background: #3fc18a;"
+             data-drill-class="IfcFlowFitting" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
           IfcFlowFitting<br><span class="tm-count">463</span>
         </div>
         
         <div class="tm-cell drill-target"
-             style="grid-column: 1/5; grid-row: 5/7; background: #8dd4b8;"
-             onclick="drillIfcClass('IfcEnergyConversionDevice')">
+             style="left: 60.9211%; top: 86.7957%; width: 24.4737%; height: 13.0159%; background: #5dbf99;"
+             data-drill-class="IfcEnergyConversionDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
           IfcEnergyConversionDevice<br><span class="tm-count">186</span>
         </div>
         
         <div class="tm-cell drill-target"
-             style="grid-column: 8/10; grid-row: 4/7; background: #b3e2ce;"
-             onclick="drillIfcClass('IfcFlowController')">
+             style="left: 85.3947%; top: 86.7957%; width: 14.6053%; height: 13.0159%; background: #8dd4b8;"
+             data-drill-class="IfcFlowController" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
           IfcFlowController<br><span class="tm-count">111</span>
         </div>
         
-        <div class="tm-cell drill-target"
-             style="grid-column: 10/11; grid-row: 4/7; background: #d4eee2;color: var(--text-secondary);"
-             onclick="drillIfcClass('+')">
-          +<br><span class="tm-count">11</span>
+        <div class="tm-cell "
+             style="left: 0.0%; top: 99.8116%; width: 100.0%; height: 0.1884%; background: #b3e2ce;color: var(--text-secondary);"
+             >
+          + 3 til<br><span class="tm-count">11</span>
         </div>
         
       </div>
