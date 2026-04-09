@@ -145,7 +145,15 @@
     }
     .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
     .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
     .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
     .nav-section { margin-top: 16px; }
     .nav-section-label {
       padding: 6px 12px; font-size: 10px; font-weight: 600;
@@ -676,13 +684,6 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     </a>
   </div>
-  <div class="sidebar-search">
-    <button class="search-btn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <span>Søk…</span>
-    </button>
-    <button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
-  </div>
   <nav class="sidebar-nav">
     <div class="project-label">Grønland 55</div>
 
@@ -696,7 +697,7 @@
     <div class="nav-section">
       <div class="nav-section-label">Filer</div>
       <div class="nav-section-items">
-        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/#modeller">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/#tab-models">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
           Modeller
         </a>
@@ -706,23 +707,25 @@
     <div class="nav-section">
       <div class="nav-section-label">Data</div>
       <div class="nav-section-items">
-        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/types/">
+        <span class="nav-item disabled">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
           Typer
-        </a>
-        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/materials/">
+          <span class="nav-soon">snart</span>
+        </span>
+        <span class="nav-item disabled">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          Materialbibliotek
-        </a>
+          Materialer
+          <span class="nav-soon">snart</span>
+        </span>
       </div>
     </div>
   </nav>
 
   <div class="sidebar-footer">
-    <button class="user-row">
+    <div class="user-row">
       <span class="user-avatar">SK</span>
       <span class="user-name">Skiplum</span>
-    </button>
+    </div>
     <div class="footer-actions">
       <button class="lang-btn active">NO</button>
       <button class="lang-btn">EN</button>
@@ -750,9 +753,9 @@
 </div>
 
 <div class="tabs fade-in">
-  <button class="tab active" onclick="switchTab('overview')">Oversikt</button>
-  <button class="tab" onclick="switchTab('compliance')">Samsvar</button>
-  <button class="tab" onclick="switchTab('models')">Modeller</button>
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="compliance" onclick="switchTab('compliance')">Samsvar</button>
+  <button class="tab" data-tab="models" onclick="switchTab('models')">Modeller</button>
 </div>
 
 
@@ -1560,12 +1563,25 @@
   </div>
   
 <script>
-  function switchTab(name) {
+  function switchTab(name, push) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById('tab-' + name).classList.add('active');
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+    if (push) history.replaceState(null, '', '#tab-' + name);
   }
+  // Honor URL hash on load (so sidebar links to #tab-models work)
+  (function () {
+    var h = (window.location.hash || '').replace('#tab-', '');
+    if (h && document.getElementById('tab-' + h)) switchTab(h, false);
+  })();
+  // React to hash changes (clicking sidebar while already on the page)
+  window.addEventListener('hashchange', function () {
+    var h = (window.location.hash || '').replace('#tab-', '');
+    if (h && document.getElementById('tab-' + h)) switchTab(h, false);
+  });
 </script>
 
 </body>
