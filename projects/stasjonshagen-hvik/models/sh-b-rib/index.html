@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SH_B_RIB.ifc — Modellarbeidsflate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
+
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
+
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
+
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
+
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
+
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
+
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      align-items: start;
+    }
+    .bento-overview > .card { overflow: visible; }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      position: relative; width: 100%; aspect-ratio: 16/10;
+      border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      position: absolute;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.85; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 10px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Browser viz row + view toggle (used by type/materials browsers) */
+    .browser-viz {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg) 0;
+    }
+    .browser-viz .card { padding: 14px 16px; }
+    .browser-viz .card-title { font-size: 10px; }
+    .browser-viz .treemap-grid { aspect-ratio: 16/8; }
+
+    .top-bar-list { display: flex; flex-direction: column; gap: 4px; }
+    .top-bar-row {
+      display: grid; grid-template-columns: 180px 1fr 50px; gap: 8px;
+      align-items: center; font-size: 11px;
+    }
+    .top-bar-row .top-bar-label {
+      color: var(--text-secondary); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-bar-row .top-bar-track {
+      height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+    }
+    .top-bar-row .top-bar-fill {
+      height: 100%; background: var(--primary); border-radius: 4px;
+    }
+    .top-bar-row .top-bar-count {
+      font-weight: 600; color: var(--text-primary);
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+
+    .view-toggle {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .view-toggle button {
+      padding: 5px 10px; border: none; background: white;
+      cursor: pointer; color: var(--text-tertiary); transition: all 0.15s;
+      font: inherit; font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .view-toggle button:not(:last-child) { border-right: 1px solid var(--border); }
+    .view-toggle button.active { background: var(--primary-light); color: var(--primary); }
+    .view-toggle button:hover:not(.active) { background: #f8f8f8; }
+
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .browse-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 11px;
+    }
+    .browse-card-name {
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      word-break: break-word; line-height: 1.3;
+    }
+    .browse-card-meta {
+      display: flex; gap: 6px; flex-wrap: wrap; font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .browse-card-pills { display: flex; flex-wrap: wrap; gap: 3px; }
+    .browse-card-pills .tl-cell { font-size: 9px; padding: 1px 6px; }
+    .browse-card-models {
+      display: flex; flex-wrap: wrap; gap: 3px; line-height: 1.6;
+    }
+    .browse-card-mat {
+      font-size: 10px; color: var(--text-secondary);
+      word-break: break-word;
+    }
+
+    /* Wrapping/sizable columns: cells wrap between min and max width */
+    table.wrappable td, table.wrappable th {
+      white-space: normal !important;
+      word-break: break-word;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      vertical-align: top;
+    }
+    table.wrappable td.wrap-tags { line-height: 1.7; }
+
+    /* Resizable table columns (drag handles in header) */
+    table.resizable { table-layout: auto; }
+    table.resizable th { position: relative; }
+    table.resizable th .col-resizer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 6px;
+      cursor: col-resize; user-select: none;
+      background: transparent; transition: background 0.15s;
+    }
+    table.resizable th .col-resizer:hover,
+    table.resizable th .col-resizer.dragging { background: var(--primary); opacity: 0.4; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SF</span>
+      <span class="brand-name">Spruce Forge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Stasjonshagen Høvik</div>
+
+    <div style="margin-top: 8px;">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/stasjonshagen-hvik/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/stasjonshagen-hvik/models/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/stasjonshagen-hvik/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/stasjonshagen-hvik/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialer
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </div>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+        <div class="content">
+          
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/stasjonshagen-hvik/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>SH_B_RIB.ifc</h1>
+  <span class="badge badge-disc disc-rib">RIB</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-yellow">Advarsel</span>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
+</div>
+
+
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-12 fade-in">
+
+    
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">48</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">429</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">8</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">5.65</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val green">80%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
+    </div>
+
+    
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Stasjonshagen Høvik</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">RIB</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">Autodesk Revit 2026 (ENU)</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">Autodesk Revit 2026 (ENU)</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-ok">mm</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row">
+            <span class="id-key">CRS satt</span>
+            
+            <span class="q-val q-warn">N/A</span>
+            
+          </div>
+          
+          <div class="id-row" style="font-size: 9px; color: var(--text-tertiary); font-style: italic;">IFC2X3 har ingen IfcProjectedCRS</div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 47.9%; background: #157954;"></div>
+        
+        <div class="geom-seg" style="width: 27.9%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 16.2%; background: #8dd4b8;"></div>
+        
+        <div class="geom-seg" style="width: 3.0%; background: #b3e2ce;"></div>
+        
+        <div class="geom-seg" style="width: 2.5%; background: #cbd5e1;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">304</span>
+          <span class="geom-legend-label">SweptSolid</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #5dbf99;"></div>
+          <span class="geom-legend-count">177</span>
+          <span class="geom-legend-label">Curve2D</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">103</span>
+          <span class="geom-legend-label">MappedRepresentation</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #b3e2ce;"></div>
+          <span class="geom-legend-count">19</span>
+          <span class="geom-legend-label">Brep</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #cbd5e1;"></div>
+          <span class="geom-legend-count">16</span>
+          <span class="geom-legend-label">GeometricCurveSet</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 59.0361%; height: 58.042%; background: #157954;"
+             data-drill-class="IfcWallStandardCase" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcWallStandardCase<br><span class="tm-count">147</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 59.0361%; top: 0.0%; width: 40.9639%; height: 58.042%; background: #1e9268;"
+             data-drill-class="IfcSlab" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcSlab<br><span class="tm-count">102</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 58.042%; width: 75.5725%; height: 30.5361%; background: #27ab7d;"
+             data-drill-class="IfcColumn" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcColumn<br><span class="tm-count">99</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 75.5725%; top: 58.042%; width: 24.4275%; height: 30.5361%; background: #3fc18a;"
+             data-drill-class="IfcBeam" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcBeam<br><span class="tm-count">32</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 88.5781%; width: 32.6531%; height: 11.4219%; background: #5dbf99;"
+             data-drill-class="IfcGrid" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcGrid<br><span class="tm-count">16</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 32.6531%; top: 88.5781%; width: 24.4898%; height: 11.4219%; background: #8dd4b8;"
+             data-drill-class="IfcOpeningElement" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcOpeningElement<br><span class="tm-count">12</span>
+        </div>
+        
+        <div class="tm-cell "
+             style="left: 57.1429%; top: 88.5781%; width: 42.8571%; height: 11.4219%; background: #b3e2ce;color: var(--text-secondary);"
+             >
+          + 5 til<br><span class="tm-count">21</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Schema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatter</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enheter</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Koordinatsystem skal vær</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer</span>
+        <span class="q-val q-ok">8 etasjer</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Spatial hierarki</span>
+        <span class="q-val q-ok">417/429</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-ok">91%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Orphan types</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Proxy-typer</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">GUID-unikhet</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card storey-card">
+      <div class="card-header">
+        <div class="card-title">Elementer per etasje</div>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Takplan')">
+        <span class="storey-name">Takplan</span>
+        <span class="storey-elev">+53.5</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 1%;"></div></div>
+        <span class="storey-count">2</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B_Plan 6')">
+        <span class="storey-name">B_Plan 6</span>
+        <span class="storey-elev">+46.2</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 2%;"></div></div>
+        <span class="storey-count">3</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B_Plan 5')">
+        <span class="storey-name">B_Plan 5</span>
+        <span class="storey-elev">+42.8</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 16%;"></div></div>
+        <span class="storey-count">29</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B_ Plan 4')">
+        <span class="storey-name">B_ Plan 4</span>
+        <span class="storey-elev">+39.5</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 22%;"></div></div>
+        <span class="storey-count">41</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B_Plan 3')">
+        <span class="storey-name">B_Plan 3</span>
+        <span class="storey-elev">+36.2</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 38%;"></div></div>
+        <span class="storey-count">70</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('A_Plan 1_B_Plan 2')">
+        <span class="storey-name">A_Plan 1_B_Pla</span>
+        <span class="storey-elev">+33.0</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 36%;"></div></div>
+        <span class="storey-count">66</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B_Plan 1')">
+        <span class="storey-name">B_Plan 1</span>
+        <span class="storey-elev">+30.0</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
+        <span class="storey-count">183</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Havnivå')">
+        <span class="storey-name">Havnivå</span>
+        <span class="storey-elev">+0.0</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 7%;"></div></div>
+        <span class="storey-count">13</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card type-progress-card">
+      <div class="card-header">
+        <div class="card-title">Topp IFC-klasser</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcWallStandardCase')">
+          <span class="bar-label" style="width: 110px;">IfcWallStandardCase</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 34%;"></div></div>
+          <span class="bar-count" style="width: 36px;">147</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcSlab')">
+          <span class="bar-label" style="width: 110px;">IfcSlab</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 24%;"></div></div>
+          <span class="bar-count" style="width: 36px;">102</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcColumn')">
+          <span class="bar-label" style="width: 110px;">IfcColumn</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 23%;"></div></div>
+          <span class="bar-count" style="width: 36px;">99</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBeam')">
+          <span class="bar-label" style="width: 110px;">IfcBeam</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 7%;"></div></div>
+          <span class="bar-count" style="width: 36px;">32</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcGrid')">
+          <span class="bar-label" style="width: 110px;">IfcGrid</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 4%;"></div></div>
+          <span class="bar-count" style="width: 36px;">16</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card materials-card">
+      <div class="card-header">
+        <div class="card-title">Materialer</div>
+      </div>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">4</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
+      <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">Mest brukt:</div>
+      <div style="display: flex; flex-direction: column; gap: 3px; font-size: 11px;">
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Betong Plasstøpt - B30')">
+          <span class="legend-dot" style="background: #157954;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Betong Plasstøpt - B30</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Betong Plasstøpt - B35')">
+          <span class="legend-dot" style="background: #5dbf99;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Betong Plasstøpt - B35</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Concrete - Precast Concrete - 35 MPa')">
+          <span class="legend-dot" style="background: #8dd4b8;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Concrete - Precast Concrete - </span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Metal - Steel - 345 MPa')">
+          <span class="legend-dot" style="background: #b3e2ce;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Metal - Steel - 345 MPa</span>
+        </div>
+        
+      </div>
+      
+    </div>
+
+    
+    <div class="card info-card">
+      <div class="card-header">
+        <div class="card-title">Forfatterinfo</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Verktøy</span>
+        <span class="meta-val">Autodesk Revit 2026 (ENU)</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Organisasjon</span>
+        <span class="meta-val">Autodesk Revit 2026 (ENU)</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Schema</span>
+        <span class="meta-val">IFC2X3</span>
+      </div>
+      <div class="meta-row" style="border-bottom: none;">
+        <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
+        <span class="meta-val">5.65 MB</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">8</div>
+      <div class="card-sub">Krav oppfylt</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">1</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">0</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Modeller skal bruke IFC4 eller nyere</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy skal være oppgitt</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">Autodesk Revit 2026 (ENU)</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Lengdeenhet skal være millimeter</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Etasjer skal være definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">8 etasjer</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">12 elementer uten plassering (3%)</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">39 av 429 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen foreldreløse typer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">GUID-er skal være unike</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">Autodesk Revit 2026 (ENU)</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">Autodesk Revit 2026 (ENU)</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">SH_B_RIB.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">5.65 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Stasjonshagen Høvik</span>
+            <span class="tree-type">IfcProject</span>
+          </div>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Havnivå (+0.000)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B_Plan 1 (+30.000)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">A_Plan 1_B_Plan 2 (+33.000)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B_Plan 3 (+36.200)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B_ Plan 4 (+39.500)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B_Plan 5 (+42.800)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B_Plan 6 (+46.200)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Takplan (+53.500)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row">
+        <span class="meta-key">CRS satt</span>
+        <span class="meta-val">Nei</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button class="btn-outline" id="modal-csv" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalCsv()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            CSV
+          </button>
+          <button class="btn-primary" id="modal-xlsx" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalXlsx()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            XLSX
+          </button>
+          <button class="modal-close" onclick="closeModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  
+<script id="model-data" type="application/json">{"instance_counts": {"IfcAnnotation": 1, "IfcBeam": 32, "IfcBuilding": 1, "IfcBuildingStorey": 8, "IfcColumn": 99, "IfcFooting": 10, "IfcGrid": 16, "IfcOpeningElement": 12, "IfcSite": 1, "IfcSlab": 102, "IfcWallStandardCase": 147}, "instances": [{"guid": "03aOdvybzBORCTGk9M4VAW", "ifc_class": "IfcAnnotation", "name": "Model Lines:695402", "type_name": ""}, {"guid": "3zs23Js0LACRnR2XGGmTqV", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728208", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTqJ", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728220", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTqc", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728233", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTqw", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728245", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTrE", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728257", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTr2", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728269", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTrK", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728283", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTrd", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728296", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTrx", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728308", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmToE", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728321", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTo0", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728335", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmToJ", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728348", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmToc", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728361", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTov", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728374", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTpD", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728386", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTpV", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728400", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTpG", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728415", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTpZ", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728428", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTps", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728441", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTmA", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728453", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTmT", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728466", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTml", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728480", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTmX", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728494", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTmp", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728508", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTn7", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728520", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTnP", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728534", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTnh", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728548", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmTny", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728563", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmT_D", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728578", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmT_V", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728592", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmT$d", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Grunndrager b=800:728680", "type_name": "Betong Rektangul\u00e6r:Grunndrager b=800"}, {"guid": "3zs23Js0LACRnR2XGGmU4i", "ifc_class": "IfcBeam", "name": "Betong Rektangul\u00e6r:Teglkonsoll 250x250:729251", "type_name": "Betong Rektangul\u00e6r:Teglkonsoll 250x250"}, {"guid": "3SaYpwxYL2dQZ3iISfWY3l", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:721558", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWY7y", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:721797", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWY7s", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:721807", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYPL", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:721964", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYOH", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722024", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYRO", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722081", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYR0", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722105", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYQV", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722150", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYTn", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722184", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYTT", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722212", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYVa", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722333", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYVG", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722345", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYUX", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722392", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYUR", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722402", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYII", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722667", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYIL", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722668", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYIK", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722669", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYIN", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722670", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYIM", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722671", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYI9", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722672", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYI8", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722673", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYIB", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722674", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYIA", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722675", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYID", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722676", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYIF", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722678", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYKe", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722769", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYKY", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722779", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYKI", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722795", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYMs", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722895", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYMW", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722905", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfZ", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722970", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfY", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722971", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfb", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722972", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfa", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722973", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfd", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722974", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfc", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722975", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfP", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722976", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfO", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722977", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfR", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722978", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfQ", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722979", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "3SaYpwxYL2dQZ3iISfWYfS", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:722981", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3v2", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723173", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3_B", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723244", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3$z", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723290", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y5", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723362", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y4", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723363", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y3", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723364", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y2", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723365", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y1", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723366", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y0", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723367", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3yF", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723368", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3yE", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723369", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3yD", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723370", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3yC", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723371", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3yB", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723372", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3yA", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723373", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y9", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723374", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3y8", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723375", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3zF", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723432", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3zJ", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723444", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3zP", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723454", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3o6", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723489", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3o5", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723490", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3pS", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723579", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3sI", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723765", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3sU", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723769", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3sQ", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723773", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3sP", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723774", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3sO", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723775", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3td", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723776", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3tc", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723777", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3tb", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723778", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3ta", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723779", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3tZ", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723780", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3tY", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723781", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "0amxHw7oP2IO8jA$0We3tX", "ifc_class": "IfcColumn", "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8:723782", "type_name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8"}, {"guid": "1KUQHmJSr1KeeFBYT$fEAf", "ifc_class": "IfcColumn", "name": "Circular Hollow Sections-Column:KR139.7x8:723964", "type_name": "Circular Hollow Sections-Column:KR139.7x8"}, {"guid": "1KUQHmJSr1KeeFBYT$fETN", "ifc_class": "IfcColumn", "name": "Circular Hollow Sections-Column:KR139.7x8:724482", "type_name": "Circular Hollow Sections-Column:KR139.7x8"}, {"guid": "1KUQHmJSr1KeeFBYT$fETf", "ifc_class": "IfcColumn", "name": "Circular Hollow Sections-Column:KR139.7x8:724540", "type_name": "Circular Hollow Sections-Column:KR139.7x8"}, {"guid": "1KUQHmJSr1KeeFBYT$fETe", "ifc_class": "IfcColumn", "name": "Circular Hollow Sections-Column:KR139.7x8:724541", "type_name": "Circular Hollow Sections-Column:KR139.7x8"}, {"guid": "1KUQHmJSr1KeeFBYT$fES9", "ifc_class": "IfcColumn", "name": "Circular Hollow Sections-Column:KR139.7x8:724572", "type_name": "Circular Hollow Sections-Column:KR139.7x8"}, {"guid": "1KUQHmJSr1KeeFBYT$fES8", "ifc_class": "IfcColumn", "name": "Circular Hollow Sections-Column:KR139.7x8:724573", "type_name": "Circular Hollow Sections-Column:KR139.7x8"}, {"guid": "3zs23Js0LACRnR2XGGmUsB", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732164", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUof", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732454", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUo_", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732465", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUpF", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732480", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUp6", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732489", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUpP", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732502", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUpG", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732511", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUpd", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732520", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUp_", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732529", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUpr", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732538", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUms", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732601", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUnD", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732610", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUy6", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732809", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUyT", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732818", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUyM", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732825", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUyj", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:732834", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3vXrNl5ZHACQ5ALDH5leE6", "ifc_class": "IfcColumn", "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell:735214", "type_name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell"}, {"guid": "3zs23Js0LACRnR2XGGmUE5", "ifc_class": "IfcFooting", "name": "Wall Foundation:St\u00f8ttemurs\u00e5le:729610", "type_name": "Wall Foundation:St\u00f8ttemurs\u00e5le"}, {"guid": "3zs23Js0LACRnR2XGGmUEM", "ifc_class": "IfcFooting", "name": "Wall Foundation:St\u00f8ttemurs\u00e5le:729625", "type_name": "Wall Foundation:St\u00f8ttemurs\u00e5le"}, {"guid": "3zs23Js0LACRnR2XGGmUEd", "ifc_class": "IfcFooting", "name": "Wall Foundation:St\u00f8ttemurs\u00e5le:729640", "type_name": "Wall Foundation:St\u00f8ttemurs\u00e5le"}, {"guid": "3zs23Js0LACRnR2XGGmUEy", "ifc_class": "IfcFooting", "name": "Wall Foundation:St\u00f8ttemurs\u00e5le:729651", "type_name": "Wall Foundation:St\u00f8ttemurs\u00e5le"}, {"guid": "3zs23Js0LACRnR2XGGmUF7", "ifc_class": "IfcFooting", "name": "Wall Foundation:St\u00f8ttemurs\u00e5le:729672", "type_name": "Wall Foundation:St\u00f8ttemurs\u00e5le"}, {"guid": "3zs23Js0LACRnR2XGGmUNc", "ifc_class": "IfcFooting", "name": "Wall Foundation:Vegg fundament 800x350:730217", "type_name": "Wall Foundation:Vegg fundament 800x350"}, {"guid": "3zs23Js0LACRnR2XGGmULW", "ifc_class": "IfcFooting", "name": "Wall Foundation:Vegg fundament 800x350:730351", "type_name": "Wall Foundation:Vegg fundament 800x350"}, {"guid": "3zs23Js0LACRnR2XGGmUI9", "ifc_class": "IfcFooting", "name": "Wall Foundation:Vegg fundament 800x350:730374", "type_name": "Wall Foundation:Vegg fundament 800x350"}, {"guid": "3zs23Js0LACRnR2XGGmUIK", "ifc_class": "IfcFooting", "name": "Wall Foundation:Vegg fundament 800x350:730395", "type_name": "Wall Foundation:Vegg fundament 800x350"}, {"guid": "3zs23Js0LACRnR2XGGmUIb", "ifc_class": "IfcFooting", "name": "Wall Foundation:Vegg fundament 800x350:730410", "type_name": "Wall Foundation:Vegg fundament 800x350"}, {"guid": "3fwE39TOH0EPNaGsi3hPoS", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718020", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPr5", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718109", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPrd", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718143", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPqv", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718177", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPtO", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718208", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPt4", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718236", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPtW", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718264", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPsC", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718292", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPse", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718320", "type_name": "Floor:Balkongplate"}, {"guid": "3fwE39TOH0EPNaGsi3hPvJ", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718347", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcV1", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718419", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcVZ", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718449", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcST", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718479", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcSv", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718507", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcTL", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718535", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcT_", "ifc_class": "IfcSlab", "name": "Floor:260mm Plattendekke:718572", "type_name": "Floor:260mm Plattendekke"}, {"guid": "2UzRNA7av7kfDI9a10gcQl", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718653", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcRC", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718686", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcRj", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718719", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcOF", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718749", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcOf", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718779", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcP4", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718806", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcPX", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718835", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcc7", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:718869", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcca", "ifc_class": "IfcSlab", "name": "Floor:260mm Plattendekke:718902", "type_name": "Floor:260mm Plattendekke"}, {"guid": "2UzRNA7av7kfDI9a10gca5", "ifc_class": "IfcSlab", "name": "Floor:260mm Plattendekke:718999", "type_name": "Floor:260mm Plattendekke"}, {"guid": "2UzRNA7av7kfDI9a10gcYJ", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719105", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcYo", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719136", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcYi", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719166", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcZ9", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719195", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcZa", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719222", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcW3", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719249", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcW_", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719276", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcXP", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719307", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcXa", "ifc_class": "IfcSlab", "name": "Floor:300mm Bunnplate:719350", "type_name": "Floor:300mm Bunnplate"}, {"guid": "2UzRNA7av7kfDI9a10gcka", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719414", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gcl6", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719444", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gclX", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719475", "type_name": "Floor:Balkongplate"}, {"guid": "2UzRNA7av7kfDI9a10gci3", "ifc_class": "IfcSlab", "name": "Floor:Balkongplate:719505", "type_name": "Floor:Balkongplate"}, {"guid": "3SaYpwxYL2dQZ3iISfWYJo", "ifc_class": "IfcSlab", "name": "Floor:260mm Plattendekke:722571", "type_name": "Floor:260mm Plattendekke"}, {"guid": "3zs23Js0LACRnR2XGGmSxY", "ifc_class": "IfcSlab", "name": "Floor:Bunnplate vanntett:724845", "type_name": "Floor:Bunnplate vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmT7O", "ifc_class": "IfcSlab", "name": "Floor:Bunnplate vanntett:725079", "type_name": "Floor:Bunnplate vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmTE3", "ifc_class": "IfcSlab", "name": "Floor:100mm Gulv p\u00e5 grunn:725516", "type_name": "Floor:100mm Gulv p\u00e5 grunn"}, {"guid": "2LN9DHTVniZqpIh9w4G0qT", "ifc_class": "IfcSlab", "name": "Floor:100mm Gulv p\u00e5 grunn:725516:2", "type_name": "Floor:100mm Gulv p\u00e5 grunn"}, {"guid": "3zs23Js0LACRnR2XGGmUbZ", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8130 Pel:731372", "type_name": "St\u00e5lkjernepeler:\u00f8130 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmUnn", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8150 Pel:732670", "type_name": "St\u00e5lkjernepeler:\u00f8150 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmU_L", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:732698", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmU_t", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8130 Pel:732728", "type_name": "St\u00e5lkjernepeler:\u00f8130 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmUxI", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733021", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmUxs", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:733049", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmUuQ", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8130 Pel:733077", "type_name": "St\u00e5lkjernepeler:\u00f8130 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmUuy", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733107", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmUvU", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733137", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmUv_", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733169", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV62", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733197", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV6Y", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733229", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV74", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733259", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV7c", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:733289", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV4A", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733317", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV4k", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8120 Pel:733345", "type_name": "St\u00e5lkjernepeler:\u00f8120 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV4o", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:733373", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV5M", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8110 Pel:733401", "type_name": "St\u00e5lkjernepeler:\u00f8110 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV5w", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8120 Pel:733429", "type_name": "St\u00e5lkjernepeler:\u00f8120 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV2U", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:733457", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV2Y", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:733485", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV34", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733515", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV3e", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733543", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV0C", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733571", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV0G", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733599", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV0q", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733627", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV1K", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733659", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmV1_", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733681", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVEC", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733699", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVEK", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733723", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVEW", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8130 Pel:733743", "type_name": "St\u00e5lkjernepeler:\u00f8130 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVFX", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733806", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVCf", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733862", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVDB", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733892", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVDl", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733920", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVDp", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733948", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVAN", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:733976", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVAx", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734004", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVBV", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734032", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3zs23Js0LACRnR2XGGmVBX", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734062", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtS$", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734277", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtS5", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:734335", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtVX", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:734363", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtUR", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734433", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtOp", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734537", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtO5", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734591", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtRb", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734623", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtQx", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734657", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtQb", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734687", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtL4", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734782", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtKa", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:734814", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtNa", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:734878", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtN0", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:734906", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtMi", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734934", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtM8", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734962", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtHe", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:734994", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "2_ijrvvc18COGpXeEaXtGP", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f890 Pel:735075", "type_name": "St\u00e5lkjernepeler:\u00f890 Pel"}, {"guid": "3n9RJyvan4pxPQ78KFoSf7", "ifc_class": "IfcSlab", "name": "St\u00e5lkjernepeler:\u00f8100 Pel:748285", "type_name": "St\u00e5lkjernepeler:\u00f8100 Pel"}, {"guid": "2UzRNA7av7kfDI9a10gcjA", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719576", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcjC", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719582", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcjs", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719588", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcju", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719594", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcjY", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719600", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcja", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719606", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcjk", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719612", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgG", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719618", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgQ", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719624", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcg2", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719632", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgA", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719640", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgC", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719646", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgs", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719652", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgu", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719658", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgY", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719664", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcga", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719670", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcgk", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719676", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gchG", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719682", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gchQ", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719688", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gchS", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719694", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gch6", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719700", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gch8", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719706", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "2UzRNA7av7kfDI9a10gcho", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:719712", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNuv", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720138", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNuZ", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720144", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNub", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720150", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNul", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720156", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNuH", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720162", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNuR", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720168", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNuT", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720174", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNu7", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720180", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNu9", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720186", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNvp", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720192", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNvr", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720198", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNv$", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720204", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNvX", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720210", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNvh", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720216", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNvj", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720222", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNvP", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720234", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNv3", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720240", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "0I6r$me1rAvQfc71adhNv5", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720246", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz$m", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720265", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz$s", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720271", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz$i", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720277", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz$a", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720285", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz$Q", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720291", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz_w", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720323", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz_m", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720329", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz_s", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720335", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz_i", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720341", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWz_Y", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720347", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzny", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720389", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWznL", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720428", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWznB", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720434", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzn1", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720440", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzn7", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720446", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmz", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720452", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmp", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720458", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmf", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720464", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzml", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720470", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmb", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720476", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmR", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720482", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmH", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720488", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmN", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720494", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzmD", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720500", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzm3", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720506", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzpv", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720512", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzpg", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720531", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzpY", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720539", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzpS", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720549", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzpI", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720555", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzp8", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720561", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzpE", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720567", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzp4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720573", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzow", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720579", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzom", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720585", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzos", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720591", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzoi", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720597", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzoY", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720603", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzoO", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720609", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzoG", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720617", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzoD", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720628", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzo3", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720634", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzrv", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720640", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzr$", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720646", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzrr", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720652", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzrh", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720658", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzrX", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720664", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzr0", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720697", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzr6", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720703", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzqy", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720709", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzqs", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720719", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzqi", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720725", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzqY", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720731", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzqQ", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720739", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzqG", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720745", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzq2", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720763", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWztu", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720769", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzt_", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720775", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzta", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720797", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWztQ", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720803", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWztG", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720809", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWztM", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720815", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWztC", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720821", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzt2", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720827", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsu", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720833", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzs_", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720839", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsq", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720845", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsg", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720851", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsW", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720857", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsc", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720863", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsS", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720869", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsI", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720875", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzs8", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720881", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzsE", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720887", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWzs4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720893", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9w", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720899", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9m", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720905", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9s", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720911", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9i", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720917", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9Y", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720923", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9O", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720929", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9U", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720935", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9K", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720941", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY9A", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720947", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY90", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720953", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY96", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720959", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY8y", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720965", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY8s", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720975", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY8i", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720981", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY8Y", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:720987", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3SaYpwxYL2dQZ3iISfWY8J", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:721002", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3zs23Js0LACRnR2XGGmSwm", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:724799", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmSxA", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:724805", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmSx4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:724811", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmSxU", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:724817", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmT7U", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:725073", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmT7T", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:725074", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmT7S", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:725075", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmT7R", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong vanntett:725076", "type_name": "Basic Wall:YV - 250 mm betong vanntett"}, {"guid": "3zs23Js0LACRnR2XGGmT2N", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:725272", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3zs23Js0LACRnR2XGGmT0i", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:IV - 200 mm betong:725411", "type_name": "Basic Wall:IV - 200 mm betong"}, {"guid": "3zs23Js0LACRnR2XGGmTyY", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong:728749", "type_name": "Basic Wall:YV - 250 mm betong"}, {"guid": "3zs23Js0LACRnR2XGGmTyy", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong:728755", "type_name": "Basic Wall:YV - 250 mm betong"}, {"guid": "3zs23Js0LACRnR2XGGmTys", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong:728761", "type_name": "Basic Wall:YV - 250 mm betong"}, {"guid": "3zs23Js0LACRnR2XGGmTzD", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong:728770", "type_name": "Basic Wall:YV - 250 mm betong"}, {"guid": "3zs23Js0LACRnR2XGGmTz4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:YV - 250 mm betong:728779", "type_name": "Basic Wall:YV - 250 mm betong"}, {"guid": "3_y_6R$uKMjKchFIk42SjD", "ifc_class": "IfcOpeningElement", "name": "Floor:Balkongplate:666013", "type_name": ""}, {"guid": "02SZ47AG_vBPUm5g3m$xnt", "ifc_class": "IfcOpeningElement", "name": "Floor:Balkongplate:666013", "type_name": ""}, {"guid": "3Mi2cBFPhgr4YaKDWma$cx", "ifc_class": "IfcOpeningElement", "name": "Floor:260mm Plattendekke:573620", "type_name": ""}, {"guid": "210fNraoDtriccwAXRJF0$", "ifc_class": "IfcOpeningElement", "name": "Floor:260mm Plattendekke:573620", "type_name": ""}, {"guid": "18wZCdOkKOm0S$oVXfhgoc", "ifc_class": "IfcOpeningElement", "name": "Floor:260mm Plattendekke:573620", "type_name": ""}, {"guid": "3vlFKidi02Dg0R9E2bVrPN", "ifc_class": "IfcOpeningElement", "name": "Floor:260mm Plattendekke:573620", "type_name": ""}, {"guid": "0sBqsJK1mWkOLyH2SMydgq", "ifc_class": "IfcOpeningElement", "name": "Floor:260mm Plattendekke:573620", "type_name": ""}, {"guid": "0e3MsFMO$wxduh8e1_Tse5", "ifc_class": "IfcOpeningElement", "name": "Floor:300mm Bunnplate:628", "type_name": ""}, {"guid": "0mQvicCNaUAeDCOODvNLr0", "ifc_class": "IfcOpeningElement", "name": "Floor:300mm Bunnplate:628", "type_name": ""}, {"guid": "02NGjItnEzT3yxGS1TYHA4", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:IV - 200 mm betong:720246:1", "type_name": ""}, {"guid": "2ZzYch0Ufpb_LtTrfsbMbh", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:IV - 200 mm betong:720617:1", "type_name": ""}, {"guid": "08tlASi0YUCMN3icXdm5UM", "ifc_class": "IfcOpeningElement", "name": "Floor:260mm Plattendekke:573620", "type_name": ""}, {"guid": "3whlB_HFSiINNKJL_SqD2K", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "37FXZ4mKQyk5thpgljDzWH", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "0T5QF80oA9y8zkZuIkSgWr", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "1mpXsMM62iPBPx0rB1TINK", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "3e1u4hu5TRJB9sunGlKbrr", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "3_0FTwiZmbaBkOIVxYdlMU", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "1nCSsfm3UqKeOfvrWpCywO", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "0Ue_yB1yCPlHt04adjKrGc", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "1$F5$uiLfrNcbwWiFB4Bbg", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "2kcSPz7EIJia9VOM9L3SVQ", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "0xS4c48_Ko_gM7lCALVksE", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "31ijgeraHB3QIZWkh1PIbj", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "34VoqyWgsabVwYDYlia5u7", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "2Y_syoAP59hTSoetjdwgsY", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "0uxwYg4DwrS9LlwDNOGDps", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "0u6Za6lTyH_cR76nKsX_qj", "ifc_class": "IfcGrid", "name": "Default Grid", "type_name": ""}, {"guid": "2_1rd8t8PFNQqtDkyGuFeS", "ifc_class": "IfcBuilding", "name": "(unnamed)", "type_name": ""}, {"guid": "0id6B8H9v7ZP8UH3ddrIx6", "ifc_class": "IfcBuildingStorey", "name": "Havniv\u00e5", "type_name": ""}, {"guid": "0id6B8H9v7ZP8UH3ddrJCL", "ifc_class": "IfcBuildingStorey", "name": "B_Plan 1", "type_name": ""}, {"guid": "0id6B8H9v7ZP8UH3ddrJBu", "ifc_class": "IfcBuildingStorey", "name": "A_Plan 1_B_Plan 2", "type_name": ""}, {"guid": "0id6B8H9v7ZP8UH3ddrJ7X", "ifc_class": "IfcBuildingStorey", "name": "B_Plan 3", "type_name": ""}, {"guid": "0id6B8H9v7ZP8UH3ddrJP4", "ifc_class": "IfcBuildingStorey", "name": "B_ Plan 4", "type_name": ""}, {"guid": "0id6B8H9v7ZP8UH3ddrJUz", "ifc_class": "IfcBuildingStorey", "name": "B_Plan 5", "type_name": ""}, {"guid": "0id6B8H9v7ZP8UH3ddrJSy", "ifc_class": "IfcBuildingStorey", "name": "B_Plan 6", "type_name": ""}, {"guid": "0ebTYZU6v04xqJswDTD8TM", "ifc_class": "IfcBuildingStorey", "name": "Takplan", "type_name": ""}, {"guid": "2_1rd8t8PFNQqtDkyGuFeV", "ifc_class": "IfcSite", "name": "RIB_Kakestykke:RIB_Kakestykke:558827", "type_name": ""}], "types": [{"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 134, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Basic Wall:IV - 200 mm betong", "storeys": {"A_Plan 1_B_Plan 2": 35, "B_ Plan 4": 14, "B_Plan 1": 40, "B_Plan 3": 35, "B_Plan 5": 10}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 38, "materials": ["Metal - Steel - 345 MPa"], "name": "St\u00e5lkjernepeler:\u00f890 Pel", "storeys": {"B_Plan 1": 38}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 35, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:Balkongplate", "storeys": {"A_Plan 1_B_Plan 2": 8, "B_ Plan 4": 6, "B_Plan 1": 4, "B_Plan 3": 15, "B_Plan 5": 2}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 29, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Rektangul\u00e6r:Grunndrager b=800", "storeys": {"B_Plan 1": 29}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 16, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"B_ Plan 4": 16}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 14, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"B_Plan 5": 14}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 14, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"A_Plan 1_B_Plan 2": 14}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 12, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"B_Plan 3": 12}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 12, "materials": ["Metal - Steel - 345 MPa"], "name": "St\u00e5lkjernepeler:\u00f8100 Pel", "storeys": {"B_Plan 1": 12}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 8, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Basic Wall:YV - 250 mm betong vanntett", "storeys": {"B_Plan 1": 8}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 6, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"A_Plan 1_B_Plan 2": 6}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 6, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"B_Plan 1": 6}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 6, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"B_Plan 1": 6}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcFooting", "instance_count": 5, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Wall Foundation:St\u00f8ttemurs\u00e5le", "storeys": {"Havniv\u00e5": 5}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcFooting", "instance_count": 5, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Wall Foundation:Vegg fundament 800x350", "storeys": {"Havniv\u00e5": 5}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 5, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Basic Wall:YV - 250 mm betong", "storeys": {"B_Plan 1": 5}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 4, "materials": ["Betong Plasst\u00f8pt - B30", "Concrete - Precast Concrete - 35 MPa"], "name": "Floor:260mm Plattendekke", "storeys": {"A_Plan 1_B_Plan 2": 1, "B_ Plan 4": 1, "B_Plan 5": 1, "B_Plan 6": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 4, "materials": ["Metal - Steel - 345 MPa"], "name": "St\u00e5lkjernepeler:\u00f8130 Pel", "storeys": {"B_Plan 1": 4}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 2, "materials": ["Metal - Steel - 345 MPa"], "name": "Rectangular and Square Hollow Sections-Column:CFRR150x100x8", "storeys": {"B_Plan 3": 2}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 2, "materials": ["Metal - Steel - 345 MPa"], "name": "Circular Hollow Sections-Column:KR139.7x8", "storeys": {"B_Plan 3": 2}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 2, "materials": ["Metal - Steel - 345 MPa"], "name": "Circular Hollow Sections-Column:KR139.7x8", "storeys": {"B_ Plan 4": 2}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 2, "materials": ["Metal - Steel - 345 MPa"], "name": "Circular Hollow Sections-Column:KR139.7x8", "storeys": {"B_Plan 3": 2}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 2, "materials": ["Betong Plasst\u00f8pt - B35"], "name": "Floor:Bunnplate vanntett", "storeys": {"B_Plan 1": 2}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 2, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:100mm Gulv p\u00e5 grunn", "storeys": {"B_Plan 1": 2}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 2, "materials": ["Metal - Steel - 345 MPa"], "name": "St\u00e5lkjernepeler:\u00f8120 Pel", "storeys": {"B_Plan 1": 2}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Rektangul\u00e6r:Grunndrager b=800", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Rektangul\u00e6r:Grunndrager b=800", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Rektangul\u00e6r:Teglkonsoll 250x250", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Betong Sirkul\u00e6r-S\u00f8yle:\u00f81000 pilar til fjell", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Betong Plasst\u00f8pt - B30"], "name": "Floor:300mm Bunnplate", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Metal - Steel - 345 MPa"], "name": "St\u00e5lkjernepeler:\u00f8150 Pel", "storeys": {"B_Plan 1": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Metal - Steel - 345 MPa"], "name": "St\u00e5lkjernepeler:\u00f8110 Pel", "storeys": {"B_Plan 1": 1}}]}</script>
+<script>
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+  }
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  /* ── Tabbed drill helpers ── */
+
+  function _typesTab(types) {
+    var sorted = types.slice().sort(function (a, b) { return b.instance_count - a.instance_count; });
+    return {
+      label: 'Typer',
+      count: sorted.length,
+      render: function () {
+        if (!sorted.length) return '<div class="modal-empty">Ingen typer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>IFC-klasse</th><th>Typenavn</th><th class="num">Instanser</th></tr></thead><tbody>';
+        sorted.forEach(function (t) {
+          html += '<tr><td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(t.ifc_class) + '</span></td>' +
+            '<td style="font-weight: 500;">' + escapeHtml(t.name) + '</td>' +
+            '<td class="num">' + t.instance_count + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['IFC-klasse', 'Typenavn', 'Instanser'],
+          rows: sorted.map(function (t) { return [t.ifc_class, t.name, t.instance_count]; }),
+        };
+      },
+    };
+  }
+
+  function _materialsTab(types) {
+    var matCounts = {};
+    types.forEach(function (t) {
+      (t.materials || []).forEach(function (m) {
+        if (!matCounts[m]) matCounts[m] = { name: m, types: 0, instances: 0 };
+        matCounts[m].types += 1;
+        matCounts[m].instances += t.instance_count;
+      });
+    });
+    var rows = Object.values(matCounts).sort(function (a, b) { return b.instances - a.instances; });
+    return {
+      label: 'Materialer',
+      count: rows.length,
+      render: function () {
+        if (!rows.length) return '<div class="modal-empty">Ingen materialer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Materialnavn</th><th class="num">Typer</th><th class="num">Instanser</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td><td class="num">' + r.types + '</td><td class="num">' + r.instances + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Materialnavn', 'Typer', 'Instanser'],
+          rows: rows.map(function (r) { return [r.name, r.types, r.instances]; }),
+        };
+      },
+    };
+  }
+
+  function _instancesTab(predicate, totalOverride) {
+    var rows = (DRILL.instances || []).filter(predicate);
+    // totalOverride: when filtering by IFC class we know the true total from instance_counts;
+    // for material/storey filters we can only count what we have.
+    var displayCount = totalOverride != null ? totalOverride : rows.length;
+    return {
+      label: 'Instanser',
+      count: displayCount,
+      render: function () {
+        if (!rows.length) {
+          if (totalOverride && totalOverride > 0) {
+            return '<div class="modal-empty">' + totalOverride + ' instanser i modellen, men ingen i payload (sample-grense)</div>';
+          }
+          return '<div class="modal-empty">Ingen instanser</div>';
+        }
+        var truncated = totalOverride != null && totalOverride > rows.length;
+        var html = '';
+        if (truncated) {
+          html += '<div style="font-size: 11px; color: var(--text-tertiary); padding: 8px 0; font-style: italic;">Viser ' + rows.length + ' av ' + totalOverride + ' instanser (sample-grense per klasse). Last ned for full liste fra modellsync-databasen.</div>';
+        }
+        html += '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Navn</th><th>GUID</th><th>IFC-klasse</th><th>Type</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td>' +
+            '<td style="font-family: monospace; font-size: 10px; color: var(--text-tertiary);">' + escapeHtml(r.guid) + '</td>' +
+            '<td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(r.ifc_class) + '</span></td>' +
+            '<td>' + escapeHtml(r.type_name) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Navn', 'GUID', 'IFC-klasse', 'Type'],
+          rows: rows.map(function (r) { return [r.name, r.guid, r.ifc_class, r.type_name]; }),
+        };
+      },
+    };
+  }
+
+  function drillIfcClass(cls) {
+    // cls is the instance class from the treemap (e.g. IfcMember)
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.instance_class === cls || t.ifc_class === cls;
+    });
+    var totalCount = (DRILL.instance_counts || {})[cls] || 0;
+    openTabbedModal(
+      cls,
+      matchingTypes.length + ' typer · ' + totalCount + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        _instancesTab(function (i) { return i.ifc_class === cls; }, totalCount),
+      ]
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    var typesWithStoreyCount = matchingTypes.map(function (t) {
+      return Object.assign({}, t, { instance_count: t.storeys[storeyName] });
+    });
+    var totalInstances = typesWithStoreyCount.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Etasje: ' + storeyName,
+      typesWithStoreyCount.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(typesWithStoreyCount),
+        _materialsTab(typesWithStoreyCount),
+        // Storey-level instance filtering needs per-instance storey data we don't capture yet
+        { label: 'Instanser', count: 0, render: function () { return '<div class="modal-empty">Per-instans etasjedata ikke tilgjengelig ennå</div>'; }, exportRows: function () { return { headers: [], rows: [] }; } },
+      ]
+    );
+  }
+
+  function drillMaterial(matName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    var typeNames = {};
+    matchingTypes.forEach(function (t) { typeNames[t.name] = true; });
+    var totalInstances = matchingTypes.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Materiale: ' + matName,
+      matchingTypes.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        // Materials don't propagate to per-instance index, so filter by matching type name
+        _instancesTab(function (i) { return typeNames[i.type_name]; }),
+      ]
+    );
+  }
+</script>
+
+  <script>
+    // ── Resizable table columns ──
+    (function () {
+      function initResizable(table) {
+        var storageKey = 'colw:' + location.pathname + ':' + (table.id || 'tbl');
+        var saved = {};
+        try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (e) {}
+
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach(function (th, i) {
+          if (saved[i]) th.style.width = saved[i] + 'px';
+          var grip = document.createElement('div');
+          grip.className = 'col-resizer';
+          th.appendChild(grip);
+          grip.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            grip.classList.add('dragging');
+            var startX = e.clientX;
+            var startW = th.offsetWidth;
+            function onMove(ev) {
+              var w = Math.max(40, startW + (ev.clientX - startX));
+              th.style.width = w + 'px';
+            }
+            function onUp() {
+              document.removeEventListener('mousemove', onMove);
+              document.removeEventListener('mouseup', onUp);
+              grip.classList.remove('dragging');
+              saved[i] = th.offsetWidth;
+              try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (e) {}
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('table.resizable').forEach(initResizable);
+      });
+    })();
+
+    var _modalState = { title: '', subtitle: '', rows: [] };
+    function openDrillModal(title, subtitle, rows) {
+      _modalState = { title: title, subtitle: subtitle || '', rows: rows || [] };
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+
+    /**
+     * Open a modal with custom HTML body and a tabs strip.
+     * tabs = [{label, count, render: () => htmlString, exportRows: () => [headers, rows[]]}]
+     */
+    function openTabbedModal(title, subtitle, tabs) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      var tabBar = document.createElement('div');
+      tabBar.className = 'tabs';
+      tabBar.style.cssText = 'margin-bottom: 12px; margin-top: -4px;';
+      var content = document.createElement('div');
+
+      var activeIdx = 0;
+      function renderTab(idx) {
+        activeIdx = idx;
+        Array.from(tabBar.children).forEach(function (b, i) {
+          b.classList.toggle('active', i === idx);
+        });
+        content.innerHTML = tabs[idx].render();
+      }
+      tabs.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.className = 'tab';
+        btn.type = 'button';
+        btn.innerHTML = t.label + ' <span style="color: var(--text-tertiary); font-weight: 400;">' + t.count + '</span>';
+        btn.onclick = function () { renderTab(i); };
+        tabBar.appendChild(btn);
+      });
+      body.appendChild(tabBar);
+      body.appendChild(content);
+      renderTab(0);
+      document.getElementById('drill-modal').classList.add('open');
+
+      // Wire CSV/XLSX to whatever tab is active
+      window.downloadModalCsv = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadCsv((title.replace(/[^\w-]+/g, '_') + '_' + tabs[activeIdx].label + '_' + stamp + '.csv').toLowerCase(), ex.headers, ex.rows);
+      };
+      window.downloadModalXlsx = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadXlsx((title.replace(/[^\w-]+/g, '_') + '_' + stamp + '.xlsx').toLowerCase(), [{
+          name: tabs[activeIdx].label.slice(0, 28) || 'data',
+          headers: ex.headers,
+          rows: ex.rows,
+        }]);
+      };
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    function _modalSheetName() {
+      return (_modalState.title || 'data').replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 28) || 'data';
+    }
+    function _modalRowsArray() {
+      return (_modalState.rows || []).map(function (r) {
+        return [r.name || '', r.count !== undefined ? r.count : ''];
+      });
+    }
+    function downloadModalCsv() {
+      downloadCsv(_modalSheetName() + '.csv', ['Navn', 'Antall'], _modalRowsArray());
+    }
+    function downloadModalXlsx() {
+      downloadXlsx(_modalSheetName() + '.xlsx', [{
+        name: _modalSheetName(),
+        headers: ['Navn', 'Antall'],
+        rows: _modalRowsArray(),
+      }]);
+    }
+
+    /* ──────────────────────────────────────────
+       Download utilities (CSV + XLSX, no deps)
+       Ported from EdvardGK/ifc-health-check
+       ────────────────────────────────────────── */
+    function _triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function downloadCsv(filename, headers, rows) {
+      function esc(v) {
+        var s = String(v == null ? '' : v);
+        return (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0)
+          ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }
+      var lines = [headers.map(esc).join(',')];
+      rows.forEach(function (r) { lines.push(r.map(esc).join(',')); });
+      _triggerDownload(new Blob(['\uFEFF' + lines.join('\n')], {type: 'text/csv;charset=utf-8'}), filename);
+    }
+    function downloadJson(filename, data) {
+      _triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}), filename);
+    }
+    function downloadXlsx(filename, sheets) {
+      _triggerDownload(_createXlsx(sheets), filename);
+    }
+
+    /* Minimal XLSX builder (store-only ZIP, no deps). sheets = [{name, headers, rows}] */
+    function _createXlsx(sheets) {
+      var ssMap = new Map(), ssList = [];
+      function si(s) {
+        var k = String(s);
+        if (ssMap.has(k)) return ssMap.get(k);
+        var i = ssList.length; ssList.push(k); ssMap.set(k, i); return i;
+      }
+      function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      function col(i) {
+        var s = ''; i++;
+        while (i > 0) { i--; s = String.fromCharCode(65 + (i % 26)) + s; i = Math.floor(i / 26); }
+        return s;
+      }
+      sheets.forEach(function (sh) {
+        sh.headers.forEach(function (h) { si(h); });
+        sh.rows.forEach(function (r) { r.forEach(function (c) { if (typeof c !== 'number') si(c); }); });
+      });
+      var shXmls = sheets.map(function (sh) {
+        var x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>';
+        for (var ci = 0; ci < sh.headers.length; ci++) {
+          var maxLen = sh.headers[ci].length;
+          sh.rows.forEach(function (row) { var v = String(row[ci] == null ? '' : row[ci]); if (v.length > maxLen) maxLen = v.length; });
+          var w = Math.min(Math.max(maxLen + 3, 10), 60);
+          x += '<col min="' + (ci + 1) + '" max="' + (ci + 1) + '" width="' + w + '" bestFit="1" customWidth="1"/>';
+        }
+        x += '</cols><sheetData>';
+        x += '<row r="1">' + sh.headers.map(function (h, ci) { return '<c r="' + col(ci) + '1" t="s" s="1"><v>' + si(h) + '</v></c>'; }).join('') + '</row>';
+        sh.rows.forEach(function (row, ri) {
+          x += '<row r="' + (ri + 2) + '">' + row.map(function (c, ci) {
+            var ref = col(ci) + (ri + 2);
+            return typeof c === 'number'
+              ? '<c r="' + ref + '"><v>' + c + '</v></c>'
+              : '<c r="' + ref + '" t="s"><v>' + si(c) + '</v></c>';
+          }).join('') + '</row>';
+        });
+        return x + '</sheetData></worksheet>';
+      });
+      var ss = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="' + ssList.length + '" uniqueCount="' + ssList.length + '">';
+      ssList.forEach(function (s) { ss += '<si><t>' + esc(s) + '</t></si>'; });
+      ss += '</sst>';
+      var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+        '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+        '<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>';
+      sheets.forEach(function (_, i) { ct += '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; });
+      ct += '</Types>';
+      var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+      var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>';
+      sheets.forEach(function (s, i) { wb += '<sheet name="' + esc(s.name) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; });
+      wb += '</sheets></workbook>';
+      var wbr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+      sheets.forEach(function (_, i) { wbr += '<Relationship Id="rId' + (i + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + (i + 1) + '.xml"/>'; });
+      wbr += '<Relationship Id="rId' + (sheets.length + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
+      wbr += '<Relationship Id="rId' + (sheets.length + 2) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>';
+      wbr += '</Relationships>';
+      var sty = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>' +
+        '<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>' +
+        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+        '<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>';
+      var files = [
+        { name: '[Content_Types].xml', data: ct },
+        { name: '_rels/.rels', data: rels },
+        { name: 'xl/workbook.xml', data: wb },
+        { name: 'xl/_rels/workbook.xml.rels', data: wbr },
+        { name: 'xl/styles.xml', data: sty },
+        { name: 'xl/sharedStrings.xml', data: ss },
+      ];
+      shXmls.forEach(function (xml, i) { files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: xml }); });
+      return new Blob([_zipStore(files).buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    function _crc32(data) {
+      var c = 0xFFFFFFFF;
+      for (var i = 0; i < data.length; i++) {
+        c ^= data[i];
+        for (var j = 0; j < 8; j++) c = (c >>> 1) ^ (c & 1 ? 0xEDB88320 : 0);
+      }
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    function _zipStore(files) {
+      var enc = new TextEncoder();
+      var entries = files.map(function (f) { return { name: enc.encode(f.name), data: enc.encode(f.data) }; });
+      var offset = 0, locals = [];
+      entries.forEach(function (e) {
+        var hdr = new Uint8Array(30 + e.name.length);
+        var dv = new DataView(hdr.buffer);
+        dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true);
+        var cr = _crc32(e.data);
+        dv.setUint32(14, cr, true); dv.setUint32(18, e.data.length, true); dv.setUint32(22, e.data.length, true);
+        dv.setUint16(26, e.name.length, true);
+        hdr.set(e.name, 30);
+        locals.push({ hdr: hdr, data: e.data, offset: offset, name: e.name, crc: cr });
+        offset += hdr.length + e.data.length;
+      });
+      var cdStart = offset, cds = [];
+      locals.forEach(function (l) {
+        var cd = new Uint8Array(46 + l.name.length);
+        var dv = new DataView(cd.buffer);
+        dv.setUint32(0, 0x02014b50, true); dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+        dv.setUint32(16, l.crc, true); dv.setUint32(20, l.data.length, true); dv.setUint32(24, l.data.length, true);
+        dv.setUint16(28, l.name.length, true); dv.setUint32(42, l.offset, true);
+        cd.set(l.name, 46);
+        cds.push(cd);
+        offset += cd.length;
+      });
+      var eocd = new Uint8Array(22);
+      var dv = new DataView(eocd.buffer);
+      dv.setUint32(0, 0x06054b50, true); dv.setUint16(8, entries.length, true); dv.setUint16(10, entries.length, true);
+      dv.setUint32(12, offset - cdStart, true); dv.setUint32(16, cdStart, true);
+      var out = new Uint8Array(offset + 22), p = 0;
+      locals.forEach(function (l) { out.set(l.hdr, p); p += l.hdr.length; out.set(l.data, p); p += l.data.length; });
+      cds.forEach(function (cd) { out.set(cd, p); p += cd.length; });
+      out.set(eocd, p);
+      return out;
+    }
+  </script>
+</body>
+</html>

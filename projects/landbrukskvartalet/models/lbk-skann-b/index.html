@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LBK_SKANN_B.ifc — Modellarbeidsflate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
+
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
+
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
+
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
+
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
+
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
+
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      align-items: start;
+    }
+    .bento-overview > .card { overflow: visible; }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      position: relative; width: 100%; aspect-ratio: 16/10;
+      border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      position: absolute;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.85; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 10px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Browser viz row + view toggle (used by type/materials browsers) */
+    .browser-viz {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg) 0;
+    }
+    .browser-viz .card { padding: 14px 16px; }
+    .browser-viz .card-title { font-size: 10px; }
+    .browser-viz .treemap-grid { aspect-ratio: 16/8; }
+
+    .top-bar-list { display: flex; flex-direction: column; gap: 4px; }
+    .top-bar-row {
+      display: grid; grid-template-columns: 180px 1fr 50px; gap: 8px;
+      align-items: center; font-size: 11px;
+    }
+    .top-bar-row .top-bar-label {
+      color: var(--text-secondary); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-bar-row .top-bar-track {
+      height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+    }
+    .top-bar-row .top-bar-fill {
+      height: 100%; background: var(--primary); border-radius: 4px;
+    }
+    .top-bar-row .top-bar-count {
+      font-weight: 600; color: var(--text-primary);
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+
+    .view-toggle {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .view-toggle button {
+      padding: 5px 10px; border: none; background: white;
+      cursor: pointer; color: var(--text-tertiary); transition: all 0.15s;
+      font: inherit; font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .view-toggle button:not(:last-child) { border-right: 1px solid var(--border); }
+    .view-toggle button.active { background: var(--primary-light); color: var(--primary); }
+    .view-toggle button:hover:not(.active) { background: #f8f8f8; }
+
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .browse-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 11px;
+    }
+    .browse-card-name {
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      word-break: break-word; line-height: 1.3;
+    }
+    .browse-card-meta {
+      display: flex; gap: 6px; flex-wrap: wrap; font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .browse-card-pills { display: flex; flex-wrap: wrap; gap: 3px; }
+    .browse-card-pills .tl-cell { font-size: 9px; padding: 1px 6px; }
+    .browse-card-models {
+      display: flex; flex-wrap: wrap; gap: 3px; line-height: 1.6;
+    }
+    .browse-card-mat {
+      font-size: 10px; color: var(--text-secondary);
+      word-break: break-word;
+    }
+
+    /* Wrapping/sizable columns: cells wrap between min and max width */
+    table.wrappable td, table.wrappable th {
+      white-space: normal !important;
+      word-break: break-word;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      vertical-align: top;
+    }
+    table.wrappable td.wrap-tags { line-height: 1.7; }
+
+    /* Resizable table columns (drag handles in header) */
+    table.resizable { table-layout: auto; }
+    table.resizable th { position: relative; }
+    table.resizable th .col-resizer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 6px;
+      cursor: col-resize; user-select: none;
+      background: transparent; transition: background 0.15s;
+    }
+    table.resizable th .col-resizer:hover,
+    table.resizable th .col-resizer.dragging { background: var(--primary); opacity: 0.4; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SF</span>
+      <span class="brand-name">Spruce Forge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Landbrukskvartalet</div>
+
+    <div style="margin-top: 8px;">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/models/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialer
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </div>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+        <div class="content">
+          
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>LBK_SKANN_B.ifc</h1>
+  <span class="badge badge-disc disc-skann">SKANN</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-red">Avvik</span>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
+</div>
+
+
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-12 fade-in">
+
+    
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">88</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">305</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">5</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">3.93</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val yellow">50%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
+    </div>
+
+    
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Landbrukskvartalet</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">SKANN</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">Autodesk Revit 2024 (ENU)</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">Autodesk Revit 2024 (ENU)</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-warn">centimetre</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row">
+            <span class="id-key">CRS satt</span>
+            
+            <span class="q-val q-warn">N/A</span>
+            
+          </div>
+          
+          <div class="id-row" style="font-size: 9px; color: var(--text-tertiary); font-style: italic;">IFC2X3 har ingen IfcProjectedCRS</div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 34.4%; background: #157954;"></div>
+        
+        <div class="geom-seg" style="width: 30.5%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 23.0%; background: #8dd4b8;"></div>
+        
+        <div class="geom-seg" style="width: 6.4%; background: #b3e2ce;"></div>
+        
+        <div class="geom-seg" style="width: 2.7%; background: #cbd5e1;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">167</span>
+          <span class="geom-legend-label">Curve2D</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #5dbf99;"></div>
+          <span class="geom-legend-count">148</span>
+          <span class="geom-legend-label">SweptSolid</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">112</span>
+          <span class="geom-legend-label">Brep</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #b3e2ce;"></div>
+          <span class="geom-legend-count">31</span>
+          <span class="geom-legend-label">Clipping</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #cbd5e1;"></div>
+          <span class="geom-legend-count">13</span>
+          <span class="geom-legend-label">Material</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 51.2346%; height: 53.1148%; background: #157954;"
+             data-drill-class="IfcWall" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcWall<br><span class="tm-count">83</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 51.2346%; top: 0.0%; width: 48.7654%; height: 53.1148%; background: #1e9268;"
+             data-drill-class="IfcWallStandardCase" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcWallStandardCase<br><span class="tm-count">79</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 53.1148%; width: 58.3333%; height: 31.4754%; background: #27ab7d;"
+             data-drill-class="IfcOpeningElement" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcOpeningElement<br><span class="tm-count">56</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 58.3333%; top: 53.1148%; width: 20.8333%; height: 31.4754%; background: #3fc18a;"
+             data-drill-class="IfcBeam" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcBeam<br><span class="tm-count">20</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 79.1667%; top: 53.1148%; width: 20.8333%; height: 31.4754%; background: #5dbf99;"
+             data-drill-class="IfcSlab" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcSlab<br><span class="tm-count">20</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 84.5902%; width: 14.8936%; height: 15.4098%; background: #8dd4b8;"
+             data-drill-class="IfcCovering" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcCovering<br><span class="tm-count">7</span>
+        </div>
+        
+        <div class="tm-cell "
+             style="left: 14.8936%; top: 84.5902%; width: 85.1064%; height: 15.4098%; background: #b3e2ce;color: var(--text-secondary);"
+             >
+          + 9 til<br><span class="tm-count">40</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Schema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatter</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enheter</span>
+        <span class="q-val q-fail">centimetre</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Koordinatsystem skal vær</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer</span>
+        <span class="q-val q-ok">5 etasjer</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Spatial hierarki</span>
+        <span class="q-val q-warn">236/305</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-warn">79%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Orphan types</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Proxy-typer</span>
+        <span class="q-val q-ok">3 proxy</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">GUID-unikhet</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card storey-card">
+      <div class="card-header">
+        <div class="card-title">Elementer per etasje</div>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B - Plan 4')">
+        <span class="storey-name">B - Plan 4</span>
+        <span class="storey-elev">+1.9</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 9%;"></div></div>
+        <span class="storey-count">6</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B - Plan 3')">
+        <span class="storey-name">B - Plan 3</span>
+        <span class="storey-elev">+1.3</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 82%;"></div></div>
+        <span class="storey-count">53</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B - Plan 2')">
+        <span class="storey-name">B - Plan 2</span>
+        <span class="storey-elev">+0.9</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 65%;"></div></div>
+        <span class="storey-count">42</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B - Plan 1')">
+        <span class="storey-name">B - Plan 1</span>
+        <span class="storey-elev">+0.4</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
+        <span class="storey-count">65</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('B - Plan U1')">
+        <span class="storey-name">B - Plan U1</span>
+        <span class="storey-elev">+0.1</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 97%;"></div></div>
+        <span class="storey-count">63</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card type-progress-card">
+      <div class="card-header">
+        <div class="card-title">Topp IFC-klasser</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcWall')">
+          <span class="bar-label" style="width: 110px;">IfcWall</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 27%;"></div></div>
+          <span class="bar-count" style="width: 36px;">83</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcWallStandardCase')">
+          <span class="bar-label" style="width: 110px;">IfcWallStandardCase</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 26%;"></div></div>
+          <span class="bar-count" style="width: 36px;">79</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcOpeningElement')">
+          <span class="bar-label" style="width: 110px;">IfcOpeningElement</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 18%;"></div></div>
+          <span class="bar-count" style="width: 36px;">56</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBeam')">
+          <span class="bar-label" style="width: 110px;">IfcBeam</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 7%;"></div></div>
+          <span class="bar-count" style="width: 36px;">20</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcSlab')">
+          <span class="bar-label" style="width: 110px;">IfcSlab</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 7%;"></div></div>
+          <span class="bar-count" style="width: 36px;">20</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card materials-card">
+      <div class="card-header">
+        <div class="card-title">Materialer</div>
+      </div>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">14</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
+      <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">Mest brukt:</div>
+      <div style="display: flex; flex-direction: column; gap: 3px; font-size: 11px;">
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('&lt;Unnamed&gt;')">
+          <span class="legend-dot" style="background: #157954;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">&lt;Unnamed&gt;</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Betong')">
+          <span class="legend-dot" style="background: #5dbf99;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Betong</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Ceiling Tile 600 x 600')">
+          <span class="legend-dot" style="background: #8dd4b8;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Ceiling Tile 600 x 600</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Concrete, Cast In Situ')">
+          <span class="legend-dot" style="background: #b3e2ce;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Concrete, Cast In Situ</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Concrete, Cast-in-Place gray')">
+          <span class="legend-dot" style="background: #cbd5e1;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Concrete, Cast-in-Place gray</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('Default Floor')">
+          <span class="legend-dot" style="background: #94a3b8;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Default Floor</span>
+        </div>
+        
+      </div>
+      
+    </div>
+
+    
+    <div class="card info-card">
+      <div class="card-header">
+        <div class="card-title">Forfatterinfo</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Verktøy</span>
+        <span class="meta-val">Autodesk Revit 2024 (ENU)</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Organisasjon</span>
+        <span class="meta-val">Autodesk Revit 2024 (ENU)</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Schema</span>
+        <span class="meta-val">IFC2X3</span>
+      </div>
+      <div class="meta-row" style="border-bottom: none;">
+        <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
+        <span class="meta-val">3.93 MB</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">5</div>
+      <div class="card-sub">Krav oppfylt</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">1</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Modeller skal bruke IFC4 eller nyere</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy skal være oppgitt</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">Autodesk Revit 2024 (ENU)</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Lengdeenhet skal være millimeter</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">Funnet: centimetre</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Etasjer skal være definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">5 etasjer</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">69 elementer uten plassering (23%)</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">65 av 305 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen foreldreløse typer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">3 typer eksportert som IfcBuildingElementProxy</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">GUID-er skal være unike</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">Autodesk Revit 2024 (ENU)</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">Autodesk Revit 2024 (ENU)</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">LBK_SKANN_B.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">3.93 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Landbrukskvartalet</span>
+            <span class="tree-type">IfcProject</span>
+          </div>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B - Plan U1 (+0.068)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B - Plan 1 (+0.398)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B - Plan 2 (+0.929)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B - Plan 3 (+1.253)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">B - Plan 4 (+1.899)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row">
+        <span class="meta-key">CRS satt</span>
+        <span class="meta-val">Nei</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button class="btn-outline" id="modal-csv" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalCsv()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            CSV
+          </button>
+          <button class="btn-primary" id="modal-xlsx" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalXlsx()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            XLSX
+          </button>
+          <button class="modal-close" onclick="closeModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  
+<script id="model-data" type="application/json">{"instance_counts": {"IfcBeam": 20, "IfcBuilding": 1, "IfcBuildingElementProxy": 3, "IfcBuildingStorey": 5, "IfcColumn": 5, "IfcCovering": 7, "IfcMember": 6, "IfcOpeningElement": 56, "IfcRoof": 6, "IfcSite": 2, "IfcSlab": 20, "IfcStair": 6, "IfcStairFlight": 6, "IfcWall": 83, "IfcWallStandardCase": 79}, "instances": [{"guid": "08k8XSnqP4Ew2mfPN7eTAN", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:250 x 500mm:740849", "type_name": "Beam-Concrete_Rectangular:250 x 500mm"}, {"guid": "08k8XSnqP4Ew2mfPN7eQnk", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:270 x 520mm:740856", "type_name": "Beam-Concrete_Rectangular:270 x 520mm"}, {"guid": "0xk4JRyE9FwwabpOqF5A1K", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:230 x 180mm:757410", "type_name": "Beam-Concrete_Rectangular:230 x 180mm"}, {"guid": "2gWEx8vBD2vPeXzFDk8S4j", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:230 x 180mm:758134", "type_name": "Beam-Concrete_Rectangular:230 x 180mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbz0t", "ifc_class": "IfcBeam", "name": "Beam-Steel_I:100 x 270 mm:759618", "type_name": "Beam-Steel_I:100 x 270 mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbzgb", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:140 x 290mm:761296", "type_name": "Beam-Concrete_Rectangular:140 x 290mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbzdY", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:140 x 290mm:761495", "type_name": "Beam-Concrete_Rectangular:140 x 290mm"}, {"guid": "33EQg6NabBNADJCQOYnMRK", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:230 x 180mm:766361", "type_name": "Beam-Concrete_Rectangular:230 x 180mm"}, {"guid": "33EQg6NabBNADJCQOYnMLY", "ifc_class": "IfcBeam", "name": "Beam_Type02:400 x 470mm:766363", "type_name": "Beam_Type02:400 x 470mm"}, {"guid": "33EQg6NabBNADJCQOYnMW2", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:230 x 320mm:766369", "type_name": "Beam-Concrete_Rectangular:230 x 320mm"}, {"guid": "33EQg6NabBNADJCQOYnLEX", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:230 x 320mm:766373", "type_name": "Beam-Concrete_Rectangular:230 x 320mm"}, {"guid": "33EQg6NabBNADJCQOYnL9g", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:350 x 520mm:766376", "type_name": "Beam-Concrete_Rectangular:350 x 520mm"}, {"guid": "33EQg6NabBNADJCQOYnLMn", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:350 x 520mm:766381", "type_name": "Beam-Concrete_Rectangular:350 x 520mm"}, {"guid": "3JhILxTL9F8PjVjWzsrLQ6", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:140 x 290mm 2:768550", "type_name": "Beam-Concrete_Rectangular:140 x 290mm 2"}, {"guid": "3JhILxTL9F8PjVjWzsrLTc", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:140 x 290mm 2:768966", "type_name": "Beam-Concrete_Rectangular:140 x 290mm 2"}, {"guid": "3liQk8Pf97zOS5hPaSX_dy", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:110 x 150mm:769811", "type_name": "Beam-Concrete_Rectangular:110 x 150mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_YB", "ifc_class": "IfcBeam", "name": "Beam-Concrete_Rectangular:110 x 150mm:769814", "type_name": "Beam-Concrete_Rectangular:110 x 150mm"}, {"guid": "2PLGPJZNXFbh37JwS8tHpe", "ifc_class": "IfcBeam", "name": "Beam-Steel_I:80 x 210 mm:778074", "type_name": "Beam-Steel_I:80 x 210 mm"}, {"guid": "2PLGPJZNXFbh37JwS8tJ6p", "ifc_class": "IfcBeam", "name": "Beam-Timber_Rectangular:50 x 150mm:782849", "type_name": "Beam-Timber_Rectangular:50 x 150mm"}, {"guid": "2PLGPJZNXFbh37JwS8tJ3C", "ifc_class": "IfcBeam", "name": "Beam-Timber_Rectangular:50 x 150mm:783230", "type_name": "Beam-Timber_Rectangular:50 x 150mm"}, {"guid": "0LUHrJS0rFTQYJ4yNNYRGy", "ifc_class": "IfcBuildingElementProxy", "name": "Generic Models 2:Generic Models 2:753993", "type_name": "Generic Models 2:Generic Models 2"}, {"guid": "0LUHrJS0rFTQYJ4yNNYKrf", "ifc_class": "IfcBuildingElementProxy", "name": "Generic Models 3:Generic Models 2:754042", "type_name": "Generic Models 3:Generic Models 2"}, {"guid": "0LUHrJS0rFTQYJ4yNNYKnt", "ifc_class": "IfcBuildingElementProxy", "name": "Generic Models 4:Generic Models 2:754081", "type_name": "Generic Models 4:Generic Models 2"}, {"guid": "0LanvRb$f3Z9OU8_fHbz_E", "ifc_class": "IfcColumn", "name": "Column-Rectangular_ST:450 x 450mm:760059", "type_name": "Column-Rectangular_ST:450 x 450mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbzro", "ifc_class": "IfcColumn", "name": "Column-Rectangular_ST:370 x 370mm:760327", "type_name": "Column-Rectangular_ST:370 x 370mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbzk4", "ifc_class": "IfcColumn", "name": "M_Square Bars-Column:110 x 110mm:761073", "type_name": "M_Square Bars-Column:110 x 110mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_P$", "ifc_class": "IfcColumn", "name": "M_Square Bars-Column:110 x 110mm:762122", "type_name": "M_Square Bars-Column:110 x 110mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_K3", "ifc_class": "IfcColumn", "name": "M_Square Bars-Column:110 x 110mm:762486", "type_name": "M_Square Bars-Column:110 x 110mm"}, {"guid": "1wShe8LWz8He$NEElsi4L2", "ifc_class": "IfcCovering", "name": "Compound Ceiling:50mm:737218", "type_name": "Compound Ceiling:50mm"}, {"guid": "1wShe8LWz8He$NEElsi3hi", "ifc_class": "IfcCovering", "name": "Compound Ceiling:50mm:737388", "type_name": "Compound Ceiling:50mm"}, {"guid": "0LUHrJS0rFTQYJ4yNNYK0p", "ifc_class": "IfcCovering", "name": "Compound Ceiling:50mm:757036", "type_name": "Compound Ceiling:50mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_BV", "ifc_class": "IfcCovering", "name": "Compound Ceiling:50mm:763306", "type_name": "Compound Ceiling:50mm"}, {"guid": "2VLkqNZG1CiQnkXPgizI8K", "ifc_class": "IfcCovering", "name": "Compound Ceiling:50mm:764601", "type_name": "Compound Ceiling:50mm"}, {"guid": "2VLkqNZG1CiQnkXPgizICJ", "ifc_class": "IfcCovering", "name": "Compound Ceiling:50mm:764862", "type_name": "Compound Ceiling:50mm"}, {"guid": "2VLkqNZG1CiQnkXPgizIM_", "ifc_class": "IfcCovering", "name": "Compound Ceiling:50mm:765203", "type_name": "Compound Ceiling:50mm"}, {"guid": "1N5VW7w$T5WBqE5hJuUH3z", "ifc_class": "IfcMember", "name": "Assembled Stair:Stair:784167 Stringer 1", "type_name": "Stringer:Stringer - 10mm Width"}, {"guid": "1N5VW7w$T5WBqE5hJuUH3y", "ifc_class": "IfcMember", "name": "Assembled Stair:Stair:784167 Stringer 2", "type_name": "Stringer:Stringer - 10mm Width"}, {"guid": "1oIsUD_9f07hhlcfPAQsBm", "ifc_class": "IfcMember", "name": "Assembled Stair:Stair:786564 Stringer 1", "type_name": "Stringer:Stringer - 40mm Width"}, {"guid": "1oIsUD_9f07hhlcfPAQsB$", "ifc_class": "IfcMember", "name": "Assembled Stair:Stair:786564 Stringer 2", "type_name": "Stringer:Stringer - 40mm Width"}, {"guid": "3mB$y6YuLFJwPUfmg7XPz_", "ifc_class": "IfcMember", "name": "Assembled Stair:Stair:803957 Stringer 1", "type_name": "Stringer:Stringer - 40mm Width"}, {"guid": "3mB$y6YuLFJwPUfmg7XPz$", "ifc_class": "IfcMember", "name": "Assembled Stair:Stair:803957 Stringer 2", "type_name": "Stringer:Stringer - 40mm Width"}, {"guid": "3QXutfAlz28e0G_NYYSS9b", "ifc_class": "IfcRoof", "name": "Basic Roof:180mm:729243", "type_name": "Basic Roof:180mm"}, {"guid": "1wShe8LWz8He$NEElsi5KI", "ifc_class": "IfcRoof", "name": "Basic Roof:270mm:733074", "type_name": "Basic Roof:270mm"}, {"guid": "1wShe8LWz8He$NEElsi4BJ", "ifc_class": "IfcRoof", "name": "Basic Roof:270mm:735315", "type_name": "Basic Roof:270mm"}, {"guid": "1wShe8LWz8He$NEElsi492", "ifc_class": "IfcRoof", "name": "Basic Roof:270mm:735426", "type_name": "Basic Roof:270mm"}, {"guid": "2gWEx8vBD2vPeXzFDk8ToH", "ifc_class": "IfcRoof", "name": "Basic Roof:150mm:758277", "type_name": "Basic Roof:150mm"}, {"guid": "3mB$y6YuLFJwPUfmg7XPBJ", "ifc_class": "IfcRoof", "name": "Basic Roof:150mm:804939", "type_name": ""}, {"guid": "2wvWpfySzBRO0VOA8H3YgB", "ifc_class": "IfcSlab", "name": "Floor:240mm:746526", "type_name": "Floor:240mm"}, {"guid": "2wvWpfySzBRO0VOA8H3YfT", "ifc_class": "IfcSlab", "name": "Floor:290mm:746546", "type_name": "Floor:290mm"}, {"guid": "1$XGesU0DEpx3XiWMM9Xbm", "ifc_class": "IfcSlab", "name": "Floor:250mm:747168", "type_name": "Floor:250mm"}, {"guid": "1$XGesU0DEpx3XiWMM9XX_", "ifc_class": "IfcSlab", "name": "Floor:150mm:747186", "type_name": "Floor:150mm"}, {"guid": "1_iMKd_L5A59leEHkZeUQ5", "ifc_class": "IfcSlab", "name": "Floor:270mm:747319", "type_name": "Floor:270mm"}, {"guid": "1_iMKd_L5A59leEHkZeUPe", "ifc_class": "IfcSlab", "name": "Floor:150mm:747482", "type_name": "Floor:150mm"}, {"guid": "1_iMKd_L5A59leEHkZeUcO", "ifc_class": "IfcSlab", "name": "Floor:250mm:747562", "type_name": "Floor:250mm"}, {"guid": "1RozwgLDLEiuP$t8fmgMu4", "ifc_class": "IfcSlab", "name": "Floor:130mm:748732", "type_name": "Floor:130mm"}, {"guid": "0LUHrJS0rFTQYJ4yNNYRtL", "ifc_class": "IfcSlab", "name": "Floor:130mm:753969", "type_name": "Floor:130mm"}, {"guid": "0LUHrJS0rFTQYJ4yNNYK5N", "ifc_class": "IfcSlab", "name": "Floor:250mm:756808", "type_name": "Floor:250mm"}, {"guid": "0LUHrJS0rFTQYJ4yNNYK7D", "ifc_class": "IfcSlab", "name": "Floor:130mm:756946", "type_name": "Floor:130mm"}, {"guid": "0LUHrJS0rFTQYJ4yNNYK3J", "ifc_class": "IfcSlab", "name": "Floor:320mm:757196", "type_name": "Floor:320mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbzCq", "ifc_class": "IfcSlab", "name": "Floor:250mm:758951", "type_name": "Floor:250mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbzy1", "ifc_class": "IfcSlab", "name": "Floor:50mm:759924", "type_name": "Floor:50mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_Al", "ifc_class": "IfcSlab", "name": "Floor:150mm:763354", "type_name": "Floor:150mm"}, {"guid": "2VLkqNZG1CiQnkXPgizIAh", "ifc_class": "IfcSlab", "name": "Floor:130mm:764422", "type_name": "Floor:130mm"}, {"guid": "2VLkqNZG1CiQnkXPgizIUm", "ifc_class": "IfcSlab", "name": "Floor:250mm:765725", "type_name": "Floor:250mm"}, {"guid": "2PLGPJZNXFbh37JwS8tHqj", "ifc_class": "IfcSlab", "name": "Floor:80mm:777887", "type_name": "Floor:80mm"}, {"guid": "3mB$y6YuLFJwPUfmg7XPYz", "ifc_class": "IfcSlab", "name": "Floor:150mm:803852", "type_name": "Floor:150mm"}, {"guid": "3mB$y6YuLFJwPUfmY7XPBJ", "ifc_class": "IfcSlab", "name": "Basic Roof:150mm:804939", "type_name": "Basic Roof:150mm"}, {"guid": "3JhILxTL9F8PjVjWzsrL_i", "ifc_class": "IfcStair", "name": "Precast Stair:Stair:767954", "type_name": "Precast Stair:Precast Stair 2"}, {"guid": "2PLGPJZNXFbh37JwS8tIwf", "ifc_class": "IfcStair", "name": "Assembled Stair:Stair:781595", "type_name": "Assembled Stair:Assembled"}, {"guid": "1N5VW7w$T5WBqE5hJuUHx4", "ifc_class": "IfcStair", "name": "Assembled Stair:Stair:784167", "type_name": "Assembled Stair:500mm max riser 500mm going"}, {"guid": "1oIsUD_9f07hhlcfPAQs1Z", "ifc_class": "IfcStair", "name": "Assembled Stair:Stair:786564", "type_name": "Assembled Stair:500mm max riser 500mm going Type02"}, {"guid": "0bwBr5hsHFRvpINNwlfwOF", "ifc_class": "IfcStair", "name": "Assembled Stair:Stair:793892", "type_name": "Assembled Stair:500mm max riser 500mm going Type03"}, {"guid": "3mB$y6YuLFJwPUfmg7XPxj", "ifc_class": "IfcStair", "name": "Assembled Stair:Stair:803957", "type_name": "Assembled Stair:500mm max riser 500mm going Type02"}, {"guid": "3JhILxTL9F8PjVjWzsrL_m", "ifc_class": "IfcStairFlight", "name": "Precast Stair:Stair:767954 Run 1", "type_name": "Monolithic Run:250mm Depth"}, {"guid": "2PLGPJZNXFbh37JwS8tIwj", "ifc_class": "IfcStairFlight", "name": "Assembled Stair:Stair:781595 Run 1", "type_name": "Non-Monolithic Run:Wood Steps with 50mm Tread 10mm Nosing 13mm Riser"}, {"guid": "1N5VW7w$T5WBqE5hJuUHx8", "ifc_class": "IfcStairFlight", "name": "Assembled Stair:Stair:784167 Run 1", "type_name": "Non-Monolithic Run:40mm Tread No Riser"}, {"guid": "1oIsUD_9f07hhlcfPAQs1l", "ifc_class": "IfcStairFlight", "name": "Assembled Stair:Stair:786564 Run 1", "type_name": "Non-Monolithic Run:40mm Tread No Riser"}, {"guid": "0bwBr5hsHFRvpINNwlfwOp", "ifc_class": "IfcStairFlight", "name": "Assembled Stair:Stair:793892 Run 1", "type_name": "Non-Monolithic Run:40mm Tread No Riser - 80mm Nosing"}, {"guid": "3mB$y6YuLFJwPUfmg7XPxX", "ifc_class": "IfcStairFlight", "name": "Assembled Stair:Stair:803957 Run 1", "type_name": "Non-Monolithic Run:40mm Tread No Riser"}, {"guid": "03LjUQJZL6hwgBQz3RZ1_k", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 980mm:720286", "type_name": "Basic Wall:Exterior wall - 980mm"}, {"guid": "03LjUQJZL6hwgBQz3RZ1uE", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 680mm:720287", "type_name": "Basic Wall:Exterior wall - 680mm"}, {"guid": "03LjUQJZL6hwgBQz3RZ1uY", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:720288", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "03LjUQJZL6hwgBQz3RZ1oH", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:720858", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSK3", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 380mm:722372", "type_name": "Basic Wall:Exterior wall - 380mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSK2", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:722373", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSQt", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:722544", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSQs", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 220mm:722545", "type_name": "Basic Wall:Exterior wall - 220mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSQr", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:722546", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSQq", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:722547", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSQo", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:722549", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$SV", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:723976", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$SU", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:723977", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$O0", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 420mm:723980", "type_name": "Basic Wall:Exterior wall - 420mm"}, {"guid": "34RABBiZXBafAOcqeN8$4n", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:723981", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$0p", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:723982", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$BV", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:723983", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$sY", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 250mm:723984", "type_name": "Basic Wall:Exterior wall - 250mm"}, {"guid": "34RABBiZXBafAOcqeN8$ue", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 420mm:723987", "type_name": "Basic Wall:Exterior wall - 420mm"}, {"guid": "34RABBiZXBafAOcqeN8$bq", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 170mm:724117", "type_name": "Basic Wall:Exterior wall - 170mm"}, {"guid": "34RABBiZXBafAOcqeN8$ix", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 400mm:724698", "type_name": "Basic Wall:Exterior wall - 400mm"}, {"guid": "34RABBiZXBafAOcqeN8_Nk", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:725007", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_ML", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:725108", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8_Gf", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:725448", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8_Ex", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 470mm:726618", "type_name": "Basic Wall:Exterior wall - 470mm"}, {"guid": "34RABBiZXBafAOcqeN8_Dq", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:726677", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_Cg", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 470mm:726731", "type_name": "Basic Wall:Exterior wall - 470mm"}, {"guid": "34RABBiZXBafAOcqeN8_BA", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:726827", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_A8", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 470mm:726889", "type_name": "Basic Wall:Exterior wall - 470mm"}, {"guid": "34RABBiZXBafAOcqeN8_AT", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:726908", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_9y", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 470mm:726941", "type_name": "Basic Wall:Exterior wall - 470mm"}, {"guid": "34RABBiZXBafAOcqeN8_8p", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:726994", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_rs", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:727191", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_rv", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:727192", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_ru", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:727193", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8_rx", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 500mm:727194", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "0AimF2XTf63fCdqIJV6j_N", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 1300mm:727573", "type_name": "Basic Wall:Exterior wall - 1300mm"}, {"guid": "0AimF2XTf63fCdqIJV6jbB", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 360mm:728265", "type_name": "Basic Wall:Exterior wall - 360mm"}, {"guid": "1wShe8LWz8He$NEElsi5$u", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 200mm:730488", "type_name": "Basic Wall:Exterior wall - 200mm"}, {"guid": "1wShe8LWz8He$NEElsi4mH", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:734865", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "1wShe8LWz8He$NEElsi44A", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 440mm:736138", "type_name": "Basic Wall:Exterior wall - 440mm"}, {"guid": "1wShe8LWz8He$NEElsi4SD", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:736653", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "1wShe8LWz8He$NEElsi3uC", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 100mm:738444", "type_name": "Basic Wall:Exterior wall - 100mm"}, {"guid": "1wShe8LWz8He$NEElsi3mY", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 340mm:738978", "type_name": "Basic Wall:Exterior wall - 340mm"}, {"guid": "2hEvTRyxz8FPS0BR$yD0l2", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 190mm:741567", "type_name": "Basic Wall:Exterior wall - 190mm"}, {"guid": "2hEvTRyxz8FPS0BR$yD0aX", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 600mm:741980", "type_name": "Basic Wall:Exterior wall - 600mm"}, {"guid": "2w_$w0SuT3jvvBi$osyQzB", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:744442", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "1gQUzp7Dn4ze6rpOwRnRec", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:746520", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "1gQUzp7Dn4ze6rpOwRnRed", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:746521", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "1gQUzp7Dn4ze6rpOwRnRea", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:746522", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "1gQUzp7Dn4ze6rpOwRnReb", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:746523", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrLT", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747144", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrLS", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747145", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrLV", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747146", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrLU", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747147", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrLP", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747148", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrLO", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747149", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrLR", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747150", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2V_Inyx_DEpfYC18hTVrL5", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 300mm:747152", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2BDqPhBR58Df$3d2dTxD1I", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 200mm:749264", "type_name": "Basic Wall:Exterior wall - 200mm"}, {"guid": "2BDqPhBR58Df$3d2dTxD2r", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 200mm:749265", "type_name": "Basic Wall:Exterior wall - 200mm"}, {"guid": "2BDqPhBR58Df$3d2dTxDE$", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 200mm:749266", "type_name": "Basic Wall:Exterior wall - 200mm"}, {"guid": "2BDqPhBR58Df$3d2dTxDJ1", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 200mm:749267", "type_name": "Basic Wall:Exterior wall - 200mm"}, {"guid": "1Cf$nIpAT9Wem8E3yQv2Qd", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 260mm:751469", "type_name": "Basic Wall:Exterior wall - 260mm"}, {"guid": "1Cf$nIpAT9Wem8E3yQv2$5", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 440mm:753167", "type_name": "Basic Wall:Exterior wall - 440mm"}, {"guid": "3_jFtlb8b5Re1nO1cpZoSF", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 250mm:757531", "type_name": "Basic Wall:Exterior wall - 250mm"}, {"guid": "3_jFtlb8b5Re1nO1cpZoUt", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 250mm:757667", "type_name": "Basic Wall:Exterior wall - 250mm"}, {"guid": "12S8EicHDA9BA3J3JXW63D", "ifc_class": "IfcWall", "name": "Walls 1:Walls 1:767132", "type_name": "Walls 1:Walls 1"}, {"guid": "12S8EicHDA9BA3J3JXW67x", "ifc_class": "IfcWall", "name": "Walls 2:Walls 1:767402", "type_name": "Walls 2:Walls 1"}, {"guid": "12S8EicHDA9BA3J3JXW6BL", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 150mm:767620", "type_name": "Basic Wall:Exterior wall - 150mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_ub", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 720mm:769951", "type_name": "Basic Wall:Exterior wall - 720mm"}, {"guid": "3liQk8Pf97zOS5hPaSXvCj", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:770711", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "3liQk8Pf97zOS5hPaSXvMm", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:771082", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "1EJHULmOHBPOhR0utS_8ni", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:771556", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "1EJHULmOHBPOhR0utS_8yV", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:771735", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "1EJHULmOHBPOhR0utS_85b", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:772333", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "1EJHULmOHBPOhR0utS_83M", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 450mm:772446", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "2PLGPJZNXFbh37JwS8tISc", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 980mm:779412", "type_name": "Basic Wall:Exterior wall - 980mm"}, {"guid": "2PLGPJZNXFbh37JwS8tIYQ", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 100mm:781096", "type_name": "Basic Wall:Exterior wall - 100mm"}, {"guid": "2PLGPJZNXFbh37JwS8tJVg", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 90mm:783448", "type_name": "Basic Wall:Exterior wall - 90mm"}, {"guid": "1N5VW7w$T5WBqE5hJuUH9B", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 220mm:785320", "type_name": "Basic Wall:Exterior wall - 220mm"}, {"guid": "3GAinEJYzCcOyv20K_dUsp", "ifc_class": "IfcWall", "name": "Walls 6:Walls 6:795062", "type_name": "Walls 6:Walls 6"}, {"guid": "3mB$y6YuLFJwPUfmg7XPnb", "ifc_class": "IfcWall", "name": "Basic Wall:Exterior wall - 100mm:804605", "type_name": "Basic Wall:Exterior wall - 100mm"}, {"guid": "03LjUQJZL6hwgBQz3RZ1qu", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 720mm:720499", "type_name": "Basic Wall:Exterior wall - 720mm"}, {"guid": "03LjUQJZL6hwgBQz3RZ1pt", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 400mm:720828", "type_name": "Basic Wall:Exterior wall - 400mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSJp", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 410mm:721972", "type_name": "Basic Wall:Exterior wall - 410mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSJo", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 400mm:721973", "type_name": "Basic Wall:Exterior wall - 400mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSHd", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 390mm:722080", "type_name": "Basic Wall:Exterior wall - 390mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSHc", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 300mm:722081", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSQe", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 220mm:722543", "type_name": "Basic Wall:Exterior wall - 220mm"}, {"guid": "2pPhdPWJ18BgIFrM4DqSQp", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 300mm:722548", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$SO", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 300mm:723971", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$SR", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 500mm:723972", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8$SQ", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 500mm:723973", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "34RABBiZXBafAOcqeN8$ST", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 530mm:723974", "type_name": "Basic Wall:Exterior wall - 530mm"}, {"guid": "34RABBiZXBafAOcqeN8$SS", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 300mm:723975", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8$gs", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 300mm:724823", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "34RABBiZXBafAOcqeN8_Jb", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 500mm:725252", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "0AimF2XTf63fCdqIJV6jxH", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 1300mm:727891", "type_name": "Basic Wall:Exterior wall - 1300mm"}, {"guid": "0AimF2XTf63fCdqIJV6jYO", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 500mm:728346", "type_name": "Basic Wall:Exterior wall - 500mm"}, {"guid": "1wShe8LWz8He$NEElsi4yo", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 390mm:734642", "type_name": "Basic Wall:Exterior wall - 390mm"}, {"guid": "1wShe8LWz8He$NEElsi4qx", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 140mm:735163", "type_name": "Basic Wall:Exterior wall - 140mm"}, {"guid": "1wShe8LWz8He$NEElsi45W", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 400mm:736224", "type_name": "Basic Wall:Exterior wall - 400mm"}, {"guid": "1wShe8LWz8He$NEElsi3lq", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 440mm:737652", "type_name": "Basic Wall:Exterior wall - 440mm"}, {"guid": "1wShe8LWz8He$NEElsi3Z9", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 120mm:737865", "type_name": "Basic Wall:Exterior wall - 120mm"}, {"guid": "1wShe8LWz8He$NEElsi3WA", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 100mm:737930", "type_name": "Basic Wall:Exterior wall - 100mm"}, {"guid": "2hEvTRyxz8FPS0BR$yD1GW", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 530mm:741213", "type_name": "Basic Wall:Exterior wall - 530mm"}, {"guid": "2hEvTRyxz8FPS0BR$yD0jf", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 190mm:741396", "type_name": "Basic Wall:Exterior wall - 190mm"}, {"guid": "2w_$w0SuT3jvvBi$osyQnF", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 300mm:744439", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "2w_$w0SuT3jvvBi$osyQ_A", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 120mm:744441", "type_name": "Basic Wall:Exterior wall - 120mm"}, {"guid": "2BDqPhBR58Df$3d2dTxDVg", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 90mm:749487", "type_name": "Basic Wall:Exterior wall - 90mm"}, {"guid": "2BDqPhBR58Df$3d2dTxCcE", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 90mm:750027", "type_name": "Basic Wall:Exterior wall - 90mm"}, {"guid": "2BDqPhBR58Df$3d2dTxCgN", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 90mm:750290", "type_name": "Basic Wall:Exterior wall - 90mm"}, {"guid": "2BDqPhBR58Df$3d2dTxCjq", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 90mm:750385", "type_name": "Basic Wall:Exterior wall - 90mm"}, {"guid": "0LanvRb$f3Z9OU8_fHbzBw", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 220mm:759183", "type_name": "Basic Wall:Exterior wall - 220mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_H4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 250mm:762673", "type_name": "Basic Wall:Exterior wall - 250mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_Ge", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 460mm:762717", "type_name": "Basic Wall:Exterior wall - 460mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_DS", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 250mm:762921", "type_name": "Basic Wall:Exterior wall - 250mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_2u", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 270mm:763853", "type_name": "Basic Wall:Exterior wall - 270mm"}, {"guid": "0LanvRb$f3Z9OU8_fHb_z4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 250mm:763953", "type_name": "Basic Wall:Exterior wall - 250mm"}, {"guid": "2VLkqNZG1CiQnkXPgizI4W", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 120mm:764301", "type_name": "Basic Wall:Exterior wall - 120mm"}, {"guid": "3JhILxTL9F8PjVjWzsrLgB", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 300mm:767990", "type_name": "Basic Wall:Exterior wall - 300mm"}, {"guid": "3JhILxTL9F8PjVjWzsrL2G", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 600mm:769072", "type_name": "Basic Wall:Exterior wall - 600mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_hx", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 360mm:769815", "type_name": "Basic Wall:Exterior wall - 360mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_ho", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 330mm:769816", "type_name": "Basic Wall:Exterior wall - 330mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_hD", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 360mm:769817", "type_name": "Basic Wall:Exterior wall - 360mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_eL", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 310mm:769818", "type_name": "Basic Wall:Exterior wall - 310mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_mu", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 340mm:769822", "type_name": "Basic Wall:Exterior wall - 340mm"}, {"guid": "3liQk8Pf97zOS5hPaSX__s", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 310mm:769823", "type_name": "Basic Wall:Exterior wall - 310mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_yD", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 720mm:769824", "type_name": "Basic Wall:Exterior wall - 720mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_z4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 720mm:769825", "type_name": "Basic Wall:Exterior wall - 720mm"}, {"guid": "3liQk8Pf97zOS5hPaSX_w8", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 720mm:769842", "type_name": "Basic Wall:Exterior wall - 720mm"}, {"guid": "3liQk8Pf97zOS5hPaSXv7$", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 650mm:770117", "type_name": "Basic Wall:Exterior wall - 650mm"}, {"guid": "3liQk8Pf97zOS5hPaSXv2$", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 700mm:770309", "type_name": "Basic Wall:Exterior wall - 700mm"}, {"guid": "3liQk8Pf97zOS5hPaSXv0q", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 140mm:770446", "type_name": "Basic Wall:Exterior wall - 140mm"}, {"guid": "3liQk8Pf97zOS5hPaSXvDL", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 410mm:770799", "type_name": "Basic Wall:Exterior wall - 410mm"}, {"guid": "3liQk8Pf97zOS5hPaSXvNu", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 380mm:771138", "type_name": "Basic Wall:Exterior wall - 380mm"}, {"guid": "1EJHULmOHBPOhR0utS_8_A", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 450mm:771586", "type_name": "Basic Wall:Exterior wall - 450mm"}, {"guid": "1EJHULmOHBPOhR0utS_8wj", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 340mm:771877", "type_name": "Basic Wall:Exterior wall - 340mm"}, {"guid": "1EJHULmOHBPOhR0utS_86z", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 350mm:772149", "type_name": "Basic Wall:Exterior wall - 350mm"}, {"guid": "1EJHULmOHBPOhR0utS_82$", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 330mm:772407", "type_name": "Basic Wall:Exterior wall - 330mm"}, {"guid": "1EJHULmOHBPOhR0utS_881", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 170mm:773001", "type_name": "Basic Wall:Exterior wall - 170mm"}, {"guid": "1EJHULmOHBPOhR0utS_896", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 170mm:773070", "type_name": "Basic Wall:Exterior wall - 170mm"}, {"guid": "32DPAXwHnFLwgBffBbPSKV", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 90mm:773131", "type_name": "Basic Wall:Exterior wall - 90mm"}, {"guid": "32DPAXwHnFLwgBffBbPSF9", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 150mm:773156", "type_name": "Basic Wall:Exterior wall - 150mm"}, {"guid": "32DPAXwHnFLwgBffBbPSnV", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 150mm:773172", "type_name": "Basic Wall:Exterior wall - 150mm"}, {"guid": "0YonKwdmLACPSe0bzF49Lm", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 170mm:776141", "type_name": "Basic Wall:Exterior wall - 170mm"}, {"guid": "2PLGPJZNXFbh37JwS8tHfT", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 220mm:776687", "type_name": "Basic Wall:Exterior wall - 220mm"}, {"guid": "2PLGPJZNXFbh37JwS8tI8E", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 100mm:778684", "type_name": "Basic Wall:Exterior wall - 100mm"}, {"guid": "2PLGPJZNXFbh37JwS8tI0d", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 390mm:779157", "type_name": "Basic Wall:Exterior wall - 390mm"}, {"guid": "2PLGPJZNXFbh37JwS8tI1O", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 390mm:779242", "type_name": "Basic Wall:Exterior wall - 390mm"}, {"guid": "2PLGPJZNXFbh37JwS8tISG", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 980mm:779426", "type_name": "Basic Wall:Exterior wall - 980mm"}, {"guid": "2PLGPJZNXFbh37JwS8tIHG", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 170mm:780258", "type_name": "Basic Wall:Exterior wall - 170mm"}, {"guid": "2PLGPJZNXFbh37JwS8tIl4", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 580mm:780406", "type_name": "Basic Wall:Exterior wall - 580mm"}, {"guid": "2PLGPJZNXFbh37JwS8tId0", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 360mm:780914", "type_name": "Basic Wall:Exterior wall - 360mm"}, {"guid": "1N5VW7w$T5WBqE5hJuUHVZ", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 50mm:785920", "type_name": "Basic Wall:Exterior wall - 50mm"}, {"guid": "1N5VW7w$T5WBqE5hJuUHV5", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 50mm:785958", "type_name": "Basic Wall:Exterior wall - 50mm"}, {"guid": "1oIsUD_9f07hhlcfPAQsCK", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Curtain wall - 50 mm:787443", "type_name": "Basic Wall:Curtain wall - 50 mm"}, {"guid": "3Nf057SWnFGe5xgNwz6smY", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Curtain wall - 50 mm:796494", "type_name": "Basic Wall:Curtain wall - 50 mm"}, {"guid": "3Nf057SWnFGe5xgNwz6sT5", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 390mm:798345", "type_name": "Basic Wall:Exterior wall - 390mm"}, {"guid": "3CFXo_L$D7D8gLys08ta$q", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 880mm:800798", "type_name": "Basic Wall:Exterior wall - 880mm"}, {"guid": "3mB$y6YuLFJwPUfmg7XPse", "ifc_class": "IfcWallStandardCase", "name": "Basic Wall:Exterior wall - 100mm:804656", "type_name": "Basic Wall:Exterior wall - 100mm"}, {"guid": "1kEPuoI8g_2nDTd9TwHNlE", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 410mm:721972", "type_name": ""}, {"guid": "2QRrbONXOCcqFhDv_dEU6I", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:722080", "type_name": ""}, {"guid": "2BXSPi9GuF7FQLUDqYwmT6", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:722080", "type_name": ""}, {"guid": "30BfT12hiP4c4$20cMLcyp", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 220mm:722543", "type_name": ""}, {"guid": "1$1sAND4I6NRGoydu9DwQA", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 220mm:722543", "type_name": ""}, {"guid": "2vqzdHxPVZFHKgtqNOiVO7", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 220mm:722543", "type_name": ""}, {"guid": "0gUeWsMx0aLV7opflA3fEi", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 220mm:722543", "type_name": ""}, {"guid": "0qtLF88v$LaMmajGkGyeFo", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 500mm:723972", "type_name": ""}, {"guid": "1kklkUnah1yQcQRj0c2ipy", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 500mm:723973", "type_name": ""}, {"guid": "3PqiJID6wxKWULA5v6Wiwp", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 500mm:723973", "type_name": ""}, {"guid": "2XZQVe$1s_WTsxoqud0YLX", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 530mm:723974", "type_name": ""}, {"guid": "2lBU2W0Xij63AVi8XALcQ5", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 530mm:723974", "type_name": ""}, {"guid": "3KG4OB9KJuYLH0wmQQyZq0", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 530mm:723974", "type_name": ""}, {"guid": "2pRJYUZKKNgLj6ylWAXLTg", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 530mm:723974", "type_name": ""}, {"guid": "1FWENulZeBG24GKXEUzPCE", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 530mm:723974", "type_name": ""}, {"guid": "3LkeIFqaqa8n4Fb3nyjdEa", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 140mm:735163", "type_name": ""}, {"guid": "1RKyD5J_beJvWjcmPdlpi9", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 300mm:744439", "type_name": ""}, {"guid": "1xPRy9cKGyLYyhoWCWS0l2", "ifc_class": "IfcOpeningElement", "name": "Floor:240mm:746526", "type_name": ""}, {"guid": "3KlxCHD_qkQ30mgQ4lPnHC", "ifc_class": "IfcOpeningElement", "name": "Floor:250mm:747182", "type_name": ""}, {"guid": "3cYfTUfs7zXH8uuvH6XOq8", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750027", "type_name": ""}, {"guid": "19bsLNzOm_t_U9$RxKvf41", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750027", "type_name": ""}, {"guid": "3zrOSv6azSNJvJXownPtft", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750027", "type_name": ""}, {"guid": "1Z6Yd3V2BwSMbCogNtXQP2", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750290", "type_name": ""}, {"guid": "35Ku9GBNXVzra5XLZATGMD", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750290", "type_name": ""}, {"guid": "1BikSpnyuArq0eTX07xxIs", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750290", "type_name": ""}, {"guid": "0deJYCyy_74gNkeowt_0VM", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750385", "type_name": ""}, {"guid": "2G29fdXIBi54SIYjwBqJ0r", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750385", "type_name": ""}, {"guid": "2iuUGZ_bwnON96xsCOJwxY", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:750385", "type_name": ""}, {"guid": "2sZpA9bjQPPhdJ6tmQBoIK", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 220mm:759183", "type_name": ""}, {"guid": "1t7UZa2952HVjlDgAUa9cW", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 360mm:769815", "type_name": ""}, {"guid": "1HLl9N5z$GxBoymt0sqFzV", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 170mm:773001", "type_name": ""}, {"guid": "0bOwfNV9uPEzQAhSyVjEcg", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 220mm:776687", "type_name": ""}, {"guid": "0DaS08kmawsjHuLM0Ib9Te", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:779157", "type_name": ""}, {"guid": "0BZsqLgNn1ujVred8AhV0X", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:779157", "type_name": ""}, {"guid": "0GEWORC5xLzp3tS5NpyDCI", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 360mm:780914", "type_name": ""}, {"guid": "3GZAheCckuVFYRiDHb8K4_", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 50mm:633034", "type_name": ""}, {"guid": "2_NcR9xYllK55rfvwgte$2", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:798345", "type_name": ""}, {"guid": "0qhT7amwuWxeKng4bpdAaH", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:798345", "type_name": ""}, {"guid": "0cUTKqpi06qjKTeenO1wNR", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 400mm:720828", "type_name": ""}, {"guid": "0Hr5hIUtReRBNtsIueVP7R", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 410mm:721972", "type_name": ""}, {"guid": "3b08k1rZ38DcGvDSX91_6c", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 410mm:721972", "type_name": ""}, {"guid": "0J$YgVehsDoRpW04IoK27T", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 410mm:721972", "type_name": ""}, {"guid": "3ZBnX4tw71cvPz838NRVZn", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 410mm:721972", "type_name": ""}, {"guid": "37dsfwULHW9Vj9Mbzf93P1", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 120mm:744441", "type_name": ""}, {"guid": "3E8D9k_WmUwIjohbs1BZVH", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 650mm:770117", "type_name": ""}, {"guid": "1D6dEsdRvcHeN30zvL1Hzf", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 700mm:770309", "type_name": ""}, {"guid": "3VmgizXV6uSN91ozymK0l6", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 170mm:773001", "type_name": ""}, {"guid": "3akwXmGLjFAbU5QpIFDPEo", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 170mm:773070", "type_name": ""}, {"guid": "0GiUaiEj4$P2mQDhr30c3H", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 90mm:773131", "type_name": ""}, {"guid": "0nSSh19B$iBrMNTdYFDzBw", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 150mm:773156", "type_name": ""}, {"guid": "3yzCS7E2vpqgObmOwTnNcy", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 170mm:776141", "type_name": ""}, {"guid": "0k2rEReOiOiyrBPeNu5j3M", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 220mm:776687", "type_name": ""}, {"guid": "3LPSs4TOD4t_loFydjo0de", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:779157", "type_name": ""}, {"guid": "3fIWhhZ6aS_jA6yvvzkcKj", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:779157", "type_name": ""}, {"guid": "2oUvB_klP1zY6kB2br1Tb0", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:779242", "type_name": ""}, {"guid": "1SlZx1_cKV8IrVfzuY0roZ", "ifc_class": "IfcOpeningElement", "name": "Basic Wall:Exterior wall - 390mm:779242", "type_name": ""}, {"guid": "2F3Zm2D_HDIBFZI1dKRJl0", "ifc_class": "IfcBuilding", "name": "(unnamed)", "type_name": ""}, {"guid": "0sYfxf0qzDp8Pl_yK$CCiq", "ifc_class": "IfcBuildingStorey", "name": "B - Plan U1", "type_name": ""}, {"guid": "3Zu5Bv0LOHrPC10026FoQQ", "ifc_class": "IfcBuildingStorey", "name": "B - Plan 1", "type_name": ""}, {"guid": "15Z0v90RiHrPC20026FoKR", "ifc_class": "IfcBuildingStorey", "name": "B - Plan 2", "type_name": ""}, {"guid": "0sYfxf0qzDp8Pl_yK$CCYs", "ifc_class": "IfcBuildingStorey", "name": "B - Plan 3", "type_name": ""}, {"guid": "0sYfxf0qzDp8Pl_yK$CCXr", "ifc_class": "IfcBuildingStorey", "name": "B - Plan 4", "type_name": ""}, {"guid": "2F3Zm2D_HDIBFZI1dKRJl3", "ifc_class": "IfcSite", "name": "Default", "type_name": ""}, {"guid": "3bFOWY3H10d8MtZZPVk0nz", "ifc_class": "IfcSite", "name": "^Koordineringspunkt:^ TRUE NORTH:775320", "type_name": ""}], "types": [{"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 22, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 300mm", "storeys": {"B - Plan 1": 2, "B - Plan 2": 4, "B - Plan 3": 5, "B - Plan U1": 11}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 13, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 500mm", "storeys": {"B - Plan U1": 13}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 12, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 300mm", "storeys": {"B - Plan 1": 12}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 9, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 450mm", "storeys": {"B - Plan 3": 9}}, {"ifc_class": "IfcCoveringType", "instance_class": "IfcCovering", "instance_count": 7, "materials": ["Ceiling Tile 600 x 600"], "name": "Compound Ceiling:50mm", "storeys": {"B - Plan 1": 2, "B - Plan 2": 3, "B - Plan 4": 2}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 6, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 250mm", "storeys": {"B - Plan 1": 3, "B - Plan U1": 3}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 6, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 100mm", "storeys": {"B - Plan 1": 2, "B - Plan 2": 3, "B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 6, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 90mm", "storeys": {"B - Plan 3": 1, "B - Plan U1": 5}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 5, "materials": ["Default Floor"], "name": "Floor:250mm", "storeys": {"B - Plan 1": 2, "B - Plan 2": 1, "B - Plan 3": 1, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 5, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 720mm", "storeys": {"B - Plan 1": 5}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 5, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 390mm", "storeys": {"B - Plan 1": 1, "B - Plan 2": 3, "B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 5, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 220mm", "storeys": {"B - Plan 3": 4, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 5, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 170mm", "storeys": {"B - Plan 2": 1, "B - Plan 3": 3, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 5, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 200mm", "storeys": {"B - Plan 1": 1, "B - Plan 2": 1, "B - Plan 3": 2, "B - Plan U1": 1}}, {"ifc_class": "IfcMemberType", "instance_class": "IfcMember", "instance_count": 4, "materials": [], "name": "Stringer:Stringer - 40mm Width", "storeys": {}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 4, "materials": ["Default Floor"], "name": "Floor:150mm", "storeys": {"B - Plan 1": 2, "B - Plan 2": 1, "B - Plan 3": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 4, "materials": ["Default Floor"], "name": "Floor:130mm", "storeys": {"B - Plan 1": 3, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 4, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 400mm", "storeys": {"B - Plan 1": 1, "B - Plan 2": 2, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 4, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 470mm", "storeys": {"B - Plan U1": 4}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 4, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 360mm", "storeys": {"B - Plan 2": 3, "B - Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcRoof", "instance_count": 3, "materials": ["Default Roof"], "name": "Basic Roof:270mm", "storeys": {"B - Plan 4": 3}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 3, "materials": [], "name": "Beam-Concrete_Rectangular:230 x 180mm", "storeys": {"B - Plan 3": 3}}, {"ifc_class": "IfcStairFlightType", "instance_class": "IfcStairFlight", "instance_count": 3, "materials": [], "name": "Non-Monolithic Run:40mm Tread No Riser", "storeys": {}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 3, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 980mm", "storeys": {"B - Plan 1": 3}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 3, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 440mm", "storeys": {"B - Plan 3": 3}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 3, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 120mm", "storeys": {"B - Plan 2": 2, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 3, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 340mm", "storeys": {"B - Plan 2": 2, "B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 3, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 150mm", "storeys": {"B - Plan 2": 1, "B - Plan U1": 2}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcRoof", "instance_count": 2, "materials": ["Default Roof"], "name": "Basic Roof:150mm", "storeys": {"B - Plan 3": 1}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcStair", "instance_count": 2, "materials": [], "name": "Assembled Stair:500mm max riser 500mm going Type02", "storeys": {"B - Plan 1": 1, "B - Plan 3": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 2, "materials": ["Concrete, Cast-in-Place gray"], "name": "Beam-Concrete_Rectangular:140 x 290mm", "storeys": {"B - Plan 1": 2}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 2, "materials": [], "name": "Beam-Concrete_Rectangular:230 x 320mm", "storeys": {"B - Plan 3": 2}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 2, "materials": [], "name": "Beam-Concrete_Rectangular:350 x 520mm", "storeys": {"B - Plan 3": 2}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 2, "materials": [], "name": "Beam-Concrete_Rectangular:140 x 290mm 2", "storeys": {"B - Plan U1": 2}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 2, "materials": ["Concrete, Cast-in-Place gray"], "name": "Beam-Concrete_Rectangular:110 x 150mm", "storeys": {"B - Plan U1": 2}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 2, "materials": ["Softwood, Lumber"], "name": "Beam-Timber_Rectangular:50 x 150mm", "storeys": {"B - Plan 3": 2}}, {"ifc_class": "IfcMemberType", "instance_class": "IfcMember", "instance_count": 2, "materials": [], "name": "Stringer:Stringer - 10mm Width", "storeys": {}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 410mm", "storeys": {"B - Plan 2": 1, "B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 380mm", "storeys": {"B - Plan 2": 1, "B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 530mm", "storeys": {"B - Plan 1": 1, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 420mm", "storeys": {"B - Plan U1": 2}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 1300mm", "storeys": {"B - Plan U1": 2}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 140mm", "storeys": {"B - Plan 2": 1, "B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 190mm", "storeys": {"B - Plan 1": 2}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 600mm", "storeys": {"B - Plan 1": 1, "B - Plan U1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 330mm", "storeys": {"B - Plan 2": 1, "B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 310mm", "storeys": {"B - Plan 2": 2}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 2, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 50mm", "storeys": {"B - Plan 2": 2}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 2, "materials": ["Glass, Clear Glazing"], "name": "Basic Wall:Curtain wall - 50 mm", "storeys": {"B - Plan 1": 1, "B - Plan 2": 1}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcRoof", "instance_count": 1, "materials": ["Default Roof"], "name": "Basic Roof:180mm", "storeys": {"B - Plan 4": 1}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcStair", "instance_count": 1, "materials": [], "name": "Precast Stair:Precast Stair 2", "storeys": {"B - Plan U1": 1}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcStair", "instance_count": 1, "materials": [], "name": "Assembled Stair:Assembled", "storeys": {"B - Plan 3": 1}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcStair", "instance_count": 1, "materials": [], "name": "Assembled Stair:500mm max riser 500mm going", "storeys": {"B - Plan 2": 1}}, {"ifc_class": "IfcTypeProduct", "instance_class": "IfcStair", "instance_count": 1, "materials": [], "name": "Assembled Stair:500mm max riser 500mm going Type03", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Concrete, Cast-in-Place gray"], "name": "Beam-Concrete_Rectangular:250 x 500mm", "storeys": {"B - Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Concrete, Cast-in-Place gray"], "name": "Beam-Concrete_Rectangular:270 x 520mm", "storeys": {"B - Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Steel, 45-345"], "name": "Beam-Steel_I:100 x 270 mm", "storeys": {"B - Plan U1": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Betong"], "name": "Beam_Type02:400 x 470mm", "storeys": {"B - Plan 3": 1}}, {"ifc_class": "IfcBeamType", "instance_class": "IfcBeam", "instance_count": 1, "materials": ["Steel, 45-345"], "name": "Beam-Steel_I:80 x 210 mm", "storeys": {"B - Plan 3": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_class": "IfcBuildingElementProxy", "instance_count": 1, "materials": [], "name": "Generic Models 2:Generic Models 2", "storeys": {"B - Plan U1": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_class": "IfcBuildingElementProxy", "instance_count": 1, "materials": [], "name": "Generic Models 3:Generic Models 2", "storeys": {"B - Plan U1": 1}}, {"ifc_class": "IfcBuildingElementProxyType", "instance_class": "IfcBuildingElementProxy", "instance_count": 1, "materials": [], "name": "Generic Models 4:Generic Models 2", "storeys": {"B - Plan U1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Concrete, Cast-in-Place gray"], "name": "Column-Rectangular_ST:450 x 450mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Concrete, Cast-in-Place gray"], "name": "Column-Rectangular_ST:370 x 370mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Steel ASTM A36"], "name": "M_Square Bars-Column:110 x 110mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Steel ASTM A36"], "name": "M_Square Bars-Column:110 x 110mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcColumnType", "instance_class": "IfcColumn", "instance_count": 1, "materials": ["Steel ASTM A36"], "name": "M_Square Bars-Column:110 x 110mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Default Floor"], "name": "Floor:240mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Default Floor"], "name": "Floor:290mm", "storeys": {"B - Plan 2": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Default Floor"], "name": "Floor:270mm", "storeys": {"B - Plan 2": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Default Floor"], "name": "Floor:320mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Default Floor"], "name": "Floor:50mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcSlabType", "instance_class": "IfcSlab", "instance_count": 1, "materials": ["Default Floor"], "name": "Floor:80mm", "storeys": {"B - Plan 3": 1}}, {"ifc_class": "IfcStairFlightType", "instance_class": "IfcStairFlight", "instance_count": 1, "materials": ["Concrete, Cast In Situ"], "name": "Monolithic Run:250mm Depth", "storeys": {}}, {"ifc_class": "IfcStairFlightType", "instance_class": "IfcStairFlight", "instance_count": 1, "materials": [], "name": "Non-Monolithic Run:Wood Steps with 50mm Tread 10mm Nosing 13mm Riser", "storeys": {}}, {"ifc_class": "IfcStairFlightType", "instance_class": "IfcStairFlight", "instance_count": 1, "materials": [], "name": "Non-Monolithic Run:40mm Tread No Riser - 80mm Nosing", "storeys": {}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 680mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 260mm", "storeys": {"B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 460mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 270mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 1, "materials": ["Default Wall"], "name": "Walls 1:Walls 1", "storeys": {"B - Plan 2": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 1, "materials": ["Default Wall"], "name": "Walls 2:Walls 1", "storeys": {"B - Plan 2": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 650mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 700mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 350mm", "storeys": {"B - Plan 3": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 580mm", "storeys": {"B - Plan 1": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWall", "instance_count": 1, "materials": ["Default Wall"], "name": "Walls 6:Walls 6", "storeys": {"B - Plan 2": 1}}, {"ifc_class": "IfcWallType", "instance_class": "IfcWallStandardCase", "instance_count": 1, "materials": ["Default Wall"], "name": "Basic Wall:Exterior wall - 880mm", "storeys": {"B - Plan 1": 1}}]}</script>
+<script>
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+  }
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  /* ── Tabbed drill helpers ── */
+
+  function _typesTab(types) {
+    var sorted = types.slice().sort(function (a, b) { return b.instance_count - a.instance_count; });
+    return {
+      label: 'Typer',
+      count: sorted.length,
+      render: function () {
+        if (!sorted.length) return '<div class="modal-empty">Ingen typer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>IFC-klasse</th><th>Typenavn</th><th class="num">Instanser</th></tr></thead><tbody>';
+        sorted.forEach(function (t) {
+          html += '<tr><td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(t.ifc_class) + '</span></td>' +
+            '<td style="font-weight: 500;">' + escapeHtml(t.name) + '</td>' +
+            '<td class="num">' + t.instance_count + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['IFC-klasse', 'Typenavn', 'Instanser'],
+          rows: sorted.map(function (t) { return [t.ifc_class, t.name, t.instance_count]; }),
+        };
+      },
+    };
+  }
+
+  function _materialsTab(types) {
+    var matCounts = {};
+    types.forEach(function (t) {
+      (t.materials || []).forEach(function (m) {
+        if (!matCounts[m]) matCounts[m] = { name: m, types: 0, instances: 0 };
+        matCounts[m].types += 1;
+        matCounts[m].instances += t.instance_count;
+      });
+    });
+    var rows = Object.values(matCounts).sort(function (a, b) { return b.instances - a.instances; });
+    return {
+      label: 'Materialer',
+      count: rows.length,
+      render: function () {
+        if (!rows.length) return '<div class="modal-empty">Ingen materialer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Materialnavn</th><th class="num">Typer</th><th class="num">Instanser</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td><td class="num">' + r.types + '</td><td class="num">' + r.instances + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Materialnavn', 'Typer', 'Instanser'],
+          rows: rows.map(function (r) { return [r.name, r.types, r.instances]; }),
+        };
+      },
+    };
+  }
+
+  function _instancesTab(predicate, totalOverride) {
+    var rows = (DRILL.instances || []).filter(predicate);
+    // totalOverride: when filtering by IFC class we know the true total from instance_counts;
+    // for material/storey filters we can only count what we have.
+    var displayCount = totalOverride != null ? totalOverride : rows.length;
+    return {
+      label: 'Instanser',
+      count: displayCount,
+      render: function () {
+        if (!rows.length) {
+          if (totalOverride && totalOverride > 0) {
+            return '<div class="modal-empty">' + totalOverride + ' instanser i modellen, men ingen i payload (sample-grense)</div>';
+          }
+          return '<div class="modal-empty">Ingen instanser</div>';
+        }
+        var truncated = totalOverride != null && totalOverride > rows.length;
+        var html = '';
+        if (truncated) {
+          html += '<div style="font-size: 11px; color: var(--text-tertiary); padding: 8px 0; font-style: italic;">Viser ' + rows.length + ' av ' + totalOverride + ' instanser (sample-grense per klasse). Last ned for full liste fra modellsync-databasen.</div>';
+        }
+        html += '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Navn</th><th>GUID</th><th>IFC-klasse</th><th>Type</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td>' +
+            '<td style="font-family: monospace; font-size: 10px; color: var(--text-tertiary);">' + escapeHtml(r.guid) + '</td>' +
+            '<td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(r.ifc_class) + '</span></td>' +
+            '<td>' + escapeHtml(r.type_name) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Navn', 'GUID', 'IFC-klasse', 'Type'],
+          rows: rows.map(function (r) { return [r.name, r.guid, r.ifc_class, r.type_name]; }),
+        };
+      },
+    };
+  }
+
+  function drillIfcClass(cls) {
+    // cls is the instance class from the treemap (e.g. IfcMember)
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.instance_class === cls || t.ifc_class === cls;
+    });
+    var totalCount = (DRILL.instance_counts || {})[cls] || 0;
+    openTabbedModal(
+      cls,
+      matchingTypes.length + ' typer · ' + totalCount + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        _instancesTab(function (i) { return i.ifc_class === cls; }, totalCount),
+      ]
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    var typesWithStoreyCount = matchingTypes.map(function (t) {
+      return Object.assign({}, t, { instance_count: t.storeys[storeyName] });
+    });
+    var totalInstances = typesWithStoreyCount.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Etasje: ' + storeyName,
+      typesWithStoreyCount.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(typesWithStoreyCount),
+        _materialsTab(typesWithStoreyCount),
+        // Storey-level instance filtering needs per-instance storey data we don't capture yet
+        { label: 'Instanser', count: 0, render: function () { return '<div class="modal-empty">Per-instans etasjedata ikke tilgjengelig ennå</div>'; }, exportRows: function () { return { headers: [], rows: [] }; } },
+      ]
+    );
+  }
+
+  function drillMaterial(matName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    var typeNames = {};
+    matchingTypes.forEach(function (t) { typeNames[t.name] = true; });
+    var totalInstances = matchingTypes.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Materiale: ' + matName,
+      matchingTypes.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        // Materials don't propagate to per-instance index, so filter by matching type name
+        _instancesTab(function (i) { return typeNames[i.type_name]; }),
+      ]
+    );
+  }
+</script>
+
+  <script>
+    // ── Resizable table columns ──
+    (function () {
+      function initResizable(table) {
+        var storageKey = 'colw:' + location.pathname + ':' + (table.id || 'tbl');
+        var saved = {};
+        try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (e) {}
+
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach(function (th, i) {
+          if (saved[i]) th.style.width = saved[i] + 'px';
+          var grip = document.createElement('div');
+          grip.className = 'col-resizer';
+          th.appendChild(grip);
+          grip.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            grip.classList.add('dragging');
+            var startX = e.clientX;
+            var startW = th.offsetWidth;
+            function onMove(ev) {
+              var w = Math.max(40, startW + (ev.clientX - startX));
+              th.style.width = w + 'px';
+            }
+            function onUp() {
+              document.removeEventListener('mousemove', onMove);
+              document.removeEventListener('mouseup', onUp);
+              grip.classList.remove('dragging');
+              saved[i] = th.offsetWidth;
+              try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (e) {}
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('table.resizable').forEach(initResizable);
+      });
+    })();
+
+    var _modalState = { title: '', subtitle: '', rows: [] };
+    function openDrillModal(title, subtitle, rows) {
+      _modalState = { title: title, subtitle: subtitle || '', rows: rows || [] };
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+
+    /**
+     * Open a modal with custom HTML body and a tabs strip.
+     * tabs = [{label, count, render: () => htmlString, exportRows: () => [headers, rows[]]}]
+     */
+    function openTabbedModal(title, subtitle, tabs) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      var tabBar = document.createElement('div');
+      tabBar.className = 'tabs';
+      tabBar.style.cssText = 'margin-bottom: 12px; margin-top: -4px;';
+      var content = document.createElement('div');
+
+      var activeIdx = 0;
+      function renderTab(idx) {
+        activeIdx = idx;
+        Array.from(tabBar.children).forEach(function (b, i) {
+          b.classList.toggle('active', i === idx);
+        });
+        content.innerHTML = tabs[idx].render();
+      }
+      tabs.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.className = 'tab';
+        btn.type = 'button';
+        btn.innerHTML = t.label + ' <span style="color: var(--text-tertiary); font-weight: 400;">' + t.count + '</span>';
+        btn.onclick = function () { renderTab(i); };
+        tabBar.appendChild(btn);
+      });
+      body.appendChild(tabBar);
+      body.appendChild(content);
+      renderTab(0);
+      document.getElementById('drill-modal').classList.add('open');
+
+      // Wire CSV/XLSX to whatever tab is active
+      window.downloadModalCsv = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadCsv((title.replace(/[^\w-]+/g, '_') + '_' + tabs[activeIdx].label + '_' + stamp + '.csv').toLowerCase(), ex.headers, ex.rows);
+      };
+      window.downloadModalXlsx = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadXlsx((title.replace(/[^\w-]+/g, '_') + '_' + stamp + '.xlsx').toLowerCase(), [{
+          name: tabs[activeIdx].label.slice(0, 28) || 'data',
+          headers: ex.headers,
+          rows: ex.rows,
+        }]);
+      };
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    function _modalSheetName() {
+      return (_modalState.title || 'data').replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 28) || 'data';
+    }
+    function _modalRowsArray() {
+      return (_modalState.rows || []).map(function (r) {
+        return [r.name || '', r.count !== undefined ? r.count : ''];
+      });
+    }
+    function downloadModalCsv() {
+      downloadCsv(_modalSheetName() + '.csv', ['Navn', 'Antall'], _modalRowsArray());
+    }
+    function downloadModalXlsx() {
+      downloadXlsx(_modalSheetName() + '.xlsx', [{
+        name: _modalSheetName(),
+        headers: ['Navn', 'Antall'],
+        rows: _modalRowsArray(),
+      }]);
+    }
+
+    /* ──────────────────────────────────────────
+       Download utilities (CSV + XLSX, no deps)
+       Ported from EdvardGK/ifc-health-check
+       ────────────────────────────────────────── */
+    function _triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function downloadCsv(filename, headers, rows) {
+      function esc(v) {
+        var s = String(v == null ? '' : v);
+        return (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0)
+          ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }
+      var lines = [headers.map(esc).join(',')];
+      rows.forEach(function (r) { lines.push(r.map(esc).join(',')); });
+      _triggerDownload(new Blob(['\uFEFF' + lines.join('\n')], {type: 'text/csv;charset=utf-8'}), filename);
+    }
+    function downloadJson(filename, data) {
+      _triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}), filename);
+    }
+    function downloadXlsx(filename, sheets) {
+      _triggerDownload(_createXlsx(sheets), filename);
+    }
+
+    /* Minimal XLSX builder (store-only ZIP, no deps). sheets = [{name, headers, rows}] */
+    function _createXlsx(sheets) {
+      var ssMap = new Map(), ssList = [];
+      function si(s) {
+        var k = String(s);
+        if (ssMap.has(k)) return ssMap.get(k);
+        var i = ssList.length; ssList.push(k); ssMap.set(k, i); return i;
+      }
+      function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      function col(i) {
+        var s = ''; i++;
+        while (i > 0) { i--; s = String.fromCharCode(65 + (i % 26)) + s; i = Math.floor(i / 26); }
+        return s;
+      }
+      sheets.forEach(function (sh) {
+        sh.headers.forEach(function (h) { si(h); });
+        sh.rows.forEach(function (r) { r.forEach(function (c) { if (typeof c !== 'number') si(c); }); });
+      });
+      var shXmls = sheets.map(function (sh) {
+        var x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>';
+        for (var ci = 0; ci < sh.headers.length; ci++) {
+          var maxLen = sh.headers[ci].length;
+          sh.rows.forEach(function (row) { var v = String(row[ci] == null ? '' : row[ci]); if (v.length > maxLen) maxLen = v.length; });
+          var w = Math.min(Math.max(maxLen + 3, 10), 60);
+          x += '<col min="' + (ci + 1) + '" max="' + (ci + 1) + '" width="' + w + '" bestFit="1" customWidth="1"/>';
+        }
+        x += '</cols><sheetData>';
+        x += '<row r="1">' + sh.headers.map(function (h, ci) { return '<c r="' + col(ci) + '1" t="s" s="1"><v>' + si(h) + '</v></c>'; }).join('') + '</row>';
+        sh.rows.forEach(function (row, ri) {
+          x += '<row r="' + (ri + 2) + '">' + row.map(function (c, ci) {
+            var ref = col(ci) + (ri + 2);
+            return typeof c === 'number'
+              ? '<c r="' + ref + '"><v>' + c + '</v></c>'
+              : '<c r="' + ref + '" t="s"><v>' + si(c) + '</v></c>';
+          }).join('') + '</row>';
+        });
+        return x + '</sheetData></worksheet>';
+      });
+      var ss = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="' + ssList.length + '" uniqueCount="' + ssList.length + '">';
+      ssList.forEach(function (s) { ss += '<si><t>' + esc(s) + '</t></si>'; });
+      ss += '</sst>';
+      var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+        '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+        '<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>';
+      sheets.forEach(function (_, i) { ct += '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; });
+      ct += '</Types>';
+      var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+      var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>';
+      sheets.forEach(function (s, i) { wb += '<sheet name="' + esc(s.name) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; });
+      wb += '</sheets></workbook>';
+      var wbr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+      sheets.forEach(function (_, i) { wbr += '<Relationship Id="rId' + (i + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + (i + 1) + '.xml"/>'; });
+      wbr += '<Relationship Id="rId' + (sheets.length + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
+      wbr += '<Relationship Id="rId' + (sheets.length + 2) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>';
+      wbr += '</Relationships>';
+      var sty = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>' +
+        '<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>' +
+        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+        '<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>';
+      var files = [
+        { name: '[Content_Types].xml', data: ct },
+        { name: '_rels/.rels', data: rels },
+        { name: 'xl/workbook.xml', data: wb },
+        { name: 'xl/_rels/workbook.xml.rels', data: wbr },
+        { name: 'xl/styles.xml', data: sty },
+        { name: 'xl/sharedStrings.xml', data: ss },
+      ];
+      shXmls.forEach(function (xml, i) { files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: xml }); });
+      return new Blob([_zipStore(files).buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    function _crc32(data) {
+      var c = 0xFFFFFFFF;
+      for (var i = 0; i < data.length; i++) {
+        c ^= data[i];
+        for (var j = 0; j < 8; j++) c = (c >>> 1) ^ (c & 1 ? 0xEDB88320 : 0);
+      }
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    function _zipStore(files) {
+      var enc = new TextEncoder();
+      var entries = files.map(function (f) { return { name: enc.encode(f.name), data: enc.encode(f.data) }; });
+      var offset = 0, locals = [];
+      entries.forEach(function (e) {
+        var hdr = new Uint8Array(30 + e.name.length);
+        var dv = new DataView(hdr.buffer);
+        dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true);
+        var cr = _crc32(e.data);
+        dv.setUint32(14, cr, true); dv.setUint32(18, e.data.length, true); dv.setUint32(22, e.data.length, true);
+        dv.setUint16(26, e.name.length, true);
+        hdr.set(e.name, 30);
+        locals.push({ hdr: hdr, data: e.data, offset: offset, name: e.name, crc: cr });
+        offset += hdr.length + e.data.length;
+      });
+      var cdStart = offset, cds = [];
+      locals.forEach(function (l) {
+        var cd = new Uint8Array(46 + l.name.length);
+        var dv = new DataView(cd.buffer);
+        dv.setUint32(0, 0x02014b50, true); dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+        dv.setUint32(16, l.crc, true); dv.setUint32(20, l.data.length, true); dv.setUint32(24, l.data.length, true);
+        dv.setUint16(28, l.name.length, true); dv.setUint32(42, l.offset, true);
+        cd.set(l.name, 46);
+        cds.push(cd);
+        offset += cd.length;
+      });
+      var eocd = new Uint8Array(22);
+      var dv = new DataView(eocd.buffer);
+      dv.setUint32(0, 0x06054b50, true); dv.setUint16(8, entries.length, true); dv.setUint16(10, entries.length, true);
+      dv.setUint32(12, offset - cdStart, true); dv.setUint32(16, cdStart, true);
+      var out = new Uint8Array(offset + 22), p = 0;
+      locals.forEach(function (l) { out.set(l.hdr, p); p += l.hdr.length; out.set(l.data, p); p += l.data.length; });
+      cds.forEach(function (cd) { out.set(cd, p); p += cd.length; });
+      out.set(eocd, p);
+      return out;
+    }
+  </script>
+</body>
+</html>

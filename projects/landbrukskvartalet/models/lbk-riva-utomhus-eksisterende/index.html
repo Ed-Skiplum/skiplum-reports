@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LBK_RIVA_Utomhus_eksisterende.ifc — Modellarbeidsflate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
+
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
+
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
+
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
+
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
+
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
+
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      align-items: start;
+    }
+    .bento-overview > .card { overflow: visible; }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      position: relative; width: 100%; aspect-ratio: 16/10;
+      border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      position: absolute;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.85; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 10px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Browser viz row + view toggle (used by type/materials browsers) */
+    .browser-viz {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg) 0;
+    }
+    .browser-viz .card { padding: 14px 16px; }
+    .browser-viz .card-title { font-size: 10px; }
+    .browser-viz .treemap-grid { aspect-ratio: 16/8; }
+
+    .top-bar-list { display: flex; flex-direction: column; gap: 4px; }
+    .top-bar-row {
+      display: grid; grid-template-columns: 180px 1fr 50px; gap: 8px;
+      align-items: center; font-size: 11px;
+    }
+    .top-bar-row .top-bar-label {
+      color: var(--text-secondary); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-bar-row .top-bar-track {
+      height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+    }
+    .top-bar-row .top-bar-fill {
+      height: 100%; background: var(--primary); border-radius: 4px;
+    }
+    .top-bar-row .top-bar-count {
+      font-weight: 600; color: var(--text-primary);
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+
+    .view-toggle {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .view-toggle button {
+      padding: 5px 10px; border: none; background: white;
+      cursor: pointer; color: var(--text-tertiary); transition: all 0.15s;
+      font: inherit; font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .view-toggle button:not(:last-child) { border-right: 1px solid var(--border); }
+    .view-toggle button.active { background: var(--primary-light); color: var(--primary); }
+    .view-toggle button:hover:not(.active) { background: #f8f8f8; }
+
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .browse-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 11px;
+    }
+    .browse-card-name {
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      word-break: break-word; line-height: 1.3;
+    }
+    .browse-card-meta {
+      display: flex; gap: 6px; flex-wrap: wrap; font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .browse-card-pills { display: flex; flex-wrap: wrap; gap: 3px; }
+    .browse-card-pills .tl-cell { font-size: 9px; padding: 1px 6px; }
+    .browse-card-models {
+      display: flex; flex-wrap: wrap; gap: 3px; line-height: 1.6;
+    }
+    .browse-card-mat {
+      font-size: 10px; color: var(--text-secondary);
+      word-break: break-word;
+    }
+
+    /* Wrapping/sizable columns: cells wrap between min and max width */
+    table.wrappable td, table.wrappable th {
+      white-space: normal !important;
+      word-break: break-word;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      vertical-align: top;
+    }
+    table.wrappable td.wrap-tags { line-height: 1.7; }
+
+    /* Resizable table columns (drag handles in header) */
+    table.resizable { table-layout: auto; }
+    table.resizable th { position: relative; }
+    table.resizable th .col-resizer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 6px;
+      cursor: col-resize; user-select: none;
+      background: transparent; transition: background 0.15s;
+    }
+    table.resizable th .col-resizer:hover,
+    table.resizable th .col-resizer.dragging { background: var(--primary); opacity: 0.4; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SF</span>
+      <span class="brand-name">Spruce Forge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Landbrukskvartalet</div>
+
+    <div style="margin-top: 8px;">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/models/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialer
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </div>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+        <div class="content">
+          
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>LBK_RIVA_Utomhus_eksisterende.ifc</h1>
+  <span class="badge badge-disc disc-riva">RIVA</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-red">Avvik</span>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
+</div>
+
+
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-12 fade-in">
+
+    
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">441</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">1</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">6.88</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val red">40%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
+    </div>
+
+    
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Landbrukskvartalet</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">RIVA</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">Quadri for Windows</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">Trimble Solutions Sandvika AS</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-warn">metre</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row">
+            <span class="id-key">CRS satt</span>
+            
+            <span class="q-val q-warn">N/A</span>
+            
+          </div>
+          
+          <div class="id-row" style="font-size: 9px; color: var(--text-tertiary); font-style: italic;">IFC2X3 har ingen IfcProjectedCRS</div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 39.3%; background: #157954;"></div>
+        
+        <div class="geom-seg" style="width: 30.0%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 10.8%; background: #8dd4b8;"></div>
+        
+        <div class="geom-seg" style="width: 10.5%; background: #b3e2ce;"></div>
+        
+        <div class="geom-seg" style="width: 9.4%; background: #cbd5e1;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">214</span>
+          <span class="geom-legend-label">SurfaceModel</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #5dbf99;"></div>
+          <span class="geom-legend-count">163</span>
+          <span class="geom-legend-label">Brep</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">59</span>
+          <span class="geom-legend-label">GeometricCurveSet</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #b3e2ce;"></div>
+          <span class="geom-legend-count">57</span>
+          <span class="geom-legend-label">Annotation2D</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #cbd5e1;"></div>
+          <span class="geom-legend-count">51</span>
+          <span class="geom-legend-label">Annotation3D</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 50.1134%; background: #157954;"
+             data-drill-class="IfcBuildingElementProxy" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcBuildingElementProxy<br><span class="tm-count">221</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 50.1134%; width: 100.0%; height: 36.7347%; background: #1e9268;"
+             data-drill-class="IfcFlowTerminal" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcFlowTerminal<br><span class="tm-count">162</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 86.8481%; width: 50.9091%; height: 12.4717%; background: #27ab7d;"
+             data-drill-class="IfcFlowSegment" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcFlowSegment<br><span class="tm-count">28</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 50.9091%; top: 86.8481%; width: 49.0909%; height: 12.4717%; background: #3fc18a;"
+             data-drill-class="IfcDistributionFlowElement" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcDistributionFlowElement<br><span class="tm-count">27</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 99.3197%; width: 33.3333%; height: 0.6803%; background: #5dbf99;"
+             data-drill-class="IfcBuilding" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcBuilding<br><span class="tm-count">1</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 33.3333%; top: 99.3197%; width: 33.3333%; height: 0.6803%; background: #8dd4b8;"
+             data-drill-class="IfcBuildingStorey" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcBuildingStorey<br><span class="tm-count">1</span>
+        </div>
+        
+        <div class="tm-cell "
+             style="left: 66.6667%; top: 99.3197%; width: 33.3333%; height: 0.6803%; background: #b3e2ce;color: var(--text-secondary);"
+             >
+          + 1 til<br><span class="tm-count">1</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Schema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatter</span>
+        <span class="q-val q-warn">Quadri for Windows</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enheter</span>
+        <span class="q-val q-fail">m</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Koordinatsystem skal vær</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer</span>
+        <span class="q-val q-ok">1 etasje</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Spatial hierarki</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-fail">0%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Orphan types</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Proxy-typer</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">GUID-unikhet</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card storey-card">
+      <div class="card-header">
+        <div class="card-title">Elementer per etasje</div>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('(unnamed storey)')">
+        <span class="storey-name">(unnamed store</span>
+        <span class="storey-elev">—</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
+        <span class="storey-count">438</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card type-progress-card">
+      <div class="card-header">
+        <div class="card-title">Topp IFC-klasser</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuildingElementProxy')">
+          <span class="bar-label" style="width: 110px;">IfcBuildingElementProxy</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 50%;"></div></div>
+          <span class="bar-count" style="width: 36px;">221</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcFlowTerminal')">
+          <span class="bar-label" style="width: 110px;">IfcFlowTerminal</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 37%;"></div></div>
+          <span class="bar-count" style="width: 36px;">162</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcFlowSegment')">
+          <span class="bar-label" style="width: 110px;">IfcFlowSegment</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 6%;"></div></div>
+          <span class="bar-count" style="width: 36px;">28</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcDistributionFlowElement')">
+          <span class="bar-label" style="width: 110px;">IfcDistributionFlowElement</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 6%;"></div></div>
+          <span class="bar-count" style="width: 36px;">27</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuilding')">
+          <span class="bar-label" style="width: 110px;">IfcBuilding</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 0%;"></div></div>
+          <span class="bar-count" style="width: 36px;">1</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card materials-card">
+      <div class="card-header">
+        <div class="card-title">Materialer</div>
+      </div>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card info-card">
+      <div class="card-header">
+        <div class="card-title">Forfatterinfo</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Verktøy</span>
+        <span class="meta-val">Quadri for Windows</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Organisasjon</span>
+        <span class="meta-val">Trimble Solutions Sandvika AS</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Schema</span>
+        <span class="meta-val">IFC2X3</span>
+      </div>
+      <div class="meta-row" style="border-bottom: none;">
+        <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
+        <span class="meta-val">6.88 MB</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">4</div>
+      <div class="card-sub">Krav oppfylt</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">2</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">2</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Modeller skal bruke IFC4 eller nyere</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy skal være oppgitt</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">Quadri for Windows</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Lengdeenhet skal være millimeter</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">Funnet: m</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Etasjer skal være definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">1 etasje</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">441 av 441 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">GUID-er skal være unike</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">Quadri for Windows</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">Trimble Solutions Sandvika AS</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">LBK_RIVA_Utomhus_eksisterende.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">6.88 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Landbrukskvartalet</span>
+            <span class="tree-type">IfcProject</span>
+          </div>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">(unnamed) (+0.000)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row">
+        <span class="meta-key">CRS satt</span>
+        <span class="meta-val">Nei</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button class="btn-outline" id="modal-csv" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalCsv()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            CSV
+          </button>
+          <button class="btn-primary" id="modal-xlsx" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalXlsx()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            XLSX
+          </button>
+          <button class="modal-close" onclick="closeModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  
+<script id="model-data" type="application/json">{"instance_counts": {"IfcBuilding": 1, "IfcBuildingElementProxy": 221, "IfcBuildingStorey": 1, "IfcDistributionFlowElement": 27, "IfcFlowSegment": 28, "IfcFlowTerminal": 162, "IfcSite": 1}, "instances": [{"guid": "28X3MKReT7bB9okay1KdjI", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0mNEtGVW13PPityEpCNBwe", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1qeDiTtI91ixgVCduLKL6h", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2az6oP0gTDPQ9eFzFdkzUK", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0udtCQtDvB8gLgPdKpmQFH", "ifc_class": "IfcBuildingElementProxy", "name": "Eksist VA, Bend", "type_name": ""}, {"guid": "0YSQC2JG91pAPGV7OwQ6i4", "ifc_class": "IfcBuildingElementProxy", "name": "Eksist VA, Bend", "type_name": ""}, {"guid": "353a71YYD2FgVEuQS3IgNU", "ifc_class": "IfcBuildingElementProxy", "name": "Eksist VA, Trasepunkt", "type_name": ""}, {"guid": "1vCO2SQI94y8McIGlR9pfr", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2SOMyWuEz5dh$zn5D19gJe", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0JNsyxg6zB2f$Le2aexegn", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3UCBCahIfCVgKGLlkgy$S9", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1onyBZoQL8qRwY2ZQMeS6r", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0l9QN5H0f5eBryWeFkaeVI", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "17ZKJofWPEexQzVNU3lhmH", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "08TDLHoiv6TwOCOhKi5sTE", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "21xaQpQS52ne95kifUyp5W", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1aLT_a1Iv8lvnqRuvJ6_Mi", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0R1XG3CLfEGPcdeY$D5dH5", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1HrlfrmjP3SuAckoogpvBk", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1YmYFlFdj9geYdUsMo6C54", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3a6LG2ztH6H8l3mAqYQRaC", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "30Xz2gTSPBhOn4aeAzjorC", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "006E5wCVHErebWliTwaH54", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1J4xdFShz7DwKQt7CW9Kv5", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "31Q_Vj7Wn7yQHOU9JXk4Zl", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3_7atnU9f9p9XMQVveb3v8", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3aekxjzz14PuMD2A0ne3Qx", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0MhQsBfL52ox4qZ40xcHJ$", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3RcTL2OB12EB5vpWiPIxK2", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1PqqdmqV95BBOObnv3Qwx0", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0PDBOBdSv9X8YVj9mBy35m", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1YOZuLFcfCTgmbpH$Exko$", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "025cTYaUXD7eDiMg4xzBfc", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "13S7_a_8P9hOxY$WDLTG0B", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1vUYOJfazBtf3WPqdr6vBQ", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0SgzmSSzT36fAK8PVN7oU$", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "35ixC3a81BZxkHC0Fisd2L", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0aduzUjFjAlh4nrEQS$feF", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1ktddq0WTDWu8g8bQe3ayj", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3U8qldWr5578i$nXWLlgIc", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0ZUiYaVCLAlPQYiLIii$bd", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "13VO_CDV1EYhknQARJ5TUU", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0mdHRRf3j28QeDbrnhL6LP", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3NsVTi1vn8qO3Wvh6dyW6C", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2RSQZYyun1JA1rnAVdwdq_", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0UWPxCsGHFdwPsee52KXHw", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0pXwCHhZD1F9z6CC0UoRRj", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0py1qb_uf5HAINYqghPBww", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "17wP4QgTPA_h4KBN85cbXI", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1BNLibs81F3egE0hbyzZwY", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3ZDki7EI1AMugM_$9aRcn1", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "26ugq_dnXEjBp54jBNTI9u", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3fAaE0WTD8xxDgFtAU2V3r", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "12NSoHyPb01uyw0RJxAhwk", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2zRrq68Fj86hSirIMP4JW4", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "157H_aZPX3ZwWCj1$iIVls", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0yd8a0yrjA1f1ZBSllubBa", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3HGjQ_3C13wO1KHP_IsPyE", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1DaW3llSTD1BvlR2tZmD9x", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2U7JeF8ND2Lu1ig1Dg4ljK", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "35PaZTUSz71gCHpnwt2AKT", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "135jQpjJf2uxXWjKTMCy44", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3KtO5XbObAFxGzoZJCPwu5", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2Nln$qQsz3sg0G9PK$fDZj", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2NP6g_Qh58d8yb0ckbbvIX", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1kH7kobHH4o8t1HCJ3DEzf", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "15XvD2_zX1TuoVX9IiSN3B", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "30yd6MKun8yvgbxGA9I3oN", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "38HYlbCc90X8kBDXJQGmRb", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2o6PIJblvD2PmUR4$cYRpB", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1P1AyKV1P5XPNxT56jVEBG", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0Rz0FijrD7JRYEfB_OrI2j", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0g2$rQ$ObBTfDcs4ugZ8Qo", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1NabAwEUnBYRiYPuCtdxrG", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2KoAjZ$G99m8$p6Xb9dFPZ", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2ihrbaH1P0iRvz$GftIcuR", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3fBMJRZ591kxYJjJMaQWlq", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1LLXH3r_D0HwcdaXnwx20x", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "28SQe4GvHAox95mTG9yC5_", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0vTnw46jnCyhRSgq9SFB03", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2x0eSnIaX9QvQReKuosggg", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3XjYrGefv5MwJA67bv98Iw", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1gPR2bMi52tejfZl4V2J33", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0mKH1diiH2SviP1Fx3aQpA", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1oOT8uChj6Vels_hhokaQS", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2$VqKR2GPDfAtwu0_k5kD1", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1TB_TAHyL3DPaQk2CoCHMS", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2olAaC6e51vRLBbQEi0GXQ", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1GkVZvxVjFgfq_7TYFSr$H", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0JEooTHKH0qfdAhsvXUx6N", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "047VYq74vFRuzlr5BNJ7iw", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1SjDp_VHHBn8m2MFv2EjG0", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2hI$99XBfBE9Nf3ss9lR19", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "37l3U17SjFHQ5zl6uwGWpK", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1ge5Zbqi9EDA$6zuD0Bfyz", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "10pvKxZufCh9uqk8BBe6J2", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1oK32RTxf0fhcR2MJdqEuI", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0fOQK$tvX9Xxgp4Wnj6XcU", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0lZ1rky_D8jBvLmB2BlJOm", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3$ILa0OWD19Q1aD0LbjPDt", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2orXe7rGT0duZYo5fzBEh2", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "05eevKjoL9pPt56MginHFS", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1BslUIKIX7Mf64s9lMhDWe", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0dkmmDovP9TAxgBVyC13p$", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1FKtKhIeP9LR8IR3Npiiip", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0f9ekUM_XE7fVxXAbGoTVo", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2muPA98XvCyhZ5DcUM7wGV", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0ZfO5I7v199v2Azl$QRRyZ", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1gaaYtyVP0ShP3sggnycZI", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3Nyc89H4zF3821PT4YGPmB", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3BTJU$81f7nwJErADcCnlh", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0QjQvbpsj4BRkzoG0FRgTw", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2Oc8lGzVDEIhrhqbJsOOVy", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3pkCJbQ$191xKsePL4E3cR", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "07WoT2qMz7qhGCppeH7CSB", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3Pn8lsjLT8dx6KGg$saWme", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0VkGWB0cr5duxR9rCwPXxy", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2ejn$VTvTBhe97m2tEGRJM", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1b_oNeplnA583nJn$QECGG", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0utCzhAzz3nAapqn4vwUTt", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0KJgNxY011YwdpRRk2LUpj", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3d6W6gRS55hBXnCcQOmBc5", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3U0h9BddX4SPcUOvmxvBRq", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1wEqtyUGDF7QQTs9Jjm9QY", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3PzCYbY4T8tQmzLJVQM0qH", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1wpLcBXT5EzwN5pHBwxswq", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2eTihpS0b9JQDG2B2nlDif", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1fPKfa8MzDIQhGrzlbj4n$", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3qUHV7hpL2VwfzRjuZlYPq", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1oW0Geuiz9BxlnqC1a5$GH", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2bkfek1Dj8EAKaAr3pbLPe", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3WZuNydCLFLhAe3oWSKi5M", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1TdN$6GTr95w_qvsDDPaum", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0tW6yhWRvE8B2bvD0hb0im", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0EFkGeLsXChPHTd8$OWosq", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0H3NTaGFTDb8VpEA3oZmT_", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3nZHUkmu15WRiNooP1G0lJ", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3nMKYsDd1CMerW6yhl6QXV", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3ursnD_sv7qvSWHYKKysZR", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0dl5T7z$T47ASBN0oXL0rX", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1$nXC9GurAxfJxlIC1OlxV", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3UdMm9QBHFGhsD$VEdxI6Z", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1YkI7proHBovQ4PQM0FXJL", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0XeSk3pW16Rfnrvgyak9or", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2lj_N0TWr7bQPor7yoTkNW", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0swMKj2i9FLB9Bm6Ny56py", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1XxEdUiHr95R2nEx$RwPRN", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2pwiXiDR9AheDZNjzvjUxR", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3VXmN0VyL6TBEX0fzGQxUJ", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1iZ5JJ2xTDNQZUamtA0n0t", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1L9I8AO5v0M8P95G3_Bhg6", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3pAtF5q_r6aRsGNRDcB6jr", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1KeEzJoJ92wPYr8dJBjYQx", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3Ir_bOijH2$vbivHsNKZfD", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1JYe$VDZL1c9d6$mPRjaMh", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0_XdTVv5545hFu6HbJZoU7", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2MtzimYwf7TRK8YbmISPk4", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3U84iCgzfEzeXeXnNnEfl7", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3$OPXmiZj8KOtDtPESWiBO", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1w_3P1zlHCC8w9UdaxM6FE", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1_K$Yb9U5AxO7kuQmYxVK2", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2bpWVt$fj1_Olo9ZZcM0Az", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3hZrSEZlf1NgvMcAczErEQ", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3RTzuveqPDdh1oEQuK6Gjd", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3vhBuIY9b4nA8wreT$baT2", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2MRRRIDbXBAeKhKuxkn6UF", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0aY1lzn6z8avOwOKtfMt6m", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1Q9R0TDv5E9OL8iwFfIJ3a", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0CqUe5_yjAHe_QyJRNr76o", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2ZyfCRrlr9sOHe1Pyqb4kO", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1BG7nq6ELBIfxZt63vbBFE", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3CaIP5zhn8xuX1aG7rhHQa", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2j0Q1oeh5FJw5OzneoFd10", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2vlReT2Vr26wWJVJ9HRYPm", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "04tUFxq4f6NuWj_eBkHQqP", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3wabwIYi9DVhdZxOHeWzMS", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2d9SiV65XD2gCty1l_F3u1", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2wyTGfGG52EwWxlQxOtHbT", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0fC4mr1drDCev6HDdBrci6", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1TZKLhZ4v7n8iLPFt5Acl0", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1hoS4HWg91qBqtWJDVIgBC", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0qu8KwrsfBBP04UHuh9oDj", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2sF3WOn4X7b9U7rjD76Dxl", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0w6__dwMb8IwjgjqnqLAt0", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3UOcUaQ41CvO7UnqQ8jn3k", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2vVxN5NnbD0ANHGwoMzaXo", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3xUGfiQ8j0SAsAcfZJOMIu", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "10$ODzWsnAzPwFQMwD_Bik", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2H9sg87ZTADu4_6aNYgzuP", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0m_s3qCWv6TundhTh6deWq", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1Gy44paG1848z7BYSxoWGH", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3gJs4aENz9jvItqL2VWAwr", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "32XTidE695mQbdxgWzt$dB", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2LKmsKlUr0Tugtr5PNvBcS", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2kxBAP_FvCIBAt5ILdk$wu", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0jVWvI8ovEXwg2xiZUonyp", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3XFku5Sq56I9NExRs$1sDI", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2F31sEeovD4uE43rRadXly", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1GfASwfgz7zvTfn9o5cGlj", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "30$kA4x3T4ERe78dQaRLwR", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "02BVuSeCX9M9ZV8V9JCdpn", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0v1Oh0nuX5j8msRkrfHQ7K", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2hfZQttVb3_vMX_8gAqawM", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2TTLvDbov8T9vB1a9dJVwy", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3XPZlGlMj4BOvLogrAIKOa", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1tNoFpDEzE4BvMGUqLbLj5", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1qQwaARYz5qfui73IAjxTx", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "32igL3UCv5L8FHixfBupJ_", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "0CGzq_tUb7PR69jkjm3vZ5", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1remHrFzrCzQYkIYMV9kp_", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3k0aolMgzDSAOc7$LV4sFO", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3Q6eKRY8L5mh2av9Pe9vdM", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3ZVCMINA52vAP7zyhhwpFt", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "30Uw$iC$DEffxoRNZ7n$WX", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "19dkusc3T4qBV2rHsIwbo$", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3uCCWgtnHA6BSHlK7H1ROY", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1c24pwZ0116vXWCwt0zAIg", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1FA0izwOr3w8fWZJf4V472", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "3eNd6RAe9DcBhrtRcqHDcO", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1V2sfhMbj0BRPZm4AGEtPz", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "2Z5jw_6fX4ZRQt4AvtlKaq", "ifc_class": "IfcBuildingElementProxy", "name": "L-SITE", "type_name": ""}, {"guid": "1QlzhQa1XCAuKtPEF03hbe", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V28", "type_name": ""}, {"guid": "0KQX0C_8fAlx1amPoqb0yP", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V34", "type_name": ""}, {"guid": "1uPv8gw812Zxw$5bDKeFkS", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V37", "type_name": ""}, {"guid": "23EhfCjE52lxLY80sguKzk", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S36", "type_name": ""}, {"guid": "0xgO0kpy5C8ehRXCuNs4Wy", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V39", "type_name": ""}, {"guid": "0t$haDefb9KgRtzQ5CFa3T", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S26", "type_name": ""}, {"guid": "3iba32Sw19fRV8XbiMmT4C", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S9", "type_name": ""}, {"guid": "1Spg8l4n93$xuWTbj5UaH3", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S5", "type_name": ""}, {"guid": "0KLL2U4lzFDw$t91BplsEP", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V32", "type_name": ""}, {"guid": "3c4ZGFihv6WviGt03dJnen", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S6", "type_name": ""}, {"guid": "3$9CYdG5DAOAE$Xu5lIWgz", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S7", "type_name": ""}, {"guid": "09hpGz6nX9SPY5I0KLt9ax", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S8", "type_name": ""}, {"guid": "2R1X_S83b9Vgh6ieMbZXnQ", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V24", "type_name": ""}, {"guid": "18mBuzguz1ov1GljcIlMGP", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V25", "type_name": ""}, {"guid": "166GpCdePCPvy6sA8dSpAi", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V29", "type_name": ""}, {"guid": "2DaeKu_An5nPXtUF00Yyee", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V23", "type_name": ""}, {"guid": "2AhIWXPAL1IgTBIBZLOd9B", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V20", "type_name": ""}, {"guid": "3tgkTIJG10AfiaQWU4Yw05", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V21", "type_name": ""}, {"guid": "1l_KVgJ2r0URy5DNZIDBAS", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, 122959", "type_name": ""}, {"guid": "3IB_MicZr9je$8pHkJrxeP", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S15", "type_name": ""}, {"guid": "3rkqYPiIDCFwHEAtk014O5", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S16", "type_name": ""}, {"guid": "1dslvYZAvB_B0SRTOpxci_", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S17", "type_name": ""}, {"guid": "3q$YUz45HA5BuJUI06TwWP", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S14", "type_name": ""}, {"guid": "19QG6QtGL2JuqdBeM8mbNd", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S12", "type_name": ""}, {"guid": "3mHbQut0zBRO8wSwLDSkti", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S10", "type_name": ""}, {"guid": "3ODbd4uYv23v5I7vmXxiKu", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, S11", "type_name": ""}, {"guid": "3E8NB9YhvE1RsPhZBfPgHM", "ifc_class": "IfcDistributionFlowElement", "name": "Eksist VA, V33", "type_name": ""}, {"guid": "1ak3loY5v9K8yXXt1NFJLk", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase7, Vannledning", "type_name": ""}, {"guid": "1sUE1vM4b8$uwejZWnUVjI", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase7, Vannledning", "type_name": ""}, {"guid": "3hEqB37cH98PyREmwGXPqE", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase8, Vannledning", "type_name": ""}, {"guid": "2u6h_4Afj85eFnikNzaYVL", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase8, Vannledning", "type_name": ""}, {"guid": "0FmTWgQH5Ev9F$u7fWNgJ6", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase5, Vannledning", "type_name": ""}, {"guid": "3amqzDLVHBSABIVz7J0RY8", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase2, Avl\u00f8p felles", "type_name": ""}, {"guid": "34dmipYXT6Zx8wZw03htpq", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase4, Spillvannsledning", "type_name": ""}, {"guid": "3SX4eFyDD6pg4VAT7cqBqc", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase3, Avl\u00f8p felles", "type_name": ""}, {"guid": "0yopTLclj55eT0FfjskjRu", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase2, Avl\u00f8p felles", "type_name": ""}, {"guid": "3ci_kauDb1pxlKzfPLrLn5", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase2, Avl\u00f8p felles", "type_name": ""}, {"guid": "1PRc7iUWrCNu2qIuclqvOQ", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase2, Avl\u00f8p felles", "type_name": ""}, {"guid": "1tXaexjGHECw7_GlQnKDTO", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase2, Avl\u00f8p felles", "type_name": ""}, {"guid": "16vOYlUjPFahHbhc9gyBAl", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase4, Spillvannsledning", "type_name": ""}, {"guid": "1Ia3_apoj68v1nj19sQTN7", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase4, Spillvannsledning", "type_name": ""}, {"guid": "1yTJP5YXfF7AjWC7DYxaZV", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase4, Spillvannsledning", "type_name": ""}, {"guid": "2XHek8iQ906vbDgTOs2DmD", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase3, Avl\u00f8p felles", "type_name": ""}, {"guid": "0_B_YgKjXBt8BThTU0upTa", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase6, Avl\u00f8p felles", "type_name": ""}, {"guid": "0mxsKFfNHFHOSeelk19Ld$", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase9, Avl\u00f8p felles", "type_name": ""}, {"guid": "0a0F6KpunDhe9LD4Dlfl3m", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase10, Avl\u00f8p felles", "type_name": ""}, {"guid": "244brcPmb2AgchvY9SVmLZ", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase12, Avl\u00f8p felles", "type_name": ""}, {"guid": "2waL6jw6r6Zgn9onlKF1ow", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase12, Avl\u00f8p felles", "type_name": ""}, {"guid": "3qvo055397oOOvl61icVHN", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase11, Avl\u00f8p felles", "type_name": ""}, {"guid": "0M3IP$muvDPveiYtrr3XUO", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase13, Avl\u00f8p felles", "type_name": ""}, {"guid": "0lMIAM3bbBg9ttQ0ZvBRao", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase5, Vannledning", "type_name": ""}, {"guid": "2pr3Hh3r5CqeDC5tKU9GTB", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase5, Vannledning", "type_name": ""}, {"guid": "1WYsCy2752nBAvW0KzC$Pk", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase5, Vannledning", "type_name": ""}, {"guid": "2ePXOOYgLEbRG7hz_geQxj", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase5, Vannledning", "type_name": ""}, {"guid": "0fE1pp5C52uhILKChqcOSJ", "ifc_class": "IfcFlowSegment", "name": "Eksist VA, Trase7, Vannledning", "type_name": ""}, {"guid": "2_wpiJCzn6pO7CBsav7Vuk", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S5, Lokk", "type_name": ""}, {"guid": "3ve7xUtMf6DRjaK1OCpJfM", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S9, Lokk", "type_name": ""}, {"guid": "3HZjISzk15lvTCeNELwZgR", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S26, Lokk", "type_name": ""}, {"guid": "2Ic4WtRvjBA952oHPt$sqQ", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V23, Bunnring", "type_name": ""}, {"guid": "0gGuUyOzz0Y9QvjPGQCohA", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S7, Lokk", "type_name": ""}, {"guid": "3DMvLHioL9_vQvNPDcjovX", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S8, Lokk", "type_name": ""}, {"guid": "1Z0hdMiVn7YAYCfurMPEER", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S6, Lokk", "type_name": ""}, {"guid": "2qv_OZh3DEC9JacThuYGc6", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V24, Lokk", "type_name": ""}, {"guid": "2AGm5rgof62vUGH_ULefaM", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V25, Lokk", "type_name": ""}, {"guid": "01i68ynIP2e93PO75duzQL", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V20, Lokk", "type_name": ""}, {"guid": "2byQsmmU95LP$vkgv8y2E4", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V23, Lokk", "type_name": ""}, {"guid": "3C4sMZ4kn50QvOvTfo$NUc", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V21, Lokk", "type_name": ""}, {"guid": "27TFA4Hh5FwvGDUwIo8K4f", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, 122959, Lokk", "type_name": ""}, {"guid": "1y1hz1i9j4hAnnQ$xUmOuB", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S15, Lokk", "type_name": ""}, {"guid": "3bXHUrg$H3Oud9XOR1wxsu", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S16, Lokk", "type_name": ""}, {"guid": "1UFXVi$jjAS97BF_lybgPk", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S17, Lokk", "type_name": ""}, {"guid": "1cRgTTlBr5RxJJ1ErXJAr9", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S14, Lokk", "type_name": ""}, {"guid": "2YYBSuXbD0kQg3ujvJejYS", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S12, Lokk", "type_name": ""}, {"guid": "33TgCPbAD0ueBbzILVPlTI", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S10, Lokk", "type_name": ""}, {"guid": "2KBXlurW90Z82LCeSu1G1s", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S11, Lokk", "type_name": ""}, {"guid": "3jMPA68X53vBKYJUzq5H$a", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V33, Lokk", "type_name": ""}, {"guid": "1MIDTqRALDJf6La039VvWa", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V32, Lokk", "type_name": ""}, {"guid": "2$L4_cmPb8ahDhtIiOThOy", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V29, Lokk", "type_name": ""}, {"guid": "1hh$$06v5DT9oyBvBBliYO", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V34, Lokk", "type_name": ""}, {"guid": "2OCw5xZmv6CQfCPfaBwBa2", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V28, Lokk", "type_name": ""}, {"guid": "1Mqw0lQTzCzACbOqH_7aaS", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S36, Lokk", "type_name": ""}, {"guid": "3dQT9HBLT43ev0qhea6kv8", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V37, Lokk", "type_name": ""}, {"guid": "1pQ_3RwA9BHOjmVtYjU968", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V39, Lokk", "type_name": ""}, {"guid": "3EEgB4q$P0Ph9bY1p6MJvF", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S26, Justeringsring", "type_name": ""}, {"guid": "1IsbCU4IvFQeVtYQzv$fDA", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S9, Justeringsring", "type_name": ""}, {"guid": "0J4QxQ4557fQxvcwM1lOyf", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S5, Justeringsring", "type_name": ""}, {"guid": "0SX7GnsI988gTBpMrXWO6L", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S6, Justeringsring", "type_name": ""}, {"guid": "0VbeX1Z7LBFh$XZbib2m$y", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S7, Justeringsring", "type_name": ""}, {"guid": "2plPZHUJbADx7_J2etmSFq", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S8, Justeringsring", "type_name": ""}, {"guid": "3coK9BZMr4DgJdFw8tJzBr", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V24, Justeringsring", "type_name": ""}, {"guid": "3RIF$zFIr2JQY7iSZ1SGgX", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V25, Justeringsring", "type_name": ""}, {"guid": "2gbp$iXGjBe8kmW9PHLkjz", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V23, Justeringsring", "type_name": ""}, {"guid": "07SJAEN5X6XwFa1uRLDDSo", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V20, Justeringsring", "type_name": ""}, {"guid": "1BpdVNWnjFxfo9_C_Gu$Kw", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V21, Justeringsring", "type_name": ""}, {"guid": "1O1fOBZcP4qw_yhQbpJWny", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, 122959, Justeringsring", "type_name": ""}, {"guid": "3gpT8EAVvFFw$NZGVq4uxN", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S17, Justeringsring", "type_name": ""}, {"guid": "3fO2yvgNb2ZPUgPRV_QmGJ", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S15, Justeringsring", "type_name": ""}, {"guid": "1Lmvojp4zDtufUyfHiLWVg", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S16, Justeringsring", "type_name": ""}, {"guid": "1k8ZflQl9CDBa6kszQi1Rb", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S12, Justeringsring", "type_name": ""}, {"guid": "15gEyfNTP4jeEtBbNkMmkI", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S14, Justeringsring", "type_name": ""}, {"guid": "1gEmk9v3LASgqKdg2m1nKf", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S11, Justeringsring", "type_name": ""}, {"guid": "1bym8fIm53Hf91FdFzYyTD", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S10, Justeringsring", "type_name": ""}, {"guid": "0xQPNkYHT9LAsleDk2KLg6", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V33, Justeringsring", "type_name": ""}, {"guid": "23oOa0oZf5OxgI80sHVoS8", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V32, Justeringsring", "type_name": ""}, {"guid": "2HoXiuS$D9DRJy4zpALnzL", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V29, Justeringsring", "type_name": ""}, {"guid": "384X7YxNH0YQSC0RIrE9R0", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V34, Justeringsring", "type_name": ""}, {"guid": "2D7mjGcmv9UARPHgFmqkeB", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V28, Justeringsring", "type_name": ""}, {"guid": "1AIHRvGvv45x1QdtqdfZnl", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S36, Justeringsring", "type_name": ""}, {"guid": "1GzdW8_U1EOBoUi0j48dAL", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V37, Justeringsring", "type_name": ""}, {"guid": "1exPNPqoHASAVUL0s4TavX", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S26, Bunnring", "type_name": ""}, {"guid": "2tkuEQa2L7KBhoszvlHu7$", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V39, Justeringsring", "type_name": ""}, {"guid": "3XgyfVjn9C_vPXmjsX3$jy", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S9, Bunnring", "type_name": ""}, {"guid": "0kJ0ak4HX01gQ1MqFZRxwZ", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S6, Bunnring", "type_name": ""}, {"guid": "29Ba58CLTDWf0oEYNn5nkQ", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S5, Bunnring", "type_name": ""}, {"guid": "3iK1_nS3j1YQHCFSFF23Dd", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S7, Bunnring", "type_name": ""}, {"guid": "1uvitN2vfCTg0pvmrG2tRH", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S8, Bunnring", "type_name": ""}, {"guid": "2eI8khUwz68xU8DPhx484D", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V24, Bunnring", "type_name": ""}, {"guid": "3gozk40_90TfYQpITLVk5E", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V25, Bunnring", "type_name": ""}, {"guid": "0CW3OK1xr6NQ1zsdfhNY9Y", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S7, Bunnseksjon", "type_name": ""}, {"guid": "2_yDh3B3L4wvfQEl88wuK5", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S5, Bunnseksjon", "type_name": ""}, {"guid": "2iETkBP2D16ASI_OEZKBFQ", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S6, Bunnseksjon", "type_name": ""}, {"guid": "335UpDkHXDJwwHrFhLbJfE", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S9, Bunnseksjon", "type_name": ""}, {"guid": "3wYwgCs2LD8QbnWFzoJ6Bj", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S8, Bunnseksjon", "type_name": ""}, {"guid": "03xEWyTGnFfhaExbx4cnd7", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V24, Bunnseksjon", "type_name": ""}, {"guid": "0NX4xfyQX2f8wFv0u3mIfc", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V25, Bunnseksjon", "type_name": ""}, {"guid": "0cQzp1ZkX7CP$M3GToofbM", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V28, Kjegle", "type_name": ""}, {"guid": "2zyLyf49XBMwAOqNWDUzDx", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V23, Bunnseksjon", "type_name": ""}, {"guid": "2IlQRU_tj2mRwl_OZQLTqW", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V20, Bunnseksjon", "type_name": ""}, {"guid": "1FhNAqsDH7GvRSIP$4hirA", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V34, Kjegle", "type_name": ""}, {"guid": "2LUJLkq7XBa8v5WJR3CMF0", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V21, Bunnseksjon", "type_name": ""}, {"guid": "1vRkVK9B94_v2veR3pN5wG", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, 122959, Bunnseksjon", "type_name": ""}, {"guid": "040VeJm8j1xA_4VaQC3VK$", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S15, Bunnseksjon", "type_name": ""}, {"guid": "1Z3EGEfmn5jQit8YC1Rnd5", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S16, Bunnseksjon", "type_name": ""}, {"guid": "3J3PB39IvEaAgXz9Opz5h1", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V37, Kjegle", "type_name": ""}, {"guid": "36ARdQtVv85Rqx6QfCqETb", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S17, Bunnseksjon", "type_name": ""}, {"guid": "1ZR7cOmw96shD5RBe3$lGY", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S14, Bunnseksjon", "type_name": ""}, {"guid": "2bIfOvqeT9ZfLoSl58u5$L", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S36, Kjegle", "type_name": ""}, {"guid": "0iqFohMPD8gurR9peNFPhl", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S12, Bunnseksjon", "type_name": ""}, {"guid": "1aEXxEPLLCVBhkSbHKQvTb", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S10, Bunnseksjon", "type_name": ""}, {"guid": "1dBeLETmj1hQPRgz1kOgVU", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S11, Bunnseksjon", "type_name": ""}, {"guid": "2auR4zccz9veUi$kv$a9lU", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V33, Bunnseksjon", "type_name": ""}, {"guid": "3FI$vp_u9CDfI5oRAGffb0", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V32, Bunnseksjon", "type_name": ""}, {"guid": "1exoJI4rbFXAUV2EJvA4gm", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V29, Bunnseksjon", "type_name": ""}, {"guid": "0jE71bpiXFdv4C8ZcgGjNp", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V34, Bunnseksjon", "type_name": ""}, {"guid": "24d6dAFuv8teUEBNMnXdz1", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V28, Bunnseksjon", "type_name": ""}, {"guid": "1PaOQ_VGDDFRiRwwjs9lbV", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V37, Bunnseksjon", "type_name": ""}, {"guid": "0vf1deg2TALef57RvwOCcI", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S36, Bunnseksjon", "type_name": ""}, {"guid": "0kZUeFoMP4ExlChCoi4O7l", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V39, Bunnseksjon", "type_name": ""}, {"guid": "2auQuN_Uj5aBph8kKDHkGG", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S26, Kjegle", "type_name": ""}, {"guid": "0wm7C9NCf0gwbuRSk6YpCh", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S9, Kjegle", "type_name": ""}, {"guid": "2RMZUrpln01AFjLoBTWmOp", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S6, Kjegle", "type_name": ""}, {"guid": "0PXQ65SWz6twVrafbrGVox", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S5, Kjegle", "type_name": ""}, {"guid": "3deJiB0756Q9vwka59LjdV", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S8, Kjegle", "type_name": ""}, {"guid": "2NWTbvVgvDKw7_V8VMDcp8", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S7, Kjegle", "type_name": ""}, {"guid": "3HvVrrqI54SBqZ_PFO$oCk", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V24, Kjegle", "type_name": ""}, {"guid": "04Bs6jdVj2vePdT_fC47JB", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V25, Kjegle", "type_name": ""}, {"guid": "0osMKQUdP2Gx2IdnrpKxBr", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V23, Kjegle", "type_name": ""}, {"guid": "3KYCWaXVnDseMxWJO5tvpH", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V21, Kjegle", "type_name": ""}, {"guid": "17TPXbAkP3ogYG8nYTX8Xz", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V20, Kjegle", "type_name": ""}, {"guid": "3UJQrRu8r1ng64IqQMhQIi", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S15, Kjegle", "type_name": ""}, {"guid": "0ZtaUTQ090juqZEjB_EYho", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S17, Kjegle", "type_name": ""}, {"guid": "1Q8Nq_2vjCWBRhKvZTGH$S", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, 122959, Kjegle", "type_name": ""}, {"guid": "3I2hbv39nEU8u8vsf0W7g$", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S16, Kjegle", "type_name": ""}, {"guid": "1HJoicE_X3RAA2qNKoIAJz", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S14, Kjegle", "type_name": ""}, {"guid": "3GVMK_9fnAQOuHtZ2PfzNX", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S12, Kjegle", "type_name": ""}, {"guid": "2v6AjUKPTEXwk6gbg0cIXT", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S10, Kjegle", "type_name": ""}, {"guid": "2IjkxMAWvEOf9yP$KAgrYa", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V33, Kjegle", "type_name": ""}, {"guid": "26eVtIxRP19AY8IzMuZPn7", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S11, Kjegle", "type_name": ""}, {"guid": "1cl3kbNmz1Ag83Vs9ebzfg", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V32, Kjegle", "type_name": ""}, {"guid": "2OwuVoSK5CYw9QYYKdaFh5", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V29, Kjegle", "type_name": ""}, {"guid": "05dJTKpaD6YuAXiHV2BV9A", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V39, Kjegle", "type_name": ""}, {"guid": "2cY6t$cbzBP9imFuFQuM2p", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, 122959, Bunnring", "type_name": ""}, {"guid": "0PVEjrBBL7ggxOfd7rPQkW", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V20, Bunnring", "type_name": ""}, {"guid": "0RJnEon5563vJnudBO3xOB", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V21, Bunnring", "type_name": ""}, {"guid": "1cro4iSmX0rxDfHjsHb_X2", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S15, Bunnring", "type_name": ""}, {"guid": "3E5DstwLL8_hAOdxCZPNAA", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S17, Bunnring", "type_name": ""}, {"guid": "26MztoEN1C7Aj68Ke4kp45", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S16, Bunnring", "type_name": ""}, {"guid": "1NhibGc4n8PgKGO8qoLa6y", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S14, Bunnring", "type_name": ""}, {"guid": "1p9ndWFKr0HQ82f72GI1ju", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S12, Bunnring", "type_name": ""}, {"guid": "2AxG0M5S53Lxc9fdBQNTLy", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S10, Bunnring", "type_name": ""}, {"guid": "3JY7$IutjCw8oDKI5z6wIe", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S11, Bunnring", "type_name": ""}, {"guid": "3SdASYjdf2LhhLepHqBALx", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V33, Bunnring", "type_name": ""}, {"guid": "33TnHTL6D6bB3TC2QyzmE1", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V32, Bunnring", "type_name": ""}, {"guid": "2HFmhacVv1de4RBOMnbs3e", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V29, Bunnring", "type_name": ""}, {"guid": "39Y2Bce_97a9VRataoFjlG", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V34, Bunnring", "type_name": ""}, {"guid": "3OEmKlhGXBaOCn29YJ7NiT", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V28, Bunnring", "type_name": ""}, {"guid": "3WRPAmoD1BWe0JypA4EtN9", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V37, Bunnring", "type_name": ""}, {"guid": "3cbqUOk2rFlPtotuaedlSQ", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S36, Bunnring", "type_name": ""}, {"guid": "2LbL6X8H1CRwBxv_c71$u_", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V39, Bunnring", "type_name": ""}, {"guid": "0DPGXbyQjEZwFOxA6oX7VB", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S26, Bunnplate", "type_name": ""}, {"guid": "2gblSrfMX898SPLcNwe3fl", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S9, Bunnplate", "type_name": ""}, {"guid": "3qBUX8bCH0Ig2$JZpyzclQ", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S5, Bunnplate", "type_name": ""}, {"guid": "0RKRt4RHD0ZeLr5YIwfDY6", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S6, Bunnplate", "type_name": ""}, {"guid": "1yusyYr9X3wgSwc_6a0HCG", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S7, Bunnplate", "type_name": ""}, {"guid": "17dQ0oRaT7v8cLD3R2FrXl", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S8, Bunnplate", "type_name": ""}, {"guid": "09_WKVNKj8xBDQMY7ATduB", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V24, Bunnplate", "type_name": ""}, {"guid": "0TYDHCmST6aRvtWSvCDk2I", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V25, Bunnplate", "type_name": ""}, {"guid": "1W2KcQ6Z125fBir9kb_zC5", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V23, Bunnplate", "type_name": ""}, {"guid": "048EYxzWv7Z9ojDx$YypZD", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V20, Bunnplate", "type_name": ""}, {"guid": "1_36HGS59FDOZHmawuQSuq", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S17, Bunnplate", "type_name": ""}, {"guid": "1sGgZUi4nCbhafAdIXYQ$e", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, 122959, Bunnplate", "type_name": ""}, {"guid": "18mYrh7Bn1Zf0sRZkY8xwC", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V21, Bunnplate", "type_name": ""}, {"guid": "2lWhue_rf1CBvuMcWWuL76", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S15, Bunnplate", "type_name": ""}, {"guid": "1b96JHMa935Qkekds0ArFx", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S16, Bunnplate", "type_name": ""}, {"guid": "1jjhQGyaD2lh7Bvxyc2aUD", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S14, Bunnplate", "type_name": ""}, {"guid": "3Sjfqm_fD0tvth_R6zKUJb", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S12, Bunnplate", "type_name": ""}, {"guid": "3lpo8PZSfDHPsToeYWEfUA", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S11, Bunnplate", "type_name": ""}, {"guid": "0QLZeNK$n57xLj8T8he7wR", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S10, Bunnplate", "type_name": ""}, {"guid": "2477C9cBjCvBNdSlnp36RR", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V33, Bunnplate", "type_name": ""}, {"guid": "04u1ag5Gn1CObOMV4kL1my", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V32, Bunnplate", "type_name": ""}, {"guid": "0TBR2C2XrD1vE$RWE9t_ut", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V29, Bunnplate", "type_name": ""}, {"guid": "3AUdTdlSLEDfSMTU0M4Myl", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V28, Bunnplate", "type_name": ""}, {"guid": "0zjo7_VvT42vfIMzuA1t8Q", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V34, Bunnplate", "type_name": ""}, {"guid": "2oDJGnWlv7mxHW3Ga7Kj33", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V37, Bunnplate", "type_name": ""}, {"guid": "3EetDF1lPFieE4JEq5plNC", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S36, Bunnplate", "type_name": ""}, {"guid": "0QOOb8kwH9_Bug6r7qH2Hj", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, V39, Bunnplate", "type_name": ""}, {"guid": "3VTPrhIcD3b8_4a8miWDWf", "ifc_class": "IfcFlowTerminal", "name": "Eksist VA, S26, Bunnseksjon", "type_name": ""}, {"guid": "1Fb_MSJfb86RwJvMzMYc$c", "ifc_class": "IfcBuilding", "name": "Default Building", "type_name": ""}, {"guid": "2IGC79wjT2rekVP26x258S", "ifc_class": "IfcBuildingStorey", "name": "(unnamed)", "type_name": ""}, {"guid": "3DpEQSj7j08gIWR106gOIp", "ifc_class": "IfcSite", "name": "Default Site", "type_name": ""}], "types": []}</script>
+<script>
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+  }
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  /* ── Tabbed drill helpers ── */
+
+  function _typesTab(types) {
+    var sorted = types.slice().sort(function (a, b) { return b.instance_count - a.instance_count; });
+    return {
+      label: 'Typer',
+      count: sorted.length,
+      render: function () {
+        if (!sorted.length) return '<div class="modal-empty">Ingen typer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>IFC-klasse</th><th>Typenavn</th><th class="num">Instanser</th></tr></thead><tbody>';
+        sorted.forEach(function (t) {
+          html += '<tr><td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(t.ifc_class) + '</span></td>' +
+            '<td style="font-weight: 500;">' + escapeHtml(t.name) + '</td>' +
+            '<td class="num">' + t.instance_count + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['IFC-klasse', 'Typenavn', 'Instanser'],
+          rows: sorted.map(function (t) { return [t.ifc_class, t.name, t.instance_count]; }),
+        };
+      },
+    };
+  }
+
+  function _materialsTab(types) {
+    var matCounts = {};
+    types.forEach(function (t) {
+      (t.materials || []).forEach(function (m) {
+        if (!matCounts[m]) matCounts[m] = { name: m, types: 0, instances: 0 };
+        matCounts[m].types += 1;
+        matCounts[m].instances += t.instance_count;
+      });
+    });
+    var rows = Object.values(matCounts).sort(function (a, b) { return b.instances - a.instances; });
+    return {
+      label: 'Materialer',
+      count: rows.length,
+      render: function () {
+        if (!rows.length) return '<div class="modal-empty">Ingen materialer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Materialnavn</th><th class="num">Typer</th><th class="num">Instanser</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td><td class="num">' + r.types + '</td><td class="num">' + r.instances + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Materialnavn', 'Typer', 'Instanser'],
+          rows: rows.map(function (r) { return [r.name, r.types, r.instances]; }),
+        };
+      },
+    };
+  }
+
+  function _instancesTab(predicate, totalOverride) {
+    var rows = (DRILL.instances || []).filter(predicate);
+    // totalOverride: when filtering by IFC class we know the true total from instance_counts;
+    // for material/storey filters we can only count what we have.
+    var displayCount = totalOverride != null ? totalOverride : rows.length;
+    return {
+      label: 'Instanser',
+      count: displayCount,
+      render: function () {
+        if (!rows.length) {
+          if (totalOverride && totalOverride > 0) {
+            return '<div class="modal-empty">' + totalOverride + ' instanser i modellen, men ingen i payload (sample-grense)</div>';
+          }
+          return '<div class="modal-empty">Ingen instanser</div>';
+        }
+        var truncated = totalOverride != null && totalOverride > rows.length;
+        var html = '';
+        if (truncated) {
+          html += '<div style="font-size: 11px; color: var(--text-tertiary); padding: 8px 0; font-style: italic;">Viser ' + rows.length + ' av ' + totalOverride + ' instanser (sample-grense per klasse). Last ned for full liste fra modellsync-databasen.</div>';
+        }
+        html += '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Navn</th><th>GUID</th><th>IFC-klasse</th><th>Type</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td>' +
+            '<td style="font-family: monospace; font-size: 10px; color: var(--text-tertiary);">' + escapeHtml(r.guid) + '</td>' +
+            '<td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(r.ifc_class) + '</span></td>' +
+            '<td>' + escapeHtml(r.type_name) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Navn', 'GUID', 'IFC-klasse', 'Type'],
+          rows: rows.map(function (r) { return [r.name, r.guid, r.ifc_class, r.type_name]; }),
+        };
+      },
+    };
+  }
+
+  function drillIfcClass(cls) {
+    // cls is the instance class from the treemap (e.g. IfcMember)
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.instance_class === cls || t.ifc_class === cls;
+    });
+    var totalCount = (DRILL.instance_counts || {})[cls] || 0;
+    openTabbedModal(
+      cls,
+      matchingTypes.length + ' typer · ' + totalCount + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        _instancesTab(function (i) { return i.ifc_class === cls; }, totalCount),
+      ]
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    var typesWithStoreyCount = matchingTypes.map(function (t) {
+      return Object.assign({}, t, { instance_count: t.storeys[storeyName] });
+    });
+    var totalInstances = typesWithStoreyCount.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Etasje: ' + storeyName,
+      typesWithStoreyCount.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(typesWithStoreyCount),
+        _materialsTab(typesWithStoreyCount),
+        // Storey-level instance filtering needs per-instance storey data we don't capture yet
+        { label: 'Instanser', count: 0, render: function () { return '<div class="modal-empty">Per-instans etasjedata ikke tilgjengelig ennå</div>'; }, exportRows: function () { return { headers: [], rows: [] }; } },
+      ]
+    );
+  }
+
+  function drillMaterial(matName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    var typeNames = {};
+    matchingTypes.forEach(function (t) { typeNames[t.name] = true; });
+    var totalInstances = matchingTypes.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Materiale: ' + matName,
+      matchingTypes.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        // Materials don't propagate to per-instance index, so filter by matching type name
+        _instancesTab(function (i) { return typeNames[i.type_name]; }),
+      ]
+    );
+  }
+</script>
+
+  <script>
+    // ── Resizable table columns ──
+    (function () {
+      function initResizable(table) {
+        var storageKey = 'colw:' + location.pathname + ':' + (table.id || 'tbl');
+        var saved = {};
+        try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (e) {}
+
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach(function (th, i) {
+          if (saved[i]) th.style.width = saved[i] + 'px';
+          var grip = document.createElement('div');
+          grip.className = 'col-resizer';
+          th.appendChild(grip);
+          grip.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            grip.classList.add('dragging');
+            var startX = e.clientX;
+            var startW = th.offsetWidth;
+            function onMove(ev) {
+              var w = Math.max(40, startW + (ev.clientX - startX));
+              th.style.width = w + 'px';
+            }
+            function onUp() {
+              document.removeEventListener('mousemove', onMove);
+              document.removeEventListener('mouseup', onUp);
+              grip.classList.remove('dragging');
+              saved[i] = th.offsetWidth;
+              try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (e) {}
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('table.resizable').forEach(initResizable);
+      });
+    })();
+
+    var _modalState = { title: '', subtitle: '', rows: [] };
+    function openDrillModal(title, subtitle, rows) {
+      _modalState = { title: title, subtitle: subtitle || '', rows: rows || [] };
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+
+    /**
+     * Open a modal with custom HTML body and a tabs strip.
+     * tabs = [{label, count, render: () => htmlString, exportRows: () => [headers, rows[]]}]
+     */
+    function openTabbedModal(title, subtitle, tabs) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      var tabBar = document.createElement('div');
+      tabBar.className = 'tabs';
+      tabBar.style.cssText = 'margin-bottom: 12px; margin-top: -4px;';
+      var content = document.createElement('div');
+
+      var activeIdx = 0;
+      function renderTab(idx) {
+        activeIdx = idx;
+        Array.from(tabBar.children).forEach(function (b, i) {
+          b.classList.toggle('active', i === idx);
+        });
+        content.innerHTML = tabs[idx].render();
+      }
+      tabs.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.className = 'tab';
+        btn.type = 'button';
+        btn.innerHTML = t.label + ' <span style="color: var(--text-tertiary); font-weight: 400;">' + t.count + '</span>';
+        btn.onclick = function () { renderTab(i); };
+        tabBar.appendChild(btn);
+      });
+      body.appendChild(tabBar);
+      body.appendChild(content);
+      renderTab(0);
+      document.getElementById('drill-modal').classList.add('open');
+
+      // Wire CSV/XLSX to whatever tab is active
+      window.downloadModalCsv = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadCsv((title.replace(/[^\w-]+/g, '_') + '_' + tabs[activeIdx].label + '_' + stamp + '.csv').toLowerCase(), ex.headers, ex.rows);
+      };
+      window.downloadModalXlsx = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadXlsx((title.replace(/[^\w-]+/g, '_') + '_' + stamp + '.xlsx').toLowerCase(), [{
+          name: tabs[activeIdx].label.slice(0, 28) || 'data',
+          headers: ex.headers,
+          rows: ex.rows,
+        }]);
+      };
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    function _modalSheetName() {
+      return (_modalState.title || 'data').replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 28) || 'data';
+    }
+    function _modalRowsArray() {
+      return (_modalState.rows || []).map(function (r) {
+        return [r.name || '', r.count !== undefined ? r.count : ''];
+      });
+    }
+    function downloadModalCsv() {
+      downloadCsv(_modalSheetName() + '.csv', ['Navn', 'Antall'], _modalRowsArray());
+    }
+    function downloadModalXlsx() {
+      downloadXlsx(_modalSheetName() + '.xlsx', [{
+        name: _modalSheetName(),
+        headers: ['Navn', 'Antall'],
+        rows: _modalRowsArray(),
+      }]);
+    }
+
+    /* ──────────────────────────────────────────
+       Download utilities (CSV + XLSX, no deps)
+       Ported from EdvardGK/ifc-health-check
+       ────────────────────────────────────────── */
+    function _triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function downloadCsv(filename, headers, rows) {
+      function esc(v) {
+        var s = String(v == null ? '' : v);
+        return (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0)
+          ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }
+      var lines = [headers.map(esc).join(',')];
+      rows.forEach(function (r) { lines.push(r.map(esc).join(',')); });
+      _triggerDownload(new Blob(['\uFEFF' + lines.join('\n')], {type: 'text/csv;charset=utf-8'}), filename);
+    }
+    function downloadJson(filename, data) {
+      _triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}), filename);
+    }
+    function downloadXlsx(filename, sheets) {
+      _triggerDownload(_createXlsx(sheets), filename);
+    }
+
+    /* Minimal XLSX builder (store-only ZIP, no deps). sheets = [{name, headers, rows}] */
+    function _createXlsx(sheets) {
+      var ssMap = new Map(), ssList = [];
+      function si(s) {
+        var k = String(s);
+        if (ssMap.has(k)) return ssMap.get(k);
+        var i = ssList.length; ssList.push(k); ssMap.set(k, i); return i;
+      }
+      function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      function col(i) {
+        var s = ''; i++;
+        while (i > 0) { i--; s = String.fromCharCode(65 + (i % 26)) + s; i = Math.floor(i / 26); }
+        return s;
+      }
+      sheets.forEach(function (sh) {
+        sh.headers.forEach(function (h) { si(h); });
+        sh.rows.forEach(function (r) { r.forEach(function (c) { if (typeof c !== 'number') si(c); }); });
+      });
+      var shXmls = sheets.map(function (sh) {
+        var x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>';
+        for (var ci = 0; ci < sh.headers.length; ci++) {
+          var maxLen = sh.headers[ci].length;
+          sh.rows.forEach(function (row) { var v = String(row[ci] == null ? '' : row[ci]); if (v.length > maxLen) maxLen = v.length; });
+          var w = Math.min(Math.max(maxLen + 3, 10), 60);
+          x += '<col min="' + (ci + 1) + '" max="' + (ci + 1) + '" width="' + w + '" bestFit="1" customWidth="1"/>';
+        }
+        x += '</cols><sheetData>';
+        x += '<row r="1">' + sh.headers.map(function (h, ci) { return '<c r="' + col(ci) + '1" t="s" s="1"><v>' + si(h) + '</v></c>'; }).join('') + '</row>';
+        sh.rows.forEach(function (row, ri) {
+          x += '<row r="' + (ri + 2) + '">' + row.map(function (c, ci) {
+            var ref = col(ci) + (ri + 2);
+            return typeof c === 'number'
+              ? '<c r="' + ref + '"><v>' + c + '</v></c>'
+              : '<c r="' + ref + '" t="s"><v>' + si(c) + '</v></c>';
+          }).join('') + '</row>';
+        });
+        return x + '</sheetData></worksheet>';
+      });
+      var ss = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="' + ssList.length + '" uniqueCount="' + ssList.length + '">';
+      ssList.forEach(function (s) { ss += '<si><t>' + esc(s) + '</t></si>'; });
+      ss += '</sst>';
+      var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+        '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+        '<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>';
+      sheets.forEach(function (_, i) { ct += '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; });
+      ct += '</Types>';
+      var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+      var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>';
+      sheets.forEach(function (s, i) { wb += '<sheet name="' + esc(s.name) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; });
+      wb += '</sheets></workbook>';
+      var wbr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+      sheets.forEach(function (_, i) { wbr += '<Relationship Id="rId' + (i + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + (i + 1) + '.xml"/>'; });
+      wbr += '<Relationship Id="rId' + (sheets.length + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
+      wbr += '<Relationship Id="rId' + (sheets.length + 2) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>';
+      wbr += '</Relationships>';
+      var sty = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>' +
+        '<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>' +
+        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+        '<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>';
+      var files = [
+        { name: '[Content_Types].xml', data: ct },
+        { name: '_rels/.rels', data: rels },
+        { name: 'xl/workbook.xml', data: wb },
+        { name: 'xl/_rels/workbook.xml.rels', data: wbr },
+        { name: 'xl/styles.xml', data: sty },
+        { name: 'xl/sharedStrings.xml', data: ss },
+      ];
+      shXmls.forEach(function (xml, i) { files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: xml }); });
+      return new Blob([_zipStore(files).buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    function _crc32(data) {
+      var c = 0xFFFFFFFF;
+      for (var i = 0; i < data.length; i++) {
+        c ^= data[i];
+        for (var j = 0; j < 8; j++) c = (c >>> 1) ^ (c & 1 ? 0xEDB88320 : 0);
+      }
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    function _zipStore(files) {
+      var enc = new TextEncoder();
+      var entries = files.map(function (f) { return { name: enc.encode(f.name), data: enc.encode(f.data) }; });
+      var offset = 0, locals = [];
+      entries.forEach(function (e) {
+        var hdr = new Uint8Array(30 + e.name.length);
+        var dv = new DataView(hdr.buffer);
+        dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true);
+        var cr = _crc32(e.data);
+        dv.setUint32(14, cr, true); dv.setUint32(18, e.data.length, true); dv.setUint32(22, e.data.length, true);
+        dv.setUint16(26, e.name.length, true);
+        hdr.set(e.name, 30);
+        locals.push({ hdr: hdr, data: e.data, offset: offset, name: e.name, crc: cr });
+        offset += hdr.length + e.data.length;
+      });
+      var cdStart = offset, cds = [];
+      locals.forEach(function (l) {
+        var cd = new Uint8Array(46 + l.name.length);
+        var dv = new DataView(cd.buffer);
+        dv.setUint32(0, 0x02014b50, true); dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+        dv.setUint32(16, l.crc, true); dv.setUint32(20, l.data.length, true); dv.setUint32(24, l.data.length, true);
+        dv.setUint16(28, l.name.length, true); dv.setUint32(42, l.offset, true);
+        cd.set(l.name, 46);
+        cds.push(cd);
+        offset += cd.length;
+      });
+      var eocd = new Uint8Array(22);
+      var dv = new DataView(eocd.buffer);
+      dv.setUint32(0, 0x06054b50, true); dv.setUint16(8, entries.length, true); dv.setUint16(10, entries.length, true);
+      dv.setUint32(12, offset - cdStart, true); dv.setUint32(16, cdStart, true);
+      var out = new Uint8Array(offset + 22), p = 0;
+      locals.forEach(function (l) { out.set(l.hdr, p); p += l.hdr.length; out.set(l.data, p); p += l.data.length; });
+      cds.forEach(function (cd) { out.set(cd, p); p += cd.length; });
+      out.set(eocd, p);
+      return out;
+    }
+  </script>
+</body>
+</html>

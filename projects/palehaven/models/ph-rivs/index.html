@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PH_RIVs.ifc — Modellarbeidsflate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
+
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
+
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
+
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
+
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
+
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
+
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      align-items: start;
+    }
+    .bento-overview > .card { overflow: visible; }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      position: relative; width: 100%; aspect-ratio: 16/10;
+      border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      position: absolute;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.85; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 10px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Browser viz row + view toggle (used by type/materials browsers) */
+    .browser-viz {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg) 0;
+    }
+    .browser-viz .card { padding: 14px 16px; }
+    .browser-viz .card-title { font-size: 10px; }
+    .browser-viz .treemap-grid { aspect-ratio: 16/8; }
+
+    .top-bar-list { display: flex; flex-direction: column; gap: 4px; }
+    .top-bar-row {
+      display: grid; grid-template-columns: 180px 1fr 50px; gap: 8px;
+      align-items: center; font-size: 11px;
+    }
+    .top-bar-row .top-bar-label {
+      color: var(--text-secondary); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-bar-row .top-bar-track {
+      height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+    }
+    .top-bar-row .top-bar-fill {
+      height: 100%; background: var(--primary); border-radius: 4px;
+    }
+    .top-bar-row .top-bar-count {
+      font-weight: 600; color: var(--text-primary);
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+
+    .view-toggle {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .view-toggle button {
+      padding: 5px 10px; border: none; background: white;
+      cursor: pointer; color: var(--text-tertiary); transition: all 0.15s;
+      font: inherit; font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .view-toggle button:not(:last-child) { border-right: 1px solid var(--border); }
+    .view-toggle button.active { background: var(--primary-light); color: var(--primary); }
+    .view-toggle button:hover:not(.active) { background: #f8f8f8; }
+
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .browse-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 11px;
+    }
+    .browse-card-name {
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      word-break: break-word; line-height: 1.3;
+    }
+    .browse-card-meta {
+      display: flex; gap: 6px; flex-wrap: wrap; font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .browse-card-pills { display: flex; flex-wrap: wrap; gap: 3px; }
+    .browse-card-pills .tl-cell { font-size: 9px; padding: 1px 6px; }
+    .browse-card-models {
+      display: flex; flex-wrap: wrap; gap: 3px; line-height: 1.6;
+    }
+    .browse-card-mat {
+      font-size: 10px; color: var(--text-secondary);
+      word-break: break-word;
+    }
+
+    /* Wrapping/sizable columns: cells wrap between min and max width */
+    table.wrappable td, table.wrappable th {
+      white-space: normal !important;
+      word-break: break-word;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      vertical-align: top;
+    }
+    table.wrappable td.wrap-tags { line-height: 1.7; }
+
+    /* Resizable table columns (drag handles in header) */
+    table.resizable { table-layout: auto; }
+    table.resizable th { position: relative; }
+    table.resizable th .col-resizer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 6px;
+      cursor: col-resize; user-select: none;
+      background: transparent; transition: background 0.15s;
+    }
+    table.resizable th .col-resizer:hover,
+    table.resizable th .col-resizer.dragging { background: var(--primary); opacity: 0.4; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SF</span>
+      <span class="brand-name">Spruce Forge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Palehaven</div>
+
+    <div style="margin-top: 8px;">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialer
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </div>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+        <div class="content">
+          
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>PH_RIVs.ifc</h1>
+  <span class="badge badge-disc disc-rivs">RIVs</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-yellow">Advarsel</span>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
+</div>
+
+
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-12 fade-in">
+
+    
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">20</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">588</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">11</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">12.64</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val green">80%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
+    </div>
+
+    
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Palehaven</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">RIVs</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">MagiCAD For Revit 2026 UR-1</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">-</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-ok">mm</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row">
+            <span class="id-key">CRS satt</span>
+            
+            <span class="q-val q-warn">N/A</span>
+            
+          </div>
+          
+          <div class="id-row" style="font-size: 9px; color: var(--text-tertiary); font-style: italic;">IFC2X3 har ingen IfcProjectedCRS</div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 69.8%; background: #157954;"></div>
+        
+        <div class="geom-seg" style="width: 22.1%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 8.1%; background: #8dd4b8;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">575</span>
+          <span class="geom-legend-label">MappedRepresentation</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #5dbf99;"></div>
+          <span class="geom-legend-count">182</span>
+          <span class="geom-legend-label">SweptSolid</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">67</span>
+          <span class="geom-legend-label">SurfaceModel</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 49.6599%; background: #157954;"
+             data-drill-class="IfcFlowSegment" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcFlowSegment<br><span class="tm-count">292</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 49.6599%; width: 100.0%; height: 37.0748%; background: #1e9268;"
+             data-drill-class="IfcFlowFitting" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcFlowFitting<br><span class="tm-count">218</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 86.7347%; width: 50.0%; height: 12.585%; background: #27ab7d;"
+             data-drill-class="IfcFlowController" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcFlowController<br><span class="tm-count">37</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 50.0%; top: 86.7347%; width: 35.1351%; height: 12.585%; background: #3fc18a;"
+             data-drill-class="IfcBuildingElementProxy" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcBuildingElementProxy<br><span class="tm-count">26</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 85.1351%; top: 86.7347%; width: 14.8649%; height: 12.585%; background: #5dbf99;"
+             data-drill-class="IfcBuildingStorey" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcBuildingStorey<br><span class="tm-count">11</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 99.3197%; width: 25.0%; height: 0.6803%; background: #8dd4b8;"
+             data-drill-class="IfcFlowStorageDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
+          IfcFlowStorageDevice<br><span class="tm-count">1</span>
+        </div>
+        
+        <div class="tm-cell "
+             style="left: 25.0%; top: 99.3197%; width: 75.0%; height: 0.6803%; background: #b3e2ce;color: var(--text-secondary);"
+             >
+          + 3 til<br><span class="tm-count">3</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Schema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatter</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enheter</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Koordinatsystem skal vær</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer</span>
+        <span class="q-val q-ok">11 etasjer</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Spatial hierarki</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-ok">93%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Orphan types</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Proxy-typer</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">GUID-unikhet</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card storey-card">
+      <div class="card-header">
+        <div class="card-title">Elementer per etasje</div>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 08T')">
+        <span class="storey-name">Plan 08T</span>
+        <span class="storey-elev">+30.6</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 1%;"></div></div>
+        <span class="storey-count">1</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 07')">
+        <span class="storey-name">Plan 07</span>
+        <span class="storey-elev">+27.0</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 31%;"></div></div>
+        <span class="storey-count">55</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 06')">
+        <span class="storey-name">Plan 06</span>
+        <span class="storey-elev">+23.2</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 23%;"></div></div>
+        <span class="storey-count">41</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 05')">
+        <span class="storey-name">Plan 05</span>
+        <span class="storey-elev">+19.5</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 23%;"></div></div>
+        <span class="storey-count">41</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 04')">
+        <span class="storey-name">Plan 04</span>
+        <span class="storey-elev">+15.8</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 23%;"></div></div>
+        <span class="storey-count">41</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 03')">
+        <span class="storey-name">Plan 03</span>
+        <span class="storey-elev">+12.0</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 23%;"></div></div>
+        <span class="storey-count">41</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 02')">
+        <span class="storey-name">Plan 02</span>
+        <span class="storey-elev">+8.3</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 23%;"></div></div>
+        <span class="storey-count">41</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('Plan 01')">
+        <span class="storey-name">Plan 01</span>
+        <span class="storey-elev">+3.1</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 44%;"></div></div>
+        <span class="storey-count">77</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card type-progress-card">
+      <div class="card-header">
+        <div class="card-title">Topp IFC-klasser</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcFlowSegment')">
+          <span class="bar-label" style="width: 110px;">IfcFlowSegment</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 50%;"></div></div>
+          <span class="bar-count" style="width: 36px;">292</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcFlowFitting')">
+          <span class="bar-label" style="width: 110px;">IfcFlowFitting</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 37%;"></div></div>
+          <span class="bar-count" style="width: 36px;">218</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcFlowController')">
+          <span class="bar-label" style="width: 110px;">IfcFlowController</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 6%;"></div></div>
+          <span class="bar-count" style="width: 36px;">37</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuildingElementProxy')">
+          <span class="bar-label" style="width: 110px;">IfcBuildingElementProxy</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 4%;"></div></div>
+          <span class="bar-count" style="width: 36px;">26</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuildingStorey')">
+          <span class="bar-label" style="width: 110px;">IfcBuildingStorey</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 2%;"></div></div>
+          <span class="bar-count" style="width: 36px;">11</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card materials-card">
+      <div class="card-header">
+        <div class="card-title">Materialer</div>
+      </div>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">3</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
+      <div style="font-size: 11px; color: var(--text-secondary); margin-bottom: 4px;">Mest brukt:</div>
+      <div style="display: flex; flex-direction: column; gap: 3px; font-size: 11px;">
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('EN12845')">
+          <span class="legend-dot" style="background: #157954;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">EN12845</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('ISO 4200D')">
+          <span class="legend-dot" style="background: #5dbf99;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ISO 4200D</span>
+        </div>
+        
+        <div class="drill-target" style="display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px;" onclick="drillMaterial('PE80')">
+          <span class="legend-dot" style="background: #8dd4b8;"></span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">PE80</span>
+        </div>
+        
+      </div>
+      
+    </div>
+
+    
+    <div class="card info-card">
+      <div class="card-header">
+        <div class="card-title">Forfatterinfo</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Verktøy</span>
+        <span class="meta-val">MagiCAD For Revit 2026 UR-1</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Organisasjon</span>
+        <span class="meta-val">-</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Schema</span>
+        <span class="meta-val">IFC2X3</span>
+      </div>
+      <div class="meta-row" style="border-bottom: none;">
+        <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
+        <span class="meta-val">12.64 MB</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">8</div>
+      <div class="card-sub">Krav oppfylt</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">1</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">0</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Modeller skal bruke IFC4 eller nyere</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy skal være oppgitt</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">MagiCAD For Revit 2026 UR-1</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Lengdeenhet skal være millimeter</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Etasjer skal være definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">11 etasjer</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">39 av 588 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen foreldreløse typer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">GUID-er skal være unike</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">MagiCAD For Revit 2026 UR-1</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">-</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">PH_RIVs.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">12.64 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Palehaven</span>
+            <span class="tree-type">IfcProject</span>
+          </div>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan U2 (-5.900)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan U1 (-1.400)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 00 (+0.000)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 01 (+3.100)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 02 (+8.260)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 03 (+12.005)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 04 (+15.750)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 05 (+19.495)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 06 (+23.240)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 07 (+26.985)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 08T (+30.615)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row">
+        <span class="meta-key">CRS satt</span>
+        <span class="meta-val">Nei</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button class="btn-outline" id="modal-csv" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalCsv()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            CSV
+          </button>
+          <button class="btn-primary" id="modal-xlsx" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalXlsx()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            XLSX
+          </button>
+          <button class="modal-close" onclick="closeModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  
+<script id="model-data" type="application/json">{"instance_counts": {"IfcBuilding": 1, "IfcBuildingElementProxy": 26, "IfcBuildingStorey": 11, "IfcFlowController": 37, "IfcFlowFitting": 218, "IfcFlowSegment": 292, "IfcFlowStorageDevice": 1, "IfcFlowTreatmentDevice": 1, "IfcSite": 1}, "instances": [{"guid": "11jh4AZgT0Iur_XaXh0IrH", "ifc_class": "IfcBuildingElementProxy", "name": "Nullpunktsobjekt", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKo1u3", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "1XvXjEaDb20BLkGH_Zh9ms", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "1XvXjEaDb20BLkGH_Zh9ee", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "1XvXjEaDb20BLkGH_Zh9gw", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKoE3W", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "0A$8HbdVHCf9GnTDcZsvPx", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKoE3e", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "0A$8HbdVHCf9GnTDcZsvcV", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKoE3m", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "0A$8HbdVHCf9GnTDcZsvct", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKoE3u", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "0A$8HbdVHCf9GnTDcZsvdB", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKoE30", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "0A$8HbdVHCf9GnTDcZsvdl", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKoE38", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "0A$8HbdVHCf9GnTDcZsva1", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKoE3G", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKo1yE", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "1XvXjEaDb20BLkGH_ZhAZ7", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "3z5VjMdUD6jvUjket2Eo7p", "ifc_class": "IfcBuildingElementProxy", "name": "Standard", "type_name": ""}, {"guid": "3z5VjMdUD6jvUjket2EcjD", "ifc_class": "IfcBuildingElementProxy", "name": "Standard", "type_name": ""}, {"guid": "3z5VjMdUD6jvUjket2Edwh", "ifc_class": "IfcBuildingElementProxy", "name": "#NAD_Flange EN1092-1 type 01 PN10", "type_name": ""}, {"guid": "15WVHGl2PEz9mbxvMO6s5r", "ifc_class": "IfcBuildingElementProxy", "name": "DN100", "type_name": ""}, {"guid": "0jMUU5Dpj0A8BFXwDKo1yM", "ifc_class": "IfcBuildingElementProxy", "name": "Kontrolls\u00f8yle", "type_name": ""}, {"guid": "1XvXjEaDb20BLkGH_ZhAsb", "ifc_class": "IfcBuildingElementProxy", "name": "T\u00f8rropplegg innvendig skap 2", "type_name": ""}, {"guid": "1XvXjEaDb20BLkGH_Zh9fO", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1XvXjEaDb20BLkGH_Zh9f5", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1XvXjEaDb20BLkGH_Zh9jr", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1XvXjEaDb20BLkGH_Zh9js", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1LHstxaEL16O2gH0MTUmnL", "ifc_class": "IfcFlowController", "name": "AT3600-65", "type_name": "AT3600-65"}, {"guid": "1LHstxaEL16O2gH0MTUmmj", "ifc_class": "IfcFlowController", "name": "AT3600-65", "type_name": "AT3600-65"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPq", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPf", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvc8", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcD", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcW", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcb", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvd4", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdv", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvaO", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvaT", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvao", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "0A$8HbdVHCf9GnTDcZsvat", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1XvXjEaDb20BLkGH_Zh9_H", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1XvXjEaDb20BLkGH_Zh9_I", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "3z5VjMdUD6jvUjket2Eo4y", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "3z5VjMdUD6jvUjket2Eo4n", "ifc_class": "IfcFlowController", "name": "FireLock NXT 768-100", "type_name": "FireLock NXT 768-100"}, {"guid": "3z5VjMdUD6jvUjket2Eo7Q", "ifc_class": "IfcFlowController", "name": "DN50", "type_name": "DN50"}, {"guid": "3z5VjMdUD6jvUjket2Eo7w", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "3z5VjMdUD6jvUjket2Eo7$", "ifc_class": "IfcFlowController", "name": "FireLock 751-100", "type_name": "FireLock 751-100"}, {"guid": "3z5VjMdUD6jvUjket2Eo7m", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "3z5VjMdUD6jvUjket2EcjK", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "3z5VjMdUD6jvUjket2Ecj9", "ifc_class": "IfcFlowController", "name": "FireLock 751-100", "type_name": "FireLock 751-100"}, {"guid": "3z5VjMdUD6jvUjket2EcjA", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "3z5VjMdUD6jvUjket2EcDs", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "3z5VjMdUD6jvUjket2EcDZ", "ifc_class": "IfcFlowController", "name": "DN10", "type_name": "DN10"}, {"guid": "3z5VjMdUD6jvUjket2EcDa", "ifc_class": "IfcFlowController", "name": "Flow Meter DN 100", "type_name": "Flow Meter DN 100"}, {"guid": "3z5VjMdUD6jvUjket2EcDd", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "3z5VjMdUD6jvUjket2Edwk", "ifc_class": "IfcFlowController", "name": "FireLock 705-100", "type_name": "FireLock 705-100"}, {"guid": "0Iozj85qD9pPHcjbIXnAp4", "ifc_class": "IfcFlowController", "name": "DN15", "type_name": "DN15"}, {"guid": "1XvXjEaDb20BLkGH_Zh9z4", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zC", "ifc_class": "IfcFlowController", "name": "AT3600-40", "type_name": "AT3600-40"}, {"guid": "1XvXjEaDb20BLkGH_Zh9mz", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9mx", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9fM", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9fS", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9gO", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1XvXjEaDb20BLkGH_Zh9g3", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1XvXjEaDb20BLkGH_Zh9j3", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9j9", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9lx", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvSq", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvSg", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvT2", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPH", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPN", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Reducer", "type_name": "#NAD_Welded_Reducer"}, {"guid": "2ppd7zyhX4RQWIU3hFCRDa", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2ppd7zyhX4RQWIU3hFCR3G", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "2ppd7zyhX4RQWIU3hFCR32", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2ppd7zyhX4RQWIU3hFCR0x", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2ppd7zyhX4RQWIU3hFCR0N", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "2ppd7zyhX4RQWIU3hFCR01", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2ppd7zyhX4RQWIU3hFCR5e", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "2ppd7zyhX4RQWIU3hFCR5D", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "2ppd7zyhX4RQWIU3hFCR51", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "2ppd7zyhX4RQWIU3hFCQv$", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "2ppd7zyhX4RQWIU3hFCQvT", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2ppd7zyhX4RQWIU3hFCQvG", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2ppd7zyhX4RQWIU3hFCQyO", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "2ppd7zyhX4RQWIU3hFCQy8", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "2ppd7zyhX4RQWIU3hFCQzP", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "3O5IS1vYf11Og$MmYaMQgZ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMQgl", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMQgh", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTLN", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTLJ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTLV", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTL5", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTL7", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTL3", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTL9", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3O5IS1vYf11Og$MmYaMTLp", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvP_", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPm", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvb_", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvbs", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOZn", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOZq", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "2OHYxKsAHDvQCN1Psk10S4", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk10RS", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk10QN", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk10PZ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk10P4", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk11dn", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk11dK", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk11d0", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk11cF", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk11al", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2OHYxKsAHDvQCN1Psk11aY", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcI", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcK", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvYA", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvY2", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOZL", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOae", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1GydOYTBrBhQVm$OsLAtnt", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_B", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_F", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_3", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_7", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_R", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_T", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_J", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_N", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_f", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2y3PV6UCL7WA00cB6XeiUz", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcg", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvci", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvYc", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvZU", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOaC", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOa0", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1GydOYTBrBhQVm$OsLAt_$", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_p", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt_t", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$B", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$F", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$3", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$5", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$R", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$V", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$H", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2y3PV6UCL7WA00cB6XeiU8", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdE", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvd0", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvZo", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvZg", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKObX", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKObb", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1GydOYTBrBhQVm$OsLAt$d", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$x", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$$", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$p", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAt$t", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtyB", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtyD", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAty3", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtyP", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "14xFdmqLHDmemyUcD6dJu5", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "14xFdmqLHDmemyUcD6dJu2", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdY", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvda", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvWE", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvW6", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOb2", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKObP", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1GydOYTBrBhQVm$OsLAtyZ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtyd", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtyt", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtz9", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtzF", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtwc", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtwy", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtv8", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtvF", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtaD", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtbP", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtYK", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtZB", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtZc", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtZy", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtWB", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1GydOYTBrBhQVm$OsLAtWQ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2y3PV6UCL7WA00cB6XeiLe", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsva4", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsva_", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvXQ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0A$8HbdVHCf9GnTDcZsvXI", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOc5", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "0pISQwxr97BgtkVZwRKOcO", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zj", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zh", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9$K", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1XvXjEaDb20BLkGH_Zh9$S", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1XvXjEaDb20BLkGH_Zh9$e", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Reducer", "type_name": "#NAD_Welded_Reducer"}, {"guid": "1XvXjEaDb20BLkGH_Zh9$g", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Reducer", "type_name": "#NAD_Welded_Reducer"}, {"guid": "173IZBhGjEKfEUVis_6EOw", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "173IZBhGjEKfEUVis_6EOB", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "173IZBhGjEKfEUVis_6EVS", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "173IZBhGjEKfEUVis_6ESe", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2P_", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2PR", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2PM", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2Od", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2Oo", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2OG", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "1k9HtQ3BPEvAK2M3fsI27W", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1k9HtQ3BPEvAK2M3fsI271", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1k9HtQ3BPEvAK2M3fsI27K", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "1k9HtQ3BPEvAK2M3fsI24W", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1LHstxaEL16O2gH0MTUmeo", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1LHstxaEL16O2gH0MTUmlF", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1LHstxaEL16O2gH0MTUmlQ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1LHstxaEL16O2gH0MTUmjM", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1LHstxaEL16O2gH0MTUmiA", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1LHstxaEL16O2gH0MTUmpv", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "2ppd7zyhX4RQWIU3hFCQmQ", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3z5VjMdUD6jvUjket2Eo76", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "3z5VjMdUD6jvUjket2Eo7e", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3z5VjMdUD6jvUjket2Eo7g", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "3z5VjMdUD6jvUjket2Ecj0", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3z5VjMdUD6jvUjket2Ecj2", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "3z5VjMdUD6jvUjket2EcDf", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3z5VjMdUD6jvUjket2EcDX", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3z5VjMdUD6jvUjket2EdwY", "ifc_class": "IfcFlowFitting", "name": "#NAD_Fitting_Flange_EN1092-1_type01_PN10", "type_name": "#NAD_Fitting_Flange_EN1092-1_type01_PN10"}, {"guid": "3leX0hd8f9GB27Zr3jFkkG", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3leX0hd8f9GB27Zr3jFkXK", "ifc_class": "IfcFlowFitting", "name": "Standard", "type_name": "Standard"}, {"guid": "3leX0hd8f9GB27Zr3jFkX2", "ifc_class": "IfcFlowFitting", "name": "Standard", "type_name": "Standard"}, {"guid": "3leX0hd8f9GB27Zr3jFkai", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkaC", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkdg", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkdF", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkcY", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkcK", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkHl", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkH8", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3leX0hd8f9GB27Zr3jFkHE", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "3leX0hd8f9GB27Zr3jFkGV", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "3leX0hd8f9GB27Zr3jFkJr", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_ZhAdX", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_ZhAOT", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Reducer", "type_name": "#NAD_Welded_Reducer"}, {"guid": "1XvXjEaDb20BLkGH_ZhAPj", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1XvXjEaDb20BLkGH_ZhAQH", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Reducer", "type_name": "#NAD_Welded_Reducer"}, {"guid": "1XvXjEaDb20BLkGH_ZhAQ3", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_ZhARg", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_ZhASK", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Reducer", "type_name": "#NAD_Welded_Reducer"}, {"guid": "1XvXjEaDb20BLkGH_Zh9en", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "0A$8HbdVHCf9GnTDcZsvbB", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "2bgD1Vx6P16ug4wp7lYZ1f", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2bgD1Vx6P16ug4wp7lYZNU", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2bgD1Vx6P16ug4wp7lYZNS", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2bgD1Vx6P16ug4wp7lYZVR", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2bgD1Vx6P16ug4wp7lYZVO", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "2bgD1Vx6P16ug4wp7lYZQY", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "173IZBhGjEKfEUVis_69gg", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "173IZBhGjEKfEUVis_69iL", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "173IZBhGjEKfEUVis_6EGq", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "173IZBhGjEKfEUVis_6EMl", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "173IZBhGjEKfEUVis_6EMY", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1LHstxaEL16O2gH0MTUmPO", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "1LHstxaEL16O2gH0MTUmdm", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1LHstxaEL16O2gH0MTUmci", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "1LHstxaEL16O2gH0MTUmb$", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Tee", "type_name": "#NAD_Welded_Tee"}, {"guid": "1LHstxaEL16O2gH0MTUmbC", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1LHstxaEL16O2gH0MTUmhz", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1LHstxaEL16O2gH0MTUmfj", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Cap", "type_name": "#NAD_Welded_Cap"}, {"guid": "1e$$j6OvH6Qvud01zthLnT", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1e$$j6OvH6Qvud01zthLmX", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1e$$j6OvH6Qvud01zthLmw", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1e$$j6OvH6Qvud01zthLm_", "ifc_class": "IfcFlowFitting", "name": "#NAD_Welded_Elbow", "type_name": "#NAD_Welded_Elbow"}, {"guid": "1XvXjEaDb20BLkGH_Zh9mn", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9mp", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9m$", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9mv", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9eh", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9fK", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9fG", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9fI", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9fU", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9fR", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9gR", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9j7", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9j1", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9jD", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9jF", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9jB", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9jq", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9lw", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvVk", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvVb", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvT1", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmnI", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmmg", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCRET", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR2l", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR3j", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR3H", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR3A", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR31", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR0K", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR07", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR6d", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCR6S", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCQvy", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCQvi", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCQvZ", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCQvO", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCQzy", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMQlU", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMQgX", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMQgj", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMQgf", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTLL", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTLH", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTLT", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTLP", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTLR", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTL1", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTLD", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTK2", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPw", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPu", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPy", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPo", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPs", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvPh", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvbz", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOZm", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk10SJ", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk10Rh", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk10Qc", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk10Pu", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk10PN", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk10OC", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk11db", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk11dI", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk11cO", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk11bp", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk11Zh", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk11Yp", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcU", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcS", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcG", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcM", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcA", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcF", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvY9", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOZK", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtnn", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtnr", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_9", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_D", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_1", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_5", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_P", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_V", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_H", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_L", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_l", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_Z", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcs", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcq", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvce", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvck", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcY", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvcd", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvYb", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOaF", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_v", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_z", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_n", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt_r", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$9", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$D", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$1", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$7", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$P", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$T", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$N", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$h", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdA", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvd8", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdC", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvd2", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvd6", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdx", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvZn", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKObW", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$X", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$b", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$v", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$z", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$n", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAt$r", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAty9", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtyF", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAty1", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtyV", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "14xFdmqLHDmemyUcD6dJuX", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "14xFdmqLHDmemyUcD6dJuu", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdk", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdi", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdW", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvdc", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvaQ", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvaV", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvWD", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOb5", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtyj", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtyX", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtyb", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtyn", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtyr", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtzB", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtwk", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtxi", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtuH", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtdg", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtbE", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtY5", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtYu", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtZH", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtZk", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtZw", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1GydOYTBrBhQVm$OsLAtZp", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2y3PV6UCL7WA00cB6XeiLn", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2y3PV6UCL7WA00cB6XeiKH", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsva0", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsva6", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvaw", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvau", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvay", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvan", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvXP", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOc4", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3O5IS1vYf11Og$MmYaMTTJ", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zu", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zZ", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zl", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zf", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9_N", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9_G", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9$N", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_6EL7", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_6EQC", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_6EQ5", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_6EUM", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_6EVj", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2PA", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2P5", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2PU", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2Of", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2Ow", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI2Or", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI27y", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1k9HtQ3BPEvAK2M3fsI279", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmep", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmlm", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUml9", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUml2", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmkA", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmio", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2ppd7zyhX4RQWIU3hFCRC7", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo49", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo4B", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo4D", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo4w", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo4$", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo4c", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo7O", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo74", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo7u", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo7z", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo7_", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo7o", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo7q", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Eo7s", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcjG", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcjI", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcjN", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Ecj8", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcjC", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcjE", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcDo", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcDq", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcDe", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcDj", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcDl", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcDY", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EcDc", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Edwq", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Edwi", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2EdwW", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3z5VjMdUD6jvUjket2Edwa", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFklh", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkaa", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkaJ", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFka4", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkdp", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkdY", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkdf", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkdU", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkdE", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkcw", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkcX", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkci", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkcR", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkHg", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkHB", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkGN", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "3leX0hd8f9GB27Zr3jFkGD", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "15WVHGl2PEz9mbxvMO6rMc", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0l1PvOw2LCPBSvIOXolN5Q", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0Iozj85qD9pPHcjbIXnAp3", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2OHYxKsAHDvQCN1Psk10At", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1QneXDzmrD5P_QAiKS2rlF", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1QneXDzmrD5P_QAiKS2rlG", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1dhGIUmCP4LhzR15Z5Qdz9", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1dhGIUmCP4LhzR15Z5QdXG", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1dhGIUmCP4LhzR15Z5Qkqw", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_ZhAdz", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_ZhAP6", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_ZhAQT", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_ZhARB", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_ZhARr", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9zR", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9z3", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9_Y", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9e0", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1XvXjEaDb20BLkGH_Zh9g2", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvSf", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvbr", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvY1", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvZT", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvZf", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvW5", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0A$8HbdVHCf9GnTDcZsvXH", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2bgD1Vx6P16ug4wp7lYY$l", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2bgD1Vx6P16ug4wp7lYZ5Z", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2bgD1Vx6P16ug4wp7lYZ56", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2bgD1Vx6P16ug4wp7lYZNF", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2bgD1Vx6P16ug4wp7lYZJE", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "2bgD1Vx6P16ug4wp7lYZPH", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOZt", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOah", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOa3", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOba", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKObO", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0pISQwxr97BgtkVZwRKOcR", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_69kD", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_6EJI", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "173IZBhGjEKfEUVis_6EGh", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmdC", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmbd", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmbm", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmhi", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1LHstxaEL16O2gH0MTUmhd", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1P0aak3yb5pujl1WYnv6Ho", "ifc_class": "IfcFlowSegment", "name": "PE 80 trykkr\u00f8r SDR 11", "type_name": "PE 80 trykkr\u00f8r SDR 11"}, {"guid": "1e$$j6OvH6Qvud01zthLqM", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1e$$j6OvH6Qvud01zthLok", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1e$$j6OvH6Qvud01zthLnR", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "1e$$j6OvH6Qvud01zthLmu", "ifc_class": "IfcFlowSegment", "name": "#NAD_EN12845_black_steel_generic", "type_name": "#NAD_EN12845_black_steel_generic"}, {"guid": "0l1PvOw2LCPBSvIOXolMyN", "ifc_class": "IfcFlowStorageDevice", "name": "MK103-100-3M", "type_name": "MK103-100-3M"}, {"guid": "3z5VjMdUD6jvUjket2Edwe", "ifc_class": "IfcFlowTreatmentDevice", "name": "895 DN100", "type_name": "895 DN100"}, {"guid": "2UQp2kYAL3I8DbnbcCTr$V", "ifc_class": "IfcBuilding", "name": "Bygning XXX", "type_name": ""}, {"guid": "2ZSeBR4y1CJx5nRV7lgPBL", "ifc_class": "IfcBuildingStorey", "name": "Plan 00", "type_name": ""}, {"guid": "1a99_AqoTEdQjtpz_v4ba_", "ifc_class": "IfcBuildingStorey", "name": "Plan 01", "type_name": ""}, {"guid": "1EbBCMbnb4s8_fkE$1nLeq", "ifc_class": "IfcBuildingStorey", "name": "Plan 02", "type_name": ""}, {"guid": "1uIKDUb2j4YxYU3lz5jcy0", "ifc_class": "IfcBuildingStorey", "name": "Plan 03", "type_name": ""}, {"guid": "1tlYfHwf17EgRY6AzqK7LW", "ifc_class": "IfcBuildingStorey", "name": "Plan 04", "type_name": ""}, {"guid": "2jqmAyKjT1RQk0U6iSXcwN", "ifc_class": "IfcBuildingStorey", "name": "Plan 05", "type_name": ""}, {"guid": "3Q5mm$UbnEEgAxvoLJ$NNQ", "ifc_class": "IfcBuildingStorey", "name": "Plan 06", "type_name": ""}, {"guid": "15TIGqsO56JePK0X1XmZtj", "ifc_class": "IfcBuildingStorey", "name": "Plan 07", "type_name": ""}, {"guid": "3ZHUevZ95EqgSR0KqHD6ka", "ifc_class": "IfcBuildingStorey", "name": "Plan 08T", "type_name": ""}, {"guid": "3gNvzpYqf4fRMTLTSZFjS2", "ifc_class": "IfcBuildingStorey", "name": "Plan U1", "type_name": ""}, {"guid": "2LCyNxtwX658UUIB5FlyXZ", "ifc_class": "IfcBuildingStorey", "name": "Plan U2", "type_name": ""}, {"guid": "2UQp2kYAL3I8DbnbcCTr$S", "ifc_class": "IfcSite", "name": "Site XXX", "type_name": ""}], "types": [{"ifc_class": "IfcPipeSegmentType", "instance_class": "IfcFlowSegment", "instance_count": 291, "materials": ["EN12845"], "name": "#NAD_EN12845_black_steel_generic", "storeys": {"Plan 01": 38, "Plan 02": 20, "Plan 03": 20, "Plan 04": 20, "Plan 05": 20, "Plan 06": 20, "Plan 07": 27, "Plan U1": 28, "Plan U2": 98}}, {"ifc_class": "IfcPipeFittingType", "instance_class": "IfcFlowFitting", "instance_count": 137, "materials": ["ISO 4200D"], "name": "#NAD_Welded_Elbow", "storeys": {"Plan 01": 14, "Plan 02": 13, "Plan 03": 13, "Plan 04": 13, "Plan 05": 13, "Plan 06": 13, "Plan 07": 20, "Plan U1": 13, "Plan U2": 25}}, {"ifc_class": "IfcPipeFittingType", "instance_class": "IfcFlowFitting", "instance_count": 54, "materials": ["ISO 4200D"], "name": "#NAD_Welded_Tee", "storeys": {"Plan 01": 9, "Plan 02": 4, "Plan 03": 4, "Plan 04": 4, "Plan 05": 4, "Plan 06": 4, "Plan 07": 4, "Plan U1": 7, "Plan U2": 14}}, {"ifc_class": "IfcValveType", "instance_class": "IfcFlowController", "instance_count": 20, "materials": [], "name": "AT3600-40", "storeys": {"Plan 01": 4, "Plan 02": 2, "Plan 03": 2, "Plan 04": 2, "Plan 05": 2, "Plan 06": 2, "Plan 07": 2, "Plan U1": 2, "Plan U2": 2}}, {"ifc_class": "IfcPipeFittingType", "instance_class": "IfcFlowFitting", "instance_count": 18, "materials": ["ISO 4200D"], "name": "#NAD_Welded_Cap", "storeys": {"Plan 01": 5, "Plan U1": 5, "Plan U2": 8}}, {"ifc_class": "IfcValveType", "instance_class": "IfcFlowController", "instance_count": 8, "materials": [], "name": "FireLock 705-100", "storeys": {"Plan U2": 8}}, {"ifc_class": "IfcPipeFittingType", "instance_class": "IfcFlowFitting", "instance_count": 6, "materials": ["ISO 4200D"], "name": "#NAD_Welded_Reducer", "storeys": {"Plan 01": 1, "Plan U1": 2, "Plan U2": 3}}, {"ifc_class": "IfcValveType", "instance_class": "IfcFlowController", "instance_count": 2, "materials": [], "name": "AT3600-65", "storeys": {"Plan 01": 2}}, {"ifc_class": "IfcValveType", "instance_class": "IfcFlowController", "instance_count": 2, "materials": [], "name": "FireLock 751-100", "storeys": {"Plan U2": 2}}, {"ifc_class": "IfcFlowMeterType", "instance_class": "IfcFlowController", "instance_count": 1, "materials": [], "name": "DN10", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcFlowMeterType", "instance_class": "IfcFlowController", "instance_count": 1, "materials": [], "name": "Flow Meter DN 100", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcValveType", "instance_class": "IfcFlowController", "instance_count": 1, "materials": [], "name": "FireLock NXT 768-100", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcValveType", "instance_class": "IfcFlowController", "instance_count": 1, "materials": [], "name": "DN50", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcValveType", "instance_class": "IfcFlowController", "instance_count": 1, "materials": [], "name": "DN15", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcPipeFittingType", "instance_class": "IfcFlowFitting", "instance_count": 1, "materials": [], "name": "#NAD_Fitting_Flange_EN1092-1_type01_PN10", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcPipeFittingType", "instance_class": "IfcFlowFitting", "instance_count": 1, "materials": [], "name": "Standard", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcPipeFittingType", "instance_class": "IfcFlowFitting", "instance_count": 1, "materials": [], "name": "Standard", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcPipeSegmentType", "instance_class": "IfcFlowSegment", "instance_count": 1, "materials": ["PE80"], "name": "PE 80 trykkr\u00f8r SDR 11", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcTankType", "instance_class": "IfcFlowStorageDevice", "instance_count": 1, "materials": [], "name": "MK103-100-3M", "storeys": {"Plan U2": 1}}, {"ifc_class": "IfcFilterType", "instance_class": "IfcFlowTreatmentDevice", "instance_count": 1, "materials": [], "name": "895 DN100", "storeys": {"Plan U2": 1}}]}</script>
+<script>
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+  }
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  /* ── Tabbed drill helpers ── */
+
+  function _typesTab(types) {
+    var sorted = types.slice().sort(function (a, b) { return b.instance_count - a.instance_count; });
+    return {
+      label: 'Typer',
+      count: sorted.length,
+      render: function () {
+        if (!sorted.length) return '<div class="modal-empty">Ingen typer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>IFC-klasse</th><th>Typenavn</th><th class="num">Instanser</th></tr></thead><tbody>';
+        sorted.forEach(function (t) {
+          html += '<tr><td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(t.ifc_class) + '</span></td>' +
+            '<td style="font-weight: 500;">' + escapeHtml(t.name) + '</td>' +
+            '<td class="num">' + t.instance_count + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['IFC-klasse', 'Typenavn', 'Instanser'],
+          rows: sorted.map(function (t) { return [t.ifc_class, t.name, t.instance_count]; }),
+        };
+      },
+    };
+  }
+
+  function _materialsTab(types) {
+    var matCounts = {};
+    types.forEach(function (t) {
+      (t.materials || []).forEach(function (m) {
+        if (!matCounts[m]) matCounts[m] = { name: m, types: 0, instances: 0 };
+        matCounts[m].types += 1;
+        matCounts[m].instances += t.instance_count;
+      });
+    });
+    var rows = Object.values(matCounts).sort(function (a, b) { return b.instances - a.instances; });
+    return {
+      label: 'Materialer',
+      count: rows.length,
+      render: function () {
+        if (!rows.length) return '<div class="modal-empty">Ingen materialer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Materialnavn</th><th class="num">Typer</th><th class="num">Instanser</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td><td class="num">' + r.types + '</td><td class="num">' + r.instances + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Materialnavn', 'Typer', 'Instanser'],
+          rows: rows.map(function (r) { return [r.name, r.types, r.instances]; }),
+        };
+      },
+    };
+  }
+
+  function _instancesTab(predicate, totalOverride) {
+    var rows = (DRILL.instances || []).filter(predicate);
+    // totalOverride: when filtering by IFC class we know the true total from instance_counts;
+    // for material/storey filters we can only count what we have.
+    var displayCount = totalOverride != null ? totalOverride : rows.length;
+    return {
+      label: 'Instanser',
+      count: displayCount,
+      render: function () {
+        if (!rows.length) {
+          if (totalOverride && totalOverride > 0) {
+            return '<div class="modal-empty">' + totalOverride + ' instanser i modellen, men ingen i payload (sample-grense)</div>';
+          }
+          return '<div class="modal-empty">Ingen instanser</div>';
+        }
+        var truncated = totalOverride != null && totalOverride > rows.length;
+        var html = '';
+        if (truncated) {
+          html += '<div style="font-size: 11px; color: var(--text-tertiary); padding: 8px 0; font-style: italic;">Viser ' + rows.length + ' av ' + totalOverride + ' instanser (sample-grense per klasse). Last ned for full liste fra modellsync-databasen.</div>';
+        }
+        html += '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Navn</th><th>GUID</th><th>IFC-klasse</th><th>Type</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td>' +
+            '<td style="font-family: monospace; font-size: 10px; color: var(--text-tertiary);">' + escapeHtml(r.guid) + '</td>' +
+            '<td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(r.ifc_class) + '</span></td>' +
+            '<td>' + escapeHtml(r.type_name) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Navn', 'GUID', 'IFC-klasse', 'Type'],
+          rows: rows.map(function (r) { return [r.name, r.guid, r.ifc_class, r.type_name]; }),
+        };
+      },
+    };
+  }
+
+  function drillIfcClass(cls) {
+    // cls is the instance class from the treemap (e.g. IfcMember)
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.instance_class === cls || t.ifc_class === cls;
+    });
+    var totalCount = (DRILL.instance_counts || {})[cls] || 0;
+    openTabbedModal(
+      cls,
+      matchingTypes.length + ' typer · ' + totalCount + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        _instancesTab(function (i) { return i.ifc_class === cls; }, totalCount),
+      ]
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    var typesWithStoreyCount = matchingTypes.map(function (t) {
+      return Object.assign({}, t, { instance_count: t.storeys[storeyName] });
+    });
+    var totalInstances = typesWithStoreyCount.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Etasje: ' + storeyName,
+      typesWithStoreyCount.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(typesWithStoreyCount),
+        _materialsTab(typesWithStoreyCount),
+        // Storey-level instance filtering needs per-instance storey data we don't capture yet
+        { label: 'Instanser', count: 0, render: function () { return '<div class="modal-empty">Per-instans etasjedata ikke tilgjengelig ennå</div>'; }, exportRows: function () { return { headers: [], rows: [] }; } },
+      ]
+    );
+  }
+
+  function drillMaterial(matName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    var typeNames = {};
+    matchingTypes.forEach(function (t) { typeNames[t.name] = true; });
+    var totalInstances = matchingTypes.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Materiale: ' + matName,
+      matchingTypes.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        // Materials don't propagate to per-instance index, so filter by matching type name
+        _instancesTab(function (i) { return typeNames[i.type_name]; }),
+      ]
+    );
+  }
+</script>
+
+  <script>
+    // ── Resizable table columns ──
+    (function () {
+      function initResizable(table) {
+        var storageKey = 'colw:' + location.pathname + ':' + (table.id || 'tbl');
+        var saved = {};
+        try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (e) {}
+
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach(function (th, i) {
+          if (saved[i]) th.style.width = saved[i] + 'px';
+          var grip = document.createElement('div');
+          grip.className = 'col-resizer';
+          th.appendChild(grip);
+          grip.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            grip.classList.add('dragging');
+            var startX = e.clientX;
+            var startW = th.offsetWidth;
+            function onMove(ev) {
+              var w = Math.max(40, startW + (ev.clientX - startX));
+              th.style.width = w + 'px';
+            }
+            function onUp() {
+              document.removeEventListener('mousemove', onMove);
+              document.removeEventListener('mouseup', onUp);
+              grip.classList.remove('dragging');
+              saved[i] = th.offsetWidth;
+              try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (e) {}
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('table.resizable').forEach(initResizable);
+      });
+    })();
+
+    var _modalState = { title: '', subtitle: '', rows: [] };
+    function openDrillModal(title, subtitle, rows) {
+      _modalState = { title: title, subtitle: subtitle || '', rows: rows || [] };
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+
+    /**
+     * Open a modal with custom HTML body and a tabs strip.
+     * tabs = [{label, count, render: () => htmlString, exportRows: () => [headers, rows[]]}]
+     */
+    function openTabbedModal(title, subtitle, tabs) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      var tabBar = document.createElement('div');
+      tabBar.className = 'tabs';
+      tabBar.style.cssText = 'margin-bottom: 12px; margin-top: -4px;';
+      var content = document.createElement('div');
+
+      var activeIdx = 0;
+      function renderTab(idx) {
+        activeIdx = idx;
+        Array.from(tabBar.children).forEach(function (b, i) {
+          b.classList.toggle('active', i === idx);
+        });
+        content.innerHTML = tabs[idx].render();
+      }
+      tabs.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.className = 'tab';
+        btn.type = 'button';
+        btn.innerHTML = t.label + ' <span style="color: var(--text-tertiary); font-weight: 400;">' + t.count + '</span>';
+        btn.onclick = function () { renderTab(i); };
+        tabBar.appendChild(btn);
+      });
+      body.appendChild(tabBar);
+      body.appendChild(content);
+      renderTab(0);
+      document.getElementById('drill-modal').classList.add('open');
+
+      // Wire CSV/XLSX to whatever tab is active
+      window.downloadModalCsv = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadCsv((title.replace(/[^\w-]+/g, '_') + '_' + tabs[activeIdx].label + '_' + stamp + '.csv').toLowerCase(), ex.headers, ex.rows);
+      };
+      window.downloadModalXlsx = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadXlsx((title.replace(/[^\w-]+/g, '_') + '_' + stamp + '.xlsx').toLowerCase(), [{
+          name: tabs[activeIdx].label.slice(0, 28) || 'data',
+          headers: ex.headers,
+          rows: ex.rows,
+        }]);
+      };
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    function _modalSheetName() {
+      return (_modalState.title || 'data').replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 28) || 'data';
+    }
+    function _modalRowsArray() {
+      return (_modalState.rows || []).map(function (r) {
+        return [r.name || '', r.count !== undefined ? r.count : ''];
+      });
+    }
+    function downloadModalCsv() {
+      downloadCsv(_modalSheetName() + '.csv', ['Navn', 'Antall'], _modalRowsArray());
+    }
+    function downloadModalXlsx() {
+      downloadXlsx(_modalSheetName() + '.xlsx', [{
+        name: _modalSheetName(),
+        headers: ['Navn', 'Antall'],
+        rows: _modalRowsArray(),
+      }]);
+    }
+
+    /* ──────────────────────────────────────────
+       Download utilities (CSV + XLSX, no deps)
+       Ported from EdvardGK/ifc-health-check
+       ────────────────────────────────────────── */
+    function _triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function downloadCsv(filename, headers, rows) {
+      function esc(v) {
+        var s = String(v == null ? '' : v);
+        return (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0)
+          ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }
+      var lines = [headers.map(esc).join(',')];
+      rows.forEach(function (r) { lines.push(r.map(esc).join(',')); });
+      _triggerDownload(new Blob(['\uFEFF' + lines.join('\n')], {type: 'text/csv;charset=utf-8'}), filename);
+    }
+    function downloadJson(filename, data) {
+      _triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}), filename);
+    }
+    function downloadXlsx(filename, sheets) {
+      _triggerDownload(_createXlsx(sheets), filename);
+    }
+
+    /* Minimal XLSX builder (store-only ZIP, no deps). sheets = [{name, headers, rows}] */
+    function _createXlsx(sheets) {
+      var ssMap = new Map(), ssList = [];
+      function si(s) {
+        var k = String(s);
+        if (ssMap.has(k)) return ssMap.get(k);
+        var i = ssList.length; ssList.push(k); ssMap.set(k, i); return i;
+      }
+      function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      function col(i) {
+        var s = ''; i++;
+        while (i > 0) { i--; s = String.fromCharCode(65 + (i % 26)) + s; i = Math.floor(i / 26); }
+        return s;
+      }
+      sheets.forEach(function (sh) {
+        sh.headers.forEach(function (h) { si(h); });
+        sh.rows.forEach(function (r) { r.forEach(function (c) { if (typeof c !== 'number') si(c); }); });
+      });
+      var shXmls = sheets.map(function (sh) {
+        var x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>';
+        for (var ci = 0; ci < sh.headers.length; ci++) {
+          var maxLen = sh.headers[ci].length;
+          sh.rows.forEach(function (row) { var v = String(row[ci] == null ? '' : row[ci]); if (v.length > maxLen) maxLen = v.length; });
+          var w = Math.min(Math.max(maxLen + 3, 10), 60);
+          x += '<col min="' + (ci + 1) + '" max="' + (ci + 1) + '" width="' + w + '" bestFit="1" customWidth="1"/>';
+        }
+        x += '</cols><sheetData>';
+        x += '<row r="1">' + sh.headers.map(function (h, ci) { return '<c r="' + col(ci) + '1" t="s" s="1"><v>' + si(h) + '</v></c>'; }).join('') + '</row>';
+        sh.rows.forEach(function (row, ri) {
+          x += '<row r="' + (ri + 2) + '">' + row.map(function (c, ci) {
+            var ref = col(ci) + (ri + 2);
+            return typeof c === 'number'
+              ? '<c r="' + ref + '"><v>' + c + '</v></c>'
+              : '<c r="' + ref + '" t="s"><v>' + si(c) + '</v></c>';
+          }).join('') + '</row>';
+        });
+        return x + '</sheetData></worksheet>';
+      });
+      var ss = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="' + ssList.length + '" uniqueCount="' + ssList.length + '">';
+      ssList.forEach(function (s) { ss += '<si><t>' + esc(s) + '</t></si>'; });
+      ss += '</sst>';
+      var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+        '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+        '<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>';
+      sheets.forEach(function (_, i) { ct += '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; });
+      ct += '</Types>';
+      var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+      var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>';
+      sheets.forEach(function (s, i) { wb += '<sheet name="' + esc(s.name) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; });
+      wb += '</sheets></workbook>';
+      var wbr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+      sheets.forEach(function (_, i) { wbr += '<Relationship Id="rId' + (i + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + (i + 1) + '.xml"/>'; });
+      wbr += '<Relationship Id="rId' + (sheets.length + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
+      wbr += '<Relationship Id="rId' + (sheets.length + 2) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>';
+      wbr += '</Relationships>';
+      var sty = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>' +
+        '<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>' +
+        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+        '<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>';
+      var files = [
+        { name: '[Content_Types].xml', data: ct },
+        { name: '_rels/.rels', data: rels },
+        { name: 'xl/workbook.xml', data: wb },
+        { name: 'xl/_rels/workbook.xml.rels', data: wbr },
+        { name: 'xl/styles.xml', data: sty },
+        { name: 'xl/sharedStrings.xml', data: ss },
+      ];
+      shXmls.forEach(function (xml, i) { files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: xml }); });
+      return new Blob([_zipStore(files).buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    function _crc32(data) {
+      var c = 0xFFFFFFFF;
+      for (var i = 0; i < data.length; i++) {
+        c ^= data[i];
+        for (var j = 0; j < 8; j++) c = (c >>> 1) ^ (c & 1 ? 0xEDB88320 : 0);
+      }
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    function _zipStore(files) {
+      var enc = new TextEncoder();
+      var entries = files.map(function (f) { return { name: enc.encode(f.name), data: enc.encode(f.data) }; });
+      var offset = 0, locals = [];
+      entries.forEach(function (e) {
+        var hdr = new Uint8Array(30 + e.name.length);
+        var dv = new DataView(hdr.buffer);
+        dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true);
+        var cr = _crc32(e.data);
+        dv.setUint32(14, cr, true); dv.setUint32(18, e.data.length, true); dv.setUint32(22, e.data.length, true);
+        dv.setUint16(26, e.name.length, true);
+        hdr.set(e.name, 30);
+        locals.push({ hdr: hdr, data: e.data, offset: offset, name: e.name, crc: cr });
+        offset += hdr.length + e.data.length;
+      });
+      var cdStart = offset, cds = [];
+      locals.forEach(function (l) {
+        var cd = new Uint8Array(46 + l.name.length);
+        var dv = new DataView(cd.buffer);
+        dv.setUint32(0, 0x02014b50, true); dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+        dv.setUint32(16, l.crc, true); dv.setUint32(20, l.data.length, true); dv.setUint32(24, l.data.length, true);
+        dv.setUint16(28, l.name.length, true); dv.setUint32(42, l.offset, true);
+        cd.set(l.name, 46);
+        cds.push(cd);
+        offset += cd.length;
+      });
+      var eocd = new Uint8Array(22);
+      var dv = new DataView(eocd.buffer);
+      dv.setUint32(0, 0x06054b50, true); dv.setUint16(8, entries.length, true); dv.setUint16(10, entries.length, true);
+      dv.setUint32(12, offset - cdStart, true); dv.setUint32(16, cdStart, true);
+      var out = new Uint8Array(offset + 22), p = 0;
+      locals.forEach(function (l) { out.set(l.hdr, p); p += l.hdr.length; out.set(l.data, p); p += l.data.length; });
+      cds.forEach(function (cd) { out.set(cd, p); p += cd.length; });
+      out.set(eocd, p);
+      return out;
+    }
+  </script>
+</body>
+</html>
