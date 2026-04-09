@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grønland 55 — Modellsjekk</title>
+  <title>G55_RIE.ifc — Modellarbeidsflate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -688,7 +688,7 @@
     <div class="project-label">Grønland 55</div>
 
     <div style="margin-top: 8px;">
-      <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
         Dashboard
       </a>
@@ -697,7 +697,7 @@
     <div class="nav-section">
       <div class="nav-section-label">Filer</div>
       <div class="nav-section-items">
-        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
           Modeller
         </a>
@@ -737,822 +737,610 @@
       
         <div class="content">
           
-<div class="page-header fade-in">
-  <div>
-    <h1>Grønland 55</h1>
-    <div class="page-header-sub">
-      4 modeller &middot; ARK, RIV, RIE, RIB&middot; Sist oppdatert 09. apr 2026
-    </div>
-  </div>
-  <div class="header-actions">
-    <button class="btn-outline">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-      Eksporter rapport
-    </button>
-  </div>
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>G55_RIE.ifc</h1>
+  <span class="badge badge-disc disc-rie">RIE</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-red">Avvik</span>
 </div>
 
 <div class="tabs fade-in">
   <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
-  <button class="tab" data-tab="compliance" onclick="switchTab('compliance')">Samsvar</button>
-  <button class="tab" data-tab="models" onclick="switchTab('models')">Modeller</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
 </div>
 
 
 <div class="tab-panel active" id="tab-overview">
-  <div class="bento bento-overview fade-in">
+  <div class="bento bento-12 fade-in">
 
     
-    <div class="card">
-      <div class="card-title">Krav oppfylt</div>
-      <div class="card-value" style="color: var(--primary)">4/10</div>
-      <div class="card-sub">6 gjenstående</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Modeller</div>
-      <div class="card-value">4</div>
-      <div class="card-sub">Alle analysert</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Typer totalt</div>
-      <div class="card-value">5588<span style="font-size: 16px; color: var(--text-tertiary); font-weight: 400"> / 261 foreldreløse</span></div>
-      <div class="card-sub">261 foreldreløse</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Materialer</div>
-      <div class="card-value">150</div>
-      <div class="card-sub">Unike materialnavn</div>
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">170</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">5 839</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">9</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">23.32</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val yellow">70%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
     </div>
 
     
-    <div class="card span-2">
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Grønland 55</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">RIE</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">MagiCAD For Revit 2025 UR-2</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">-</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-ok">mm</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row"><span class="id-key">CRS</span><span class="q-val q-fail">Mangler</span></div>
+          <div class="id-row"><span class="id-key">Øst</span><span class="id-val">-71.26</span></div>
+          <div class="id-row"><span class="id-key">Nord</span><span class="id-val">42.41</span></div>
+          <div class="id-row"><span class="id-key">Høyde</span><span class="id-val">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 88.7%; background: #157954;"></div>
+        
+        <div class="geom-seg" style="width: 11.0%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 0.3%; background: #8dd4b8;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">5 828</span>
+          <span class="geom-legend-label">MappedRepresentation</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #5dbf99;"></div>
+          <span class="geom-legend-count">723</span>
+          <span class="geom-legend-label">SurfaceModel</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">22</span>
+          <span class="geom-legend-label">SweptSolid</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell" style="grid-column: 1/5; grid-row: 1/5; background: #157954;">
+          IfcFlowTerminal<br><span class="tm-count">2 826</span>
+        </div>
+        
+        <div class="tm-cell" style="grid-column: 5/8; grid-row: 1/4; background: #1e9268;">
+          IfcDistributionControlElement<br><span class="tm-count">1 404</span>
+        </div>
+        
+        <div class="tm-cell" style="grid-column: 8/11; grid-row: 1/4; background: #27ab7d;">
+          IfcFlowSegment<br><span class="tm-count">838</span>
+        </div>
+        
+        <div class="tm-cell" style="grid-column: 5/8; grid-row: 4/7; background: #5dbf99;">
+          IfcFlowFitting<br><span class="tm-count">463</span>
+        </div>
+        
+        <div class="tm-cell" style="grid-column: 1/5; grid-row: 5/7; background: #8dd4b8;">
+          IfcEnergyConversionDevice<br><span class="tm-count">186</span>
+        </div>
+        
+        <div class="tm-cell" style="grid-column: 8/10; grid-row: 4/7; background: #b3e2ce;">
+          IfcFlowController<br><span class="tm-count">111</span>
+        </div>
+        
+        <div class="tm-cell" style="grid-column: 10/11; grid-row: 4/7; background: #d4eee2;color: var(--text-secondary);">
+          +<br><span class="tm-count">11</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
       <div class="card-header">
         <div class="card-title">Kravstatus</div>
-        <div style="display: flex; gap: 12px; font-size: 11px;">
-          <span class="tl"><span class="tl-dot green"></span> 4 bestått</span>
-          <span class="tl"><span class="tl-dot yellow"></span> 1 advarsel</span>
-          <span class="tl"><span class="tl-dot red"></span> 5 feilet</span>
-        </div>
       </div>
-      <ul class="req-list">
-        
-        <li class="req-item">
-          <span class="req-status warn">
-            !
-            
-          </span>
-          <span class="req-text">Modeller skal bruke IFC4 eller nyere</span>
-          <span class="req-model">
-            <span class="tag tag-yellow">1/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status pass">
-            &#10003;
-            
-          </span>
-          <span class="req-text">Forfatterverktøy skal være oppgitt</span>
-          <span class="req-model">
-            <span class="tag tag-green">4/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status pass">
-            &#10003;
-            
-          </span>
-          <span class="req-text">Lengdeenhet skal være millimeter</span>
-          <span class="req-model">
-            <span class="tag tag-green">4/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status fail">
-            &#10007;
-            
-          </span>
-          <span class="req-text">Koordinatsystem skal være definert</span>
-          <span class="req-model">
-            <span class="tag tag-red">0/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status pass">
-            &#10003;
-            
-          </span>
-          <span class="req-text">Etasjer skal være definert</span>
-          <span class="req-model">
-            <span class="tag tag-green">4/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status fail">
-            &#10007;
-            
-          </span>
-          <span class="req-text">Alle elementer skal være i romlig hierarki</span>
-          <span class="req-model">
-            <span class="tag tag-red">1/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status fail">
-            &#10007;
-            
-          </span>
-          <span class="req-text">Alle produkter skal ha typetilknytning</span>
-          <span class="req-model">
-            <span class="tag tag-red">0/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status fail">
-            &#10007;
-            
-          </span>
-          <span class="req-text">Ingen foreldreløse typer</span>
-          <span class="req-model">
-            <span class="tag tag-red">3/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status fail">
-            &#10007;
-            
-          </span>
-          <span class="req-text">Ingen proxy-typer (IfcBuildingElementProxy)</span>
-          <span class="req-model">
-            <span class="tag tag-red">2/4</span>
-          </span>
-        </li>
-        
-        <li class="req-item">
-          <span class="req-status pass">
-            &#10003;
-            
-          </span>
-          <span class="req-text">GUID-er skal være unike</span>
-          <span class="req-model">
-            <span class="tag tag-green">4/4</span>
-          </span>
-        </li>
-        
-      </ul>
+      
+      <div class="q-row">
+        <span class="q-label">Schema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatter</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enheter</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Koordinatsystem</span>
+        <span class="q-val q-fail">Mangler</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer</span>
+        <span class="q-val q-ok">9 etasjer</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Spatial hierarki</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-warn">99%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Orphan types</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Proxy-typer</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">GUID-unikhet</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
     </div>
 
     
-    <div class="card span-2">
+    <div class="card storey-card">
       <div class="card-header">
-        <div class="card-title">Modell &times; Krav</div>
+        <div class="card-title">Elementer per etasje</div>
       </div>
-      <table class="matrix-table">
-        <thead>
-          <tr>
-            <th style="width: 140px;">Krav</th>
-            
-            <th>G55_ARK</th>
-            
-            <th>G55_RIV</th>
-            
-            <th>G55_RIE</th>
-            
-            <th>G55_RIB</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>Modeller skal bruke IFC4 eller nyere</td>
-            
-            <td><span class="tl-cell warn">IFC2X3</span></td>
-            
-            <td><span class="tl-cell pass">IFC4</span></td>
-            
-            <td><span class="tl-cell warn">IFC2X3</span></td>
-            
-            <td><span class="tl-cell warn">IFC2X3</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Forfatterverktøy skal være oppgitt</td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Lengdeenhet skal være millimeter</td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Koordinatsystem skal være definert</td>
-            
-            <td><span class="tl-cell fail">Mangler</span></td>
-            
-            <td><span class="tl-cell fail">Mangler</span></td>
-            
-            <td><span class="tl-cell fail">Mangler</span></td>
-            
-            <td><span class="tl-cell fail">Mangler</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Etasjer skal være definert</td>
-            
-            <td><span class="tl-cell pass">10 etasjer</span></td>
-            
-            <td><span class="tl-cell pass">10 etasjer</span></td>
-            
-            <td><span class="tl-cell pass">9 etasjer</span></td>
-            
-            <td><span class="tl-cell pass">10 etasjer</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Alle elementer skal være i romlig hierarki</td>
-            
-            <td><span class="tl-cell fail">10637/13690</span></td>
-            
-            <td><span class="tl-cell warn">30885/30886</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell fail">705/964</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Alle produkter skal ha typetilknytning</td>
-            
-            <td><span class="tl-cell warn">90%</span></td>
-            
-            <td><span class="tl-cell fail">0%</span></td>
-            
-            <td><span class="tl-cell warn">99%</span></td>
-            
-            <td><span class="tl-cell fail">83%</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Ingen foreldreløse typer</td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell fail">261 foreldreløse</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Ingen proxy-typer (IfcBuildingElementProxy)</td>
-            
-            <td><span class="tl-cell warn">84 proxy</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell fail">205 proxy</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>GUID-er skal være unike</td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-            <td><span class="tl-cell pass">OK</span></td>
-            
-          </tr>
-          
-        </tbody>
-      </table>
+      
+      <div class="storey-row">
+        <span class="storey-name">TAKPLAN</span>
+        <span class="storey-elev">+27.5</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 0%;"></div></div>
+        <span class="storey-count">3</span>
+      </div>
+      
+      <div class="storey-row">
+        <span class="storey-name">Plan 7</span>
+        <span class="storey-elev">+23.9</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 13%;"></div></div>
+        <span class="storey-count">166</span>
+      </div>
+      
+      <div class="storey-row">
+        <span class="storey-name">Plan 6</span>
+        <span class="storey-elev">+20.3</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 16%;"></div></div>
+        <span class="storey-count">197</span>
+      </div>
+      
+      <div class="storey-row">
+        <span class="storey-name">Plan 5</span>
+        <span class="storey-elev">+16.7</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 78%;"></div></div>
+        <span class="storey-count">955</span>
+      </div>
+      
+      <div class="storey-row">
+        <span class="storey-name">Plan 4</span>
+        <span class="storey-elev">+13.1</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
+        <span class="storey-count">1230</span>
+      </div>
+      
+      <div class="storey-row">
+        <span class="storey-name">Plan 3</span>
+        <span class="storey-elev">+9.5</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 98%;"></div></div>
+        <span class="storey-count">1211</span>
+      </div>
+      
+      <div class="storey-row">
+        <span class="storey-name">Plan 2</span>
+        <span class="storey-elev">+5.9</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 63%;"></div></div>
+        <span class="storey-count">778</span>
+      </div>
+      
+      <div class="storey-row">
+        <span class="storey-name">Plan 1</span>
+        <span class="storey-elev">+2.3</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 71%;"></div></div>
+        <span class="storey-count">874</span>
+      </div>
+      
     </div>
 
     
-    <div class="card span-2">
+    <div class="card type-progress-card">
       <div class="card-header">
-        <div class="card-title">Typing per disiplin</div>
+        <div class="card-title">Topp IFC-klasser</div>
       </div>
-      <div style="margin-top: 4px;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
         
         <div class="bar-row">
-          <span class="bar-label-left"><span class="disc-tag disc-ark">ARK</span></span>
-          <div class="bar-track"><div class="bar-fill green" style="width: 90%"></div></div>
-          <span class="bar-count">12365/13690</span>
+          <span class="bar-label" style="width: 110px;">IfcFlowTerminal</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 48%;"></div></div>
+          <span class="bar-count" style="width: 36px;">2826</span>
         </div>
         
         <div class="bar-row">
-          <span class="bar-label-left"><span class="disc-tag disc-riv">RIV</span></span>
-          <div class="bar-track"><div class="bar-fill red" style="width: 0%"></div></div>
-          <span class="bar-count">0/30886</span>
+          <span class="bar-label" style="width: 110px;">IfcDistributionControlElement</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 24%;"></div></div>
+          <span class="bar-count" style="width: 36px;">1404</span>
         </div>
         
         <div class="bar-row">
-          <span class="bar-label-left"><span class="disc-tag disc-rie">RIE</span></span>
-          <div class="bar-track"><div class="bar-fill green" style="width: 99%"></div></div>
-          <span class="bar-count">5783/5839</span>
+          <span class="bar-label" style="width: 110px;">IfcFlowSegment</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 14%;"></div></div>
+          <span class="bar-count" style="width: 36px;">838</span>
         </div>
         
         <div class="bar-row">
-          <span class="bar-label-left"><span class="disc-tag disc-rib">RIB</span></span>
-          <div class="bar-track"><div class="bar-fill green" style="width: 83%"></div></div>
-          <span class="bar-count">802/964</span>
+          <span class="bar-label" style="width: 110px;">IfcFlowFitting</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 8%;"></div></div>
+          <span class="bar-count" style="width: 36px;">463</span>
+        </div>
+        
+        <div class="bar-row">
+          <span class="bar-label" style="width: 110px;">IfcEnergyConversionDevice</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 3%;"></div></div>
+          <span class="bar-count" style="width: 36px;">186</span>
         </div>
         
       </div>
     </div>
 
-    <div class="card span-2">
+    
+    <div class="card materials-card">
       <div class="card-header">
-        <div class="card-title">Etasjekoordinering</div>
+        <div class="card-title">Materialer</div>
       </div>
-      <table class="matrix-table">
-        <thead>
-          <tr>
-            <th style="width: 80px;">Etasje</th>
-            <th>Kote</th>
-            
-            <th>G55_ARK</th>
-            
-            <th>G55_RIV</th>
-            
-            <th>G55_RIE</th>
-            
-            <th>G55_RIB</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>Plan 08T</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 500</td>
-            
-            <td><span class="tl-cell yellow">Plan 08T</span></td>
-            
-            <td><span class="tl-cell yellow">Takplan - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">TAKPLAN</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 08T</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan 07</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 900</td>
-            
-            <td><span class="tl-cell yellow">Plan 07</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 07 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 7</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 07</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan 06</td>
-            <td style="font-variant-numeric: tabular-nums;">+20 300</td>
-            
-            <td><span class="tl-cell yellow">Plan 06</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 06 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 6</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 06</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan 05</td>
-            <td style="font-variant-numeric: tabular-nums;">+16 700</td>
-            
-            <td><span class="tl-cell yellow">Plan 05</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 05 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 5</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 05</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan 04</td>
-            <td style="font-variant-numeric: tabular-nums;">+13 100</td>
-            
-            <td><span class="tl-cell yellow">Plan 04</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 04 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 4</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 04</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan 03</td>
-            <td style="font-variant-numeric: tabular-nums;">+9 500</td>
-            
-            <td><span class="tl-cell yellow">Plan 03</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 03 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 3</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 03</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan 02</td>
-            <td style="font-variant-numeric: tabular-nums;">+5 900</td>
-            
-            <td><span class="tl-cell yellow">Plan 02</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 02 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 2</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 02</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+2 300</td>
-            
-            <td><span class="tl-cell yellow">Plan 01</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 01 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 1</span></td>
-            
-            <td><span class="tl-cell yellow">Plan 01</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Havnivå</td>
-            <td style="font-variant-numeric: tabular-nums;">±0</td>
-            
-            <td><span class="tl-cell yellow">Havnivå</span></td>
-            
-            <td><span class="tl-cell yellow">0-Havnivå</span></td>
-            
-            <td><span class="tl-cell gray">—</span></td>
-            
-            <td><span class="tl-cell yellow">Havnivå</span></td>
-            
-          </tr>
-          
-          <tr>
-            <td>Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">-2 000</td>
-            
-            <td><span class="tl-cell yellow">Plan U1</span></td>
-            
-            <td><span class="tl-cell yellow">Plan U1 - VVS</span></td>
-            
-            <td><span class="tl-cell yellow">Plan U</span></td>
-            
-            <td><span class="tl-cell yellow">Plan U1</span></td>
-            
-          </tr>
-          
-        </tbody>
-      </table>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
     </div>
+
+    
+    <div class="card info-card">
+      <div class="card-header">
+        <div class="card-title">Forfatterinfo</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Verktøy</span>
+        <span class="meta-val">MagiCAD For Revit 2025 UR-2</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Organisasjon</span>
+        <span class="meta-val">-</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Schema</span>
+        <span class="meta-val">IFC2X3</span>
+      </div>
+      <div class="meta-row" style="border-bottom: none;">
+        <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
+        <span class="meta-val">23.32 MB</span>
+      </div>
+    </div>
+
   </div>
 </div>
 
 
-<div class="tab-panel" id="tab-compliance">
-  <div class="fade-in" style="max-width: 1100px;">
-    <div class="card" style="margin-bottom: 16px;">
-      <div class="card-header">
-        <div class="card-title">Detaljert samsvarsstatus</div>
-      </div>
-      <table class="dash-table">
-        <thead>
-          <tr>
-            <th style="width: 40px;" class="center">#</th>
-            <th>Krav</th>
-            <th style="width: 90px;">Kategori</th>
-            
-            <th style="width: 80px;" class="center">G55_ARK</th>
-            
-            <th style="width: 80px;" class="center">G55_RIV</th>
-            
-            <th style="width: 80px;" class="center">G55_RIE</th>
-            
-            <th style="width: 80px;" class="center">G55_RIB</th>
-            
-            <th style="width: 80px;" class="center">Totalt</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td class="center">1</td>
-            <td>Modeller skal bruke IFC4 eller nyere</td>
-            <td><span class="tag tag-gray">Format</span></td>
-            
-            <td class="center"><span class="tl-cell warn">IFC2X3</span></td>
-            
-            <td class="center"><span class="tl-cell pass">IFC4</span></td>
-            
-            <td class="center"><span class="tl-cell warn">IFC2X3</span></td>
-            
-            <td class="center"><span class="tl-cell warn">IFC2X3</span></td>
-            
-            <td class="center"><span class="tl-cell yellow">1/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">2</td>
-            <td>Forfatterverktøy skal være oppgitt</td>
-            <td><span class="tag tag-gray">Identitet</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell green">4/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">3</td>
-            <td>Lengdeenhet skal være millimeter</td>
-            <td><span class="tag tag-gray">Geometri</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell green">4/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">4</td>
-            <td>Koordinatsystem skal være definert</td>
-            <td><span class="tag tag-gray">Geolokasjon</span></td>
-            
-            <td class="center"><span class="tl-cell fail">Mangler</span></td>
-            
-            <td class="center"><span class="tl-cell fail">Mangler</span></td>
-            
-            <td class="center"><span class="tl-cell fail">Mangler</span></td>
-            
-            <td class="center"><span class="tl-cell fail">Mangler</span></td>
-            
-            <td class="center"><span class="tl-cell red">0/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">5</td>
-            <td>Etasjer skal være definert</td>
-            <td><span class="tag tag-gray">Struktur</span></td>
-            
-            <td class="center"><span class="tl-cell pass">10 etasjer</span></td>
-            
-            <td class="center"><span class="tl-cell pass">10 etasjer</span></td>
-            
-            <td class="center"><span class="tl-cell pass">9 etasjer</span></td>
-            
-            <td class="center"><span class="tl-cell pass">10 etasjer</span></td>
-            
-            <td class="center"><span class="tl-cell green">4/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">6</td>
-            <td>Alle elementer skal være i romlig hierarki</td>
-            <td><span class="tag tag-gray">Struktur</span></td>
-            
-            <td class="center"><span class="tl-cell fail">10637/13690</span></td>
-            
-            <td class="center"><span class="tl-cell warn">30885/30886</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell fail">705/964</span></td>
-            
-            <td class="center"><span class="tl-cell red">1/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">7</td>
-            <td>Alle produkter skal ha typetilknytning</td>
-            <td><span class="tag tag-blue">Typer</span></td>
-            
-            <td class="center"><span class="tl-cell warn">90%</span></td>
-            
-            <td class="center"><span class="tl-cell fail">0%</span></td>
-            
-            <td class="center"><span class="tl-cell warn">99%</span></td>
-            
-            <td class="center"><span class="tl-cell fail">83%</span></td>
-            
-            <td class="center"><span class="tl-cell red">0/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">8</td>
-            <td>Ingen foreldreløse typer</td>
-            <td><span class="tag tag-blue">Typer</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell fail">261 foreldreløse</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell red">3/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">9</td>
-            <td>Ingen proxy-typer (IfcBuildingElementProxy)</td>
-            <td><span class="tag tag-blue">Typer</span></td>
-            
-            <td class="center"><span class="tl-cell warn">84 proxy</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell fail">205 proxy</span></td>
-            
-            <td class="center"><span class="tl-cell red">2/4</span></td>
-          </tr>
-          
-          <tr>
-            <td class="center">10</td>
-            <td>GUID-er skal være unike</td>
-            <td><span class="tag tag-gray">Identitet</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell pass">OK</span></td>
-            
-            <td class="center"><span class="tl-cell green">4/4</span></td>
-          </tr>
-          
-        </tbody>
-      </table>
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">7</div>
+      <div class="card-sub">Krav oppfylt</div>
     </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">2</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">1</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Modeller skal bruke IFC4 eller nyere</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy skal være oppgitt</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">MagiCAD For Revit 2025 UR-2</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Lengdeenhet skal være millimeter</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Koordinatsystem skal være definert</td>
+          <td><span class="tag tag-gray">Geolokasjon</span></td>
+          <td style="color: var(--text-secondary);">Ingen IfcProjectedCRS funnet</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Etasjer skal være definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">9 etasjer</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">0 elementer uten plassering (0%)</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">56 av 5839 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen foreldreløse typer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">GUID-er skal være unike</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+      </tbody>
+    </table>
   </div>
 </div>
 
 
-<div class="tab-panel" id="tab-models">
-  <div class="fade-in">
-    <div class="bento" style="grid-template-columns: repeat(4, 1fr);">
-      
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark/" style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <div>
-            <div style="font-size: 14px; font-weight: 600;">G55_ARK.ifc</div>
-            <div style="font-size: 11px; color: var(--text-tertiary);">156.82 MB</div>
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">MagiCAD For Revit 2025 UR-2</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">-</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">G55_RIE.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">23.32 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Grønland 55</span>
+            <span class="tree-type">IfcProject</span>
           </div>
-          <span class="disc-tag disc-ark">ARK</span>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>13 690</strong></div>
-          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>4820</strong></div>
-          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>5/10</strong></div>
-        </div>
-        <div style="margin-top: 12px;">
-          <div class="bar-row" style="margin-bottom: 0;">
-            <div class="bar-track"><div class="bar-fill yellow" style="width: 50%"></div></div>
-            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">50%</span>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan U (-2.000)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 1 (+2.300)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 2 (+5.900)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 3 (+9.500)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 4 (+13.100)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 5 (+16.700)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 6 (+20.300)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">Plan 7 (+23.900)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">TAKPLAN (+27.500)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
           </div>
         </div>
-      </a>
-      
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <div>
-            <div style="font-size: 14px; font-weight: 600;">G55_RIV.ifc</div>
-            <div style="font-size: 11px; color: var(--text-tertiary);">106.6 MB</div>
-          </div>
-          <span class="disc-tag disc-riv">RIV</span>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>30 886</strong></div>
-          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>261</strong></div>
-          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>6/10</strong></div>
-        </div>
-        <div style="margin-top: 12px;">
-          <div class="bar-row" style="margin-bottom: 0;">
-            <div class="bar-track"><div class="bar-fill yellow" style="width: 60%"></div></div>
-            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">60%</span>
-          </div>
-        </div>
-      </a>
-      
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie/" style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <div>
-            <div style="font-size: 14px; font-weight: 600;">G55_RIE.ifc</div>
-            <div style="font-size: 11px; color: var(--text-tertiary);">23.32 MB</div>
-          </div>
-          <span class="disc-tag disc-rie">RIE</span>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>5 839</strong></div>
-          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>170</strong></div>
-          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>9</strong></div>
-          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>7/10</strong></div>
-        </div>
-        <div style="margin-top: 12px;">
-          <div class="bar-row" style="margin-bottom: 0;">
-            <div class="bar-track"><div class="bar-fill yellow" style="width: 70%"></div></div>
-            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">70%</span>
-          </div>
-        </div>
-      </a>
-      
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rib/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <div>
-            <div style="font-size: 14px; font-weight: 600;">G55_RIB.ifc</div>
-            <div style="font-size: 11px; color: var(--text-tertiary);">33.56 MB</div>
-          </div>
-          <span class="disc-tag disc-rib">RIB</span>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>964</strong></div>
-          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>337</strong></div>
-          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>5/10</strong></div>
-        </div>
-        <div style="margin-top: 12px;">
-          <div class="bar-row" style="margin-bottom: 0;">
-            <div class="bar-track"><div class="bar-fill yellow" style="width: 50%"></div></div>
-            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">50%</span>
-          </div>
-        </div>
-      </a>
-      
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">CRS</span><span class="meta-val">Mangler</span></div>
+      <div class="meta-row"><span class="meta-key">Eastings</span><span class="meta-val">-71.26</span></div>
+      <div class="meta-row"><span class="meta-key">Northings</span><span class="meta-val">42.41</span></div>
+      <div class="meta-row"><span class="meta-key">OrthogonalHeight</span><span class="meta-val">—</span></div>
     </div>
   </div>
 </div>
@@ -1563,25 +1351,19 @@
   </div>
   
 <script>
-  function switchTab(name, push) {
+  function switchTab(name) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     var btn = document.querySelector('.tab[data-tab="' + name + '"]');
     if (btn) btn.classList.add('active');
     var panel = document.getElementById('tab-' + name);
     if (panel) panel.classList.add('active');
-    if (push) history.replaceState(null, '', '#tab-' + name);
   }
-  // Honor URL hash on load (so sidebar links to #tab-models work)
-  (function () {
-    var h = (window.location.hash || '').replace('#tab-', '');
-    if (h && document.getElementById('tab-' + h)) switchTab(h, false);
-  })();
-  // React to hash changes (clicking sidebar while already on the page)
-  window.addEventListener('hashchange', function () {
-    var h = (window.location.hash || '').replace('#tab-', '');
-    if (h && document.getElementById('tab-' + h)) switchTab(h, false);
-  });
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
 </script>
 
 </body>
