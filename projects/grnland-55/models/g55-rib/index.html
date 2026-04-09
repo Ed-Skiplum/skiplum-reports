@@ -318,6 +318,13 @@
     .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
     .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
 
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
     /* ═══════════════════════════════════════════
        PROGRESS BARS
        ═══════════════════════════════════════════ */
@@ -883,7 +890,7 @@
   <h1>G55_RIB.ifc</h1>
   <span class="badge badge-disc disc-rib">RIB</span>
   <span class="badge badge-version">IFC2X3</span>
-  <span class="badge tag tag-red">Avvik</span>
+  <span class="badge tag tag-yellow">Advarsel</span>
 </div>
 
 <div class="tabs fade-in">
@@ -1088,12 +1095,12 @@
       
       <div class="q-row">
         <span class="q-label">Spatial hierarki</span>
-        <span class="q-val q-fail">705/964</span>
+        <span class="q-val q-warn">705/964</span>
       </div>
       
       <div class="q-row">
         <span class="q-label">Typed elementer</span>
-        <span class="q-val q-fail">83%</span>
+        <span class="q-val q-warn">83%</span>
       </div>
       
       <div class="q-row">
@@ -1103,7 +1110,7 @@
       
       <div class="q-row">
         <span class="q-label">Proxy-typer</span>
-        <span class="q-val q-fail">205 proxy</span>
+        <span class="q-val q-warn">205 proxy</span>
       </div>
       
       <div class="q-row">
@@ -1300,12 +1307,12 @@
     </div>
     <div class="summary-card">
       <div class="card-title">Advarsler</div>
-      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">1</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">4</div>
       <div class="card-sub">Bør utbedres</div>
     </div>
     <div class="summary-card">
       <div class="card-title">Feil</div>
-      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">3</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">0</div>
       <div class="card-sub">Må utbedres</div>
     </div>
   </div>
@@ -1354,14 +1361,14 @@
         </tr>
         
         <tr>
-          <td><span class="tl-dot red"></span></td>
+          <td><span class="tl-dot yellow"></span></td>
           <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
           <td><span class="tag tag-gray">Struktur</span></td>
           <td style="color: var(--text-secondary);">259 elementer uten plassering (27%)</td>
         </tr>
         
         <tr>
-          <td><span class="tl-dot red"></span></td>
+          <td><span class="tl-dot yellow"></span></td>
           <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
           <td><span class="tag tag-gray">Typer</span></td>
           <td style="color: var(--text-secondary);">162 av 964 elementer mangler IfcTypeObject</td>
@@ -1375,7 +1382,7 @@
         </tr>
         
         <tr>
-          <td><span class="tl-dot red"></span></td>
+          <td><span class="tl-dot yellow"></span></td>
           <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
           <td><span class="tag tag-gray">Typer</span></td>
           <td style="color: var(--text-secondary);">205 typer eksportert som IfcBuildingElementProxy</td>

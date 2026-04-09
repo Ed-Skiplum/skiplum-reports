@@ -318,6 +318,13 @@
     .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
     .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
 
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
     /* ═══════════════════════════════════════════
        PROGRESS BARS
        ═══════════════════════════════════════════ */
@@ -915,7 +922,7 @@
         <span class="kpi-lbl">MB &middot; IFC2X3</span>
       </div>
       <div class="kpi-chip">
-        <span class="kpi-val yellow">70%</span>
+        <span class="kpi-val green">80%</span>
         <span class="kpi-lbl">krav oppfylt</span>
       </div>
     </div>
@@ -1077,7 +1084,7 @@
       
       <div class="q-row">
         <span class="q-label">Typed elementer</span>
-        <span class="q-val q-warn">99%</span>
+        <span class="q-val q-ok">99%</span>
       </div>
       
       <div class="q-row">
@@ -1244,12 +1251,12 @@
   <div class="summary-cards fade-in">
     <div class="summary-card">
       <div class="card-title">Bestått</div>
-      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">7</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">8</div>
       <div class="card-sub">Krav oppfylt</div>
     </div>
     <div class="summary-card">
       <div class="card-title">Advarsler</div>
-      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">2</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">1</div>
       <div class="card-sub">Bør utbedres</div>
     </div>
     <div class="summary-card">
@@ -1306,11 +1313,11 @@
           <td><span class="tl-dot green"></span></td>
           <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
           <td><span class="tag tag-gray">Struktur</span></td>
-          <td style="color: var(--text-secondary);">0 elementer uten plassering (0%)</td>
+          <td style="color: var(--text-secondary);">OK</td>
         </tr>
         
         <tr>
-          <td><span class="tl-dot yellow"></span></td>
+          <td><span class="tl-dot green"></span></td>
           <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
           <td><span class="tag tag-gray">Typer</span></td>
           <td style="color: var(--text-secondary);">56 av 5839 elementer mangler IfcTypeObject</td>

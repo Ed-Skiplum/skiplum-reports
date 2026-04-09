@@ -318,6 +318,13 @@
     .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
     .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
 
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
     /* ═══════════════════════════════════════════
        PROGRESS BARS
        ═══════════════════════════════════════════ */
@@ -883,7 +890,7 @@
   <h1>G55_ARK.ifc</h1>
   <span class="badge badge-disc disc-ark">ARK</span>
   <span class="badge badge-version">IFC2X3</span>
-  <span class="badge tag tag-red">Avvik</span>
+  <span class="badge tag tag-yellow">Advarsel</span>
 </div>
 
 <div class="tabs fade-in">
@@ -915,7 +922,7 @@
         <span class="kpi-lbl">MB &middot; IFC2X3</span>
       </div>
       <div class="kpi-chip">
-        <span class="kpi-val yellow">50%</span>
+        <span class="kpi-val yellow">60%</span>
         <span class="kpi-lbl">krav oppfylt</span>
       </div>
     </div>
@@ -1088,12 +1095,12 @@
       
       <div class="q-row">
         <span class="q-label">Spatial hierarki</span>
-        <span class="q-val q-fail">10637/13690</span>
+        <span class="q-val q-warn">10637/13690</span>
       </div>
       
       <div class="q-row">
         <span class="q-label">Typed elementer</span>
-        <span class="q-val q-warn">90%</span>
+        <span class="q-val q-ok">90%</span>
       </div>
       
       <div class="q-row">
@@ -1295,7 +1302,7 @@
   <div class="summary-cards fade-in">
     <div class="summary-card">
       <div class="card-title">Bestått</div>
-      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">5</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">6</div>
       <div class="card-sub">Krav oppfylt</div>
     </div>
     <div class="summary-card">
@@ -1305,7 +1312,7 @@
     </div>
     <div class="summary-card">
       <div class="card-title">Feil</div>
-      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">1</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">0</div>
       <div class="card-sub">Må utbedres</div>
     </div>
   </div>
@@ -1354,14 +1361,14 @@
         </tr>
         
         <tr>
-          <td><span class="tl-dot red"></span></td>
+          <td><span class="tl-dot yellow"></span></td>
           <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
           <td><span class="tag tag-gray">Struktur</span></td>
           <td style="color: var(--text-secondary);">3053 elementer uten plassering (22%)</td>
         </tr>
         
         <tr>
-          <td><span class="tl-dot yellow"></span></td>
+          <td><span class="tl-dot green"></span></td>
           <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
           <td><span class="tag tag-gray">Typer</span></td>
           <td style="color: var(--text-secondary);">1325 av 13690 elementer mangler IfcTypeObject</td>
