@@ -1,457 +1,1572 @@
 <!DOCTYPE html>
 <html lang="nb">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grønland 55 — IFC Helsesjekk</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grønland 55 — Modellsjekk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --bg: #eeeeed;
-    --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
-    --card: #ffffff;
-    --primary: #157954;
-    --primary-light: rgba(21, 121, 84, 0.1);
-    --accent: #D0D34D;
-    --navy: #21263A;
-    --text-primary: #21263A;
-    --text-secondary: #525d78;
-    --text-tertiary: #717b94;
-    --border: #d2d4d3;
-    --radius: 0.75rem;
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --tl-green-bg: #dcfce7;
-    --tl-green-text: #166534;
-    --tl-green-dot: #22c55e;
-    --tl-yellow-bg: #fef9c3;
-    --tl-yellow-text: #854d0e;
-    --tl-yellow-dot: #eab308;
-    --tl-red-bg: #fee2e2;
-    --tl-red-text: #991b1b;
-    --tl-red-dot: #ef4444;
-    --tl-gray-bg: #f1f5f9;
-    --tl-gray-text: #94a3b8;
-  }
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
-    background: var(--bg-gradient);
-    background-attachment: fixed;
-    color: var(--text-primary);
-    -webkit-font-smoothing: antialiased;
-    padding: var(--space-lg) var(--space-xl);
-    max-width: 720px;
-    margin: 0 auto;
-    font-size: 12px;
-    line-height: 1.5;
-  }
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
 
-  /* Top accent */
-  .top-accent {
-    height: 3px;
-    background: linear-gradient(to right, #D0D34D, #157954, #21263A);
-    border-radius: 2px;
-    margin-bottom: var(--space-lg);
-  }
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
 
-  /* Page header */
-  .page-header { margin-bottom: 20px; }
-  .page-header h1 { font-size: 20px; font-weight: 700; }
-  .page-header-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* Cards */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    overflow: hidden;
-  }
-  .card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .card-title {
-    font-size: 10px; font-weight: 600; color: var(--text-tertiary);
-    text-transform: uppercase; letter-spacing: 0.06em;
-  }
-  .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
-  .card-sub { font-size: 10px; color: var(--text-tertiary); margin-top: 4px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
 
-  /* KPI strip */
-  .kpi-strip { display: flex; gap: 10px; margin-bottom: var(--space-md); }
-  .kpi-chip {
-    flex: 1; background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 10px 14px;
-    display: flex; align-items: baseline; gap: 8px;
-  }
-  .kpi-val {
-    font-size: 20px; font-weight: 700; line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .kpi-val.primary { color: var(--primary); }
-  .kpi-val.green { color: var(--tl-green-text); }
-  .kpi-val.yellow { color: var(--tl-yellow-text); }
-  .kpi-val.red { color: var(--tl-red-text); }
-  .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
 
-  /* Traffic lights */
-  .tl { display: inline-flex; align-items: center; gap: 6px; }
-  .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .tl-dot.green { background: var(--tl-green-dot); }
-  .tl-dot.yellow { background: var(--tl-yellow-dot); }
-  .tl-dot.red { background: var(--tl-red-dot); }
-  .tl-cell {
-    padding: var(--space-xs) var(--space-sm); border-radius: 4px;
-    font-size: 11px; font-weight: 500; text-align: center;
-  }
-  .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
-  .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
-  .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
-  .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
 
-  /* Tags */
-  .tag {
-    display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
-    font-size: 11px; font-weight: 500; margin: 1px 2px;
-  }
-  .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
-  .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
-  .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
-  .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
 
-  /* Discipline tags */
-  .disc-tag {
-    padding: 2px var(--space-sm); border-radius: 4px;
-    font-size: 10px; font-weight: 600; letter-spacing: 0.03em;
-  }
-  .disc-ark { background: #e8f0fe; color: #1a56db; }
-  .disc-rib { background: #fef3c7; color: #92400e; }
-  .disc-riv { background: #d1fae5; color: #065f46; }
-  .disc-rie { background: #fce7f3; color: #9d174d; }
-  .disc-rig { background: #f0fdf4; color: #065f46; }
-  .disc-lark { background: #ecfdf5; color: #047857; }
-  .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
-  .disc-default { background: var(--tl-gray-bg); color: #475569; }
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
 
-  /* Progress bars */
-  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .bar-label {
-    font-size: 11px; color: var(--text-secondary); width: 140px; flex-shrink: 0;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
-  .bar-fill.green { background: var(--tl-green-dot); }
-  .bar-fill.yellow { background: var(--tl-yellow-dot); }
-  .bar-fill.red { background: var(--tl-red-dot); }
-  .bar-fill.primary { background: var(--primary); }
-  .bar-count {
-    font-size: 11px; font-weight: 600; color: var(--text-primary);
-    width: 50px; text-align: right; flex-shrink: 0;
-    font-variant-numeric: tabular-nums;
-  }
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
 
-  /* Tables */
-  .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .dash-table th {
-    text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
-    color: var(--text-secondary); background: var(--tl-gray-bg);
-    border-bottom: 2px solid #cbd5e1; text-transform: uppercase; letter-spacing: 0.04em;
-  }
-  .dash-table th.center, .dash-table td.center { text-align: center; }
-  .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
-  .dash-table tr:hover td { background: #f8fafc; }
-  .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .dash-table a { color: var(--text-primary); text-decoration: none; font-weight: 500; }
-  .dash-table a:hover { color: var(--primary); }
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
 
-  /* Quality checklist */
-  .q-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
-  }
-  .q-row:last-child { border-bottom: none; }
-  .q-label { color: var(--text-secondary); }
-  .q-val {
-    font-weight: 600; font-variant-numeric: tabular-nums;
-    padding: 1px 8px; border-radius: 4px; font-size: 11px;
-  }
-  .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
-  .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
-  .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
 
-  /* Issue items */
-  .issue-list { list-style: none; }
-  .issue-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
-    font-size: 12px;
-  }
-  .issue-item:last-child { border-bottom: none; }
-  .issue-status {
-    width: 20px; height: 20px; border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; font-size: 11px;
-  }
-  .issue-status.critical { background: var(--tl-red-bg); color: var(--tl-red-text); }
-  .issue-status.warning { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
-  .issue-status.info { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
-  .issue-text { flex: 1; color: var(--text-primary); }
-  .issue-detail { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }
-  .issue-section { font-size: 10px; color: var(--text-tertiary); white-space: nowrap; }
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
 
-  /* Badge */
-  .badge {
-    display: inline-flex; align-items: center; gap: var(--space-xs);
-    padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
-  }
-  .badge-version { background: var(--primary-light); color: var(--primary); }
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
 
-  /* Bento grid */
-  .bento { display: grid; gap: 12px; margin-bottom: var(--space-md); }
-  .bento-2 { grid-template-columns: 1fr 1fr; }
-  .bento-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .bento-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
 
-  /* Score ring SVG */
-  .score-ring-wrap { display: flex; align-items: center; gap: var(--space-md); }
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
-  /* ID grid */
-  .id-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; }
-  .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
-  .id-key { color: var(--text-secondary); }
-  .id-key::after { content: ':'; }
-  .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+    }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+    }
 
-  /* Animations */
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .fade-in { animation: fadeIn 0.25s ease both; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
 
-  /* Footer */
-  .footer {
-    margin-top: 20px; padding-top: 10px;
-    border-top: 1px solid var(--border);
-    font-size: 10px; color: var(--text-tertiary);
-    display: flex; align-items: center; gap: 6px;
-  }
-  .footer-brand {
-    width: 16px; height: 16px; background: var(--primary); color: white;
-    border-radius: 4px; display: flex; align-items: center; justify-content: center;
-    font-size: 8px; font-weight: 700;
-  }
-</style>
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      display: grid; width: 100%; aspect-ratio: 16/10;
+      grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(6, 1fr);
+      gap: 2px; border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.8; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 10px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+  </style>
 </head>
 <body>
-<div class="top-accent"></div>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SF</span>
+      <span class="brand-name">Spruce Forge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <div class="sidebar-search">
+    <button class="search-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <span>Søk…</span>
+    </button>
+    <button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Grønland 55</div>
 
+    <div style="margin-top: 8px;">
+      <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/#modeller">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialbibliotek
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </button>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+        <div class="content">
+          
 <div class="page-header fade-in">
-  <h1>Grønland 55</h1>
-  <div class="page-header-sub">4 modeller &middot; Sist oppdatert 07.04.2026 19:43</div>
-</div>
-
-<!-- KPI Strip -->
-<div class="kpi-strip fade-in">
-  <div class="kpi-chip">
-    <span class="kpi-val primary">78</span>
-    <span class="kpi-lbl">Snitt</span>
-  </div>
-  <div class="kpi-chip">
-    <span class="kpi-val green">1</span>
-    <span class="kpi-lbl">God</span>
-  </div>
-  <div class="kpi-chip">
-    <span class="kpi-val yellow">3</span>
-    <span class="kpi-lbl">Akseptabel</span>
-  </div>
-  <div class="kpi-chip">
-    <span class="kpi-val red">0</span>
-    <span class="kpi-lbl">Kritisk</span>
-  </div>
-</div>
-
-<!-- Score distribution bars -->
-<div class="card fade-in" style="margin-bottom: var(--space-md);">
-  <div class="card-header">
-    <span class="card-title">Fordeling</span>
-  </div>
-  <div class="bar-row">
-    <span class="bar-label">God (&ge;80)</span>
-    <div class="bar-track">
-      <div class="bar-fill green" style="width: 25%;"></div>
+  <div>
+    <h1>Grønland 55</h1>
+    <div class="page-header-sub">
+      4 modeller &middot; ARK, RIV, RIE, RIB&middot; Sist oppdatert 09. apr 2026
     </div>
-    <span class="bar-count">1</span>
   </div>
-  <div class="bar-row">
-    <span class="bar-label">Akseptabel (50–79)</span>
-    <div class="bar-track">
-      <div class="bar-fill yellow" style="width: 75%;"></div>
+  <div class="header-actions">
+    <button class="btn-outline">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+      Eksporter rapport
+    </button>
+  </div>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" onclick="switchTab('compliance')">Samsvar</button>
+  <button class="tab" onclick="switchTab('models')">Modeller</button>
+</div>
+
+
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-overview fade-in">
+
+    
+    <div class="card">
+      <div class="card-title">Krav oppfylt</div>
+      <div class="card-value" style="color: var(--primary)">4/10</div>
+      <div class="card-sub">6 gjenstående</div>
     </div>
-    <span class="bar-count">3</span>
-  </div>
-  <div class="bar-row">
-    <span class="bar-label">Kritisk (&lt;50)</span>
-    <div class="bar-track">
-      <div class="bar-fill red" style="width: 0%;"></div>
+    <div class="card">
+      <div class="card-title">Modeller</div>
+      <div class="card-value">4</div>
+      <div class="card-sub">Alle analysert</div>
     </div>
-    <span class="bar-count">0</span>
+    <div class="card">
+      <div class="card-title">Typer totalt</div>
+      <div class="card-value">5588<span style="font-size: 16px; color: var(--text-tertiary); font-weight: 400"> / 261 foreldreløse</span></div>
+      <div class="card-sub">261 foreldreløse</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Materialer</div>
+      <div class="card-value">150</div>
+      <div class="card-sub">Unike materialnavn</div>
+    </div>
+
+    
+    <div class="card span-2">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+        <div style="display: flex; gap: 12px; font-size: 11px;">
+          <span class="tl"><span class="tl-dot green"></span> 4 bestått</span>
+          <span class="tl"><span class="tl-dot yellow"></span> 1 advarsel</span>
+          <span class="tl"><span class="tl-dot red"></span> 5 feilet</span>
+        </div>
+      </div>
+      <ul class="req-list">
+        
+        <li class="req-item">
+          <span class="req-status warn">
+            !
+            
+          </span>
+          <span class="req-text">Modeller skal bruke IFC4 eller nyere</span>
+          <span class="req-model">
+            <span class="tag tag-yellow">1/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status pass">
+            &#10003;
+            
+          </span>
+          <span class="req-text">Forfatterverktøy skal være oppgitt</span>
+          <span class="req-model">
+            <span class="tag tag-green">4/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status pass">
+            &#10003;
+            
+          </span>
+          <span class="req-text">Lengdeenhet skal være millimeter</span>
+          <span class="req-model">
+            <span class="tag tag-green">4/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status fail">
+            &#10007;
+            
+          </span>
+          <span class="req-text">Koordinatsystem skal være definert</span>
+          <span class="req-model">
+            <span class="tag tag-red">0/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status pass">
+            &#10003;
+            
+          </span>
+          <span class="req-text">Etasjer skal være definert</span>
+          <span class="req-model">
+            <span class="tag tag-green">4/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status fail">
+            &#10007;
+            
+          </span>
+          <span class="req-text">Alle elementer skal være i romlig hierarki</span>
+          <span class="req-model">
+            <span class="tag tag-red">1/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status fail">
+            &#10007;
+            
+          </span>
+          <span class="req-text">Alle produkter skal ha typetilknytning</span>
+          <span class="req-model">
+            <span class="tag tag-red">0/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status fail">
+            &#10007;
+            
+          </span>
+          <span class="req-text">Ingen foreldreløse typer</span>
+          <span class="req-model">
+            <span class="tag tag-red">3/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status fail">
+            &#10007;
+            
+          </span>
+          <span class="req-text">Ingen proxy-typer (IfcBuildingElementProxy)</span>
+          <span class="req-model">
+            <span class="tag tag-red">2/4</span>
+          </span>
+        </li>
+        
+        <li class="req-item">
+          <span class="req-status pass">
+            &#10003;
+            
+          </span>
+          <span class="req-text">GUID-er skal være unike</span>
+          <span class="req-model">
+            <span class="tag tag-green">4/4</span>
+          </span>
+        </li>
+        
+      </ul>
+    </div>
+
+    
+    <div class="card span-2">
+      <div class="card-header">
+        <div class="card-title">Modell &times; Krav</div>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th style="width: 140px;">Krav</th>
+            
+            <th>G55_ARK</th>
+            
+            <th>G55_RIV</th>
+            
+            <th>G55_RIE</th>
+            
+            <th>G55_RIB</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>Modeller skal bruke IFC4 eller nyere</td>
+            
+            <td><span class="tl-cell warn">IFC2X3</span></td>
+            
+            <td><span class="tl-cell pass">IFC4</span></td>
+            
+            <td><span class="tl-cell warn">IFC2X3</span></td>
+            
+            <td><span class="tl-cell warn">IFC2X3</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Forfatterverktøy skal være oppgitt</td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Lengdeenhet skal være millimeter</td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Koordinatsystem skal være definert</td>
+            
+            <td><span class="tl-cell fail">Mangler</span></td>
+            
+            <td><span class="tl-cell fail">Mangler</span></td>
+            
+            <td><span class="tl-cell fail">Mangler</span></td>
+            
+            <td><span class="tl-cell fail">Mangler</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Etasjer skal være definert</td>
+            
+            <td><span class="tl-cell pass">10 etasjer</span></td>
+            
+            <td><span class="tl-cell pass">10 etasjer</span></td>
+            
+            <td><span class="tl-cell pass">9 etasjer</span></td>
+            
+            <td><span class="tl-cell pass">10 etasjer</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Alle elementer skal være i romlig hierarki</td>
+            
+            <td><span class="tl-cell fail">10637/13690</span></td>
+            
+            <td><span class="tl-cell warn">30885/30886</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell fail">705/964</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Alle produkter skal ha typetilknytning</td>
+            
+            <td><span class="tl-cell warn">90%</span></td>
+            
+            <td><span class="tl-cell fail">0%</span></td>
+            
+            <td><span class="tl-cell warn">99%</span></td>
+            
+            <td><span class="tl-cell fail">83%</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Ingen foreldreløse typer</td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell fail">261 foreldreløse</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Ingen proxy-typer (IfcBuildingElementProxy)</td>
+            
+            <td><span class="tl-cell warn">84 proxy</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell fail">205 proxy</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>GUID-er skal være unike</td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+            <td><span class="tl-cell pass">OK</span></td>
+            
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+
+    
+    <div class="card span-2">
+      <div class="card-header">
+        <div class="card-title">Typing per disiplin</div>
+      </div>
+      <div style="margin-top: 4px;">
+        
+        <div class="bar-row">
+          <span class="bar-label-left"><span class="disc-tag disc-ark">ARK</span></span>
+          <div class="bar-track"><div class="bar-fill green" style="width: 90%"></div></div>
+          <span class="bar-count">12365/13690</span>
+        </div>
+        
+        <div class="bar-row">
+          <span class="bar-label-left"><span class="disc-tag disc-riv">RIV</span></span>
+          <div class="bar-track"><div class="bar-fill red" style="width: 0%"></div></div>
+          <span class="bar-count">0/30886</span>
+        </div>
+        
+        <div class="bar-row">
+          <span class="bar-label-left"><span class="disc-tag disc-rie">RIE</span></span>
+          <div class="bar-track"><div class="bar-fill green" style="width: 99%"></div></div>
+          <span class="bar-count">5783/5839</span>
+        </div>
+        
+        <div class="bar-row">
+          <span class="bar-label-left"><span class="disc-tag disc-rib">RIB</span></span>
+          <div class="bar-track"><div class="bar-fill green" style="width: 83%"></div></div>
+          <span class="bar-count">802/964</span>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="card span-2">
+      <div class="card-header">
+        <div class="card-title">Etasjekoordinering</div>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th style="width: 80px;">Etasje</th>
+            <th>Kote</th>
+            
+            <th>G55_ARK</th>
+            
+            <th>G55_RIV</th>
+            
+            <th>G55_RIE</th>
+            
+            <th>G55_RIB</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>Plan 08T</td>
+            <td style="font-variant-numeric: tabular-nums;">+27 500</td>
+            
+            <td><span class="tl-cell yellow">Plan 08T</span></td>
+            
+            <td><span class="tl-cell yellow">Takplan - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">TAKPLAN</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 08T</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan 07</td>
+            <td style="font-variant-numeric: tabular-nums;">+23 900</td>
+            
+            <td><span class="tl-cell yellow">Plan 07</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 07 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 7</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 07</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan 06</td>
+            <td style="font-variant-numeric: tabular-nums;">+20 300</td>
+            
+            <td><span class="tl-cell yellow">Plan 06</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 06 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 6</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 06</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan 05</td>
+            <td style="font-variant-numeric: tabular-nums;">+16 700</td>
+            
+            <td><span class="tl-cell yellow">Plan 05</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 05 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 5</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 05</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan 04</td>
+            <td style="font-variant-numeric: tabular-nums;">+13 100</td>
+            
+            <td><span class="tl-cell yellow">Plan 04</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 04 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 4</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 04</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan 03</td>
+            <td style="font-variant-numeric: tabular-nums;">+9 500</td>
+            
+            <td><span class="tl-cell yellow">Plan 03</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 03 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 3</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 03</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan 02</td>
+            <td style="font-variant-numeric: tabular-nums;">+5 900</td>
+            
+            <td><span class="tl-cell yellow">Plan 02</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 02 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 2</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 02</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums;">+2 300</td>
+            
+            <td><span class="tl-cell yellow">Plan 01</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 01 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 1</span></td>
+            
+            <td><span class="tl-cell yellow">Plan 01</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Havnivå</td>
+            <td style="font-variant-numeric: tabular-nums;">±0</td>
+            
+            <td><span class="tl-cell yellow">Havnivå</span></td>
+            
+            <td><span class="tl-cell yellow">0-Havnivå</span></td>
+            
+            <td><span class="tl-cell gray">—</span></td>
+            
+            <td><span class="tl-cell yellow">Havnivå</span></td>
+            
+          </tr>
+          
+          <tr>
+            <td>Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums;">-2 000</td>
+            
+            <td><span class="tl-cell yellow">Plan U1</span></td>
+            
+            <td><span class="tl-cell yellow">Plan U1 - VVS</span></td>
+            
+            <td><span class="tl-cell yellow">Plan U</span></td>
+            
+            <td><span class="tl-cell yellow">Plan U1</span></td>
+            
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
-<!-- Model table -->
-<div class="card fade-in">
-  <div class="card-header">
-    <span class="card-title">Modeller</span>
+
+<div class="tab-panel" id="tab-compliance">
+  <div class="fade-in" style="max-width: 1100px;">
+    <div class="card" style="margin-bottom: 16px;">
+      <div class="card-header">
+        <div class="card-title">Detaljert samsvarsstatus</div>
+      </div>
+      <table class="dash-table">
+        <thead>
+          <tr>
+            <th style="width: 40px;" class="center">#</th>
+            <th>Krav</th>
+            <th style="width: 90px;">Kategori</th>
+            
+            <th style="width: 80px;" class="center">G55_ARK</th>
+            
+            <th style="width: 80px;" class="center">G55_RIV</th>
+            
+            <th style="width: 80px;" class="center">G55_RIE</th>
+            
+            <th style="width: 80px;" class="center">G55_RIB</th>
+            
+            <th style="width: 80px;" class="center">Totalt</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td class="center">1</td>
+            <td>Modeller skal bruke IFC4 eller nyere</td>
+            <td><span class="tag tag-gray">Format</span></td>
+            
+            <td class="center"><span class="tl-cell warn">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-cell pass">IFC4</span></td>
+            
+            <td class="center"><span class="tl-cell warn">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-cell warn">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-cell yellow">1/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">2</td>
+            <td>Forfatterverktøy skal være oppgitt</td>
+            <td><span class="tag tag-gray">Identitet</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell green">4/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">3</td>
+            <td>Lengdeenhet skal være millimeter</td>
+            <td><span class="tag tag-gray">Geometri</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell green">4/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">4</td>
+            <td>Koordinatsystem skal være definert</td>
+            <td><span class="tag tag-gray">Geolokasjon</span></td>
+            
+            <td class="center"><span class="tl-cell fail">Mangler</span></td>
+            
+            <td class="center"><span class="tl-cell fail">Mangler</span></td>
+            
+            <td class="center"><span class="tl-cell fail">Mangler</span></td>
+            
+            <td class="center"><span class="tl-cell fail">Mangler</span></td>
+            
+            <td class="center"><span class="tl-cell red">0/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">5</td>
+            <td>Etasjer skal være definert</td>
+            <td><span class="tag tag-gray">Struktur</span></td>
+            
+            <td class="center"><span class="tl-cell pass">10 etasjer</span></td>
+            
+            <td class="center"><span class="tl-cell pass">10 etasjer</span></td>
+            
+            <td class="center"><span class="tl-cell pass">9 etasjer</span></td>
+            
+            <td class="center"><span class="tl-cell pass">10 etasjer</span></td>
+            
+            <td class="center"><span class="tl-cell green">4/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">6</td>
+            <td>Alle elementer skal være i romlig hierarki</td>
+            <td><span class="tag tag-gray">Struktur</span></td>
+            
+            <td class="center"><span class="tl-cell fail">10637/13690</span></td>
+            
+            <td class="center"><span class="tl-cell warn">30885/30886</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell fail">705/964</span></td>
+            
+            <td class="center"><span class="tl-cell red">1/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">7</td>
+            <td>Alle produkter skal ha typetilknytning</td>
+            <td><span class="tag tag-blue">Typer</span></td>
+            
+            <td class="center"><span class="tl-cell warn">90%</span></td>
+            
+            <td class="center"><span class="tl-cell fail">0%</span></td>
+            
+            <td class="center"><span class="tl-cell warn">99%</span></td>
+            
+            <td class="center"><span class="tl-cell fail">83%</span></td>
+            
+            <td class="center"><span class="tl-cell red">0/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">8</td>
+            <td>Ingen foreldreløse typer</td>
+            <td><span class="tag tag-blue">Typer</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell fail">261 foreldreløse</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell red">3/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">9</td>
+            <td>Ingen proxy-typer (IfcBuildingElementProxy)</td>
+            <td><span class="tag tag-blue">Typer</span></td>
+            
+            <td class="center"><span class="tl-cell warn">84 proxy</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell fail">205 proxy</span></td>
+            
+            <td class="center"><span class="tl-cell red">2/4</span></td>
+          </tr>
+          
+          <tr>
+            <td class="center">10</td>
+            <td>GUID-er skal være unike</td>
+            <td><span class="tag tag-gray">Identitet</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell pass">OK</span></td>
+            
+            <td class="center"><span class="tl-cell green">4/4</span></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
   </div>
-  <table class="dash-table">
-    <thead>
-      <tr>
-        <th>Fil</th>
-        <th>Fag</th>
-        <th class="center">Score</th>
-        <th class="center">Nivå</th>
-        <th class="num">Kritiske</th>
-        <th>App</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-      <tr>
-        <td>
-          
-          <a href="https://ed-skiplum.github.io/skiplum-reports/models/grnland-55/g55-riv.html" target="_blank">G55_RIV.ifc</a>
-          
-        </td>
-        <td>
-
-
-<span class="disc-tag disc-riv">RIV</span>
-
-</td>
-        <td class="center">
-          
-          <strong style="color: #ca8a04;">71</strong>
-          
-        </td>
-        <td class="center">
-          
-          
-
-<span class="tag tag-yellow">Akseptabel</span>
-
-
-          
-        </td>
-        <td class="num">1</td>
-        <td style="color: var(--text-tertiary); font-size: 11px;">MagiCAD For Revit 2025 UR-2</td>
-      </tr>
-      
-      <tr>
-        <td>
-          
-          <a href="https://ed-skiplum.github.io/skiplum-reports/models/grnland-55/g55-ark.html" target="_blank">G55_ARK.ifc</a>
-          
-        </td>
-        <td>
-
-
-<span class="disc-tag disc-ark">ARK</span>
-
-</td>
-        <td class="center">
-          
-          <strong style="color: #ca8a04;">77</strong>
-          
-        </td>
-        <td class="center">
-          
-          
-
-<span class="tag tag-yellow">Akseptabel</span>
-
-
-          
-        </td>
-        <td class="num">1</td>
-        <td style="color: var(--text-tertiary); font-size: 11px;">Autodesk Revit 2025 (ENU)</td>
-      </tr>
-      
-      <tr>
-        <td>
-          
-          <a href="https://ed-skiplum.github.io/skiplum-reports/models/grnland-55/g55-rib.html" target="_blank">G55_RIB.ifc</a>
-          
-        </td>
-        <td>
-
-
-<span class="disc-tag disc-rib">RIB</span>
-
-</td>
-        <td class="center">
-          
-          <strong style="color: #ca8a04;">77</strong>
-          
-        </td>
-        <td class="center">
-          
-          
-
-<span class="tag tag-yellow">Akseptabel</span>
-
-
-          
-        </td>
-        <td class="num">1</td>
-        <td style="color: var(--text-tertiary); font-size: 11px;">Autodesk Revit 2025 (ENU)</td>
-      </tr>
-      
-      <tr>
-        <td>
-          
-          <a href="https://ed-skiplum.github.io/skiplum-reports/models/grnland-55/g55-rie.html" target="_blank">G55_RIE.ifc</a>
-          
-        </td>
-        <td>
-
-
-<span class="disc-tag disc-rie">RIE</span>
-
-</td>
-        <td class="center">
-          
-          <strong style="color: #16a34a;">89</strong>
-          
-        </td>
-        <td class="center">
-          
-          
-
-<span class="tag tag-green">God</span>
-
-
-          
-        </td>
-        <td class="num">0</td>
-        <td style="color: var(--text-tertiary); font-size: 11px;">MagiCAD For Revit 2025 UR-2</td>
-      </tr>
-      
-    </tbody>
-  </table>
 </div>
 
-<div class="footer fade-in">
-  <span class="footer-brand">S</span>
-  Generert av Skiplum Automasjon &middot; 07.04.2026 19:43
+
+<div class="tab-panel" id="tab-models">
+  <div class="fade-in">
+    <div class="bento" style="grid-template-columns: repeat(4, 1fr);">
+      
+      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark/" style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">G55_ARK.ifc</div>
+            <div style="font-size: 11px; color: var(--text-tertiary);">156.82 MB</div>
+          </div>
+          <span class="disc-tag disc-ark">ARK</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
+          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>13 690</strong></div>
+          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>4820</strong></div>
+          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
+          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>5/10</strong></div>
+        </div>
+        <div style="margin-top: 12px;">
+          <div class="bar-row" style="margin-bottom: 0;">
+            <div class="bar-track"><div class="bar-fill yellow" style="width: 50%"></div></div>
+            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">50%</span>
+          </div>
+        </div>
+      </a>
+      
+      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">G55_RIV.ifc</div>
+            <div style="font-size: 11px; color: var(--text-tertiary);">106.6 MB</div>
+          </div>
+          <span class="disc-tag disc-riv">RIV</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
+          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>30 886</strong></div>
+          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>261</strong></div>
+          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
+          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>6/10</strong></div>
+        </div>
+        <div style="margin-top: 12px;">
+          <div class="bar-row" style="margin-bottom: 0;">
+            <div class="bar-track"><div class="bar-fill yellow" style="width: 60%"></div></div>
+            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">60%</span>
+          </div>
+        </div>
+      </a>
+      
+      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie/" style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">G55_RIE.ifc</div>
+            <div style="font-size: 11px; color: var(--text-tertiary);">23.32 MB</div>
+          </div>
+          <span class="disc-tag disc-rie">RIE</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
+          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>5 839</strong></div>
+          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>170</strong></div>
+          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>9</strong></div>
+          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>7/10</strong></div>
+        </div>
+        <div style="margin-top: 12px;">
+          <div class="bar-row" style="margin-bottom: 0;">
+            <div class="bar-track"><div class="bar-fill yellow" style="width: 70%"></div></div>
+            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">70%</span>
+          </div>
+        </div>
+      </a>
+      
+      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rib/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <div style="font-size: 14px; font-weight: 600;">G55_RIB.ifc</div>
+            <div style="font-size: 11px; color: var(--text-tertiary);">33.56 MB</div>
+          </div>
+          <span class="disc-tag disc-rib">RIB</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
+          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>964</strong></div>
+          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>337</strong></div>
+          <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
+          <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>5/10</strong></div>
+        </div>
+        <div style="margin-top: 12px;">
+          <div class="bar-row" style="margin-bottom: 0;">
+            <div class="bar-track"><div class="bar-fill yellow" style="width: 50%"></div></div>
+            <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">50%</span>
+          </div>
+        </div>
+      </a>
+      
+    </div>
+  </div>
 </div>
+
+        </div>
+      
+    </div>
+  </div>
+  
+<script>
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+  }
+</script>
+
 </body>
 </html>
