@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Palehaven — Modeller</title>
+  <title>Palehaven — Krav og konfigurasjon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -847,7 +847,7 @@
     <div class="nav-section">
       <div class="nav-section-label">Filer</div>
       <div class="nav-section-items">
-        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
           Modeller
         </a>
@@ -857,7 +857,7 @@
     <div class="nav-section">
       <div class="nav-section-label">Verifikasjon</div>
       <div class="nav-section-items">
-        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/requirements/">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/requirements/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
           Krav
         </a>
@@ -897,353 +897,1221 @@
           
 <div class="page-header fade-in">
   <div>
-    <h1>Modeller</h1>
-    <div class="page-header-sub">
-      Palehaven &middot; 15 modeller
-      &middot; Sist oppdatert 13. apr 2026
-    </div>
-  </div>
-  <div class="header-actions">
-    <a class="btn-outline" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
-      Til dashboard
-    </a>
+    <h1>Krav og konfigurasjon</h1>
+    <div class="page-header-sub">Palehaven &middot; Hva vi sjekker og hvorfor</div>
   </div>
 </div>
 
-<div class="fade-in">
-  <div class="bento" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-amerikalinjen-innmalt/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_Amerikalinjen innmålt.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">0.63 MB</div>
-        </div>
-        
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header">
+    <span class="card-title">Universelle krav</span>
+    <span style="font-size: 11px; color: var(--text-tertiary);">Gjelder alle IFC-modeller uavhengig av prosjekt</span>
+  </div>
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th style="width: 40px;">Status</th>
+        <th>Krav</th>
+        <th>Kategori</th>
+        <th>Beskrivelse</th>
+        <th>Terskel</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td>
+          <span class="tl-dot yellow"></span>
+          
+        </td>
+        <td style="font-weight: 500;">IFC-skjema skal være definert</td>
+        <td><span class="tag tag-gray">Format</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">IFC-skjema skal være IFC4 eller nyere. IFC2X3 er akseptert men anbefales oppgradert.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot yellow"></span>
+          
+        </td>
+        <td style="font-weight: 500;">Forfatterverktøy skal være oppgitt</td>
+        <td><span class="tag tag-gray">Identitet</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal identifisere forfatterverktøyet (Revit, ArchiCAD, Tekla, etc.).</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot red"></span>
+          
+        </td>
+        <td style="font-weight: 500;">Lengdeenhet skal være millimeter</td>
+        <td><span class="tag tag-gray">Geometri</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Lengdeenhet i modellen skal være millimeter. Feil enhet gir feil dimensjoner i koordinering.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot yellow"></span>
+          
+        </td>
+        <td style="font-weight: 500;">Koordinatsystem skal være definert (IFC4+)</td>
+        <td><span class="tag tag-gray">Geolokasjon</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal ha definert koordinatreferansesystem (IfcProjectedCRS). Kun tilgjengelig i IFC4+.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot yellow"></span>
+          
+        </td>
+        <td style="font-weight: 500;">Etasjer skal være definert</td>
+        <td><span class="tag tag-gray">Struktur</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal ha minst én definert etasje (IfcBuildingStorey) for romlig struktur.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot gray"></span>
+        </td>
+        <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
+        <td><span class="tag tag-gray">Struktur</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Alle elementer skal være plassert i romlig hierarki (etasje/rom). Foreldreløse elementer mangler i etasjevisning.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot gray"></span>
+        </td>
+        <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
+        <td><span class="tag tag-gray">Typer</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Alle IfcProduct-instanser skal ha en tilknyttet IfcTypeObject (IsTypedBy). Utypede elementer mangler standardisert informasjon.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot gray"></span>
+        </td>
+        <td style="font-weight: 500;">Ingen foreldreløse typer</td>
+        <td><span class="tag tag-gray">Typer</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Ingen IfcTypeObject skal eksistere uten tilhørende instanser. Foreldreløse typer er overflødig data.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot green"></span>
+          
+        </td>
+        <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+        <td><span class="tag tag-gray">Typer</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Elementer eksportert som IfcBuildingElementProxy har mistet sin semantiske klassifisering.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <span class="tl-dot green"></span>
+          
+        </td>
+        <td style="font-weight: 500;">GUID-er skal være unike</td>
+        <td><span class="tag tag-gray">Identitet</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Alle GlobalId-er skal være unike. Duplikater skaper konflikter ved sammenslåing og revisjonssporing.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header">
+    <span class="card-title">Prosjektspesifikk egenskapskonfigurasjon</span>
+    <span style="font-size: 11px; color: var(--text-tertiary);">Hvilke PSet/property-stier brukes for dette prosjektet</span>
+  </div>
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th>Egenskap</th>
+        <th>Type</th>
+        <th>PSet-sti</th>
+        <th>Aggregering</th>
+        <th>Relevante klasser</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="font-weight: 600;">Brannklasse (FireRating)</td>
+        <td>
+          
+          <span class="tag tag-green">IFC-standard</span>
+          
+        </td>
+        <td>
+          
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="font-weight: 600;">FireRating</span>
+            
+          </div>
+          
+          
+        </td>
+        <td style="font-size: 11px;">
+          
+          <span class="tag tag-gray">Verdifordeling</span>
+          
+        </td>
+        <td style="font-size: 11px; color: var(--text-secondary);">
+          
+          IfcBeam, IfcColumn, IfcDoor, IfcSlab, IfcWall, IfcWallStandardCase
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600;">Bærende (LoadBearing)</td>
+        <td>
+          
+          <span class="tag tag-green">IFC-standard</span>
+          
+        </td>
+        <td>
+          
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="font-weight: 600;">LoadBearing</span>
+            
+          </div>
+          
+          
+        </td>
+        <td style="font-size: 11px;">
+          
+          <span class="tag tag-gray">Verdifordeling</span>
+          
+        </td>
+        <td style="font-size: 11px; color: var(--text-secondary);">
+          
+          IfcBeam, IfcColumn, IfcFooting, IfcPile, IfcSlab, IfcWall, IfcWallStandardCase
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600;">Ekstern (IsExternal)</td>
+        <td>
+          
+          <span class="tag tag-green">IFC-standard</span>
+          
+        </td>
+        <td>
+          
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="font-weight: 600;">IsExternal</span>
+            
+          </div>
+          
+          
+        </td>
+        <td style="font-size: 11px;">
+          
+          <span class="tag tag-gray">Verdifordeling</span>
+          
+        </td>
+        <td style="font-size: 11px; color: var(--text-secondary);">
+          
+          IfcCurtainWall, IfcDoor, IfcRoof, IfcSlab, IfcWall, IfcWallStandardCase, IfcWindow
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600;">MMI (Model Maturity Index)</td>
+        <td>
+          
+          <span class="tag tag-blue">Prosjektspesifikk</span>
+          
+        </td>
+        <td>
+          
+          
+          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          
+        </td>
+        <td style="font-size: 11px;">
+          
+          <span class="tag tag-gray">Verdifordeling</span>
+          
+        </td>
+        <td style="font-size: 11px; color: var(--text-secondary);">
+          
+          <span style="color: var(--text-tertiary);">Alle klasser</span>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600;">NS 3451 (Bygningsdelskode)</td>
+        <td>
+          
+          <span class="tag tag-blue">Prosjektspesifikk</span>
+          
+        </td>
+        <td>
+          
+          
+          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          
+        </td>
+        <td style="font-size: 11px;">
+          
+          <span class="tag tag-gray">Verdifordeling</span>
+          
+        </td>
+        <td style="font-size: 11px; color: var(--text-secondary);">
+          
+          <span style="color: var(--text-tertiary);">Alle klasser</span>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600;">NS 3457-8 (Komponentkode)</td>
+        <td>
+          
+          <span class="tag tag-blue">Prosjektspesifikk</span>
+          
+        </td>
+        <td>
+          
+          
+          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          
+        </td>
+        <td style="font-size: 11px;">
+          
+          <span class="tag tag-gray">Verdifordeling</span>
+          
+        </td>
+        <td style="font-size: 11px; color: var(--text-secondary);">
+          
+          <span style="color: var(--text-tertiary);">Alle klasser</span>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600;">TFM (Tverrfaglig Merkesystem)</td>
+        <td>
+          
+          <span class="tag tag-blue">Prosjektspesifikk</span>
+          
+        </td>
+        <td>
+          
+          
+          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          
+        </td>
+        <td style="font-size: 11px;">
+          
+          <span class="tag tag-gray">Kun dekning</span>
+          
+        </td>
+        <td style="font-size: 11px; color: var(--text-secondary);">
+          
+          <span style="color: var(--text-tertiary);">Alle klasser</span>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header">
+    <span class="card-title">Property Sets i bruk</span>
+    <span style="font-size: 11px; color: var(--text-tertiary);">66 PSets på tvers av alle modeller</span>
+  </div>
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th>PSet-navn</th>
+        <th>Klassifisering</th>
+        <th class="num">Modeller</th>
+        <th class="num">Instanser</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_FireRatingProperties</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">3</td>
+        <td class="num">10 023</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MMI</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">3</td>
+        <td class="num">7 482</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_QuantityTakeOff</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">5</td>
+        <td class="num">6 844</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">AC_Pset_RenovationAndPhasing</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">3</td>
+        <td class="num">6 811</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_WallCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">5</td>
+        <td class="num">3 188</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_DistributionFlowElementCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1 914</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingElementProxyCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">1 341</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">AC_Pset_Dimension</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">1 108</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_FlowSegmentDuctSegment</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1 085</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_FlowSegmentPipeSegment</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1 085</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Duct</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">849</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CoveringCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">821</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_DoorCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">703</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_SpaceCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">675</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_SpaceFireSafetyRequirements</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">675</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_SpaceOccupancyRequirements</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">675</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_SpaceParking</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">675</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcingBarBendingsISOCD3766Common</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">608</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BeamCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">4</td>
+        <td class="num">601</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ColumnCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">6</td>
+        <td class="num">576</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_MemberCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">563</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfColumn</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">3</td>
+        <td class="num">467</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfBeam</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">464</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_SlabCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">6</td>
+        <td class="num">430</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">GEO_Info</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">405</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MUL_Info</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">401</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset BaneNOR</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">391</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_WindowCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">372</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Elbow</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">332</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfSlab</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">4</td>
+        <td class="num">313</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfWall</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">3</td>
+        <td class="num">261</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_PlateCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">259</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BaneNOR</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">139</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_OpeningElementCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">4</td>
+        <td class="num">91</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_AirTerminal</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">56</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_DuctComponent</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">56</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_AirSideSystemInformation</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">5</td>
+        <td class="num">51</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingStoreyCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">5</td>
+        <td class="num">51</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ProductRequirements</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">5</td>
+        <td class="num">51</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Branch</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">47</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Common</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">45</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Novapoint UtilityNetwork</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">45</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CurtainWallCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">45</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Plug</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">42</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_System</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">34</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Reduction</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">32</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_StairCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">26</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Novapoint ManholeProperties</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">17</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Fan</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">15</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_RoofCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">13</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Storey</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">10</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Silencer</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">8</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingCommon</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">7</td>
+        <td class="num">7</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Joint</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">6</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ManufacturerOccurrence</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">5</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ManufacturerTypeInformation</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">5</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_FlowDamper</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">4</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_DistributionBox</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">2</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingUse</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">2</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingUseAdjacent</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">2</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingWaterStorage</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">2</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">ePset_BuildingEnergyTarget</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">2</td>
+        <td class="num">2</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">ADT_Pset_DISPLAY_SET</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Building</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Project</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Site</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header">
+    <span class="card-title">Koordinatkrav</span>
+    <span style="font-size: 11px; color: var(--text-tertiary);">Geolokasjon og orientering</span>
+  </div>
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th>Krav</th>
+        <th>Beskrivelse</th>
+        <th>IFC-entitet</th>
+        <th>Tilgjengelig</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight: 500;">Koordinatreferansesystem (CRS)</td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal ha definert IfcProjectedCRS slik at posisjonen kan transformeres til reelle koordinater.</td>
+        <td style="font-family: monospace; font-size: 11px;">IfcProjectedCRS</td>
+        <td><span class="tag tag-green">IFC4+</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 500;">Prosjektbasepunkt (MapConversion)</td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Eastings, Northings og OrthogonalHeight definerer prosjektets posisjon i det valgte koordinatsystemet.</td>
+        <td style="font-family: monospace; font-size: 11px;">IfcMapConversion</td>
+        <td><span class="tag tag-green">IFC4+</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 500;">Rotasjon / True North</td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Modellens orientering relativt til geografisk nord. Defineres via IfcGeometricRepresentationContext.TrueNorth eller IfcMapConversion.XAxisAbscissa/Ordinate.</td>
+        <td style="font-family: monospace; font-size: 11px;">TrueNorth / XAxis*</td>
+        <td><span class="tag tag-gray">Alle skjema</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 500;">Site-referanse (RefLatitude/RefLongitude)</td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Geografisk posisjon på IfcSite. NB: Mange eksportører setter standardverdier (Boston, MA) — verifiser mot prosjektadresse.</td>
+        <td style="font-family: monospace; font-size: 11px;">IfcSite.Ref*</td>
+        <td><span class="tag tag-gray">Alle skjema</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header">
+    <span class="card-title">Fargeskala</span>
+  </div>
+  <div style="display: flex; gap: 24px; font-size: 12px; padding: 8px 0;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="tl-dot green"></span>
+      <div>
+        <div style="font-weight: 600; color: var(--tl-green-text);">Bestått (&ge;90%)</div>
+        <div style="color: var(--text-tertiary); font-size: 11px;">Kravet er oppfylt</div>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>117</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>56</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>5</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>8/10</strong></div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="tl-dot yellow"></span>
+      <div>
+        <div style="font-weight: 600; color: var(--tl-yellow-text);">Advarsel (30–89%)</div>
+        <div style="color: var(--text-tertiary); font-size: 11px;">Delvis oppfylt, bør utbedres</div>
       </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill green" style="width: 80%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-green-text);">80%</span>
-        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="tl-dot red"></span>
+      <div>
+        <div style="font-weight: 600; color: var(--tl-red-text);">Avvik (&lt;30%)</div>
+        <div style="color: var(--text-tertiary); font-size: 11px;">Må utbedres</div>
       </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-ark/" style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_ARK.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">98.22 MB</div>
-        </div>
-        <span class="disc-tag disc-ark">ARK</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="tl-dot gray"></span>
+      <div>
+        <div style="font-weight: 600; color: var(--tl-gray-text);">N/A</div>
+        <div style="color: var(--text-tertiary); font-size: 11px;">Ikke relevant (f.eks. CRS i IFC2X3)</div>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>12 245</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>287</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>11</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>6/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 60%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">60%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-kontekst/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_Kontekst.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">0.8 MB</div>
-        </div>
-        
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>25</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>2</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>11</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>7/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 70%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">70%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rib/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIB.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">3.93 MB</div>
-        </div>
-        <span class="disc-tag disc-rib">RIB</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>1 253</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>266</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>7/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 70%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">70%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rib-eksisterende-fundamenter/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIB_Eksisterende fundamenter.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">0.3 MB</div>
-        </div>
-        <span class="disc-tag disc-rib">RIB</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>139</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>23</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>6/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 60%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">60%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rib-motholdsklosser/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIB_Motholdsklosser.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">0.05 MB</div>
-        </div>
-        <span class="disc-tag disc-rib">RIB</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>42</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>4</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>6/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 60%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">60%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rib-palehaven-tilbudsmodell-prefab/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIB_Palehaven tilbudsmodell prefab.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">92.3 MB</div>
-        </div>
-        <span class="disc-tag disc-rib">RIB</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>3 915</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>466</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>6/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 60%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">60%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rie/" style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIE.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">6.02 MB</div>
-        </div>
-        <span class="disc-tag disc-rie">RIE</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>8 246</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>49</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>11</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>5/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 50%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">50%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rig/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIG.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">3.4 MB</div>
-        </div>
-        <span class="disc-tag disc-rig">RIG</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>361</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>350</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>8</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>7/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 70%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">70%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rig-avstivning/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIG_Avstivning.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">9.49 MB</div>
-        </div>
-        <span class="disc-tag disc-rig">RIG</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>68</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>11</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>8</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>5/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 50%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">50%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rig-bergmodell/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIG_Bergmodell.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">1.65 MB</div>
-        </div>
-        <span class="disc-tag disc-rig">RIG</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>1 585</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>0</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>0</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>2/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill red" style="width: 20%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-red-text);">20%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-riva/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIVa.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">1.39 MB</div>
-        </div>
-        <span class="disc-tag disc-riva">RIVA</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>48</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>0</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>1</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>4/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill red" style="width: 40%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-red-text);">40%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rivr/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIVr.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">71.85 MB</div>
-        </div>
-        <span class="disc-tag disc-rivr">RIVr</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>2 568</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>53</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>12</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>8/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill green" style="width: 80%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-green-text);">80%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rivs/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIVs.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">12.64 MB</div>
-        </div>
-        <span class="disc-tag disc-rivs">RIVs</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>588</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>20</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>11</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>8/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill green" style="width: 80%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-green-text);">80%</span>
-        </div>
-      </div>
-    </a>
-    
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/models/ph-rivv/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer; display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-        <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">PH_RIVv.ifc</div>
-          <div style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">62.86 MB</div>
-        </div>
-        <span class="disc-tag disc-rivv">RIVv</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-        <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>1 413</strong></div>
-        <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>58</strong></div>
-        <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>10</strong></div>
-        <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>7/10</strong></div>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="bar-row" style="margin-bottom: 0;">
-          <div class="bar-track"><div class="bar-fill yellow" style="width: 70%"></div></div>
-          <span style="font-size: 12px; font-weight: 600; color: var(--tl-yellow-text);">70%</span>
-        </div>
-      </div>
-    </a>
-    
+    </div>
   </div>
 </div>
 
