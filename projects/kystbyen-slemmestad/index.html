@@ -922,7 +922,7 @@
     <h1>Kystbyen Slemmestad</h1>
     <div class="page-header-sub">
       41 modeller &middot; BIMK&middot; Siste data: 13. apr 2026 12:57
-      &middot; Siste sjekk: 13. apr 2026 14:12
+      &middot; Siste sjekk: 13. apr 2026 14:24
     </div>
   </div>
   <div class="header-actions">
@@ -966,17 +966,25 @@
     </a>
 
     
-    <div class="card span-2">
+    <div class="card span-2 drill-target" onclick="drillDisciplines()" style="cursor: pointer;">
       <div class="card-header">
-        <div class="card-title">MMI-fordeling</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">
-          0 med MMI</div>
+        <div class="card-title">Disipliner</div>
       </div>
-      
-      <div style="padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px;">
-        Ingen MMI-data — konfigurer <code>type_coverage.mmi</code> i prosjektkonfig for å se fordelingen.
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 28px; font-weight: 700; color: var(--primary);">2</span>
+        <span style="font-size: 12px; color: var(--text-tertiary);">disipliner</span>
       </div>
-      
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+        
+        
+        <span class="disc-tag disc-bimk">BIMK (1)</span>
+        
+        
+        
+        <span class="tag tag-yellow">Udefinert (40)</span>
+        
+        
+      </div>
     </div>
 
     
@@ -2041,41 +2049,15 @@
     
     <div class="card span-2">
       <div class="card-header">
-        <div class="card-title">Disipliner</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">2 disipliner</div>
+        <div class="card-title">MMI-fordeling</div>
+        <div style="font-size: 11px; color: var(--text-tertiary);">
+          0 med MMI</div>
       </div>
-      <table class="dash-table" style="font-size: 12px;">
-        <thead>
-          <tr>
-            <th>Disiplin</th>
-            <th class="num">Modeller</th>
-            <th class="num">Elementer</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-bimk">BIMK</span>
-              
-            </td>
-            <td class="num">1</td>
-            <td class="num">11</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="tag tag-yellow">Udefinert</span>
-              
-            </td>
-            <td class="num">40</td>
-            <td class="num">327 153</td>
-          </tr>
-          
-        </tbody>
-      </table>
+      
+      <div style="padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px;">
+        Ingen MMI-data
+      </div>
+      
     </div>
 
     <div class="card span-2">
@@ -8552,7 +8534,6 @@
           <tr>
             <th style="width: 40px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;" class="center">#</th>
             <th style="position: sticky; left: 40px; background: var(--tl-gray-bg); z-index: 2; min-width: 140px;">Krav</th>
-            <th style="width: 90px;">Kategori</th>
             
             <th style="min-width: 100px;" class="center">101.02_VA</th>
             
@@ -8636,119 +8617,976 @@
             
             <th style="min-width: 100px;" class="center">KSV_BIMK_PlanU02_Sjikt</th>
             
-            <th style="width: 80px;" class="center">Totalt</th>
           </tr>
         </thead>
         <tbody>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">1</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">IFC-skjema</td>
-            <td><span class="tag tag-gray">Format</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="IFC-skjema">IFC-skjema</td>
             
-            <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
             
-            <td class="center"><span class="tl-cell yellow">1/41</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text green">IFC4</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">2</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Forfatterverktøy</td>
-            <td><span class="tag tag-gray">Identitet</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Forfatterverktøy">Forfatterverktøy</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text yellow">Quadri for Windows</span></td>
             
-            <td class="center"><span class="tl-cell yellow">29/41</span></td>
+            <td class="center"><span class="tl-text green">Revit 2024</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2025 UR-2</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Quadri for Windows</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Quadri for Windows</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2024</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2021 UR-2</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2025 UR-2</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2023 UR-2</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2024</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Not Defined</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Not Defined</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Not Defined</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Not Defined</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Civil 3D 2025 - English</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2022</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2026</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IfcOpenShell</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Civil 3D 2026 - English</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Not Defined</span></td>
+            
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2023</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">3</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Enhet mm</td>
-            <td><span class="tag tag-gray">Geometri</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Enhet mm">Enhet mm</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text red">m</span></td>
             
-            <td class="center"><span class="tl-cell red">35/41</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text red">m</span></td>
+            
+            <td class="center"><span class="tl-text red">m</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text red">m</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text red">m</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text red">m</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">4</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">CRS definert</td>
-            <td><span class="tag tag-gray">Geolokasjon</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="CRS definert">CRS definert</td>
             
-            <td class="center"><span class="tl-cell gray">N/A</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
             
-            <td class="center"><span class="tl-cell yellow">0/1</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">5</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Etasjer definert</td>
-            <td><span class="tag tag-gray">Struktur</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Etasjer definert">Etasjer definert</td>
             
-            <td class="center"><span class="tl-cell green">7 etasjer</span></td>
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
             
-            <td class="center"><span class="tl-cell yellow">39/41</span></td>
+            <td class="center"><span class="tl-text green">3 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">11 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">49 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">41 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">26 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">3 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
+            
+            <td class="center"><span class="tl-text green">12 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">5 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">4 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">6 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">9 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">17 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">17 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">7 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">7 etasjer</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">6</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Modellhierarki</td>
-            <td><span class="tag tag-gray">Struktur</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Modellhierarki">Modellhierarki</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">100%</span></td>
             
-            <td class="center"><span class="tl-cell red">17/41</span></td>
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100% plassert</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text yellow">64% plassert</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text red">20% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">18% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">14% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">11% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">11% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">41% plassert</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text red">7% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">6% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">13% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">4% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">67% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">79% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">79% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">60% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">71% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">61% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">61% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">69% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">36% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">39% plassert</span></td>
+            
+            <td class="center"><span class="tl-text green">100% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">0% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">16% plassert</span></td>
+            
+            <td class="center"><span class="tl-text red">24% plassert</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">7</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Typed elementer</td>
-            <td><span class="tag tag-blue">Typer</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Typed elementer">Typed elementer</td>
             
-            <td class="center"><span class="tl-cell red">18%</span></td>
+            <td class="center"><span class="tl-text red">0% typed</span></td>
             
-            <td class="center"><span class="tl-cell red">4/41</span></td>
+            <td class="center"><span class="tl-text yellow">89% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">78% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">64% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text green">95% typed</span></td>
+            
+            <td class="center"><span class="tl-text green">99% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">44% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">83% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text green">97% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">46% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">62% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">63% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">62% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">64% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">45% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">89% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">81% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">81% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">74% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">80% typed</span></td>
+            
+            <td class="center"><span class="tl-text green">93% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">89% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">88% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">84% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">74% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">75% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">75% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">67% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">37% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">2% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">53% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">55% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">18% typed</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">8</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ubrukte typer</td>
-            <td><span class="tag tag-blue">Typer</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Ubrukte typer">Ubrukte typer</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text gray">N/A</span></td>
             
-            <td class="center"><span class="tl-cell yellow">31/32</span></td>
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text yellow">4 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">9</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ingen proxy-typer</td>
-            <td><span class="tag tag-blue">Typer</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Ingen proxy-typer">Ingen proxy-typer</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
             
-            <td class="center"><span class="tl-cell red">35/41</span></td>
+            <td class="center"><span class="tl-text red">5 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">217 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text red">3 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">5 proxy</span></td>
+            
+            <td class="center"><span class="tl-text yellow">56 proxy</span></td>
+            
+            <td class="center"><span class="tl-text yellow">8 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">1 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">11 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">50 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">99 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">20 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">2 proxy</span></td>
+            
+            <td class="center"><span class="tl-text yellow">35 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text red">18 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">10</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Unike GUID</td>
-            <td><span class="tag tag-gray">Identitet</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Unike GUID">Unike GUID</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
             
-            <td class="center"><span class="tl-cell red">36/41</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text red">125 duplikat</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text red">574 duplikat</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text red">14 duplikat</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text red">23 duplikat</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text red">7620 duplikat</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">11</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Basismengder (Qto)</td>
-            <td><span class="tag tag-gray">Mengder</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Basismengder (Qto)">Basismengder (Qto)</td>
             
-            <td class="center"><span class="tl-cell red">Mangler</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
             
-            <td class="center"><span class="tl-cell red">0/41</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
           </tr>
           
         </tbody>
@@ -9797,6 +10635,32 @@
     } else {
       openDrillModal(label, subtitle, rows.map(function (r) { return { name: r.ifc_class + ' — ' + r.type_name + ' · ' + r.model, count: r.count }; }));
     }
+  }
+
+  function drillDisciplines() {
+    var data = [{"code": "BIMK", "disc_class": "bimk", "element_count": 11, "model_count": 1, "models": ["KSV_BIMK_PlanU02_Sjikt.ifc"]}, {"code": "Udefinert", "disc_class": "default", "element_count": 327153, "model_count": 40, "models": ["101.02_VA.ifc", "101.05_KON.ifc", "102.02_RIVA_Gen.ifc", "102.02_VA_Asbuilt_Sekkefabrikken.ifc", "102.02_VA_Gen.ifc", "102.03_RIE_Gen.ifc", "102.04_RIsol_kv-A.ifc", "102.04_RIVr_Gen.ifc", "102.04_RIVv_Gen.ifc", "102.05_RIB_Amfiet.ifc", "102.05_RIB_Kjeller.ifc", "102.05_RIB_Kjeller_Armering_kulvert.ifc", "102.05_RIB_Kjeller_Armering_Kulvert_Endevegg.ifc", "102.05_RIB_Kjeller_Plasst\u00f8ptdekke.ifc", "102.05_RIBp_Kjeller.ifc", "102.05_RIBp_Kv A.ifc", "102.05_RIBp_Kv A_betong.ifc", "102.05_RIBp_Kv B.ifc", "102.05_RIBp_Kv B_betong.ifc", "102.05_RIBp_Kv C.ifc", "102.05_RIBp_Kv C_KUN INFO FOR LASTER KJELLER.ifc", "102.05_RIBp_TRAPP.ifc", "102.05_RIBp_TRAPP_A.ifc", "102.05_RIBp_TRAPP_UTSP.ifc", "102.06_LARK_Amfiet.ifc", "102.06_LARK_Gen.ifc", "102.06_LARK_KVA_KVB.ifc", "102.06_LARK_KVC.ifc", "102.06_LARK_KVC_KUN INFO FOR LASTER KJELLER.ifc", "102.07_ARK_Kjeller.ifc", "102.07_ARK_Kv A.ifc", "102.07_ARK_Kv B.ifc", "102.07_ARK_Kv C.ifc", "102.07_ARK_Kv D med trafo.ifc", "102.09_AVFS_Gen.ifc", "102.10 FVFK_Kjeller_Kulvert.ifc", "102.10_FVFK_Gen_Utomhus.ifc", "102.5_RIBp_Kjeller.ifc", "102.5_RIBp_Kjeller_betong.ifc", "103-02.10_FV.ifc"]}];
+    var rows = data.map(function (d) {
+      return { name: d.code + (d.code === 'Udefinert' ? '' : ''), count: d.model_count + ' modeller, ' + d.element_count + ' elementer' };
+    });
+    openTabbedModal('Disipliner', data.length + ' disipliner', [
+      {
+        label: 'Oversikt', count: data.length,
+        render: function () {
+          var html = '<table class="dash-table" style="font-size: 12px;"><thead><tr><th>Disiplin</th><th class="num">Modeller</th><th class="num">Elementer</th><th>Filer</th></tr></thead><tbody>';
+          data.forEach(function (d) {
+            html += '<tr><td><strong>' + escapeHtml(d.code) + '</strong></td><td class="num">' + d.model_count + '</td><td class="num">' + d.element_count + '</td>';
+            html += '<td style="font-size: 10px; color: var(--text-secondary);">' + d.models.join(', ') + '</td></tr>';
+          });
+          return html + '</tbody></table>';
+        },
+        exportRows: function () {
+          return {
+            headers: ['Disiplin', 'Modeller', 'Elementer', 'Filer'],
+            rows: data.map(function (d) { return [d.code, d.model_count, d.element_count, d.models.join('; ')]; }),
+          };
+        },
+      }
+    ]);
   }
 
   function switchTab(name, push) {

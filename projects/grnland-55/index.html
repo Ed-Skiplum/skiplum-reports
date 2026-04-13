@@ -922,7 +922,7 @@
     <h1>Grønland 55</h1>
     <div class="page-header-sub">
       15 modeller &middot; ARK, BIMK, RIB, RIBp, RIE, RIV&middot; Siste data: 13. apr 2026 13:42
-      &middot; Siste sjekk: 13. apr 2026 14:10
+      &middot; Siste sjekk: 13. apr 2026 14:23
     </div>
   </div>
   <div class="header-actions">
@@ -966,73 +966,41 @@
     </a>
 
     
-    <div class="card span-2">
+    <div class="card span-2 drill-target" onclick="drillDisciplines()" style="cursor: pointer;">
       <div class="card-header">
-        <div class="card-title">MMI-fordeling</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">
-          20 611 med MMI &middot; <span style="color: var(--tl-yellow-text);">63 386 tomme</span> &middot; av 83 997 sjekket</div>
+        <div class="card-title">Disipliner</div>
       </div>
-      
-      <div class="treemap-grid" style="aspect-ratio: 16/9;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 28px; font-weight: 700; color: var(--primary);">6</span>
+        <span style="font-size: 12px; color: var(--text-tertiary);">disipliner</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
         
-        <div class="tm-cell drill-target"
-             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 75.4622%; background: #94a3b8;color: #ffffff;"
-             data-mmi-key="__blank__"
-             data-mmi-label="Tom"
-             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
-          Tom<br><span class="tm-count">63 386</span>
-        </div>
         
-        <div class="tm-cell drill-target"
-             style="left: 0.0%; top: 75.4622%; width: 55.5039%; height: 22.8091%; background: #1e9268;"
-             data-mmi-key="700"
-             data-mmi-label="MMI 700"
-             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
-          MMI 700<br><span class="tm-count">10 634</span>
-        </div>
+        <span class="disc-tag disc-rie">RIE (4)</span>
         
-        <div class="tm-cell drill-target"
-             style="left: 55.5039%; top: 75.4622%; width: 35.0592%; height: 22.8091%; background: #27ab7d;"
-             data-mmi-key="750"
-             data-mmi-label="MMI 750"
-             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
-          MMI 750<br><span class="tm-count">6 717</span>
-        </div>
         
-        <div class="tm-cell drill-target"
-             style="left: 90.5632%; top: 75.4622%; width: 9.4368%; height: 22.8091%; background: #3fc18a;"
-             data-mmi-key="740"
-             data-mmi-label="MMI 740"
-             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
-          MMI 740<br><span class="tm-count">1 808</span>
-        </div>
         
-        <div class="tm-cell drill-target"
-             style="left: 0.0%; top: 98.2714%; width: 70.5234%; height: 1.7286%; background: #5dbf99;"
-             data-mmi-key="300"
-             data-mmi-label="MMI 300"
-             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
-          MMI 300<br><span class="tm-count">1 024</span>
-        </div>
+        <span class="disc-tag disc-riv">RIV (4)</span>
         
-        <div class="tm-cell drill-target"
-             style="left: 70.5234%; top: 98.2714%; width: 25.1377%; height: 1.7286%; background: #8dd4b8;"
-             data-mmi-key="400"
-             data-mmi-label="MMI 400"
-             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
-          MMI 400<br><span class="tm-count">365</span>
-        </div>
         
-        <div class="tm-cell drill-target"
-             style="left: 95.6612%; top: 98.2714%; width: 4.3388%; height: 1.7286%; background: #b3e2ce;color: var(--text-secondary);"
-             data-mmi-key="__rest__"
-             data-mmi-label="+ 1 til"
-             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
-          + 1 til<br><span class="tm-count">63</span>
-        </div>
+        
+        <span class="disc-tag disc-ark">ARK (3)</span>
+        
+        
+        
+        <span class="disc-tag disc-rib">RIB (2)</span>
+        
+        
+        
+        <span class="disc-tag disc-bimk">BIMK (1)</span>
+        
+        
+        
+        <span class="disc-tag disc-ribp">RIBp (1)</span>
+        
         
       </div>
-      
     </div>
 
     
@@ -1473,81 +1441,71 @@
     
     <div class="card span-2">
       <div class="card-header">
-        <div class="card-title">Disipliner</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">6 disipliner</div>
+        <div class="card-title">MMI-fordeling</div>
+        <div style="font-size: 11px; color: var(--text-tertiary);">
+          20 611 med MMI &middot; <span style="color: var(--tl-yellow-text);">63 386 tomme</span> &middot; av 83 997 sjekket</div>
       </div>
-      <table class="dash-table" style="font-size: 12px;">
-        <thead>
-          <tr>
-            <th>Disiplin</th>
-            <th class="num">Modeller</th>
-            <th class="num">Elementer</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-rie">RIE</span>
-              
-            </td>
-            <td class="num">4</td>
-            <td class="num">3 174</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-riv">RIV</span>
-              
-            </td>
-            <td class="num">4</td>
-            <td class="num">48 606</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-ark">ARK</span>
-              
-            </td>
-            <td class="num">3</td>
-            <td class="num">20 015</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-rib">RIB</span>
-              
-            </td>
-            <td class="num">2</td>
-            <td class="num">1 917</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-bimk">BIMK</span>
-              
-            </td>
-            <td class="num">1</td>
-            <td class="num">6 730</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-ribp">RIBp</span>
-              
-            </td>
-            <td class="num">1</td>
-            <td class="num">38 180</td>
-          </tr>
-          
-        </tbody>
-      </table>
+      
+      <div class="treemap-grid" style="aspect-ratio: 16/9;">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 75.4622%; background: #94a3b8;color: #ffffff;"
+             data-mmi-key="__blank__"
+             data-mmi-label="Tom"
+             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
+          Tom<br><span class="tm-count">63 386</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 75.4622%; width: 55.5039%; height: 22.8091%; background: #1e9268;"
+             data-mmi-key="700"
+             data-mmi-label="MMI 700"
+             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
+          MMI 700<br><span class="tm-count">10 634</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 55.5039%; top: 75.4622%; width: 35.0592%; height: 22.8091%; background: #27ab7d;"
+             data-mmi-key="750"
+             data-mmi-label="MMI 750"
+             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
+          MMI 750<br><span class="tm-count">6 717</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 90.5632%; top: 75.4622%; width: 9.4368%; height: 22.8091%; background: #3fc18a;"
+             data-mmi-key="740"
+             data-mmi-label="MMI 740"
+             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
+          MMI 740<br><span class="tm-count">1 808</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 98.2714%; width: 70.5234%; height: 1.7286%; background: #5dbf99;"
+             data-mmi-key="300"
+             data-mmi-label="MMI 300"
+             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
+          MMI 300<br><span class="tm-count">1 024</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 70.5234%; top: 98.2714%; width: 25.1377%; height: 1.7286%; background: #8dd4b8;"
+             data-mmi-key="400"
+             data-mmi-label="MMI 400"
+             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
+          MMI 400<br><span class="tm-count">365</span>
+        </div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 95.6612%; top: 98.2714%; width: 4.3388%; height: 1.7286%; background: #b3e2ce;color: var(--text-secondary);"
+             data-mmi-key="__rest__"
+             data-mmi-label="+ 1 til"
+             onclick="drillMmi(this.getAttribute('data-mmi-key'), this.getAttribute('data-mmi-label'))">
+          + 1 til<br><span class="tm-count">63</span>
+        </div>
+        
+      </div>
+      
     </div>
 
     <div class="card span-2">
@@ -2056,7 +2014,6 @@
           <tr>
             <th style="width: 40px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;" class="center">#</th>
             <th style="position: sticky; left: 40px; background: var(--tl-gray-bg); z-index: 2; min-width: 140px;">Krav</th>
-            <th style="width: 90px;">Kategori</th>
             
             <th style="min-width: 100px;" class="center">G55_ARK</th>
             
@@ -2088,229 +2045,404 @@
             
             <th style="min-width: 100px;" class="center">G55_RIV_Eksisterende_MMI750</th>
             
-            <th style="width: 80px;" class="center">Totalt</th>
           </tr>
         </thead>
         <tbody>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">1</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">IFC-skjema</td>
-            <td><span class="tag tag-gray">Format</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="IFC-skjema">IFC-skjema</td>
             
-            <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
             
-            <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
+            <td class="center"><span class="tl-text green">IFC4</span></td>
             
-            <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
             
-            <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
             
-            <td class="center"><span class="tl-cell green">IFC4</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
             
-            <td class="center"><span class="tl-cell green">IFC4</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
             
-            <td class="center"><span class="tl-cell yellow">4/15</span></td>
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text green">IFC4</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text green">IFC4</span></td>
+            
+            <td class="center"><span class="tl-text green">IFC4</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
+            <td class="center"><span class="tl-text yellow">IFC2X3</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">2</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Forfatterverktøy</td>
-            <td><span class="tag tag-gray">Identitet</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Forfatterverktøy">Forfatterverktøy</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
             
-            <td class="center"><span class="tl-cell yellow">IfcOpenShell</span></td>
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Revit 2024</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text yellow">IfcOpenShell</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
             
-            <td class="center"><span class="tl-cell yellow">14/15</span></td>
+            <td class="center"><span class="tl-text green">Tekla Structures</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2025 UR-1</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2025 UR-2</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2025 UR-2</span></td>
+            
+            <td class="center"><span class="tl-text green">MagiCAD For Revit 2025 UR-2</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
+            
+            <td class="center"><span class="tl-text green">Revit 2025</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">3</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Enhet mm</td>
-            <td><span class="tag tag-gray">Geometri</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Enhet mm">Enhet mm</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
             
-            <td class="center"><span class="tl-cell green">15/15</span></td>
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
+            <td class="center"><span class="tl-text green">mm</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">4</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">CRS definert</td>
-            <td><span class="tag tag-gray">Geolokasjon</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="CRS definert">CRS definert</td>
             
-            <td class="center"><span class="tl-cell gray">N/A</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
             
-            <td class="center"><span class="tl-cell gray">N/A</span></td>
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
             
-            <td class="center"><span class="tl-cell gray">N/A</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
             
-            <td class="center"><span class="tl-cell gray">N/A</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
             
-            <td class="center"><span class="tl-cell yellow">Mangler</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
             
-            <td class="center"><span class="tl-cell yellow">Mangler</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
             
-            <td class="center"><span class="tl-cell yellow">0/4</span></td>
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
+            
+            <td class="center"><span class="tl-text yellow">Mangler</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A (IFC2X3)</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">5</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Etasjer definert</td>
-            <td><span class="tag tag-gray">Struktur</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Etasjer definert">Etasjer definert</td>
             
-            <td class="center"><span class="tl-cell green">10 etasjer</span></td>
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
             
-            <td class="center"><span class="tl-cell green">1 etasje</span></td>
+            <td class="center"><span class="tl-text green">12 etasjer</span></td>
             
-            <td class="center"><span class="tl-cell green">10 etasjer</span></td>
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
             
-            <td class="center"><span class="tl-cell green">1 etasje</span></td>
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
             
-            <td class="center"><span class="tl-cell green">9 etasjer</span></td>
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
             
-            <td class="center"><span class="tl-cell green">10 etasjer</span></td>
+            <td class="center"><span class="tl-text green">9 etasjer</span></td>
             
-            <td class="center"><span class="tl-cell green">15/15</span></td>
+            <td class="center"><span class="tl-text green">1 etasje</span></td>
+            
+            <td class="center"><span class="tl-text green">9 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">9 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">9 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">9 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
+            
+            <td class="center"><span class="tl-text green">10 etasjer</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">6</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Modellhierarki</td>
-            <td><span class="tag tag-gray">Struktur</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Modellhierarki">Modellhierarki</td>
             
-            <td class="center"><span class="tl-cell yellow">10637/13690</span></td>
+            <td class="center"><span class="tl-text yellow">78% plassert</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">98% plassert</span></td>
             
-            <td class="center"><span class="tl-cell yellow">705/964</span></td>
+            <td class="center"><span class="tl-text green">100%</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">100%</span></td>
             
-            <td class="center"><span class="tl-cell green">1746/1747</span></td>
+            <td class="center"><span class="tl-text yellow">73% plassert</span></td>
             
-            <td class="center"><span class="tl-cell green">257/258</span></td>
+            <td class="center"><span class="tl-text yellow">49% plassert</span></td>
             
-            <td class="center"><span class="tl-cell yellow">8/15</span></td>
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">37% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">41% plassert</span></td>
+            
+            <td class="center"><span class="tl-text green">100%</span></td>
+            
+            <td class="center"><span class="tl-text green">100% plassert</span></td>
+            
+            <td class="center"><span class="tl-text green">100% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">35% plassert</span></td>
+            
+            <td class="center"><span class="tl-text yellow">40% plassert</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">7</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Typed elementer</td>
-            <td><span class="tag tag-blue">Typer</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Typed elementer">Typed elementer</td>
             
-            <td class="center"><span class="tl-cell green">90%</span></td>
+            <td class="center"><span class="tl-text green">90% typed</span></td>
             
-            <td class="center"><span class="tl-cell red">0%</span></td>
+            <td class="center"><span class="tl-text green">100%</span></td>
             
-            <td class="center"><span class="tl-cell yellow">83%</span></td>
+            <td class="center"><span class="tl-text yellow">72% typed</span></td>
             
-            <td class="center"><span class="tl-cell yellow">65%</span></td>
+            <td class="center"><span class="tl-text red">0% typed</span></td>
             
-            <td class="center"><span class="tl-cell green">99%</span></td>
+            <td class="center"><span class="tl-text yellow">83% typed</span></td>
             
-            <td class="center"><span class="tl-cell red">0%</span></td>
+            <td class="center"><span class="tl-text yellow">48% typed</span></td>
             
-            <td class="center"><span class="tl-cell red">4/15</span></td>
+            <td class="center"><span class="tl-text yellow">65% typed</span></td>
+            
+            <td class="center"><span class="tl-text green">99% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">32% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">40% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text red">0% typed</span></td>
+            
+            <td class="center"><span class="tl-text green">99% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">35% typed</span></td>
+            
+            <td class="center"><span class="tl-text yellow">39% typed</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">8</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ubrukte typer</td>
-            <td><span class="tag tag-blue">Typer</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Ubrukte typer">Ubrukte typer</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
             
-            <td class="center"><span class="tl-cell gray">N/A</span></td>
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text gray">N/A</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
             
-            <td class="center"><span class="tl-cell green">13/13</span></td>
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text gray">N/A</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
+            <td class="center"><span class="tl-text green">0 ubrukte</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">9</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ingen proxy-typer</td>
-            <td><span class="tag tag-blue">Typer</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Ingen proxy-typer">Ingen proxy-typer</td>
             
-            <td class="center"><span class="tl-cell green">84 proxy</span></td>
+            <td class="center"><span class="tl-text green">84 proxy</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">47 proxy</span></td>
             
-            <td class="center"><span class="tl-cell yellow">205 proxy</span></td>
+            <td class="center"><span class="tl-text red">30 proxy</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text yellow">205 proxy</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
             
-            <td class="center"><span class="tl-cell red">11/15</span></td>
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text yellow">1 proxy</span></td>
+            
+            <td class="center"><span class="tl-text yellow">25 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">Ingen proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">2 proxy</span></td>
+            
+            <td class="center"><span class="tl-text green">8 proxy</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">10</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Unike GUID</td>
-            <td><span class="tag tag-gray">Identitet</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Unike GUID">Unike GUID</td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
             
-            <td class="center"><span class="tl-cell green">OK</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
             
-            <td class="center"><span class="tl-cell green">15/15</span></td>
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
+            <td class="center"><span class="tl-text green">Unike</span></td>
+            
           </tr>
           
           <tr>
             <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">11</td>
-            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Basismengder (Qto)</td>
-            <td><span class="tag tag-gray">Mengder</span></td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;" title="Basismengder (Qto)">Basismengder (Qto)</td>
             
-            <td class="center"><span class="tl-cell red">Mangler</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
             
-            <td class="center"><span class="tl-cell red">Mangler</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
             
-            <td class="center"><span class="tl-cell red">Mangler</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
             
-            <td class="center"><span class="tl-cell red">Mangler</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
             
-            <td class="center"><span class="tl-cell red">Mangler</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
             
-            <td class="center"><span class="tl-cell red">Mangler</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
             
-            <td class="center"><span class="tl-cell red">0/15</span></td>
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
+            <td class="center"><span class="tl-text red">Ingen Qto_*</span></td>
+            
           </tr>
           
         </tbody>
@@ -2761,6 +2893,32 @@
     } else {
       openDrillModal(label, subtitle, rows.map(function (r) { return { name: r.ifc_class + ' — ' + r.type_name + ' · ' + r.model, count: r.count }; }));
     }
+  }
+
+  function drillDisciplines() {
+    var data = [{"code": "RIE", "disc_class": "rie", "element_count": 3174, "model_count": 4, "models": ["G55_RIE.ifc", "G55_RIE_Eksisterende_MMI740.ifc", "G55_RIE_Eksisterende_MMI750.ifc", "G55_RIE_utsparinger.ifc"]}, {"code": "RIV", "disc_class": "riv", "element_count": 48606, "model_count": 4, "models": ["G55_RIV._Utsparinger.ifc", "G55_RIV.ifc", "G55_RIV_Eksisterende_MMI740.ifc", "G55_RIV_Eksisterende_MMI750.ifc"]}, {"code": "ARK", "disc_class": "ark", "element_count": 20015, "model_count": 3, "models": ["G55_ARK.ifc", "G55_ARK_Eksisterende_MMI750.ifc", "G55_ARK_KONTEKST.ifc"]}, {"code": "RIB", "disc_class": "rib", "element_count": 1917, "model_count": 2, "models": ["G55_RIB.ifc", "G55_RIB_Prefab.ifc"]}, {"code": "BIMK", "disc_class": "bimk", "element_count": 6730, "model_count": 1, "models": ["G55_BIMK_Generert-fasade.ifc"]}, {"code": "RIBp", "disc_class": "ribp", "element_count": 38180, "model_count": 1, "models": ["G55_RIBprefab.ifc"]}];
+    var rows = data.map(function (d) {
+      return { name: d.code + (d.code === 'Udefinert' ? '' : ''), count: d.model_count + ' modeller, ' + d.element_count + ' elementer' };
+    });
+    openTabbedModal('Disipliner', data.length + ' disipliner', [
+      {
+        label: 'Oversikt', count: data.length,
+        render: function () {
+          var html = '<table class="dash-table" style="font-size: 12px;"><thead><tr><th>Disiplin</th><th class="num">Modeller</th><th class="num">Elementer</th><th>Filer</th></tr></thead><tbody>';
+          data.forEach(function (d) {
+            html += '<tr><td><strong>' + escapeHtml(d.code) + '</strong></td><td class="num">' + d.model_count + '</td><td class="num">' + d.element_count + '</td>';
+            html += '<td style="font-size: 10px; color: var(--text-secondary);">' + d.models.join(', ') + '</td></tr>';
+          });
+          return html + '</tbody></table>';
+        },
+        exportRows: function () {
+          return {
+            headers: ['Disiplin', 'Modeller', 'Elementer', 'Filer'],
+            rows: data.map(function (d) { return [d.code, d.model_count, d.element_count, d.models.join('; ')]; }),
+          };
+        },
+      }
+    ]);
   }
 
   function switchTab(name, push) {
