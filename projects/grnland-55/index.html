@@ -264,6 +264,7 @@
       border-radius: var(--radius);
       padding: 20px;
       overflow: hidden;
+      min-width: 0;
     }
     .card-sm { padding: 12px; }
     .card-header {
@@ -921,7 +922,7 @@
     <h1>Grønland 55</h1>
     <div class="page-header-sub">
       15 modeller &middot; ARK, BIMK, RIB, RIBp, RIE, RIV&middot; Siste data: 12. apr 2026 22:45
-      &middot; Siste sjekk: 13. apr 2026 13:36
+      &middot; Siste sjekk: 13. apr 2026 13:54
     </div>
   </div>
   <div class="header-actions">
@@ -1255,7 +1256,7 @@
           </tr>
           
           <tr>
-            <td title="Spatial hierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Spatial hierarki</td>
+            <td title="Modellhierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Modellhierarki</td>
             
             <td><span class="tl-text yellow">78% plassert</span></td>
             
@@ -1480,53 +1481,54 @@
       </div>
     </div>
 
-    <div class="card span-2">
+    <div class="card span-4" style="grid-column: 1 / -1;">
       <div class="card-header">
         <div class="card-title">Etasjekoordinering</div>
       </div>
-      <table class="matrix-table">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="matrix-table" style="min-width: 1810px;">
         <thead>
           <tr>
-            <th style="width: 80px;">Etasje</th>
-            <th>Kote</th>
+            <th style="width: 80px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;">Etasje</th>
+            <th style="width: 80px; position: sticky; left: 80px; background: var(--tl-gray-bg); z-index: 2;">Kote</th>
             
-            <th>G55_ARK</th>
+            <th style="min-width: 100px;">G55_ARK</th>
             
-            <th>G55_ARK_Eksisterende_MMI750</th>
+            <th style="min-width: 100px;">G55_ARK_Eksisterende_MMI750</th>
             
-            <th>G55_ARK_KONTEKST</th>
+            <th style="min-width: 100px;">G55_ARK_KONTEKST</th>
             
-            <th>G55_BIMK_Generert-fasade</th>
+            <th style="min-width: 100px;">G55_BIMK_Generert-fasade</th>
             
-            <th>G55_RIB</th>
+            <th style="min-width: 100px;">G55_RIB</th>
             
-            <th>G55_RIB_Prefab</th>
+            <th style="min-width: 100px;">G55_RIB_Prefab</th>
             
-            <th>G55_RIBprefab</th>
+            <th style="min-width: 100px;">G55_RIBprefab</th>
             
-            <th>G55_RIE</th>
+            <th style="min-width: 100px;">G55_RIE</th>
             
-            <th>G55_RIE_Eksisterende_MMI740</th>
+            <th style="min-width: 100px;">G55_RIE_Eksisterende_MMI740</th>
             
-            <th>G55_RIE_Eksisterende_MMI750</th>
+            <th style="min-width: 100px;">G55_RIE_Eksisterende_MMI750</th>
             
-            <th>G55_RIE_utsparinger</th>
+            <th style="min-width: 100px;">G55_RIE_utsparinger</th>
             
-            <th>G55_RIV._Utsparinger</th>
+            <th style="min-width: 100px;">G55_RIV._Utsparinger</th>
             
-            <th>G55_RIV</th>
+            <th style="min-width: 100px;">G55_RIV</th>
             
-            <th>G55_RIV_Eksisterende_MMI740</th>
+            <th style="min-width: 100px;">G55_RIV_Eksisterende_MMI740</th>
             
-            <th>G55_RIV_Eksisterende_MMI750</th>
+            <th style="min-width: 100px;">G55_RIV_Eksisterende_MMI750</th>
             
           </tr>
         </thead>
         <tbody>
           
           <tr>
-            <td>TAKPLAN</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">TAKPLAN</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+27 500</td>
             
             <td><span class="tl-cell yellow">Plan 08T</span></td>
             
@@ -1561,8 +1563,8 @@
           </tr>
           
           <tr>
-            <td>Plan 07</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 07</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+23 900</td>
             
             <td><span class="tl-cell yellow">Plan 07</span></td>
             
@@ -1597,8 +1599,8 @@
           </tr>
           
           <tr>
-            <td>Plan 06</td>
-            <td style="font-variant-numeric: tabular-nums;">+20 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 06</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+20 300</td>
             
             <td><span class="tl-cell yellow">Plan 06</span></td>
             
@@ -1633,8 +1635,8 @@
           </tr>
           
           <tr>
-            <td>Plan 05</td>
-            <td style="font-variant-numeric: tabular-nums;">+16 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 05</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+16 700</td>
             
             <td><span class="tl-cell yellow">Plan 05</span></td>
             
@@ -1669,8 +1671,8 @@
           </tr>
           
           <tr>
-            <td>Plan 04</td>
-            <td style="font-variant-numeric: tabular-nums;">+13 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 04</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+13 100</td>
             
             <td><span class="tl-cell yellow">Plan 04</span></td>
             
@@ -1705,8 +1707,8 @@
           </tr>
           
           <tr>
-            <td>Plan 03</td>
-            <td style="font-variant-numeric: tabular-nums;">+9 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 03</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+9 500</td>
             
             <td><span class="tl-cell yellow">Plan 03</span></td>
             
@@ -1741,8 +1743,8 @@
           </tr>
           
           <tr>
-            <td>Plan 02</td>
-            <td style="font-variant-numeric: tabular-nums;">+5 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 02</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+5 900</td>
             
             <td><span class="tl-cell yellow">Plan 02</span></td>
             
@@ -1777,8 +1779,8 @@
           </tr>
           
           <tr>
-            <td>L2</td>
-            <td style="font-variant-numeric: tabular-nums;">+3 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">L2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+3 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1813,8 +1815,8 @@
           </tr>
           
           <tr>
-            <td>Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+2 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+2 300</td>
             
             <td><span class="tl-cell yellow">Plan 01</span></td>
             
@@ -1849,8 +1851,8 @@
           </tr>
           
           <tr>
-            <td>Havnivå</td>
-            <td style="font-variant-numeric: tabular-nums;">±0</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Havnivå</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">±0</td>
             
             <td><span class="tl-cell yellow">Havnivå</span></td>
             
@@ -1885,8 +1887,8 @@
           </tr>
           
           <tr>
-            <td>Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">-2 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-2 000</td>
             
             <td><span class="tl-cell yellow">Plan U1</span></td>
             
@@ -1922,53 +1924,55 @@
           
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
 
 
 <div class="tab-panel" id="tab-compliance">
-  <div class="fade-in" style="max-width: 1100px;">
+  <div class="fade-in">
     <div class="card" style="margin-bottom: 16px;">
       <div class="card-header">
         <div class="card-title">Detaljert samsvarsstatus</div>
       </div>
-      <table class="dash-table">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="dash-table" style="min-width: 1950px;">
         <thead>
           <tr>
-            <th style="width: 40px;" class="center">#</th>
-            <th>Krav</th>
+            <th style="width: 40px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;" class="center">#</th>
+            <th style="position: sticky; left: 40px; background: var(--tl-gray-bg); z-index: 2; min-width: 140px;">Krav</th>
             <th style="width: 90px;">Kategori</th>
             
-            <th style="width: 80px;" class="center">G55_ARK</th>
+            <th style="min-width: 100px;" class="center">G55_ARK</th>
             
-            <th style="width: 80px;" class="center">G55_ARK_Eksisterende_MMI750</th>
+            <th style="min-width: 100px;" class="center">G55_ARK_Eksisterende_MMI750</th>
             
-            <th style="width: 80px;" class="center">G55_ARK_KONTEKST</th>
+            <th style="min-width: 100px;" class="center">G55_ARK_KONTEKST</th>
             
-            <th style="width: 80px;" class="center">G55_BIMK_Generert-fasade</th>
+            <th style="min-width: 100px;" class="center">G55_BIMK_Generert-fasade</th>
             
-            <th style="width: 80px;" class="center">G55_RIB</th>
+            <th style="min-width: 100px;" class="center">G55_RIB</th>
             
-            <th style="width: 80px;" class="center">G55_RIB_Prefab</th>
+            <th style="min-width: 100px;" class="center">G55_RIB_Prefab</th>
             
-            <th style="width: 80px;" class="center">G55_RIBprefab</th>
+            <th style="min-width: 100px;" class="center">G55_RIBprefab</th>
             
-            <th style="width: 80px;" class="center">G55_RIE</th>
+            <th style="min-width: 100px;" class="center">G55_RIE</th>
             
-            <th style="width: 80px;" class="center">G55_RIE_Eksisterende_MMI740</th>
+            <th style="min-width: 100px;" class="center">G55_RIE_Eksisterende_MMI740</th>
             
-            <th style="width: 80px;" class="center">G55_RIE_Eksisterende_MMI750</th>
+            <th style="min-width: 100px;" class="center">G55_RIE_Eksisterende_MMI750</th>
             
-            <th style="width: 80px;" class="center">G55_RIE_utsparinger</th>
+            <th style="min-width: 100px;" class="center">G55_RIE_utsparinger</th>
             
-            <th style="width: 80px;" class="center">G55_RIV._Utsparinger</th>
+            <th style="min-width: 100px;" class="center">G55_RIV._Utsparinger</th>
             
-            <th style="width: 80px;" class="center">G55_RIV</th>
+            <th style="min-width: 100px;" class="center">G55_RIV</th>
             
-            <th style="width: 80px;" class="center">G55_RIV_Eksisterende_MMI740</th>
+            <th style="min-width: 100px;" class="center">G55_RIV_Eksisterende_MMI740</th>
             
-            <th style="width: 80px;" class="center">G55_RIV_Eksisterende_MMI750</th>
+            <th style="min-width: 100px;" class="center">G55_RIV_Eksisterende_MMI750</th>
             
             <th style="width: 80px;" class="center">Totalt</th>
           </tr>
@@ -1976,8 +1980,8 @@
         <tbody>
           
           <tr>
-            <td class="center">1</td>
-            <td>IFC-skjema</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">1</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">IFC-skjema</td>
             <td><span class="tag tag-gray">Format</span></td>
             
             <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
@@ -1996,8 +2000,8 @@
           </tr>
           
           <tr>
-            <td class="center">2</td>
-            <td>Forfatterverktøy</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">2</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Forfatterverktøy</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2016,8 +2020,8 @@
           </tr>
           
           <tr>
-            <td class="center">3</td>
-            <td>Enhet mm</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">3</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Enhet mm</td>
             <td><span class="tag tag-gray">Geometri</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2036,8 +2040,8 @@
           </tr>
           
           <tr>
-            <td class="center">4</td>
-            <td>CRS definert</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">4</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">CRS definert</td>
             <td><span class="tag tag-gray">Geolokasjon</span></td>
             
             <td class="center"><span class="tl-cell gray">N/A</span></td>
@@ -2056,8 +2060,8 @@
           </tr>
           
           <tr>
-            <td class="center">5</td>
-            <td>Etasjer definert</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">5</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Etasjer definert</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell green">10 etasjer</span></td>
@@ -2076,8 +2080,8 @@
           </tr>
           
           <tr>
-            <td class="center">6</td>
-            <td>Spatial hierarki</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">6</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Modellhierarki</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell yellow">10637/13690</span></td>
@@ -2096,8 +2100,8 @@
           </tr>
           
           <tr>
-            <td class="center">7</td>
-            <td>Typed elementer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">7</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Typed elementer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">90%</span></td>
@@ -2116,8 +2120,8 @@
           </tr>
           
           <tr>
-            <td class="center">8</td>
-            <td>Ubrukte typer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">8</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ubrukte typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2136,8 +2140,8 @@
           </tr>
           
           <tr>
-            <td class="center">9</td>
-            <td>Ingen proxy-typer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">9</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ingen proxy-typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">84 proxy</span></td>
@@ -2156,8 +2160,8 @@
           </tr>
           
           <tr>
-            <td class="center">10</td>
-            <td>Unike GUID</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">10</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Unike GUID</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2177,6 +2181,7 @@
           
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>

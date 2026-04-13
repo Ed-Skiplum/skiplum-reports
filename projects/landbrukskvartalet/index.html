@@ -264,6 +264,7 @@
       border-radius: var(--radius);
       padding: 20px;
       overflow: hidden;
+      min-width: 0;
     }
     .card-sm { padding: 12px; }
     .card-header {
@@ -921,7 +922,7 @@
     <h1>Landbrukskvartalet</h1>
     <div class="page-header-sub">
       51 modeller &middot; ARK, BIMK, IARK, RIG, RIVr, RIV, LARK, RIB, RIBp, RIE, RIVA, RIVv, SKANN&middot; Siste data: 13. apr 2026 10:24
-      &middot; Siste sjekk: 13. apr 2026 13:40
+      &middot; Siste sjekk: 13. apr 2026 13:57
     </div>
   </div>
   <div class="header-actions">
@@ -1631,7 +1632,7 @@
           </tr>
           
           <tr>
-            <td title="Spatial hierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Spatial hierarki</td>
+            <td title="Modellhierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Modellhierarki</td>
             
             <td><span class="tl-text yellow">64% plassert</span></td>
             
@@ -2173,6 +2174,25 @@
     
     <div class="card span-2">
       <div class="card-header">
+        <div class="card-title">Disipliner</div>
+        <div style="font-size: 11px; color: var(--text-tertiary);">0 disipliner</div>
+      </div>
+      <table class="dash-table" style="font-size: 12px;">
+        <thead>
+          <tr>
+            <th>Disiplin</th>
+            <th class="num">Modeller</th>
+            <th class="num">Elementer</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card span-2">
+      <div class="card-header">
         <div class="card-title">Typing per disiplin</div>
       </div>
       <div style="margin-top: 4px;">
@@ -2264,125 +2284,126 @@
       </div>
     </div>
 
-    <div class="card span-2">
+    <div class="card span-4" style="grid-column: 1 / -1;">
       <div class="card-header">
         <div class="card-title">Etasjekoordinering</div>
       </div>
-      <table class="matrix-table">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="matrix-table" style="min-width: 5770px;">
         <thead>
           <tr>
-            <th style="width: 80px;">Etasje</th>
-            <th>Kote</th>
+            <th style="width: 80px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;">Etasje</th>
+            <th style="width: 80px; position: sticky; left: 80px; background: var(--tl-gray-bg); z-index: 2;">Kote</th>
             
-            <th>LBK_ARK_ABD</th>
+            <th style="min-width: 100px;">LBK_ARK_ABD</th>
             
-            <th>LBK_ARK_C</th>
+            <th style="min-width: 100px;">LBK_ARK_C</th>
             
-            <th>LBK_ARK_E</th>
+            <th style="min-width: 100px;">LBK_ARK_E</th>
             
-            <th>LBK_ARK_E_KONTOR+BOLIG</th>
+            <th style="min-width: 100px;">LBK_ARK_E_KONTOR+BOLIG</th>
             
-            <th>LBK_ARK_E_PHC</th>
+            <th style="min-width: 100px;">LBK_ARK_E_PHC</th>
             
-            <th>LBK_ARK_F1</th>
+            <th style="min-width: 100px;">LBK_ARK_F1</th>
             
-            <th>LBK_ARK_F2</th>
+            <th style="min-width: 100px;">LBK_ARK_F2</th>
             
-            <th>LBK_ARK_H5 og H7</th>
+            <th style="min-width: 100px;">LBK_ARK_H5 og H7</th>
             
-            <th>LBK_C_BIMK_BrannisoleringHSQ</th>
+            <th style="min-width: 100px;">LBK_C_BIMK_BrannisoleringHSQ</th>
             
-            <th>LBK_C_BIMK_Himlingssoner</th>
+            <th style="min-width: 100px;">LBK_C_BIMK_Himlingssoner</th>
             
-            <th>LBK_C_BIMK_Innmåling</th>
+            <th style="min-width: 100px;">LBK_C_BIMK_Innmåling</th>
             
-            <th>LBK_C_BIMK_Spunt-Innmålt</th>
+            <th style="min-width: 100px;">LBK_C_BIMK_Spunt-Innmålt</th>
             
-            <th>LBK_C_Fasade</th>
+            <th style="min-width: 100px;">LBK_C_Fasade</th>
             
-            <th>LBK_C_Fasade_Brackets</th>
+            <th style="min-width: 100px;">LBK_C_Fasade_Brackets</th>
             
-            <th>LBK_C_IARK_foreløpig</th>
+            <th style="min-width: 100px;">LBK_C_IARK_foreløpig</th>
             
-            <th>LBK_C_RIG_Spunt</th>
+            <th style="min-width: 100px;">LBK_C_RIG_Spunt</th>
             
-            <th>LBK_C_RIVr - utsparinger</th>
+            <th style="min-width: 100px;">LBK_C_RIVr - utsparinger</th>
             
-            <th>LBK_C_RIVr</th>
+            <th style="min-width: 100px;">LBK_C_RIVr</th>
             
-            <th>LBK_C_Storkjøkken</th>
+            <th style="min-width: 100px;">LBK_C_Storkjøkken</th>
             
-            <th>LBK_E_RIV</th>
+            <th style="min-width: 100px;">LBK_E_RIV</th>
             
-            <th>LBK_F_RIV</th>
+            <th style="min-width: 100px;">LBK_F_RIV</th>
             
-            <th>LBK_IARK_C</th>
+            <th style="min-width: 100px;">LBK_IARK_C</th>
             
-            <th>LBK_LARK</th>
+            <th style="min-width: 100px;">LBK_LARK</th>
             
-            <th>LBK_LARK_C_Tak</th>
+            <th style="min-width: 100px;">LBK_LARK_C_Tak</th>
             
-            <th>LBK_Nabobygg_2025</th>
+            <th style="min-width: 100px;">LBK_Nabobygg_2025</th>
             
-            <th>LBK_RIB_A</th>
+            <th style="min-width: 100px;">LBK_RIB_A</th>
             
-            <th>LBK_RIB_C</th>
+            <th style="min-width: 100px;">LBK_RIB_C</th>
             
-            <th>LBK_RIB_E</th>
+            <th style="min-width: 100px;">LBK_RIB_E</th>
             
-            <th>LBK_RIB_F</th>
+            <th style="min-width: 100px;">LBK_RIB_F</th>
             
-            <th>LBK_RIBp_C</th>
+            <th style="min-width: 100px;">LBK_RIBp_C</th>
             
-            <th>LBK_RIBp_Trapp</th>
+            <th style="min-width: 100px;">LBK_RIBp_Trapp</th>
             
-            <th>LBK_RIE_ABD</th>
+            <th style="min-width: 100px;">LBK_RIE_ABD</th>
             
-            <th>LBK_RIE_C</th>
+            <th style="min-width: 100px;">LBK_RIE_C</th>
             
-            <th>LBK_RIE_C_Utsparinger</th>
+            <th style="min-width: 100px;">LBK_RIE_C_Utsparinger</th>
             
-            <th>LBK_RIE_E</th>
+            <th style="min-width: 100px;">LBK_RIE_E</th>
             
-            <th>LBK_RIE_eksisterende_kabler</th>
+            <th style="min-width: 100px;">LBK_RIE_eksisterende_kabler</th>
             
-            <th>LBK_RIE_F1</th>
+            <th style="min-width: 100px;">LBK_RIE_F1</th>
             
-            <th>LBK_RIE_F2</th>
+            <th style="min-width: 100px;">LBK_RIE_F2</th>
             
-            <th>LBK_RIE_Utomhus</th>
+            <th style="min-width: 100px;">LBK_RIE_Utomhus</th>
             
-            <th>LBK_RIE_Utomhus_alternativ trase</th>
+            <th style="min-width: 100px;">LBK_RIE_Utomhus_alternativ trase</th>
             
-            <th>LBK_RIV_C - Utvendig varme og sanitær</th>
+            <th style="min-width: 100px;">LBK_RIV_C - Utvendig varme og sanitær</th>
             
-            <th>LBK_RIV_C_kjeller studie</th>
+            <th style="min-width: 100px;">LBK_RIV_C_kjeller studie</th>
             
-            <th>LBK_RIVA_F</th>
+            <th style="min-width: 100px;">LBK_RIVA_F</th>
             
-            <th>LBK_RIVA_Utomhus_eksisterende</th>
+            <th style="min-width: 100px;">LBK_RIVA_Utomhus_eksisterende</th>
             
-            <th>LBK_RIVA_Utomhus_prosjektert</th>
+            <th style="min-width: 100px;">LBK_RIVA_Utomhus_prosjektert</th>
             
-            <th>LBK_RIVv_C</th>
+            <th style="min-width: 100px;">LBK_RIVv_C</th>
             
-            <th>LBK_RIVv_C_Utsparinger</th>
+            <th style="min-width: 100px;">LBK_RIVv_C_Utsparinger</th>
             
-            <th>LBK_SKANN_B</th>
+            <th style="min-width: 100px;">LBK_SKANN_B</th>
             
-            <th>LBK_SKANN_LOKAL</th>
+            <th style="min-width: 100px;">LBK_SKANN_LOKAL</th>
             
-            <th>Platousgate_ARK_Nabobygg_14&amp;16</th>
+            <th style="min-width: 100px;">Platousgate_ARK_Nabobygg_14&amp;16</th>
             
-            <th>Platousgate_LARK</th>
+            <th style="min-width: 100px;">Platousgate_LARK</th>
             
           </tr>
         </thead>
         <tbody>
           
           <tr>
-            <td>35. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+141 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">35. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+141 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -2489,8 +2510,8 @@
           </tr>
           
           <tr>
-            <td>34. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+136 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">34. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+136 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -2597,8 +2618,8 @@
           </tr>
           
           <tr>
-            <td>33. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+131 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">33. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+131 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -2705,8 +2726,8 @@
           </tr>
           
           <tr>
-            <td>32. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+126 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">32. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+126 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -2813,8 +2834,8 @@
           </tr>
           
           <tr>
-            <td>31. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+121 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">31. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+121 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -2921,8 +2942,8 @@
           </tr>
           
           <tr>
-            <td>30. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+116 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">30. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+116 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3029,8 +3050,8 @@
           </tr>
           
           <tr>
-            <td>29. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+111 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">29. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+111 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3137,8 +3158,8 @@
           </tr>
           
           <tr>
-            <td>28. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+107 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">28. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+107 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3245,8 +3266,8 @@
           </tr>
           
           <tr>
-            <td>27. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+102 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">27. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+102 100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3353,8 +3374,8 @@
           </tr>
           
           <tr>
-            <td>26. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+97 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">26. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+97 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3461,8 +3482,8 @@
           </tr>
           
           <tr>
-            <td>25. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+92 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">25. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+92 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3569,8 +3590,8 @@
           </tr>
           
           <tr>
-            <td>24. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+87 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">24. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+87 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3677,8 +3698,8 @@
           </tr>
           
           <tr>
-            <td>30. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+84 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">30. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+84 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3785,8 +3806,8 @@
           </tr>
           
           <tr>
-            <td>23. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+82 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">23. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+82 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -3893,8 +3914,8 @@
           </tr>
           
           <tr>
-            <td>29. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+82 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">29. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+82 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4001,8 +4022,8 @@
           </tr>
           
           <tr>
-            <td>28. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+79 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">28. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+79 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4109,8 +4130,8 @@
           </tr>
           
           <tr>
-            <td>22. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+77 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">22. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+77 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4217,8 +4238,8 @@
           </tr>
           
           <tr>
-            <td>27. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+76 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">27. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+76 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4325,8 +4346,8 @@
           </tr>
           
           <tr>
-            <td>26. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+74 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">26. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+74 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4433,8 +4454,8 @@
           </tr>
           
           <tr>
-            <td>21. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+72 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">21. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+72 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4541,8 +4562,8 @@
           </tr>
           
           <tr>
-            <td>25. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+71 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">25. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+71 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4649,8 +4670,8 @@
           </tr>
           
           <tr>
-            <td>24. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+68 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">24. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+68 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4757,8 +4778,8 @@
           </tr>
           
           <tr>
-            <td>20. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+67 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">20. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+67 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4865,8 +4886,8 @@
           </tr>
           
           <tr>
-            <td>23. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+65 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">23. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+65 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -4973,8 +4994,8 @@
           </tr>
           
           <tr>
-            <td>22. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+63 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">22. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+63 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5081,8 +5102,8 @@
           </tr>
           
           <tr>
-            <td>19. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+62 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">19. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+62 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5189,8 +5210,8 @@
           </tr>
           
           <tr>
-            <td>21. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+60 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">21. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+60 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5297,8 +5318,8 @@
           </tr>
           
           <tr>
-            <td>E - Tak tårn</td>
-            <td style="font-variant-numeric: tabular-nums;">+58 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Tak tårn</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+58 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5405,8 +5426,8 @@
           </tr>
           
           <tr>
-            <td>18. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+58 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">18. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+58 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5513,8 +5534,8 @@
           </tr>
           
           <tr>
-            <td>20. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+57 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">20. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+57 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5621,8 +5642,8 @@
           </tr>
           
           <tr>
-            <td>E - Tak perg</td>
-            <td style="font-variant-numeric: tabular-nums;">+56 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Tak perg</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+56 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5729,8 +5750,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 16</td>
-            <td style="font-variant-numeric: tabular-nums;">+55 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 16</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+55 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5837,8 +5858,8 @@
           </tr>
           
           <tr>
-            <td>19. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+55 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">19. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+55 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -5945,8 +5966,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 15</td>
-            <td style="font-variant-numeric: tabular-nums;">+53 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 15</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+53 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6053,8 +6074,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 15 </td>
-            <td style="font-variant-numeric: tabular-nums;">+53 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 15 </td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+53 100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6161,8 +6182,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 15</td>
-            <td style="font-variant-numeric: tabular-nums;">+53 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 15</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+53 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6269,8 +6290,8 @@
           </tr>
           
           <tr>
-            <td>18. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+52 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">18. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+52 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6377,8 +6398,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 14 </td>
-            <td style="font-variant-numeric: tabular-nums;">+49 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 14 </td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+49 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6485,8 +6506,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 14</td>
-            <td style="font-variant-numeric: tabular-nums;">+49 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 14</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+49 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6593,8 +6614,8 @@
           </tr>
           
           <tr>
-            <td>17. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+49 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">17. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+49 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6701,8 +6722,8 @@
           </tr>
           
           <tr>
-            <td>16. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+47 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">16. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+47 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6809,8 +6830,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 13 </td>
-            <td style="font-variant-numeric: tabular-nums;">+46 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 13 </td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+46 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -6917,8 +6938,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 13</td>
-            <td style="font-variant-numeric: tabular-nums;">+46 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 13</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+46 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7025,8 +7046,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 13</td>
-            <td style="font-variant-numeric: tabular-nums;">+46 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 13</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+46 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7133,8 +7154,8 @@
           </tr>
           
           <tr>
-            <td>15. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+44 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">15. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+44 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7241,8 +7262,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 12 </td>
-            <td style="font-variant-numeric: tabular-nums;">+43 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 12 </td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+43 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7349,8 +7370,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 12</td>
-            <td style="font-variant-numeric: tabular-nums;">+43 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 12</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+43 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7457,8 +7478,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 12</td>
-            <td style="font-variant-numeric: tabular-nums;">+43 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 12</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+43 100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7565,8 +7586,8 @@
           </tr>
           
           <tr>
-            <td>14. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+41 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">14. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+41 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7673,8 +7694,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 11 </td>
-            <td style="font-variant-numeric: tabular-nums;">+40 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 11 </td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+40 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7781,8 +7802,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 11</td>
-            <td style="font-variant-numeric: tabular-nums;">+40 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 11</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+40 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7889,8 +7910,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 11</td>
-            <td style="font-variant-numeric: tabular-nums;">+39 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 11</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+39 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -7997,8 +8018,8 @@
           </tr>
           
           <tr>
-            <td>13. Story</td>
-            <td style="font-variant-numeric: tabular-nums;">+38 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">13. Story</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+38 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8105,8 +8126,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 10 </td>
-            <td style="font-variant-numeric: tabular-nums;">+37 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 10 </td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+37 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8213,8 +8234,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 10</td>
-            <td style="font-variant-numeric: tabular-nums;">+36 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 10</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+36 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8321,8 +8342,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 10</td>
-            <td style="font-variant-numeric: tabular-nums;">+36 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 10</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+36 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8429,8 +8450,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 10</td>
-            <td style="font-variant-numeric: tabular-nums;">+35 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 10</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+35 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8537,8 +8558,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 10</td>
-            <td style="font-variant-numeric: tabular-nums;">+35 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 10</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+35 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8645,8 +8666,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 9 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+33 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 9 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+33 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8753,8 +8774,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 9</td>
-            <td style="font-variant-numeric: tabular-nums;">+33 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 9</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+33 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8861,8 +8882,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 9</td>
-            <td style="font-variant-numeric: tabular-nums;">+33 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 9</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+33 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -8969,8 +8990,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 09</td>
-            <td style="font-variant-numeric: tabular-nums;">+32 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 09</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+32 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9077,8 +9098,8 @@
           </tr>
           
           <tr>
-            <td>C - Takplan</td>
-            <td style="font-variant-numeric: tabular-nums;">+32 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Takplan</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+32 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9185,8 +9206,8 @@
           </tr>
           
           <tr>
-            <td>C - Tak</td>
-            <td style="font-variant-numeric: tabular-nums;">+32 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Tak</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+32 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9293,8 +9314,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 09</td>
-            <td style="font-variant-numeric: tabular-nums;">+31 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 09</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+31 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9401,8 +9422,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 8 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+30 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 8 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+30 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9509,8 +9530,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 8</td>
-            <td style="font-variant-numeric: tabular-nums;">+30 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 8</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+30 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9617,8 +9638,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 8</td>
-            <td style="font-variant-numeric: tabular-nums;">+29 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 8</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+29 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9725,8 +9746,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 7</td>
-            <td style="font-variant-numeric: tabular-nums;">+28 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 7</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+28 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9833,8 +9854,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 7</td>
-            <td style="font-variant-numeric: tabular-nums;">+28 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 7</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+28 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -9941,8 +9962,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 7</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 7</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+27 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10049,8 +10070,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 7</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 7</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+27 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10157,8 +10178,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 08</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 08</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+27 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10265,8 +10286,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 08</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 08</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+27 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10373,8 +10394,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 7 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 7 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+27 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10481,8 +10502,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 08</td>
-            <td style="font-variant-numeric: tabular-nums;">+26 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 08</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+26 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10589,8 +10610,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 07</td>
-            <td style="font-variant-numeric: tabular-nums;">+24 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 07</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+24 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10697,8 +10718,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 6</td>
-            <td style="font-variant-numeric: tabular-nums;">+24 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 6</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+24 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10805,8 +10826,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 6 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+24 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 6 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+24 100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -10913,8 +10934,8 @@
           </tr>
           
           <tr>
-            <td>Takplan</td>
-            <td style="font-variant-numeric: tabular-nums;">+24 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Takplan</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+24 000</td>
             
             <td><span class="tl-cell yellow">Takplan</span></td>
             
@@ -11021,8 +11042,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 07</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 07</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+23 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11129,8 +11150,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 07</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 07</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+23 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11237,8 +11258,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 6</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 6</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+23 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11345,8 +11366,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 6 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 6 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+23 100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11453,8 +11474,8 @@
           </tr>
           
           <tr>
-            <td>Takplan</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Takplan</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+23 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11561,8 +11582,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 5 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+20 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 5 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+20 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11669,8 +11690,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 06</td>
-            <td style="font-variant-numeric: tabular-nums;">+20 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 06</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+20 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11777,8 +11798,8 @@
           </tr>
           
           <tr>
-            <td>6.etasje Tak</td>
-            <td style="font-variant-numeric: tabular-nums;">+20 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">6.etasje Tak</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+20 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -11885,8 +11906,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 5</td>
-            <td style="font-variant-numeric: tabular-nums;">+20 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 5</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+20 000</td>
             
             <td><span class="tl-cell yellow">Plan 05</span></td>
             
@@ -11993,8 +12014,8 @@
           </tr>
           
           <tr>
-            <td>6. etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+19 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">6. etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+19 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12101,8 +12122,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 5 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+19 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 5 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+19 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12209,8 +12230,8 @@
           </tr>
           
           <tr>
-            <td>A - Plan 05</td>
-            <td style="font-variant-numeric: tabular-nums;">+18 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">A - Plan 05</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+18 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12317,8 +12338,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 05</td>
-            <td style="font-variant-numeric: tabular-nums;">+17 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 05</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+17 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12425,8 +12446,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 05</td>
-            <td style="font-variant-numeric: tabular-nums;">+17 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 05</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+17 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12533,8 +12554,8 @@
           </tr>
           
           <tr>
-            <td>5. etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+16 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">5. etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+16 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12641,8 +12662,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 4</td>
-            <td style="font-variant-numeric: tabular-nums;">+16 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 4</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+16 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12749,8 +12770,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 4 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+16 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 4 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+16 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -12857,8 +12878,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 4</td>
-            <td style="font-variant-numeric: tabular-nums;">+16 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 4</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+16 000</td>
             
             <td><span class="tl-cell yellow">Plan 4</span></td>
             
@@ -12965,8 +12986,8 @@
           </tr>
           
           <tr>
-            <td>Gml Plan 04</td>
-            <td style="font-variant-numeric: tabular-nums;">+15 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Gml Plan 04</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+15 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13073,8 +13094,8 @@
           </tr>
           
           <tr>
-            <td>A - Plan 04</td>
-            <td style="font-variant-numeric: tabular-nums;">+15 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">A - Plan 04</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+15 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13181,8 +13202,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 04</td>
-            <td style="font-variant-numeric: tabular-nums;">+14 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 04</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+14 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13289,8 +13310,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 04</td>
-            <td style="font-variant-numeric: tabular-nums;">+14 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 04</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+14 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13397,8 +13418,8 @@
           </tr>
           
           <tr>
-            <td>4.etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+14 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">4.etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+14 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13505,8 +13526,8 @@
           </tr>
           
           <tr>
-            <td>4. etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+13 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">4. etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+13 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13613,8 +13634,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 3</td>
-            <td style="font-variant-numeric: tabular-nums;">+12 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 3</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+12 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13721,8 +13742,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 3 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+12 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 3 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+12 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13829,8 +13850,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 3</td>
-            <td style="font-variant-numeric: tabular-nums;">+12 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 3</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+12 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -13937,8 +13958,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 3</td>
-            <td style="font-variant-numeric: tabular-nums;">+12 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 3</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+12 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14045,8 +14066,8 @@
           </tr>
           
           <tr>
-            <td>Plan 03</td>
-            <td style="font-variant-numeric: tabular-nums;">+12 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 03</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+12 000</td>
             
             <td><span class="tl-cell green">Plan 03</span></td>
             
@@ -14153,8 +14174,8 @@
           </tr>
           
           <tr>
-            <td>A - Plan 03</td>
-            <td style="font-variant-numeric: tabular-nums;">+11 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">A - Plan 03</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+11 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14261,8 +14282,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 03</td>
-            <td style="font-variant-numeric: tabular-nums;">+11 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 03</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+11 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14369,8 +14390,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 03</td>
-            <td style="font-variant-numeric: tabular-nums;">+11 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 03</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+11 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14477,8 +14498,8 @@
           </tr>
           
           <tr>
-            <td>3.etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+10 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">3.etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+10 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14585,8 +14606,8 @@
           </tr>
           
           <tr>
-            <td>3. etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+10 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">3. etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+10 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14693,8 +14714,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 2</td>
-            <td style="font-variant-numeric: tabular-nums;">+9 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+9 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14801,8 +14822,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 2 -</td>
-            <td style="font-variant-numeric: tabular-nums;">+8 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 2 -</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+8 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -14909,8 +14930,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 2</td>
-            <td style="font-variant-numeric: tabular-nums;">+8 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+8 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15017,8 +15038,8 @@
           </tr>
           
           <tr>
-            <td>Gml E - Plan</td>
-            <td style="font-variant-numeric: tabular-nums;">+8 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Gml E - Plan</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+8 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15125,8 +15146,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 2</td>
-            <td style="font-variant-numeric: tabular-nums;">+8 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+8 400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15233,8 +15254,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 02</td>
-            <td style="font-variant-numeric: tabular-nums;">+8 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 02</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+8 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15341,8 +15362,8 @@
           </tr>
           
           <tr>
-            <td>KJ - Plan 2</td>
-            <td style="font-variant-numeric: tabular-nums;">+8 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">KJ - Plan 2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+8 000</td>
             
             <td><span class="tl-cell yellow">Plan 02</span></td>
             
@@ -15449,8 +15470,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 02</td>
-            <td style="font-variant-numeric: tabular-nums;">+7 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 02</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+7 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15557,8 +15578,8 @@
           </tr>
           
           <tr>
-            <td>2. Etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+7 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">2. Etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+7 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15665,8 +15686,8 @@
           </tr>
           
           <tr>
-            <td>2. etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+7 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">2. etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+7 100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15773,8 +15794,8 @@
           </tr>
           
           <tr>
-            <td>Mesanin plan</td>
-            <td style="font-variant-numeric: tabular-nums;">+5 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Mesanin plan</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+5 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15881,8 +15902,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan 1</td>
-            <td style="font-variant-numeric: tabular-nums;">+5 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan 1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+5 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -15989,8 +16010,8 @@
           </tr>
           
           <tr>
-            <td>gml E - Plan</td>
-            <td style="font-variant-numeric: tabular-nums;">+5 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">gml E - Plan</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+5 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16097,8 +16118,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+4 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+4 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16205,8 +16226,8 @@
           </tr>
           
           <tr>
-            <td>F2 - Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+4 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F2 - Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+4 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16313,8 +16334,8 @@
           </tr>
           
           <tr>
-            <td>F1 - Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+4 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">F1 - Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+4 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16421,8 +16442,8 @@
           </tr>
           
           <tr>
-            <td>Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+4 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+4 000</td>
             
             <td><span class="tl-cell yellow">Plan 01</span></td>
             
@@ -16529,8 +16550,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan 1</td>
-            <td style="font-variant-numeric: tabular-nums;">+3 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan 1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+3 800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16637,8 +16658,8 @@
           </tr>
           
           <tr>
-            <td>1. etasje</td>
-            <td style="font-variant-numeric: tabular-nums;">+3 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">1. etasje</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+3 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16745,8 +16766,8 @@
           </tr>
           
           <tr>
-            <td>L2</td>
-            <td style="font-variant-numeric: tabular-nums;">+3 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">L2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+3 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16853,8 +16874,8 @@
           </tr>
           
           <tr>
-            <td>KJ - Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+3 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">KJ - Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+3 500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -16961,8 +16982,8 @@
           </tr>
           
           <tr>
-            <td>Mesanin kjel</td>
-            <td style="font-variant-numeric: tabular-nums;">+2 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Mesanin kjel</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+2 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17069,8 +17090,8 @@
           </tr>
           
           <tr>
-            <td>E - Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">+1 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">E - Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+1 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17177,8 +17198,8 @@
           </tr>
           
           <tr>
-            <td>B - Plan 3</td>
-            <td style="font-variant-numeric: tabular-nums;">+1 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">B - Plan 3</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+1 300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17285,8 +17306,8 @@
           </tr>
           
           <tr>
-            <td>Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">+1 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+1 200</td>
             
             <td><span class="tl-cell yellow">Plan U1</span></td>
             
@@ -17393,8 +17414,8 @@
           </tr>
           
           <tr>
-            <td>Kjeller</td>
-            <td style="font-variant-numeric: tabular-nums;">+1 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Kjeller</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+1 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17501,8 +17522,8 @@
           </tr>
           
           <tr>
-            <td>B - Plan 2</td>
-            <td style="font-variant-numeric: tabular-nums;">+900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">B - Plan 2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17609,8 +17630,8 @@
           </tr>
           
           <tr>
-            <td>Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">+700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17717,8 +17738,8 @@
           </tr>
           
           <tr>
-            <td>C - U1</td>
-            <td style="font-variant-numeric: tabular-nums;">+600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17825,8 +17846,8 @@
           </tr>
           
           <tr>
-            <td>C - topparme</td>
-            <td style="font-variant-numeric: tabular-nums;">+500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - topparme</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+500</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -17933,8 +17954,8 @@
           </tr>
           
           <tr>
-            <td>KJ - Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">+400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">KJ - Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -18041,8 +18062,8 @@
           </tr>
           
           <tr>
-            <td>C - bunnarme</td>
-            <td style="font-variant-numeric: tabular-nums;">+300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - bunnarme</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+300</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -18149,8 +18170,8 @@
           </tr>
           
           <tr>
-            <td>Grunn U1</td>
-            <td style="font-variant-numeric: tabular-nums;">+100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Grunn U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -18257,8 +18278,8 @@
           </tr>
           
           <tr>
-            <td>Hav</td>
-            <td style="font-variant-numeric: tabular-nums;">±0</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Hav</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">±0</td>
             
             <td><span class="tl-cell yellow">Havnivå</span></td>
             
@@ -18365,8 +18386,8 @@
           </tr>
           
           <tr>
-            <td>C - Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">-200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">C - Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -18473,8 +18494,8 @@
           </tr>
           
           <tr>
-            <td>Kjeller H</td>
-            <td style="font-variant-numeric: tabular-nums;">-400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Kjeller H</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-400</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -18581,8 +18602,8 @@
           </tr>
           
           <tr>
-            <td>KJ - Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">-800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">KJ - Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-800</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -18689,8 +18710,8 @@
           </tr>
           
           <tr>
-            <td>Terrain Mini</td>
-            <td style="font-variant-numeric: tabular-nums;">-2 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Terrain Mini</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-2 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -18798,125 +18819,127 @@
           
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
 
 
 <div class="tab-panel" id="tab-compliance">
-  <div class="fade-in" style="max-width: 1100px;">
+  <div class="fade-in">
     <div class="card" style="margin-bottom: 16px;">
       <div class="card-header">
         <div class="card-title">Detaljert samsvarsstatus</div>
       </div>
-      <table class="dash-table">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="dash-table" style="min-width: 5910px;">
         <thead>
           <tr>
-            <th style="width: 40px;" class="center">#</th>
-            <th>Krav</th>
+            <th style="width: 40px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;" class="center">#</th>
+            <th style="position: sticky; left: 40px; background: var(--tl-gray-bg); z-index: 2; min-width: 140px;">Krav</th>
             <th style="width: 90px;">Kategori</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_ABD</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_ABD</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_C</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_C</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_E</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_E</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_E_KONTOR+BOLIG</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_E_KONTOR+BOLIG</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_E_PHC</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_E_PHC</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_F1</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_F1</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_F2</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_F2</th>
             
-            <th style="width: 80px;" class="center">LBK_ARK_H5 og H7</th>
+            <th style="min-width: 100px;" class="center">LBK_ARK_H5 og H7</th>
             
-            <th style="width: 80px;" class="center">LBK_C_BIMK_BrannisoleringHSQ</th>
+            <th style="min-width: 100px;" class="center">LBK_C_BIMK_BrannisoleringHSQ</th>
             
-            <th style="width: 80px;" class="center">LBK_C_BIMK_Himlingssoner</th>
+            <th style="min-width: 100px;" class="center">LBK_C_BIMK_Himlingssoner</th>
             
-            <th style="width: 80px;" class="center">LBK_C_BIMK_Innmåling</th>
+            <th style="min-width: 100px;" class="center">LBK_C_BIMK_Innmåling</th>
             
-            <th style="width: 80px;" class="center">LBK_C_BIMK_Spunt-Innmålt</th>
+            <th style="min-width: 100px;" class="center">LBK_C_BIMK_Spunt-Innmålt</th>
             
-            <th style="width: 80px;" class="center">LBK_C_Fasade</th>
+            <th style="min-width: 100px;" class="center">LBK_C_Fasade</th>
             
-            <th style="width: 80px;" class="center">LBK_C_Fasade_Brackets</th>
+            <th style="min-width: 100px;" class="center">LBK_C_Fasade_Brackets</th>
             
-            <th style="width: 80px;" class="center">LBK_C_IARK_foreløpig</th>
+            <th style="min-width: 100px;" class="center">LBK_C_IARK_foreløpig</th>
             
-            <th style="width: 80px;" class="center">LBK_C_RIG_Spunt</th>
+            <th style="min-width: 100px;" class="center">LBK_C_RIG_Spunt</th>
             
-            <th style="width: 80px;" class="center">LBK_C_RIVr - utsparinger</th>
+            <th style="min-width: 100px;" class="center">LBK_C_RIVr - utsparinger</th>
             
-            <th style="width: 80px;" class="center">LBK_C_RIVr</th>
+            <th style="min-width: 100px;" class="center">LBK_C_RIVr</th>
             
-            <th style="width: 80px;" class="center">LBK_C_Storkjøkken</th>
+            <th style="min-width: 100px;" class="center">LBK_C_Storkjøkken</th>
             
-            <th style="width: 80px;" class="center">LBK_E_RIV</th>
+            <th style="min-width: 100px;" class="center">LBK_E_RIV</th>
             
-            <th style="width: 80px;" class="center">LBK_F_RIV</th>
+            <th style="min-width: 100px;" class="center">LBK_F_RIV</th>
             
-            <th style="width: 80px;" class="center">LBK_IARK_C</th>
+            <th style="min-width: 100px;" class="center">LBK_IARK_C</th>
             
-            <th style="width: 80px;" class="center">LBK_LARK</th>
+            <th style="min-width: 100px;" class="center">LBK_LARK</th>
             
-            <th style="width: 80px;" class="center">LBK_LARK_C_Tak</th>
+            <th style="min-width: 100px;" class="center">LBK_LARK_C_Tak</th>
             
-            <th style="width: 80px;" class="center">LBK_Nabobygg_2025</th>
+            <th style="min-width: 100px;" class="center">LBK_Nabobygg_2025</th>
             
-            <th style="width: 80px;" class="center">LBK_RIB_A</th>
+            <th style="min-width: 100px;" class="center">LBK_RIB_A</th>
             
-            <th style="width: 80px;" class="center">LBK_RIB_C</th>
+            <th style="min-width: 100px;" class="center">LBK_RIB_C</th>
             
-            <th style="width: 80px;" class="center">LBK_RIB_E</th>
+            <th style="min-width: 100px;" class="center">LBK_RIB_E</th>
             
-            <th style="width: 80px;" class="center">LBK_RIB_F</th>
+            <th style="min-width: 100px;" class="center">LBK_RIB_F</th>
             
-            <th style="width: 80px;" class="center">LBK_RIBp_C</th>
+            <th style="min-width: 100px;" class="center">LBK_RIBp_C</th>
             
-            <th style="width: 80px;" class="center">LBK_RIBp_Trapp</th>
+            <th style="min-width: 100px;" class="center">LBK_RIBp_Trapp</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_ABD</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_ABD</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_C</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_C</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_C_Utsparinger</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_C_Utsparinger</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_E</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_E</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_eksisterende_kabler</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_eksisterende_kabler</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_F1</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_F1</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_F2</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_F2</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_Utomhus</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_Utomhus</th>
             
-            <th style="width: 80px;" class="center">LBK_RIE_Utomhus_alternativ trase</th>
+            <th style="min-width: 100px;" class="center">LBK_RIE_Utomhus_alternativ trase</th>
             
-            <th style="width: 80px;" class="center">LBK_RIV_C - Utvendig varme og sanitær</th>
+            <th style="min-width: 100px;" class="center">LBK_RIV_C - Utvendig varme og sanitær</th>
             
-            <th style="width: 80px;" class="center">LBK_RIV_C_kjeller studie</th>
+            <th style="min-width: 100px;" class="center">LBK_RIV_C_kjeller studie</th>
             
-            <th style="width: 80px;" class="center">LBK_RIVA_F</th>
+            <th style="min-width: 100px;" class="center">LBK_RIVA_F</th>
             
-            <th style="width: 80px;" class="center">LBK_RIVA_Utomhus_eksisterende</th>
+            <th style="min-width: 100px;" class="center">LBK_RIVA_Utomhus_eksisterende</th>
             
-            <th style="width: 80px;" class="center">LBK_RIVA_Utomhus_prosjektert</th>
+            <th style="min-width: 100px;" class="center">LBK_RIVA_Utomhus_prosjektert</th>
             
-            <th style="width: 80px;" class="center">LBK_RIVv_C</th>
+            <th style="min-width: 100px;" class="center">LBK_RIVv_C</th>
             
-            <th style="width: 80px;" class="center">LBK_RIVv_C_Utsparinger</th>
+            <th style="min-width: 100px;" class="center">LBK_RIVv_C_Utsparinger</th>
             
-            <th style="width: 80px;" class="center">LBK_SKANN_B</th>
+            <th style="min-width: 100px;" class="center">LBK_SKANN_B</th>
             
-            <th style="width: 80px;" class="center">LBK_SKANN_LOKAL</th>
+            <th style="min-width: 100px;" class="center">LBK_SKANN_LOKAL</th>
             
-            <th style="width: 80px;" class="center">Platousgate_ARK_Nabobygg_14&amp;16</th>
+            <th style="min-width: 100px;" class="center">Platousgate_ARK_Nabobygg_14&amp;16</th>
             
-            <th style="width: 80px;" class="center">Platousgate_LARK</th>
+            <th style="min-width: 100px;" class="center">Platousgate_LARK</th>
             
             <th style="width: 80px;" class="center">Totalt</th>
           </tr>
@@ -18924,8 +18947,8 @@
         <tbody>
           
           <tr>
-            <td class="center">1</td>
-            <td>IFC-skjema</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">1</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">IFC-skjema</td>
             <td><span class="tag tag-gray">Format</span></td>
             
             <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
@@ -18958,8 +18981,8 @@
           </tr>
           
           <tr>
-            <td class="center">2</td>
-            <td>Forfatterverktøy</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">2</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Forfatterverktøy</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -18992,8 +19015,8 @@
           </tr>
           
           <tr>
-            <td class="center">3</td>
-            <td>Enhet mm</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">3</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Enhet mm</td>
             <td><span class="tag tag-gray">Geometri</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -19026,8 +19049,8 @@
           </tr>
           
           <tr>
-            <td class="center">4</td>
-            <td>CRS definert</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">4</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">CRS definert</td>
             <td><span class="tag tag-gray">Geolokasjon</span></td>
             
             <td class="center"><span class="tl-cell gray">N/A</span></td>
@@ -19060,8 +19083,8 @@
           </tr>
           
           <tr>
-            <td class="center">5</td>
-            <td>Etasjer definert</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">5</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Etasjer definert</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell green">8 etasjer</span></td>
@@ -19094,8 +19117,8 @@
           </tr>
           
           <tr>
-            <td class="center">6</td>
-            <td>Spatial hierarki</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">6</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Modellhierarki</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell yellow">1714/2689</span></td>
@@ -19128,8 +19151,8 @@
           </tr>
           
           <tr>
-            <td class="center">7</td>
-            <td>Typed elementer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">7</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Typed elementer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell yellow">73%</span></td>
@@ -19162,8 +19185,8 @@
           </tr>
           
           <tr>
-            <td class="center">8</td>
-            <td>Ubrukte typer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">8</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ubrukte typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -19196,8 +19219,8 @@
           </tr>
           
           <tr>
-            <td class="center">9</td>
-            <td>Ingen proxy-typer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">9</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ingen proxy-typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">49 proxy</span></td>
@@ -19230,8 +19253,8 @@
           </tr>
           
           <tr>
-            <td class="center">10</td>
-            <td>Unike GUID</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">10</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Unike GUID</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -19265,6 +19288,7 @@
           
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>

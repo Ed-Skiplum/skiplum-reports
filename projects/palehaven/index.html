@@ -264,6 +264,7 @@
       border-radius: var(--radius);
       padding: 20px;
       overflow: hidden;
+      min-width: 0;
     }
     .card-sm { padding: 12px; }
     .card-header {
@@ -921,7 +922,7 @@
     <h1>Palehaven</h1>
     <div class="page-header-sub">
       15 modeller &middot; ARK, RIB, RIE, RIG, RIVA, RIVr, RIVs, RIVv&middot; Siste data: 13. apr 2026 09:20
-      &middot; Siste sjekk: 13. apr 2026 13:37
+      &middot; Siste sjekk: 13. apr 2026 13:54
     </div>
   </div>
   <div class="header-actions">
@@ -1199,7 +1200,7 @@
           </tr>
           
           <tr>
-            <td title="Spatial hierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Spatial hierarki</td>
+            <td title="Modellhierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Modellhierarki</td>
             
             <td><span class="tl-text green">100%</span></td>
             
@@ -1381,6 +1382,25 @@
     
     <div class="card span-2">
       <div class="card-header">
+        <div class="card-title">Disipliner</div>
+        <div style="font-size: 11px; color: var(--text-tertiary);">0 disipliner</div>
+      </div>
+      <table class="dash-table" style="font-size: 12px;">
+        <thead>
+          <tr>
+            <th>Disiplin</th>
+            <th class="num">Modeller</th>
+            <th class="num">Elementer</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card span-2">
+      <div class="card-header">
         <div class="card-title">Typing per disiplin</div>
       </div>
       <div style="margin-top: 4px;">
@@ -1442,53 +1462,54 @@
       </div>
     </div>
 
-    <div class="card span-2">
+    <div class="card span-4" style="grid-column: 1 / -1;">
       <div class="card-header">
         <div class="card-title">Etasjekoordinering</div>
       </div>
-      <table class="matrix-table">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="matrix-table" style="min-width: 1810px;">
         <thead>
           <tr>
-            <th style="width: 80px;">Etasje</th>
-            <th>Kote</th>
+            <th style="width: 80px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;">Etasje</th>
+            <th style="width: 80px; position: sticky; left: 80px; background: var(--tl-gray-bg); z-index: 2;">Kote</th>
             
-            <th>PH_Amerikalinjen innmålt</th>
+            <th style="min-width: 100px;">PH_Amerikalinjen innmålt</th>
             
-            <th>PH_ARK</th>
+            <th style="min-width: 100px;">PH_ARK</th>
             
-            <th>PH_Kontekst</th>
+            <th style="min-width: 100px;">PH_Kontekst</th>
             
-            <th>PH_RIB</th>
+            <th style="min-width: 100px;">PH_RIB</th>
             
-            <th>PH_RIB_Eksisterende fundamenter</th>
+            <th style="min-width: 100px;">PH_RIB_Eksisterende fundamenter</th>
             
-            <th>PH_RIB_Motholdsklosser</th>
+            <th style="min-width: 100px;">PH_RIB_Motholdsklosser</th>
             
-            <th>PH_RIB_Palehaven tilbudsmodell prefab</th>
+            <th style="min-width: 100px;">PH_RIB_Palehaven tilbudsmodell prefab</th>
             
-            <th>PH_RIE</th>
+            <th style="min-width: 100px;">PH_RIE</th>
             
-            <th>PH_RIG</th>
+            <th style="min-width: 100px;">PH_RIG</th>
             
-            <th>PH_RIG_Avstivning</th>
+            <th style="min-width: 100px;">PH_RIG_Avstivning</th>
             
-            <th>PH_RIG_Bergmodell</th>
+            <th style="min-width: 100px;">PH_RIG_Bergmodell</th>
             
-            <th>PH_RIVa</th>
+            <th style="min-width: 100px;">PH_RIVa</th>
             
-            <th>PH_RIVr</th>
+            <th style="min-width: 100px;">PH_RIVr</th>
             
-            <th>PH_RIVs</th>
+            <th style="min-width: 100px;">PH_RIVs</th>
             
-            <th>PH_RIVv</th>
+            <th style="min-width: 100px;">PH_RIVv</th>
             
           </tr>
         </thead>
         <tbody>
           
           <tr>
-            <td>Nivå 8</td>
-            <td style="font-variant-numeric: tabular-nums;">+30 700</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Nivå 8</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+30 700</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1523,8 +1544,8 @@
           </tr>
           
           <tr>
-            <td>Plan 08T</td>
-            <td style="font-variant-numeric: tabular-nums;">+30 600</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 08T</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+30 600</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1559,8 +1580,8 @@
           </tr>
           
           <tr>
-            <td>Plan 07</td>
-            <td style="font-variant-numeric: tabular-nums;">+27 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 07</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+27 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1595,8 +1616,8 @@
           </tr>
           
           <tr>
-            <td>Plan 06</td>
-            <td style="font-variant-numeric: tabular-nums;">+23 200</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 06</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+23 200</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1631,8 +1652,8 @@
           </tr>
           
           <tr>
-            <td>Plan 05</td>
-            <td style="font-variant-numeric: tabular-nums;">+19 500</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 05</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+19 500</td>
             
             <td><span class="tl-cell yellow">Plan 05</span></td>
             
@@ -1667,8 +1688,8 @@
           </tr>
           
           <tr>
-            <td>Plan 04</td>
-            <td style="font-variant-numeric: tabular-nums;">+15 800</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 04</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+15 800</td>
             
             <td><span class="tl-cell yellow">Plan 040</span></td>
             
@@ -1703,8 +1724,8 @@
           </tr>
           
           <tr>
-            <td>Plan 03</td>
-            <td style="font-variant-numeric: tabular-nums;">+12 000</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 03</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+12 000</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1739,8 +1760,8 @@
           </tr>
           
           <tr>
-            <td>Plan 02</td>
-            <td style="font-variant-numeric: tabular-nums;">+8 300</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 02</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+8 300</td>
             
             <td><span class="tl-cell yellow">Plan 020</span></td>
             
@@ -1775,8 +1796,8 @@
           </tr>
           
           <tr>
-            <td>Plan 01</td>
-            <td style="font-variant-numeric: tabular-nums;">+3 100</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan 01</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">+3 100</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1811,8 +1832,8 @@
           </tr>
           
           <tr>
-            <td>Terreng</td>
-            <td style="font-variant-numeric: tabular-nums;">±0</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Terreng</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">±0</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1847,8 +1868,8 @@
           </tr>
           
           <tr>
-            <td>Plan U1</td>
-            <td style="font-variant-numeric: tabular-nums;">-1 400</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan U1</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-1 400</td>
             
             <td><span class="tl-cell yellow">Plan U1</span></td>
             
@@ -1883,8 +1904,8 @@
           </tr>
           
           <tr>
-            <td>Plan U2</td>
-            <td style="font-variant-numeric: tabular-nums;">-5 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Plan U2</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-5 900</td>
             
             <td><span class="tl-cell gray">—</span></td>
             
@@ -1919,8 +1940,8 @@
           </tr>
           
           <tr>
-            <td>Havbunn</td>
-            <td style="font-variant-numeric: tabular-nums;">-15 900</td>
+            <td style="position: sticky; left: 0; background: var(--card); z-index: 1;">Havbunn</td>
+            <td style="font-variant-numeric: tabular-nums; position: sticky; left: 80px; background: var(--card); z-index: 1;">-15 900</td>
             
             <td><span class="tl-cell green">Havbunn</span></td>
             
@@ -1956,53 +1977,55 @@
           
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
 
 
 <div class="tab-panel" id="tab-compliance">
-  <div class="fade-in" style="max-width: 1100px;">
+  <div class="fade-in">
     <div class="card" style="margin-bottom: 16px;">
       <div class="card-header">
         <div class="card-title">Detaljert samsvarsstatus</div>
       </div>
-      <table class="dash-table">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="dash-table" style="min-width: 1950px;">
         <thead>
           <tr>
-            <th style="width: 40px;" class="center">#</th>
-            <th>Krav</th>
+            <th style="width: 40px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 2;" class="center">#</th>
+            <th style="position: sticky; left: 40px; background: var(--tl-gray-bg); z-index: 2; min-width: 140px;">Krav</th>
             <th style="width: 90px;">Kategori</th>
             
-            <th style="width: 80px;" class="center">PH_Amerikalinjen innmålt</th>
+            <th style="min-width: 100px;" class="center">PH_Amerikalinjen innmålt</th>
             
-            <th style="width: 80px;" class="center">PH_ARK</th>
+            <th style="min-width: 100px;" class="center">PH_ARK</th>
             
-            <th style="width: 80px;" class="center">PH_Kontekst</th>
+            <th style="min-width: 100px;" class="center">PH_Kontekst</th>
             
-            <th style="width: 80px;" class="center">PH_RIB</th>
+            <th style="min-width: 100px;" class="center">PH_RIB</th>
             
-            <th style="width: 80px;" class="center">PH_RIB_Eksisterende fundamenter</th>
+            <th style="min-width: 100px;" class="center">PH_RIB_Eksisterende fundamenter</th>
             
-            <th style="width: 80px;" class="center">PH_RIB_Motholdsklosser</th>
+            <th style="min-width: 100px;" class="center">PH_RIB_Motholdsklosser</th>
             
-            <th style="width: 80px;" class="center">PH_RIB_Palehaven tilbudsmodell prefab</th>
+            <th style="min-width: 100px;" class="center">PH_RIB_Palehaven tilbudsmodell prefab</th>
             
-            <th style="width: 80px;" class="center">PH_RIE</th>
+            <th style="min-width: 100px;" class="center">PH_RIE</th>
             
-            <th style="width: 80px;" class="center">PH_RIG</th>
+            <th style="min-width: 100px;" class="center">PH_RIG</th>
             
-            <th style="width: 80px;" class="center">PH_RIG_Avstivning</th>
+            <th style="min-width: 100px;" class="center">PH_RIG_Avstivning</th>
             
-            <th style="width: 80px;" class="center">PH_RIG_Bergmodell</th>
+            <th style="min-width: 100px;" class="center">PH_RIG_Bergmodell</th>
             
-            <th style="width: 80px;" class="center">PH_RIVa</th>
+            <th style="min-width: 100px;" class="center">PH_RIVa</th>
             
-            <th style="width: 80px;" class="center">PH_RIVr</th>
+            <th style="min-width: 100px;" class="center">PH_RIVr</th>
             
-            <th style="width: 80px;" class="center">PH_RIVs</th>
+            <th style="min-width: 100px;" class="center">PH_RIVs</th>
             
-            <th style="width: 80px;" class="center">PH_RIVv</th>
+            <th style="min-width: 100px;" class="center">PH_RIVv</th>
             
             <th style="width: 80px;" class="center">Totalt</th>
           </tr>
@@ -2010,8 +2033,8 @@
         <tbody>
           
           <tr>
-            <td class="center">1</td>
-            <td>IFC-skjema</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">1</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">IFC-skjema</td>
             <td><span class="tag tag-gray">Format</span></td>
             
             <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
@@ -2034,8 +2057,8 @@
           </tr>
           
           <tr>
-            <td class="center">2</td>
-            <td>Forfatterverktøy</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">2</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Forfatterverktøy</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2058,8 +2081,8 @@
           </tr>
           
           <tr>
-            <td class="center">3</td>
-            <td>Enhet mm</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">3</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Enhet mm</td>
             <td><span class="tag tag-gray">Geometri</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2082,8 +2105,8 @@
           </tr>
           
           <tr>
-            <td class="center">4</td>
-            <td>CRS definert</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">4</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">CRS definert</td>
             <td><span class="tag tag-gray">Geolokasjon</span></td>
             
             <td class="center"><span class="tl-cell gray">N/A</span></td>
@@ -2106,8 +2129,8 @@
           </tr>
           
           <tr>
-            <td class="center">5</td>
-            <td>Etasjer definert</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">5</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Etasjer definert</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell green">11 etasjer</span></td>
@@ -2130,8 +2153,8 @@
           </tr>
           
           <tr>
-            <td class="center">6</td>
-            <td>Spatial hierarki</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">6</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Modellhierarki</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell yellow">5990/12245</span></td>
@@ -2154,8 +2177,8 @@
           </tr>
           
           <tr>
-            <td class="center">7</td>
-            <td>Typed elementer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">7</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Typed elementer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell yellow">54%</span></td>
@@ -2178,8 +2201,8 @@
           </tr>
           
           <tr>
-            <td class="center">8</td>
-            <td>Ubrukte typer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">8</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ubrukte typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2202,8 +2225,8 @@
           </tr>
           
           <tr>
-            <td class="center">9</td>
-            <td>Ingen proxy-typer</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">9</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Ingen proxy-typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">3 proxy</span></td>
@@ -2226,8 +2249,8 @@
           </tr>
           
           <tr>
-            <td class="center">10</td>
-            <td>Unike GUID</td>
+            <td class="center" style="position: sticky; left: 0; background: var(--card); z-index: 1;">10</td>
+            <td style="position: sticky; left: 40px; background: var(--card); z-index: 1;">Unike GUID</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -2251,6 +2274,7 @@
           
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
