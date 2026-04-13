@@ -1089,6 +1089,21 @@
         </td>
       </tr>
       
+      <tr>
+        <td>
+          <span class="tl-dot red"></span>
+          
+        </td>
+        <td style="font-weight: 500;">Basismengder (Qto)</td>
+        <td><span class="tag tag-gray">Mengder</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Elementer skal ha Qto_*-property sets med basismengder (lengde, areal, volum). Nødvendig for mengdeuttak og kostnadsestimering.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
     </tbody>
   </table>
 </div>
@@ -1335,50 +1350,25 @@
 
 
 
+
+
+
+
 <div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">MMI-koder</span>
-    <span style="font-size: 11px; color: var(--text-tertiary);">Model Maturity Index — forventede verdier</span>
-  </div>
-  <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+  <div class="card-header"><span class="card-title">MMI-koder</span></div>
+  <div style="font-size: 12px; color: var(--text-secondary);">
     Sjekkes via: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">G55_Prosjektinfo.G55_MMI</code>
   </div>
-  <table class="dash-table">
-    <thead>
-      <tr>
-        <th>MMI-kode</th>
-        <th>Beskrivelse</th>
-        <th>Fase</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td style="font-weight: 600;">100</td><td>Skissert / plassert</td><td>Skisseprosjekt</td></tr>
-      <tr><td style="font-weight: 600;">200</td><td>Generisk / foreløpig</td><td>Forprosjekt</td></tr>
-      <tr><td style="font-weight: 600;">300</td><td>Definert / spesifisert</td><td>Detaljprosjekt</td></tr>
-      <tr><td style="font-weight: 600;">350</td><td>Koordinert</td><td>Tverrfaglig koordinering</td></tr>
-      <tr><td style="font-weight: 600;">400</td><td>Produksjonsgrunnlag</td><td>Arbeidstegninger</td></tr>
-      <tr><td style="font-weight: 600;">500</td><td>Som bygget</td><td>Overlevering</td></tr>
-      <tr><td style="font-weight: 600;">700–799</td><td>Fargekoding-trigger</td><td>Brukes for automatisk fargemarkering av 7xx-elementer</td></tr>
-    </tbody>
-  </table>
 </div>
-
-
 
 
 <div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">TFM (Tverrfaglig Merkesystem)</span>
-  </div>
-  <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+  <div class="card-header"><span class="card-title">TFM</span></div>
+  <div style="font-size: 12px; color: var(--text-secondary);">
     Sjekkes via: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">G55_Prosjektinfo.G55_TFM</code>
   </div>
-  <div style="font-size: 12px; color: var(--text-secondary);">
-    TFM-koder er bygget opp av NS3451 + NS3457-8 + etasje + sekvensnummer.<br>
-    Eksempel: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">==311.001.U01.001</code> (NS3451=311, NS3457=001, Etasje=U01, Sekvens=001)
-  </div>
-  
 </div>
+
 
 
 
@@ -1386,7 +1376,7 @@
 <div class="card fade-in" style="margin-bottom: 16px;">
   <div class="card-header">
     <span class="card-title">Property Sets i bruk</span>
-    <span style="font-size: 11px; color: var(--text-tertiary);">79 PSets på tvers av alle modeller</span>
+    <span style="font-size: 11px; color: var(--text-tertiary);">89 PSets på tvers av alle modeller</span>
   </div>
   <table class="dash-table">
     <thead>
@@ -1418,7 +1408,7 @@
           
         </td>
         <td class="num">9</td>
-        <td class="num">61 465</td>
+        <td class="num">57 451</td>
       </tr>
       
       <tr>
@@ -1620,17 +1610,6 @@
       </tr>
       
       <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ElectricalDeviceCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">4 628</td>
-      </tr>
-      
-      <tr>
         <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_DuctSegmentTypeCommon</td>
         <td>
           
@@ -1741,17 +1720,6 @@
       </tr>
       
       <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_LightFixtureTypeCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">1 725</td>
-      </tr>
-      
-      <tr>
         <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_FireSuppressionTerminalTypeSprinkler</td>
         <td>
           
@@ -1785,14 +1753,25 @@
       </tr>
       
       <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_OutletTypeCommon</td>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ElectricalDeviceCommon</td>
         <td>
           
           <span class="tag tag-green">IFC native</span>
           
         </td>
         <td class="num">1</td>
-        <td class="num">1 178</td>
+        <td class="num">1 218</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Device</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1 201</td>
       </tr>
       
       <tr>
@@ -1873,14 +1852,14 @@
       </tr>
       
       <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CableCarrierSegmentTypeCableTraySegment</td>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_OutletTypeCommon</td>
         <td>
           
           <span class="tag tag-green">IFC native</span>
           
         </td>
         <td class="num">1</td>
-        <td class="num">484</td>
+        <td class="num">527</td>
       </tr>
       
       <tr>
@@ -1892,6 +1871,17 @@
         </td>
         <td class="num">5</td>
         <td class="num">473</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Cabletray</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">412</td>
       </tr>
       
       <tr>
@@ -1961,14 +1951,25 @@
       </tr>
       
       <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CableCarrierSegmentTypeCableLadderSegment</td>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_LightFixtureTypeCommon</td>
         <td>
           
           <span class="tag tag-green">IFC native</span>
           
         </td>
         <td class="num">1</td>
-        <td class="num">298</td>
+        <td class="num">340</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CableCarrierSegmentTypeCableTraySegment</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">227</td>
       </tr>
       
       <tr>
@@ -2049,6 +2050,17 @@
       </tr>
       
       <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CableCarrierSegmentTypeCableLadderSegment</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">132</td>
+      </tr>
+      
+      <tr>
         <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_StairCommon</td>
         <td>
           
@@ -2104,14 +2116,14 @@
       </tr>
       
       <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CableCarrierSegmentTypeConduitSegment</td>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Conduit</td>
         <td>
           
-          <span class="tag tag-green">IFC native</span>
+          <span class="tag tag-yellow">Poorly named</span>
           
         </td>
         <td class="num">1</td>
-        <td class="num">51</td>
+        <td class="num">75</td>
       </tr>
       
       <tr>
@@ -2126,6 +2138,17 @@
       </tr>
       
       <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CableCarrierSegmentTypeConduitSegment</td>
+        <td>
+          
+          <span class="tag tag-green">IFC native</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">30</td>
+      </tr>
+      
+      <tr>
         <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Tekla Bolt</td>
         <td>
           
@@ -2134,6 +2157,17 @@
         </td>
         <td class="num">1</td>
         <td class="num">20</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_System</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">18</td>
       </tr>
       
       <tr>
@@ -2159,6 +2193,28 @@
       </tr>
       
       <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Switchboard</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">10</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Storey</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">9</td>
+      </tr>
+      
+      <tr>
         <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingCommon</td>
         <td>
           
@@ -2167,6 +2223,17 @@
         </td>
         <td class="num">9</td>
         <td class="num">9</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_MainUnit</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">7</td>
       </tr>
       
       <tr>
@@ -2203,6 +2270,17 @@
       </tr>
       
       <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Site</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">2</td>
+      </tr>
+      
+      <tr>
         <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_RampCommon</td>
         <td>
           
@@ -2222,6 +2300,28 @@
         </td>
         <td class="num">1</td>
         <td class="num">2</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Building</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1</td>
+      </tr>
+      
+      <tr>
+        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">MagiCAD Pset_Project</td>
+        <td>
+          
+          <span class="tag tag-yellow">Poorly named</span>
+          
+        </td>
+        <td class="num">1</td>
+        <td class="num">1</td>
       </tr>
       
       <tr>
@@ -2270,6 +2370,115 @@
       
     </tbody>
   </table>
+</div>
+
+
+
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header">
+    <span class="card-title">Filnavnkonvensjon</span>
+    <span style="font-size: 11px; color: var(--text-tertiary);">Hvordan modellfilnavn parses til disiplin</span>
+  </div>
+  <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+    Forventet mønster: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">{PROSJEKT}_{DISIPLIN}[_{BYGG}][_{beskrivelse}].ifc</code>
+  </div>
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th>Prosjektprefix</th>
+        <th>Prosjektnavn</th>
+        <th>Eksempel</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">G55</td>
+        <td>Grønland 55</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">G55_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">H15</td>
+        <td>Haslevangen 15</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">H15_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">HI90</td>
+        <td>Henrik Ibsens gate 90</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">HI90_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">KNM</td>
+        <td>Kistefos</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">KNM_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">KSV</td>
+        <td>Kystbyen Slemmestad</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">KSV_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">LBK</td>
+        <td>Landbrukskvartalet</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">LBK_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">PH</td>
+        <td>Palehaven</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">PH_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">SH</td>
+        <td>Stasjonshagen Høvik</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">SH_ARK.ifc</td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  <div style="margin-top: 12px;">
+    <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Gjenkjente disiplinkoder:</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+      
+      <span class="disc-tag disc-ark">ARK</span>
+      
+      <span class="disc-tag disc-rib">RIB</span>
+      
+      <span class="disc-tag disc-ribp">RIBp</span>
+      
+      <span class="disc-tag disc-rie">RIE</span>
+      
+      <span class="disc-tag disc-rig">RIG</span>
+      
+      <span class="disc-tag disc-riv">RIV</span>
+      
+      <span class="disc-tag disc-riva">RIVa</span>
+      
+      <span class="disc-tag disc-rivr">RIVr</span>
+      
+      <span class="disc-tag disc-rivs">RIVs</span>
+      
+      <span class="disc-tag disc-rivv">RIVv</span>
+      
+      <span class="disc-tag disc-lark">LARK</span>
+      
+      <span class="disc-tag disc-riva">RIVA</span>
+      
+      <span class="disc-tag disc-bimk">BIMK</span>
+      
+      <span class="disc-tag disc-riveg">RIVeg</span>
+      
+    </div>
+  </div>
+  
 </div>
 
 
@@ -2385,6 +2594,17 @@
   </div>
 
   
+<script>
+  function switchReqTab(name) {
+    ['storeys', 'mmi', 'tfm'].forEach(function (t) {
+      var el = document.getElementById('req-tab-' + t);
+      if (el) el.style.display = t === name ? '' : 'none';
+    });
+    event.target.parentElement.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+    event.target.classList.add('active');
+  }
+</script>
+
   <script>
     // ── Resizable table columns ──
     (function () {

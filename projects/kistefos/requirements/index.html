@@ -1089,6 +1089,21 @@
         </td>
       </tr>
       
+      <tr>
+        <td>
+          <span class="tl-dot red"></span>
+          
+        </td>
+        <td style="font-weight: 500;">Basismengder (Qto)</td>
+        <td><span class="tag tag-gray">Mengder</span></td>
+        <td style="color: var(--text-secondary); font-size: 11px;">Elementer skal ha Qto_*-property sets med basismengder (lengde, areal, volum). Nødvendig for mengdeuttak og kostnadsestimering.</td>
+        <td style="font-size: 11px; white-space: nowrap;">
+          <span class="tl-text green">&ge;90%</span> /
+          <span class="tl-text yellow">&ge;30%</span> /
+          <span class="tl-text red">&lt;30%</span>
+        </td>
+      </tr>
+      
     </tbody>
   </table>
 </div>
@@ -1299,6 +1314,9 @@
     </tbody>
   </table>
 </div>
+
+
+
 
 
 
@@ -1617,6 +1635,115 @@
 
 
 
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header">
+    <span class="card-title">Filnavnkonvensjon</span>
+    <span style="font-size: 11px; color: var(--text-tertiary);">Hvordan modellfilnavn parses til disiplin</span>
+  </div>
+  <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+    Forventet mønster: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">{PROSJEKT}_{DISIPLIN}[_{BYGG}][_{beskrivelse}].ifc</code>
+  </div>
+  <table class="dash-table">
+    <thead>
+      <tr>
+        <th>Prosjektprefix</th>
+        <th>Prosjektnavn</th>
+        <th>Eksempel</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">G55</td>
+        <td>Grønland 55</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">G55_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">H15</td>
+        <td>Haslevangen 15</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">H15_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">HI90</td>
+        <td>Henrik Ibsens gate 90</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">HI90_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">KNM</td>
+        <td>Kistefos</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">KNM_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">KSV</td>
+        <td>Kystbyen Slemmestad</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">KSV_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">LBK</td>
+        <td>Landbrukskvartalet</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">LBK_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">PH</td>
+        <td>Palehaven</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">PH_ARK.ifc</td>
+      </tr>
+      
+      <tr>
+        <td style="font-weight: 600; font-family: monospace;">SH</td>
+        <td>Stasjonshagen Høvik</td>
+        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">SH_ARK.ifc</td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  <div style="margin-top: 12px;">
+    <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Gjenkjente disiplinkoder:</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+      
+      <span class="disc-tag disc-ark">ARK</span>
+      
+      <span class="disc-tag disc-rib">RIB</span>
+      
+      <span class="disc-tag disc-ribp">RIBp</span>
+      
+      <span class="disc-tag disc-rie">RIE</span>
+      
+      <span class="disc-tag disc-rig">RIG</span>
+      
+      <span class="disc-tag disc-riv">RIV</span>
+      
+      <span class="disc-tag disc-riva">RIVa</span>
+      
+      <span class="disc-tag disc-rivr">RIVr</span>
+      
+      <span class="disc-tag disc-rivs">RIVs</span>
+      
+      <span class="disc-tag disc-rivv">RIVv</span>
+      
+      <span class="disc-tag disc-lark">LARK</span>
+      
+      <span class="disc-tag disc-riva">RIVA</span>
+      
+      <span class="disc-tag disc-bimk">BIMK</span>
+      
+      <span class="disc-tag disc-riveg">RIVeg</span>
+      
+    </div>
+  </div>
+  
+</div>
+
+
+
 <div class="card fade-in" style="margin-bottom: 16px;">
   <div class="card-header">
     <span class="card-title">Koordinatkrav</span>
@@ -1728,6 +1855,17 @@
   </div>
 
   
+<script>
+  function switchReqTab(name) {
+    ['storeys', 'mmi', 'tfm'].forEach(function (t) {
+      var el = document.getElementById('req-tab-' + t);
+      if (el) el.style.display = t === name ? '' : 'none';
+    });
+    event.target.parentElement.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+    event.target.classList.add('active');
+  }
+</script>
+
   <script>
     // ── Resizable table columns ──
     (function () {
