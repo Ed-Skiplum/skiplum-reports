@@ -788,6 +788,18 @@
     /* Drill-down popup */
     .drill-target { cursor: pointer; transition: all 0.15s; }
     .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .tm-cell.active-filter { outline: 3px solid var(--navy); outline-offset: -3px; filter: brightness(1.1); }
+
+    /* Reset filters button */
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px; border: 1px solid var(--tl-red-dot); border-radius: 6px;
+      font: inherit; font-size: 11px; font-weight: 500;
+      color: var(--tl-red-text); background: var(--tl-red-bg);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-reset:hover { background: var(--tl-red-dot); color: white; }
+    .btn-reset.hidden { display: none; }
     .modal-overlay {
       position: fixed; inset: 0; z-index: 100;
       background: rgba(33, 38, 58, 0.4);
@@ -868,7 +880,7 @@
       <div class="nav-section-items">
         <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/requirements/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-          Krav
+          BIM-krav
         </a>
       </div>
     </div>

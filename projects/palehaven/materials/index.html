@@ -880,7 +880,7 @@
       <div class="nav-section-items">
         <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/palehaven/requirements/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-          Krav
+          BIM-krav
         </a>
       </div>
     </div>
@@ -1652,6 +1652,10 @@
       
     </select>
     <span class="tb-count" id="mat-count">Viser 95 av 95</span>
+    <button class="btn-reset hidden" id="mat-reset-btn" onclick="clearMatSearch()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      Nullstill
+    </button>
     <div class="tb-actions">
       <div class="view-toggle">
         <button class="active" id="mat-view-table-btn" onclick="setMatView('table')" title="Tabellvisning">
@@ -4287,11 +4291,45 @@
 
   
 <script>
+  var _lastMatTreemapFilter = '';
   function filterByMatTreemap(matName) {
     var input = document.getElementById('mat-search-input');
+    if (_lastMatTreemapFilter === matName && input.value === matName) {
+      clearMatSearch();
+      return;
+    }
+    _lastMatTreemapFilter = matName;
     input.value = matName;
-    filterMaterials();
+    document.querySelectorAll('.tm-cell').forEach(function (c) {
+      c.classList.toggle('active-filter', c.getAttribute('data-matname') === matName);
+    });
+    onMatSearchInput();
     document.getElementById('mat-view-table').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function onMatSearchInput() {
+    var wrap = document.getElementById('mat-search-wrap');
+    wrap.classList.toggle('has-value', document.getElementById('mat-search-input').value.length > 0);
+    _updateMatResetBtn();
+    filterMaterials();
+  }
+
+  function _updateMatResetBtn() {
+    var hasFilters = document.getElementById('mat-search-input').value.length > 0 ||
+                     document.getElementById('mat-model-filter').value !== '' ||
+                     document.getElementById('mat-type-filter').value !== '';
+    document.getElementById('mat-reset-btn').classList.toggle('hidden', !hasFilters);
+  }
+
+  function clearMatSearch() {
+    document.getElementById('mat-search-input').value = '';
+    _lastMatTreemapFilter = '';
+    document.getElementById('mat-search-wrap').classList.remove('has-value');
+    document.getElementById('mat-model-filter').value = '';
+    document.getElementById('mat-type-filter').value = '';
+    document.querySelectorAll('.tm-cell').forEach(function (c) { c.classList.remove('active-filter'); });
+    _updateMatResetBtn();
+    filterMaterials();
   }
 
   function setMatView(name) {

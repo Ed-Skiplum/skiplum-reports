@@ -880,7 +880,7 @@
       <div class="nav-section-items">
         <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/henrik-ibsens-gate-90/requirements/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-          Krav
+          BIM-krav
         </a>
       </div>
     </div>
@@ -935,7 +935,7 @@
       <input type="text" id="tb-search-input" placeholder="Søk i typenavn…" oninput="onSearchInput()">
       <button class="search-clear" onclick="clearSearch()" title="Nullstill filter">&times;</button>
     </div>
-    <select class="tb-select" id="tb-class-filter" onchange="filterTypes()">
+    <select class="tb-select" id="tb-class-filter" onchange="filterTypes(); _updateResetBtn()">
       <option value="">Alle IFC-klasser</option>
       
       <option value="IfcAirTerminalType">IfcAirTerminalType</option>
@@ -1001,7 +1001,7 @@
       <option value="IfcWindowStyle">IfcWindowStyle</option>
       
     </select>
-    <select class="tb-select" id="tb-model-filter" onchange="filterTypes()">
+    <select class="tb-select" id="tb-model-filter" onchange="filterTypes(); _updateResetBtn()">
       <option value="">Alle modeller</option>
       
       <option value="HI90_BIMK_ARK.ifc">HI90_BIMK_ARK.ifc</option>
@@ -1015,7 +1015,7 @@
       <option value="HI90_Bygg_ARK.ifc">HI90_Bygg_ARK.ifc</option>
       
     </select>
-    <select class="tb-select" id="tb-material-filter" onchange="filterTypes()">
+    <select class="tb-select" id="tb-material-filter" onchange="filterTypes(); _updateResetBtn()">
       <option value="">Alle materialer</option>
       
       <option value="Betong">Betong</option>
@@ -61400,33 +61400,53 @@
   var _lastTreemapFilter = '';
   function filterByTreemapCell(typeName) {
     var input = document.getElementById('tb-search-input');
-    // Toggle: clicking the same cell again clears the filter
     if (_lastTreemapFilter === typeName && input.value === typeName) {
       clearSearch();
       return;
     }
     _lastTreemapFilter = typeName;
     input.value = typeName;
+    _highlightTreemapTile(typeName);
     onSearchInput();
     document.getElementById('view-table').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function _highlightTreemapTile(activeName) {
+    document.querySelectorAll('.tm-cell').forEach(function (c) {
+      var n = c.getAttribute('data-typename');
+      c.classList.toggle('active-filter', n === activeName);
+    });
   }
 
   function onSearchInput() {
     var wrap = document.getElementById('tb-search-wrap');
     var input = document.getElementById('tb-search-input');
-    wrap.classList.toggle('has-value', input.value.length > 0);
+    var hasValue = input.value.length > 0;
+    wrap.classList.toggle('has-value', hasValue);
+    _updateResetBtn();
     filterTypes();
   }
 
+  function _hasActiveFilters() {
+    return document.getElementById('tb-search-input').value.length > 0 ||
+           document.getElementById('tb-class-filter').value !== '' ||
+           document.getElementById('tb-model-filter').value !== '' ||
+           document.getElementById('tb-material-filter').value !== '';
+  }
+
+  function _updateResetBtn() {
+    document.getElementById('tb-reset-btn').classList.toggle('hidden', !_hasActiveFilters());
+  }
+
   function clearSearch() {
-    var input = document.getElementById('tb-search-input');
-    input.value = '';
+    document.getElementById('tb-search-input').value = '';
     _lastTreemapFilter = '';
     document.getElementById('tb-search-wrap').classList.remove('has-value');
-    // Also reset all dropdowns
     document.getElementById('tb-class-filter').value = '';
     document.getElementById('tb-model-filter').value = '';
     document.getElementById('tb-material-filter').value = '';
+    _highlightTreemapTile('');
+    _updateResetBtn();
     filterTypes();
   }
 

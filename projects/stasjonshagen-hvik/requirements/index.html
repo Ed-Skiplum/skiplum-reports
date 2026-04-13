@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stasjonshagen Høvik — Krav og konfigurasjon</title>
+  <title>Stasjonshagen Høvik — BIM-gjennomføringsplan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -588,13 +588,22 @@
     }
     .tb-search { position: relative; width: 220px; }
     .tb-search input {
-      width: 100%; padding: 5px 10px 5px 30px;
+      width: 100%; padding: 5px 28px 5px 30px;
       border: 1px solid var(--border); border-radius: 6px;
       font: inherit; font-size: 12px; background: white;
       outline: none; transition: border-color 0.15s;
     }
     .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
     .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-search .search-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; border: none; background: var(--tl-gray-bg);
+      border-radius: 50%; cursor: pointer; color: var(--text-tertiary);
+      display: none; align-items: center; justify-content: center;
+      font-size: 12px; line-height: 1; padding: 0; transition: all 0.15s;
+    }
+    .tb-search .search-clear:hover { background: var(--border); color: var(--text-primary); }
+    .tb-search.has-value .search-clear { display: flex; }
     .tb-select {
       padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
       font: inherit; font-size: 12px; color: var(--text-primary);
@@ -779,6 +788,18 @@
     /* Drill-down popup */
     .drill-target { cursor: pointer; transition: all 0.15s; }
     .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .tm-cell.active-filter { outline: 3px solid var(--navy); outline-offset: -3px; filter: brightness(1.1); }
+
+    /* Reset filters button */
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px; border: 1px solid var(--tl-red-dot); border-radius: 6px;
+      font: inherit; font-size: 11px; font-weight: 500;
+      color: var(--tl-red-text); background: var(--tl-red-bg);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-reset:hover { background: var(--tl-red-dot); color: white; }
+    .btn-reset.hidden { display: none; }
     .modal-overlay {
       position: fixed; inset: 0; z-index: 100;
       background: rgba(33, 38, 58, 0.4);
@@ -859,7 +880,7 @@
       <div class="nav-section-items">
         <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/stasjonshagen-hvik/requirements/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-          Krav
+          BIM-krav
         </a>
       </div>
     </div>
@@ -897,8 +918,8 @@
           
 <div class="page-header fade-in">
   <div>
-    <h1>Krav og konfigurasjon</h1>
-    <div class="page-header-sub">Stasjonshagen Høvik &middot; Hva vi sjekker og hvorfor</div>
+    <h1>Krav i BIM-gjennomføringsplan</h1>
+    <div class="page-header-sub">Stasjonshagen Høvik &middot; Krav, konfigurasjon og metodikk</div>
   </div>
 </div>
 
