@@ -588,13 +588,22 @@
     }
     .tb-search { position: relative; width: 220px; }
     .tb-search input {
-      width: 100%; padding: 5px 10px 5px 30px;
+      width: 100%; padding: 5px 28px 5px 30px;
       border: 1px solid var(--border); border-radius: 6px;
       font: inherit; font-size: 12px; background: white;
       outline: none; transition: border-color 0.15s;
     }
     .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
     .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-search .search-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; border: none; background: var(--tl-gray-bg);
+      border-radius: 50%; cursor: pointer; color: var(--text-tertiary);
+      display: none; align-items: center; justify-content: center;
+      font-size: 12px; line-height: 1; padding: 0; transition: all 0.15s;
+    }
+    .tb-search .search-clear:hover { background: var(--border); color: var(--text-primary); }
+    .tb-search.has-value .search-clear { display: flex; }
     .tb-select {
       padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
       font: inherit; font-size: 12px; color: var(--text-primary);
@@ -779,6 +788,18 @@
     /* Drill-down popup */
     .drill-target { cursor: pointer; transition: all 0.15s; }
     .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .tm-cell.active-filter { outline: 3px solid var(--navy); outline-offset: -3px; filter: brightness(1.1); }
+
+    /* Reset filters button */
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px; border: 1px solid var(--tl-red-dot); border-radius: 6px;
+      font: inherit; font-size: 11px; font-weight: 500;
+      color: var(--tl-red-text); background: var(--tl-red-bg);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-reset:hover { background: var(--tl-red-dot); color: white; }
+    .btn-reset.hidden { display: none; }
     .modal-overlay {
       position: fixed; inset: 0; z-index: 100;
       background: rgba(33, 38, 58, 0.4);
@@ -859,7 +880,7 @@
       <div class="nav-section-items">
         <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/requirements/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-          Krav
+          BIM-krav
         </a>
       </div>
     </div>
@@ -1054,27 +1075,27 @@
       </div>
       
       <div class="q-row">
-        <span class="q-label">Schema</span>
+        <span class="q-label">IFC-skjema</span>
         <span class="q-val q-warn">IFC2X3</span>
       </div>
       
       <div class="q-row">
-        <span class="q-label">Forfatter</span>
+        <span class="q-label">Forfatterverktøy</span>
         <span class="q-val q-ok">OK</span>
       </div>
       
       <div class="q-row">
-        <span class="q-label">Enheter</span>
+        <span class="q-label">Enhet mm</span>
         <span class="q-val q-ok">OK</span>
       </div>
       
       <div class="q-row">
-        <span class="q-label">Koordinatsystem skal vær</span>
+        <span class="q-label">CRS definert</span>
         <span class="q-val ">N/A</span>
       </div>
       
       <div class="q-row">
-        <span class="q-label">Etasjer</span>
+        <span class="q-label">Etasjer definert</span>
         <span class="q-val q-ok">30 etasjer</span>
       </div>
       
@@ -1089,17 +1110,17 @@
       </div>
       
       <div class="q-row">
-        <span class="q-label">Orphan types</span>
+        <span class="q-label">Ubrukte typer</span>
         <span class="q-val ">N/A</span>
       </div>
       
       <div class="q-row">
-        <span class="q-label">Proxy-typer</span>
+        <span class="q-label">Ingen proxy-typer</span>
         <span class="q-val q-ok">OK</span>
       </div>
       
       <div class="q-row">
-        <span class="q-label">GUID-unikhet</span>
+        <span class="q-label">Unike GUID</span>
         <span class="q-val q-ok">OK</span>
       </div>
       
@@ -1278,56 +1299,56 @@
         
         <tr>
           <td><span class="tl-dot yellow"></span></td>
-          <td style="font-weight: 500;">Modeller skal bruke IFC4 eller nyere</td>
+          <td style="font-weight: 500;">IFC-skjema</td>
           <td><span class="tag tag-gray">Format</span></td>
           <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
         </tr>
         
         <tr>
           <td><span class="tl-dot green"></span></td>
-          <td style="font-weight: 500;">Forfatterverktøy skal være oppgitt</td>
+          <td style="font-weight: 500;">Forfatterverktøy</td>
           <td><span class="tag tag-gray">Identitet</span></td>
           <td style="color: var(--text-secondary);">MagiCAD For Revit 2025</td>
         </tr>
         
         <tr>
           <td><span class="tl-dot green"></span></td>
-          <td style="font-weight: 500;">Lengdeenhet skal være millimeter</td>
+          <td style="font-weight: 500;">Enhet mm</td>
           <td><span class="tag tag-gray">Geometri</span></td>
           <td style="color: var(--text-secondary);">OK</td>
         </tr>
         
         <tr>
           <td><span class="tl-dot green"></span></td>
-          <td style="font-weight: 500;">Etasjer skal være definert</td>
+          <td style="font-weight: 500;">Etasjer definert</td>
           <td><span class="tag tag-gray">Struktur</span></td>
           <td style="color: var(--text-secondary);">30 etasjer</td>
         </tr>
         
         <tr>
           <td><span class="tl-dot green"></span></td>
-          <td style="font-weight: 500;">Alle elementer skal være i romlig hierarki</td>
+          <td style="font-weight: 500;">Spatial hierarki</td>
           <td><span class="tag tag-gray">Struktur</span></td>
           <td style="color: var(--text-secondary);">OK</td>
         </tr>
         
         <tr>
           <td><span class="tl-dot red"></span></td>
-          <td style="font-weight: 500;">Alle produkter skal ha typetilknytning</td>
+          <td style="font-weight: 500;">Typed elementer</td>
           <td><span class="tag tag-gray">Typer</span></td>
           <td style="color: var(--text-secondary);">113 av 113 elementer mangler IfcTypeObject</td>
         </tr>
         
         <tr>
           <td><span class="tl-dot green"></span></td>
-          <td style="font-weight: 500;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+          <td style="font-weight: 500;">Ingen proxy-typer</td>
           <td><span class="tag tag-gray">Typer</span></td>
           <td style="color: var(--text-secondary);">OK</td>
         </tr>
         
         <tr>
           <td><span class="tl-dot green"></span></td>
-          <td style="font-weight: 500;">GUID-er skal være unike</td>
+          <td style="font-weight: 500;">Unike GUID</td>
           <td><span class="tag tag-gray">Identitet</span></td>
           <td style="color: var(--text-secondary);">OK</td>
         </tr>

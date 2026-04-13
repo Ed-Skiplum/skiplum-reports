@@ -588,13 +588,22 @@
     }
     .tb-search { position: relative; width: 220px; }
     .tb-search input {
-      width: 100%; padding: 5px 10px 5px 30px;
+      width: 100%; padding: 5px 28px 5px 30px;
       border: 1px solid var(--border); border-radius: 6px;
       font: inherit; font-size: 12px; background: white;
       outline: none; transition: border-color 0.15s;
     }
     .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
     .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-search .search-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; border: none; background: var(--tl-gray-bg);
+      border-radius: 50%; cursor: pointer; color: var(--text-tertiary);
+      display: none; align-items: center; justify-content: center;
+      font-size: 12px; line-height: 1; padding: 0; transition: all 0.15s;
+    }
+    .tb-search .search-clear:hover { background: var(--border); color: var(--text-primary); }
+    .tb-search.has-value .search-clear { display: flex; }
     .tb-select {
       padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
       font: inherit; font-size: 12px; color: var(--text-primary);
@@ -900,7 +909,7 @@
     <h1>Kistefos</h1>
     <div class="page-header-sub">
       20 modeller &middot; BIMK, RIV&middot; Siste data: 9. apr 2026 10:03
-      &middot; Siste sjekk: 13. apr 2026 13:23
+      &middot; Siste sjekk: 13. apr 2026 13:30
     </div>
   </div>
   <div class="header-actions">
@@ -935,7 +944,7 @@
     <div class="card">
       <div class="card-title">Typer totalt</div>
       <div class="card-value">134<span style="font-size: 16px; color: var(--text-tertiary); font-weight: 400"></span></div>
-      <div class="card-sub">Ingen foreldreløse</div>
+      <div class="card-sub">Ingen ubrukte</div>
     </div>
     <div class="card">
       <div class="card-title">Materialer</div>
@@ -1013,7 +1022,7 @@
         <tbody>
           
           <tr>
-            <td title="Modeller skal bruke IFC4 eller nyere" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Modeller skal bruke IFC4 eller nyere</td>
+            <td title="IFC-skjema" style="position: sticky; left: 0; background: var(--card); z-index: 1;">IFC-skjema</td>
             
             <td><span class="tl-text green">IFC4</span></td>
             
@@ -1058,7 +1067,7 @@
           </tr>
           
           <tr>
-            <td title="Forfatterverktøy skal være oppgitt" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Forfatterverktøy skal være oppgitt</td>
+            <td title="Forfatterverktøy" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Forfatterverktøy</td>
             
             <td><span class="tl-text green">Revit 2026</span></td>
             
@@ -1103,7 +1112,7 @@
           </tr>
           
           <tr>
-            <td title="Lengdeenhet skal være millimeter" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Lengdeenhet skal være millimeter</td>
+            <td title="Enhet mm" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Enhet mm</td>
             
             <td><span class="tl-text red">m</span></td>
             
@@ -1148,7 +1157,7 @@
           </tr>
           
           <tr>
-            <td title="Koordinatsystem skal være definert (IFC4+)" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Koordinatsystem skal være definert (IFC4+)</td>
+            <td title="CRS definert" style="position: sticky; left: 0; background: var(--card); z-index: 1;">CRS definert</td>
             
             <td><span class="tl-text yellow">Mangler</span></td>
             
@@ -1193,7 +1202,7 @@
           </tr>
           
           <tr>
-            <td title="Etasjer skal være definert" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Etasjer skal være definert</td>
+            <td title="Etasjer definert" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Etasjer definert</td>
             
             <td><span class="tl-text green">3 etasjer</span></td>
             
@@ -1238,7 +1247,7 @@
           </tr>
           
           <tr>
-            <td title="Alle elementer skal være i romlig hierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Alle elementer skal være i romlig hierarki</td>
+            <td title="Spatial hierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Spatial hierarki</td>
             
             <td><span class="tl-text green">100%</span></td>
             
@@ -1283,7 +1292,7 @@
           </tr>
           
           <tr>
-            <td title="Alle produkter skal ha typetilknytning" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Alle produkter skal ha typetilknytning</td>
+            <td title="Typed elementer" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Typed elementer</td>
             
             <td><span class="tl-text yellow">38% typed</span></td>
             
@@ -1328,23 +1337,23 @@
           </tr>
           
           <tr>
-            <td title="Ingen foreldreløse typer" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Ingen foreldreløse typer</td>
+            <td title="Ubrukte typer" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Ubrukte typer</td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
-            
-            <td><span class="tl-text gray">N/A</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
             <td><span class="tl-text gray">N/A</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text gray">N/A</span></td>
+            
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
             <td><span class="tl-text gray">N/A</span></td>
             
@@ -1373,7 +1382,7 @@
           </tr>
           
           <tr>
-            <td title="Ingen proxy-typer (IfcBuildingElementProxy)" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Ingen proxy-typer (IfcBuildingElementProxy)</td>
+            <td title="Ingen proxy-typer" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Ingen proxy-typer</td>
             
             <td><span class="tl-text red">2 proxy</span></td>
             
@@ -1418,7 +1427,7 @@
           </tr>
           
           <tr>
-            <td title="GUID-er skal være unike" style="position: sticky; left: 0; background: var(--card); z-index: 1;">GUID-er skal være unike</td>
+            <td title="Unike GUID" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Unike GUID</td>
             
             <td><span class="tl-text green">Unike</span></td>
             
@@ -1754,7 +1763,7 @@
           
           <tr>
             <td class="center">1</td>
-            <td>Modeller skal bruke IFC4 eller nyere</td>
+            <td>IFC-skjema</td>
             <td><span class="tag tag-gray">Format</span></td>
             
             <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
@@ -1766,7 +1775,7 @@
           
           <tr>
             <td class="center">2</td>
-            <td>Forfatterverktøy skal være oppgitt</td>
+            <td>Forfatterverktøy</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -1778,7 +1787,7 @@
           
           <tr>
             <td class="center">3</td>
-            <td>Lengdeenhet skal være millimeter</td>
+            <td>Enhet mm</td>
             <td><span class="tag tag-gray">Geometri</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -1790,7 +1799,7 @@
           
           <tr>
             <td class="center">4</td>
-            <td>Koordinatsystem skal være definert (IFC4+)</td>
+            <td>CRS definert</td>
             <td><span class="tag tag-gray">Geolokasjon</span></td>
             
             <td class="center"><span class="tl-cell gray">N/A</span></td>
@@ -1802,7 +1811,7 @@
           
           <tr>
             <td class="center">5</td>
-            <td>Etasjer skal være definert</td>
+            <td>Etasjer definert</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell green">1 etasje</span></td>
@@ -1814,7 +1823,7 @@
           
           <tr>
             <td class="center">6</td>
-            <td>Alle elementer skal være i romlig hierarki</td>
+            <td>Spatial hierarki</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell green">294/295</span></td>
@@ -1826,7 +1835,7 @@
           
           <tr>
             <td class="center">7</td>
-            <td>Alle produkter skal ha typetilknytning</td>
+            <td>Typed elementer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">99%</span></td>
@@ -1838,7 +1847,7 @@
           
           <tr>
             <td class="center">8</td>
-            <td>Ingen foreldreløse typer</td>
+            <td>Ubrukte typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -1850,7 +1859,7 @@
           
           <tr>
             <td class="center">9</td>
-            <td>Ingen proxy-typer (IfcBuildingElementProxy)</td>
+            <td>Ingen proxy-typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell yellow">2 proxy</span></td>
@@ -1862,7 +1871,7 @@
           
           <tr>
             <td class="center">10</td>
-            <td>GUID-er skal være unike</td>
+            <td>Unike GUID</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>

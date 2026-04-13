@@ -900,7 +900,7 @@
     <h1>Stasjonshagen Høvik</h1>
     <div class="page-header-sub">
       21 modeller &middot; ARK, RIB, LARK, RIVA&middot; Siste data: 9. apr 2026 11:19
-      &middot; Siste sjekk: 13. apr 2026 13:21
+      &middot; Siste sjekk: 13. apr 2026 13:28
     </div>
   </div>
   <div class="header-actions">
@@ -935,7 +935,7 @@
     <div class="card">
       <div class="card-title">Typer totalt</div>
       <div class="card-value">9663<span style="font-size: 16px; color: var(--text-tertiary); font-weight: 400"></span></div>
-      <div class="card-sub">Ingen foreldreløse</div>
+      <div class="card-sub">Ingen ubrukte</div>
     </div>
     <div class="card">
       <div class="card-title">Materialer</div>
@@ -958,63 +958,64 @@
     </div>
 
     
-    <div class="card span-2">
+    <div class="card span-4" style="grid-column: 1 / -1;">
       <div class="card-header">
         <div class="card-title">Modell &times; Krav</div>
       </div>
-      <table class="matrix-table">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="matrix-table" style="min-width: 2660px;">
         <thead>
           <tr>
-            <th style="width: 140px;">Krav</th>
+            <th style="width: 140px; position: sticky; left: 0; background: var(--tl-gray-bg); z-index: 1;">Krav</th>
             
-            <th>gm_gamle modeller Høvik Stasjon</th>
+            <th style="min-width: 110px;">gm_gamle modeller Høvik Stasjon</th>
             
-            <th>SH_A_ARK</th>
+            <th style="min-width: 110px;">SH_A_ARK</th>
             
-            <th>SH_A_RIB</th>
+            <th style="min-width: 110px;">SH_A_RIB</th>
             
-            <th>SH_ACD_RIB_Kjeller</th>
+            <th style="min-width: 110px;">SH_ACD_RIB_Kjeller</th>
             
-            <th>SH_B_ARK</th>
+            <th style="min-width: 110px;">SH_B_ARK</th>
             
-            <th>SH_B_RIB</th>
+            <th style="min-width: 110px;">SH_B_RIB</th>
             
-            <th>SH_C_ARK</th>
+            <th style="min-width: 110px;">SH_C_ARK</th>
             
-            <th>SH_C_RIB</th>
+            <th style="min-width: 110px;">SH_C_RIB</th>
             
-            <th>SH_D_ARK</th>
+            <th style="min-width: 110px;">SH_D_ARK</th>
             
-            <th>SH_D_RIB</th>
+            <th style="min-width: 110px;">SH_D_RIB</th>
             
-            <th>SH_E_ARK</th>
+            <th style="min-width: 110px;">SH_E_ARK</th>
             
-            <th>SH_E_RIB</th>
+            <th style="min-width: 110px;">SH_E_RIB</th>
             
-            <th>SH_F_ARK</th>
+            <th style="min-width: 110px;">SH_F_ARK</th>
             
-            <th>SH_GEN_ARK</th>
+            <th style="min-width: 110px;">SH_GEN_ARK</th>
             
-            <th>SH_GEN_LARK</th>
+            <th style="min-width: 110px;">SH_GEN_LARK</th>
             
-            <th>SH_GEN_OMGIVELSER</th>
+            <th style="min-width: 110px;">SH_GEN_OMGIVELSER</th>
             
-            <th>SH_GEN_RIB</th>
+            <th style="min-width: 110px;">SH_GEN_RIB</th>
             
-            <th>SH_GEN_RIB_Bergmodell</th>
+            <th style="min-width: 110px;">SH_GEN_RIB_Bergmodell</th>
             
-            <th>SH_GEN_RIB_Gravemodell</th>
+            <th style="min-width: 110px;">SH_GEN_RIB_Gravemodell</th>
             
-            <th>SH_GEN_RIVA_Eksisterende</th>
+            <th style="min-width: 110px;">SH_GEN_RIVA_Eksisterende</th>
             
-            <th>SH_GEN_RIVA_Prosjektert</th>
+            <th style="min-width: 110px;">SH_GEN_RIVA_Prosjektert</th>
             
           </tr>
         </thead>
         <tbody>
           
           <tr>
-            <td>Modeller skal bruke IFC4 eller nyere</td>
+            <td title="IFC-skjema" style="position: sticky; left: 0; background: var(--card); z-index: 1;">IFC-skjema</td>
             
             <td><span class="tl-text yellow">IFC2X3</span></td>
             
@@ -1061,7 +1062,7 @@
           </tr>
           
           <tr>
-            <td>Forfatterverktøy skal være oppgitt</td>
+            <td title="Forfatterverktøy" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Forfatterverktøy</td>
             
             <td><span class="tl-text yellow">Vectorworks Architect 2025 Update 8</span></td>
             
@@ -1108,7 +1109,7 @@
           </tr>
           
           <tr>
-            <td>Lengdeenhet skal være millimeter</td>
+            <td title="Enhet mm" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Enhet mm</td>
             
             <td><span class="tl-text green">mm</span></td>
             
@@ -1155,7 +1156,7 @@
           </tr>
           
           <tr>
-            <td>Koordinatsystem skal være definert (IFC4+)</td>
+            <td title="CRS definert" style="position: sticky; left: 0; background: var(--card); z-index: 1;">CRS definert</td>
             
             <td><span class="tl-text gray">N/A (IFC2X3)</span></td>
             
@@ -1202,7 +1203,7 @@
           </tr>
           
           <tr>
-            <td>Etasjer skal være definert</td>
+            <td title="Etasjer definert" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Etasjer definert</td>
             
             <td><span class="tl-text green">1 etasje</span></td>
             
@@ -1249,7 +1250,7 @@
           </tr>
           
           <tr>
-            <td>Alle elementer skal være i romlig hierarki</td>
+            <td title="Spatial hierarki" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Spatial hierarki</td>
             
             <td><span class="tl-text yellow">60% plassert</span></td>
             
@@ -1296,7 +1297,7 @@
           </tr>
           
           <tr>
-            <td>Alle produkter skal ha typetilknytning</td>
+            <td title="Typed elementer" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Typed elementer</td>
             
             <td><span class="tl-text red">0% typed</span></td>
             
@@ -1343,54 +1344,54 @@
           </tr>
           
           <tr>
-            <td>Ingen foreldreløse typer</td>
+            <td title="Ubrukte typer" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Ubrukte typer</td>
             
             <td><span class="tl-text gray">N/A</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
             <td><span class="tl-text gray">N/A</span></td>
             
-            <td><span class="tl-text green">0 foreldreløse</span></td>
+            <td><span class="tl-text green">0 ubrukte</span></td>
             
           </tr>
           
           <tr>
-            <td>Ingen proxy-typer (IfcBuildingElementProxy)</td>
+            <td title="Ingen proxy-typer" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Ingen proxy-typer</td>
             
             <td><span class="tl-text green">Ingen proxy</span></td>
             
@@ -1437,7 +1438,7 @@
           </tr>
           
           <tr>
-            <td>GUID-er skal være unike</td>
+            <td title="Unike GUID" style="position: sticky; left: 0; background: var(--card); z-index: 1;">Unike GUID</td>
             
             <td><span class="tl-text green">Unike</span></td>
             
@@ -1485,6 +1486,7 @@
           
         </tbody>
       </table>
+      </div>
     </div>
 
     
@@ -3764,7 +3766,7 @@
           
           <tr>
             <td class="center">1</td>
-            <td>Modeller skal bruke IFC4 eller nyere</td>
+            <td>IFC-skjema</td>
             <td><span class="tag tag-gray">Format</span></td>
             
             <td class="center"><span class="tl-cell yellow">IFC2X3</span></td>
@@ -3780,7 +3782,7 @@
           
           <tr>
             <td class="center">2</td>
-            <td>Forfatterverktøy skal være oppgitt</td>
+            <td>Forfatterverktøy</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -3796,7 +3798,7 @@
           
           <tr>
             <td class="center">3</td>
-            <td>Lengdeenhet skal være millimeter</td>
+            <td>Enhet mm</td>
             <td><span class="tag tag-gray">Geometri</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -3812,7 +3814,7 @@
           
           <tr>
             <td class="center">4</td>
-            <td>Koordinatsystem skal være definert (IFC4+)</td>
+            <td>CRS definert</td>
             <td><span class="tag tag-gray">Geolokasjon</span></td>
             
             <td class="center"><span class="tl-cell gray">N/A</span></td>
@@ -3828,7 +3830,7 @@
           
           <tr>
             <td class="center">5</td>
-            <td>Etasjer skal være definert</td>
+            <td>Etasjer definert</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell green">7 etasjer</span></td>
@@ -3844,7 +3846,7 @@
           
           <tr>
             <td class="center">6</td>
-            <td>Alle elementer skal være i romlig hierarki</td>
+            <td>Spatial hierarki</td>
             <td><span class="tag tag-gray">Struktur</span></td>
             
             <td class="center"><span class="tl-cell yellow">1649/4713</span></td>
@@ -3860,7 +3862,7 @@
           
           <tr>
             <td class="center">7</td>
-            <td>Alle produkter skal ha typetilknytning</td>
+            <td>Typed elementer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell yellow">87%</span></td>
@@ -3876,7 +3878,7 @@
           
           <tr>
             <td class="center">8</td>
-            <td>Ingen foreldreløse typer</td>
+            <td>Ubrukte typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
@@ -3892,7 +3894,7 @@
           
           <tr>
             <td class="center">9</td>
-            <td>Ingen proxy-typer (IfcBuildingElementProxy)</td>
+            <td>Ingen proxy-typer</td>
             <td><span class="tag tag-blue">Typer</span></td>
             
             <td class="center"><span class="tl-cell green">18 proxy</span></td>
@@ -3908,7 +3910,7 @@
           
           <tr>
             <td class="center">10</td>
-            <td>GUID-er skal være unike</td>
+            <td>Unike GUID</td>
             <td><span class="tag tag-gray">Identitet</span></td>
             
             <td class="center"><span class="tl-cell green">OK</span></td>
