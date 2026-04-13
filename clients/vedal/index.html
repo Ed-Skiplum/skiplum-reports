@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spruce Forge — Prosjekter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --radius: 0.75rem;
+      --tl-green-bg: #dcfce7; --tl-green-text: #166534;
+      --tl-yellow-bg: #fef9c3; --tl-yellow-text: #854d0e;
+      --tl-red-bg: #fee2e2; --tl-red-text: #991b1b;
+      --tl-gray-bg: #f1f5f9; --tl-gray-text: #94a3b8;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient); background-attachment: fixed;
+      color: var(--text-primary); min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+    .brand-icon {
+      width: 36px; height: 36px; background: var(--primary); color: white;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700;
+    }
+    .brand h1 { font-size: 24px; font-weight: 700; }
+    .brand-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+
+    .client-section { margin-bottom: 32px; }
+    .client-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    .client-name { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+    .client-count { font-size: 12px; color: var(--text-tertiary); }
+
+    .project-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+    }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+      text-decoration: none; color: inherit;
+      transition: all 0.15s; cursor: pointer;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .project-card:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(21,121,84,0.08); transform: translateY(-1px); }
+    .project-card-name { font-size: 15px; font-weight: 600; }
+    .project-card-meta { font-size: 12px; color: var(--text-tertiary); display: flex; gap: 12px; }
+    .project-card-kpi { display: flex; gap: 16px; font-size: 12px; }
+    .project-card-kpi .kpi { display: flex; flex-direction: column; gap: 1px; }
+    .project-card-kpi .kpi-val { font-size: 18px; font-weight: 700; line-height: 1; }
+    .project-card-kpi .kpi-val.primary { color: var(--primary); }
+    .project-card-kpi .kpi-lbl { color: var(--text-tertiary); font-size: 10px; }
+    .project-card-bar {
+      height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; margin-top: 4px;
+    }
+    .project-card-bar-fill { height: 100%; border-radius: 3px; }
+    .bar-green { background: #22c55e; }
+    .bar-yellow { background: #eab308; }
+    .bar-red { background: #ef4444; }
+
+    .footer {
+      margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border);
+      font-size: 11px; color: var(--text-tertiary);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-brand {
+      width: 16px; height: 16px; background: var(--primary); color: white;
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 700;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+  </style>
+</head>
+<body>
+  <div class="top-accent"></div>
+  <div class="container">
+    <div class="brand fade-in">
+      <span class="brand-icon">SF</span>
+      <div>
+        <h1>Vedal</h1>
+        <div class="brand-sub">4 prosjekter &middot; 61 modeller &middot; Sist oppdatert 13. apr 2026 13:08</div>
+      </div>
+    </div>
+
+    <div class="project-grid fade-in">
+      
+      <a class="project-card" href="https://ed-skiplum.github.io/skiplum-reports/projects/landbrukskvartalet/">
+        <div class="project-card-name">Landbrukskvartalet</div>
+        <div class="project-card-meta">
+          <span>21 modeller</span>
+          
+        </div>
+        <div class="project-card-kpi">
+          <div class="kpi">
+            <span class="kpi-val primary">0/0</span>
+            <span class="kpi-lbl">krav</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">typer</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">materialer</span>
+          </div>
+        </div>
+        <div class="project-card-bar">
+          <div class="project-card-bar-fill bar-green" style="width: 0%;"></div>
+        </div>
+      </a>
+      
+      <a class="project-card" href="https://ed-skiplum.github.io/skiplum-reports/projects/kystbyen-slemmestad/">
+        <div class="project-card-name">Kystbyen Slemmestad</div>
+        <div class="project-card-meta">
+          <span>15 modeller</span>
+          
+        </div>
+        <div class="project-card-kpi">
+          <div class="kpi">
+            <span class="kpi-val primary">0/0</span>
+            <span class="kpi-lbl">krav</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">typer</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">materialer</span>
+          </div>
+        </div>
+        <div class="project-card-bar">
+          <div class="project-card-bar-fill bar-green" style="width: 0%;"></div>
+        </div>
+      </a>
+      
+      <a class="project-card" href="https://ed-skiplum.github.io/skiplum-reports/projects/stasjonshagen-hvik/">
+        <div class="project-card-name">Stasjonshagen Høvik</div>
+        <div class="project-card-meta">
+          <span>20 modeller</span>
+          
+        </div>
+        <div class="project-card-kpi">
+          <div class="kpi">
+            <span class="kpi-val primary">0/0</span>
+            <span class="kpi-lbl">krav</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">typer</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">materialer</span>
+          </div>
+        </div>
+        <div class="project-card-bar">
+          <div class="project-card-bar-fill bar-green" style="width: 0%;"></div>
+        </div>
+      </a>
+      
+      <a class="project-card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/">
+        <div class="project-card-name">Haslevangen 15</div>
+        <div class="project-card-meta">
+          <span>5 modeller</span>
+          
+        </div>
+        <div class="project-card-kpi">
+          <div class="kpi">
+            <span class="kpi-val primary">0/0</span>
+            <span class="kpi-lbl">krav</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">typer</span>
+          </div>
+          <div class="kpi">
+            <span class="kpi-val">0</span>
+            <span class="kpi-lbl">materialer</span>
+          </div>
+        </div>
+        <div class="project-card-bar">
+          <div class="project-card-bar-fill bar-green" style="width: 0%;"></div>
+        </div>
+      </a>
+      
+    </div>
+
+    <div class="footer fade-in">
+      <span class="footer-brand">S</span>
+      Generert av Skiplum Automasjon &middot; 13. apr 2026 13:08
+    </div>
+  </div>
+</body>
+</html>
