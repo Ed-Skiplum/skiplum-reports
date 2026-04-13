@@ -922,7 +922,7 @@
     <h1>Stasjonshagen Høvik</h1>
     <div class="page-header-sub">
       21 modeller &middot; ARK, RIB, LARK, RIVA&middot; Siste data: 9. apr 2026 11:19
-      &middot; Siste sjekk: 13. apr 2026 14:21
+      &middot; Siste sjekk: 13. apr 2026 14:28
     </div>
   </div>
   <div class="header-actions">
@@ -966,17 +966,37 @@
     </a>
 
     
-    <div class="card span-2">
+    <div class="card span-2 drill-target" onclick="drillDisciplines()" style="cursor: pointer;">
       <div class="card-header">
-        <div class="card-title">MMI-fordeling</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">
-          0 med MMI</div>
+        <div class="card-title">Disipliner</div>
       </div>
-      
-      <div style="padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px;">
-        Ingen MMI-data — konfigurer <code>type_coverage.mmi</code> i prosjektkonfig for å se fordelingen.
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 28px; font-weight: 700; color: var(--primary);">5</span>
+        <span style="font-size: 12px; color: var(--text-tertiary);">disipliner</span>
       </div>
-      
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+        
+        
+        <span class="disc-tag disc-rib">RIB (9)</span>
+        
+        
+        
+        <span class="disc-tag disc-ark">ARK (7)</span>
+        
+        
+        
+        <span class="disc-tag disc-riva">RIVA (2)</span>
+        
+        
+        
+        <span class="disc-tag disc-lark">LARK (1)</span>
+        
+        
+        
+        <span class="tag tag-yellow">Udefinert (2)</span>
+        
+        
+      </div>
     </div>
 
     
@@ -1561,71 +1581,15 @@
     
     <div class="card span-2">
       <div class="card-header">
-        <div class="card-title">Disipliner</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">5 disipliner</div>
+        <div class="card-title">MMI-fordeling</div>
+        <div style="font-size: 11px; color: var(--text-tertiary);">
+          0 med MMI</div>
       </div>
-      <table class="dash-table" style="font-size: 12px;">
-        <thead>
-          <tr>
-            <th>Disiplin</th>
-            <th class="num">Modeller</th>
-            <th class="num">Elementer</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-rib">RIB</span>
-              
-            </td>
-            <td class="num">9</td>
-            <td class="num">3 861</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-ark">ARK</span>
-              
-            </td>
-            <td class="num">7</td>
-            <td class="num">41 236</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-riva">RIVA</span>
-              
-            </td>
-            <td class="num">2</td>
-            <td class="num">292</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="disc-tag disc-lark">LARK</span>
-              
-            </td>
-            <td class="num">1</td>
-            <td class="num">853</td>
-          </tr>
-          
-          <tr>
-            <td>
-              
-              <span class="tag tag-yellow">Udefinert</span>
-              
-            </td>
-            <td class="num">2</td>
-            <td class="num">4 617</td>
-          </tr>
-          
-        </tbody>
-      </table>
+      
+      <div style="padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px;">
+        Ingen MMI-data
+      </div>
+      
     </div>
 
     <div class="card span-2">
@@ -5017,6 +4981,32 @@
     } else {
       openDrillModal(label, subtitle, rows.map(function (r) { return { name: r.ifc_class + ' — ' + r.type_name + ' · ' + r.model, count: r.count }; }));
     }
+  }
+
+  function drillDisciplines() {
+    var data = [{"code": "RIB", "disc_class": "rib", "element_count": 3861, "model_count": 9, "models": ["SH_A_RIB.ifc", "SH_ACD_RIB_Kjeller.ifc", "SH_B_RIB.ifc", "SH_C_RIB.ifc", "SH_D_RIB.ifc", "SH_E_RIB.ifc", "SH_GEN_RIB.ifc", "SH_GEN_RIB_Bergmodell.ifc", "SH_GEN_RIB_Gravemodell.ifc"]}, {"code": "ARK", "disc_class": "ark", "element_count": 41236, "model_count": 7, "models": ["SH_A_ARK.ifc", "SH_B_ARK.ifc", "SH_C_ARK.ifc", "SH_D_ARK.ifc", "SH_E_ARK.ifc", "SH_F_ARK.ifc", "SH_GEN_ARK.ifc"]}, {"code": "RIVA", "disc_class": "riva", "element_count": 292, "model_count": 2, "models": ["SH_GEN_RIVA_Eksisterende.ifc", "SH_GEN_RIVA_Prosjektert.ifc"]}, {"code": "LARK", "disc_class": "lark", "element_count": 853, "model_count": 1, "models": ["SH_GEN_LARK.ifc"]}, {"code": "Udefinert", "disc_class": "default", "element_count": 4617, "model_count": 2, "models": ["gm_gamle modeller H\u00f8vik Stasjon.ifc", "SH_GEN_OMGIVELSER.ifc"]}];
+    var rows = data.map(function (d) {
+      return { name: d.code + (d.code === 'Udefinert' ? '' : ''), count: d.model_count + ' modeller, ' + d.element_count + ' elementer' };
+    });
+    openTabbedModal('Disipliner', data.length + ' disipliner', [
+      {
+        label: 'Oversikt', count: data.length,
+        render: function () {
+          var html = '<table class="dash-table" style="font-size: 12px;"><thead><tr><th>Disiplin</th><th class="num">Modeller</th><th class="num">Elementer</th><th>Filer</th></tr></thead><tbody>';
+          data.forEach(function (d) {
+            html += '<tr><td><strong>' + escapeHtml(d.code) + '</strong></td><td class="num">' + d.model_count + '</td><td class="num">' + d.element_count + '</td>';
+            html += '<td style="font-size: 10px; color: var(--text-secondary);">' + d.models.join(', ') + '</td></tr>';
+          });
+          return html + '</tbody></table>';
+        },
+        exportRows: function () {
+          return {
+            headers: ['Disiplin', 'Modeller', 'Elementer', 'Filer'],
+            rows: data.map(function (d) { return [d.code, d.model_count, d.element_count, d.models.join('; ')]; }),
+          };
+        },
+      }
+    ]);
   }
 
   function switchTab(name, push) {

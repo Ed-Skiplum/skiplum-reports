@@ -922,7 +922,7 @@
     <h1>Haslevangen 15</h1>
     <div class="page-header-sub">
       10 modeller &middot; —&middot; Siste data: 16. des 2025 14:39
-      &middot; Siste sjekk: 13. apr 2026 14:22
+      &middot; Siste sjekk: 13. apr 2026 14:28
     </div>
   </div>
   <div class="header-actions">
@@ -966,17 +966,21 @@
     </a>
 
     
-    <div class="card span-2">
+    <div class="card span-2 drill-target" onclick="drillDisciplines()" style="cursor: pointer;">
       <div class="card-header">
-        <div class="card-title">MMI-fordeling</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">
-          0 med MMI</div>
+        <div class="card-title">Disipliner</div>
       </div>
-      
-      <div style="padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px;">
-        Ingen MMI-data — konfigurer <code>type_coverage.mmi</code> i prosjektkonfig for å se fordelingen.
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+        <span style="font-size: 28px; font-weight: 700; color: var(--primary);">1</span>
+        <span style="font-size: 12px; color: var(--text-tertiary);">disiplin</span>
       </div>
-      
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+        
+        
+        <span class="tag tag-yellow">Udefinert (10)</span>
+        
+        
+      </div>
     </div>
 
     
@@ -1297,31 +1301,15 @@
     
     <div class="card span-2">
       <div class="card-header">
-        <div class="card-title">Disipliner</div>
-        <div style="font-size: 11px; color: var(--text-tertiary);">1 disiplin</div>
+        <div class="card-title">MMI-fordeling</div>
+        <div style="font-size: 11px; color: var(--text-tertiary);">
+          0 med MMI</div>
       </div>
-      <table class="dash-table" style="font-size: 12px;">
-        <thead>
-          <tr>
-            <th>Disiplin</th>
-            <th class="num">Modeller</th>
-            <th class="num">Elementer</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              
-              <span class="tag tag-yellow">Udefinert</span>
-              
-            </td>
-            <td class="num">10</td>
-            <td class="num">44 792</td>
-          </tr>
-          
-        </tbody>
-      </table>
+      
+      <div style="padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px;">
+        Ingen MMI-data
+      </div>
+      
     </div>
 
     <div class="card span-2">
@@ -2584,6 +2572,32 @@
     } else {
       openDrillModal(label, subtitle, rows.map(function (r) { return { name: r.ifc_class + ' — ' + r.type_name + ' · ' + r.model, count: r.count }; }));
     }
+  }
+
+  function drillDisciplines() {
+    var data = [{"code": "Udefinert", "disc_class": "default", "element_count": 44792, "model_count": 10, "models": ["H15-A-XX-20-0001.ifc", "H15-B-XX-20-0001.ifc", "H15-E-XX-20-0001.ifc", "H15-I-XX-20-0001.ifc", "H15-I-XX-20-0002.ifc", "H15-I-XX-20-0003.ifc", "H15-L-XX-20-0001.ifc", "H15-V-XX-20-0001.ifc", "H15-W-XX-20-0001.ifc", "H15-X-XX-20-0001_Eksisterende_og_planlagt_bebyggelse.ifc"]}];
+    var rows = data.map(function (d) {
+      return { name: d.code + (d.code === 'Udefinert' ? '' : ''), count: d.model_count + ' modeller, ' + d.element_count + ' elementer' };
+    });
+    openTabbedModal('Disipliner', data.length + ' disipliner', [
+      {
+        label: 'Oversikt', count: data.length,
+        render: function () {
+          var html = '<table class="dash-table" style="font-size: 12px;"><thead><tr><th>Disiplin</th><th class="num">Modeller</th><th class="num">Elementer</th><th>Filer</th></tr></thead><tbody>';
+          data.forEach(function (d) {
+            html += '<tr><td><strong>' + escapeHtml(d.code) + '</strong></td><td class="num">' + d.model_count + '</td><td class="num">' + d.element_count + '</td>';
+            html += '<td style="font-size: 10px; color: var(--text-secondary);">' + d.models.join(', ') + '</td></tr>';
+          });
+          return html + '</tbody></table>';
+        },
+        exportRows: function () {
+          return {
+            headers: ['Disiplin', 'Modeller', 'Elementer', 'Filer'],
+            rows: data.map(function (d) { return [d.code, d.model_count, d.element_count, d.models.join('; ')]; }),
+          };
+        },
+      }
+    ]);
   }
 
   function switchTab(name, push) {
