@@ -920,12 +920,9 @@
   <div class="tb-header">
     <h1>Materialbibliotek</h1>
     <span class="tb-stats" style="margin-left: 16px;">
-      <span><strong>3</strong> unike materialer</span>
+      <span><strong>2</strong> unike materialer</span>
       <span>&middot;</span>
       <span><strong>2</strong> navngitte</span>
-      
-      <span>&middot;</span>
-      <span style="color: var(--tl-yellow-text);"><strong>1</strong> uten navn</span>
       
       <span>&middot;</span>
       <span style="color: var(--text-tertiary);">Kistefos</span>
@@ -941,13 +938,15 @@
     <select class="tb-select" id="mat-model-filter" onchange="filterMaterials()">
       <option value="">Alle modeller</option>
       
-      <option value="KIST_MO_RVT26.ifc">KIST_MO_RVT26.ifc</option>
-      
       <option value="Kistefos bes_LARK_foreløpig terreng_innmålte trær_NTM10_global.ifc">Kistefos bes_LARK_foreløpig terreng_innmålte trær_NTM10_global.ifc</option>
       
       <option value="Kistefos bes_LARK_foreløpig terreng_NTM10_global.ifc">Kistefos bes_LARK_foreløpig terreng_NTM10_global.ifc</option>
       
       <option value="Kistefos bes_LARK_terrengmodell_NTM10_global.ifc">Kistefos bes_LARK_terrengmodell_NTM10_global.ifc</option>
+      
+      <option value="KNM_ARK_Global.ifc">KNM_ARK_Global.ifc</option>
+      
+      <option value="KNM_BIMK_1338_Zoning_Pack1_NTM10.ifc">KNM_BIMK_1338_Zoning_Pack1_NTM10.ifc</option>
       
       <option value="KNM_BIMK_Building Plot_Global.ifc">KNM_BIMK_Building Plot_Global.ifc</option>
       
@@ -968,8 +967,6 @@
       <option value="KNM_RIVeg_NTM_Global.ifc">KNM_RIVeg_NTM_Global.ifc</option>
       
       <option value="KNM_RIVeg_NTM_Global_Parking.ifc">KNM_RIVeg_NTM_Global_Parking.ifc</option>
-      
-      <option value="KNM_RIVeg_NTM_Local.ifc">KNM_RIVeg_NTM_Local.ifc</option>
       
       <option value="KNM_RIVEG_Terrain for visualizaton_Global-alt. 4.1.1.ifc">KNM_RIVEG_Terrain for visualizaton_Global-alt. 4.1.1.ifc</option>
       
@@ -998,7 +995,7 @@
       <option value="Basic Wall:Zone-Yellow">Basic Wall:Zone-Yellow</option>
       
     </select>
-    <span class="tb-count" id="mat-count">Viser 3 av 3</span>
+    <span class="tb-count" id="mat-count">Viser 2 av 2</span>
     <button class="btn-reset hidden" id="mat-reset-btn" onclick="clearMatSearch()">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       Nullstill
@@ -1065,12 +1062,6 @@
             <span class="top-bar-count">2</span>
           </div>
           
-          <div class="top-bar-row" title="&lt;Unnamed&gt;">
-            <span class="top-bar-label">&lt;Unnamed&gt;</span>
-            <div class="top-bar-track"><div class="top-bar-fill" style="width: 0%;"></div></div>
-            <span class="top-bar-count">0</span>
-          </div>
-          
         </div>
       </div>
     </div>
@@ -1118,19 +1109,6 @@
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">KNM_BIMK_Building Plot_Global <strong>2</strong></span></td>
         </tr>
         
-        <tr class="mat-row"
-            data-name="&lt;unnamed&gt;"
-            data-models="kist_mo_rvt26.ifc"
-            data-types=""
-            data-export-name="&lt;Unnamed&gt;"
-            data-export-typecount="0"
-            data-export-models="KIST_MO_RVT26.ifc">
-          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
-          <td style="font-weight: 500; color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</td>
-          <td class="num">0</td>
-          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">KIST_MO_RVT26 <strong>0</strong></span></td>
-        </tr>
-        
       </tbody>
     </table>
     </div>
@@ -1159,18 +1137,6 @@
         </div>
         <div class="browse-card-name" >Glass(1)</div>
         <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">KNM_BIMK_Building Plot_Global <strong>2</strong></span></div>
-      </div>
-      
-      <div class="browse-card mat-row"
-           data-name="&lt;unnamed&gt;"
-           data-models="kist_mo_rvt26.ifc"
-           data-types="">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
-          <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
-        </div>
-        <div class="browse-card-name" style="color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</div>
-        <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">KIST_MO_RVT26 <strong>0</strong></span></div>
       </div>
       
     </div>
