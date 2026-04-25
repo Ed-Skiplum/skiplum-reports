@@ -922,9 +922,9 @@
   <div class="tb-header">
     <h1>Materialbibliotek</h1>
     <span class="tb-stats" style="margin-left: 16px;">
-      <span><strong>67</strong> unike materialer</span>
+      <span><strong>68</strong> unike materialer</span>
       <span>&middot;</span>
-      <span><strong>66</strong> navngitte</span>
+      <span><strong>67</strong> navngitte</span>
       
       <span>&middot;</span>
       <span style="color: var(--tl-yellow-text);"><strong>1</strong> uten navn</span>
@@ -1016,6 +1016,8 @@
       <option value="AJ 1310-20">AJ 1310-20</option>
       
       <option value="AT8363A600">AT8363A600</option>
+      
+      <option value="Aluminium 100">Aluminium 100</option>
       
       <option value="Avløp 32 mm">Avløp 32 mm</option>
       
@@ -1980,7 +1982,7 @@
       <option value="trp:trp">trp:trp</option>
       
     </select>
-    <span class="tb-count" id="mat-count">Viser 67 av 67</span>
+    <span class="tb-count" id="mat-count">Viser 68 av 68</span>
     <button class="btn-reset hidden" id="mat-reset-btn" onclick="clearMatSearch()">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       Nullstill
@@ -2016,45 +2018,45 @@
         <div class="treemap-grid">
           
           <div class="tm-cell drill-target"
-               style="left: 0.0%; top: 0.0%; width: 66.9725%; height: 34.4392%; background: #157954;"
+               style="left: 0.0%; top: 0.0%; width: 66.9725%; height: 34.3849%; background: #157954;"
                data-matname="Betong" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Betong<br><span class="tm-count">146</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 66.9725%; top: 0.0%; width: 33.0275%; height: 34.4392%; background: #1e9268;"
+               style="left: 66.9725%; top: 0.0%; width: 33.0275%; height: 34.3849%; background: #1e9268;"
                data-matname="Default Surface (6)" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Default Surface (6)<br><span class="tm-count">72</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 0.0%; top: 34.4392%; width: 28.8235%; height: 26.8562%; background: #27ab7d;"
+               style="left: 0.0%; top: 34.3849%; width: 28.8235%; height: 26.8139%; background: #27ab7d;"
                data-matname="Default Surface (5)" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Default Surface (5)<br><span class="tm-count">49</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 28.8235%; top: 34.4392%; width: 26.4706%; height: 26.8562%; background: #3fc18a;"
+               style="left: 28.8235%; top: 34.3849%; width: 26.4706%; height: 26.8139%; background: #3fc18a;"
                data-matname="Maling - 12" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Maling - 12<br><span class="tm-count">45</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 55.2941%; top: 34.4392%; width: 25.2941%; height: 26.8562%; background: #5dbf99;"
+               style="left: 55.2941%; top: 34.3849%; width: 25.2941%; height: 26.8139%; background: #5dbf99;"
                data-matname="Default Surface (4)" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Default Surface (4)<br><span class="tm-count">43</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 80.5882%; top: 34.4392%; width: 19.4118%; height: 26.8562%; background: #8dd4b8;"
+               style="left: 80.5882%; top: 34.3849%; width: 19.4118%; height: 26.8139%; background: #8dd4b8;"
                data-matname="Default Surface (2)" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Default Surface (2)<br><span class="tm-count">33</span>
           </div>
           
           <div class="tm-cell "
-               style="left: 0.0%; top: 61.2954%; width: 100.0%; height: 38.7046%; background: #b3e2ce;color: var(--text-secondary);"
+               style="left: 0.0%; top: 61.1987%; width: 100.0%; height: 38.8013%; background: #b3e2ce;color: var(--text-secondary);"
                >
-            + 61 til<br><span class="tm-count">245</span>
+            + 62 til<br><span class="tm-count">246</span>
           </div>
           
         </div>
@@ -2701,13 +2703,26 @@
         </tr>
         
         <tr class="mat-row"
+            data-name="aluminium"
+            data-models="hi90_ark.ifc"
+            data-types="aluminium 100"
+            data-export-name="Aluminium"
+            data-export-typecount="1"
+            data-export-models="HI90_ARK.ifc">
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td style="font-weight: 500;">Aluminium</td>
+          <td class="num">1</td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>1</strong></span></td>
+        </tr>
+        
+        <tr class="mat-row"
             data-name="b500nc"
             data-models="hi90_rib.ifc"
             data-types="floor:trp 200"
             data-export-name="B500NC"
             data-export-typecount="1"
             data-export-models="HI90_RIB.ifc">
-          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">B500NC</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>1</strong></span></td>
@@ -2720,7 +2735,7 @@
             data-export-name="Betong Prefab"
             data-export-typecount="1"
             data-export-models="HI90_RIB.ifc">
-          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Betong Prefab</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>1</strong></span></td>
@@ -2733,7 +2748,7 @@
             data-export-name="Default Surface (13)"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIV.ifc">
-          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Default Surface (13)</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIV <strong>1</strong></span></td>
@@ -2746,7 +2761,7 @@
             data-export-name="Flis - Hvit 150x150"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Flis - Hvit 150x150</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2759,7 +2774,7 @@
             data-export-name="Gipsplate - Tak"
             data-export-typecount="1"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Gipsplate - Tak</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>1</strong></span></td>
@@ -2772,7 +2787,7 @@
             data-export-name="Glass - Frostet"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Glass - Frostet</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2785,7 +2800,7 @@
             data-export-name="Glass - Herdet"
             data-export-typecount="1"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Glass - Herdet</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>1</strong></span></td>
@@ -2798,7 +2813,7 @@
             data-export-name="Maling - 02"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Maling - 02</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2811,7 +2826,7 @@
             data-export-name="Maling - 03"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Maling - 03</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>1</strong></span></td>
@@ -2824,7 +2839,7 @@
             data-export-name="Maling - 04"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Maling - 04</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2837,7 +2852,7 @@
             data-export-name="Maling - 26 (4030-Y20R)"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Maling - 26 (4030-Y20R)</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2850,7 +2865,7 @@
             data-export-name="Metal Stud Layer"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Metal Stud Layer</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>1</strong></span></td>
@@ -2863,7 +2878,7 @@
             data-export-name="Metall - Aluminium"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Metall - Aluminium</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2876,7 +2891,7 @@
             data-export-name="Metall - Krom"
             data-export-typecount="1"
             data-export-models="HI90_ARK.ifc; HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Metall - Krom</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2889,7 +2904,7 @@
             data-export-name="Metall - Rustfritt stål"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Metall - Rustfritt stål</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2902,7 +2917,7 @@
             data-export-name="Naturstein gulv"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Naturstein gulv</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>1</strong></span></td>
@@ -2915,7 +2930,7 @@
             data-export-name="Polert betong"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Polert betong</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>1</strong></span></td>
@@ -2928,7 +2943,7 @@
             data-export-name="Puss"
             data-export-typecount="1"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Puss</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>1</strong></span></td>
@@ -2941,7 +2956,7 @@
             data-export-name="Puss - Gips"
             data-export-typecount="1"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Puss - Gips</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>1</strong></span></td>
@@ -2954,7 +2969,7 @@
             data-export-name="Stein - Marmor sort"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Stein - Marmor sort</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>1</strong></span></td>
@@ -2967,7 +2982,7 @@
             data-export-name="Stein - Skifer 11"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Stein - Skifer 11</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2980,7 +2995,7 @@
             data-export-name="Stein - Skifer fasade"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Stein - Skifer fasade</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -2993,7 +3008,7 @@
             data-export-name="Terrazzo Hvit"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
           <td style="font-weight: 500;">Terrazzo Hvit</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>1</strong></span></td>
@@ -3006,7 +3021,7 @@
             data-export-name="Tiles - Brown 30x30"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Tiles - Brown 30x30</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -3019,7 +3034,7 @@
             data-export-name="&lt;Unnamed&gt;"
             data-export-typecount="0"
             data-export-models="HI90_BIMK_ARK.ifc; HI90_BIMK_RIB.ifc; HI90_RIB.ifc">
-          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500; color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>0</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>0</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>0</strong></span></td>
@@ -3032,7 +3047,7 @@
             data-export-name="Eik - vertikal"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500;">Eik - vertikal</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3045,7 +3060,7 @@
             data-export-name="Limtre"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Limtre</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3058,7 +3073,7 @@
             data-export-name="Stål - Strukturell"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Stål - Strukturell</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3071,7 +3086,7 @@
             data-export-name="Tre"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Tre</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3540,11 +3555,23 @@
       </div>
       
       <div class="browse-card mat-row"
+           data-name="aluminium"
+           data-models="hi90_ark.ifc"
+           data-types="aluminium 100">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
+          <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
+        </div>
+        <div class="browse-card-name" >Aluminium</div>
+        <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_ARK <strong>1</strong></span></div>
+      </div>
+      
+      <div class="browse-card mat-row"
            data-name="b500nc"
            data-models="hi90_rib.ifc"
            data-types="floor:trp 200">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >B500NC</div>
@@ -3556,7 +3583,7 @@
            data-models="hi90_rib.ifc"
            data-types="hd220:hd200">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Betong Prefab</div>
@@ -3568,7 +3595,7 @@
            data-models="hi90_bimk_riv.ifc"
            data-types="pp-avløpsrør">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Default Surface (13)</div>
@@ -3580,7 +3607,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:yvt-">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Flis - Hvit 150x150</div>
@@ -3592,7 +3619,7 @@
            data-models="hi90_ark.ifc"
            data-types="gipsplate - tak 50">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Gipsplate - Tak</div>
@@ -3604,7 +3631,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="lampe veggmontert">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #8dd4b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Glass - Frostet</div>
@@ -3616,7 +3643,7 @@
            data-models="hi90_ark.ifc"
            data-types="glass - herdet 100">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #8dd4b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Glass - Herdet</div>
@@ -3628,7 +3655,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:260403-bygg ark standard">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Maling - 02</div>
@@ -3640,7 +3667,7 @@
            data-models="hi90_bimk_rib.ifc"
            data-types="direct shape:hi90_bygg_ark">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Maling - 03</div>
@@ -3652,7 +3679,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:260403-bygg ark standard">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Maling - 04</div>
@@ -3664,7 +3691,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:yvt-">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Maling - 26 (4030-Y20R)</div>
@@ -3676,7 +3703,7 @@
            data-models="hi90_bimk_rib.ifc"
            data-types="trp:trp">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Metal Stud Layer</div>
@@ -3688,7 +3715,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:v-">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Metall - Aluminium</div>
@@ -3700,7 +3727,7 @@
            data-models="hi90_ark.ifc hi90_bimk_ark.ifc"
            data-types="wc">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #8dd4b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Metall - Krom</div>
@@ -3712,7 +3739,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="kjøleskap">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #8dd4b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Metall - Rustfritt stål</div>
@@ -3724,7 +3751,7 @@
            data-models="hi90_bimk_rib.ifc"
            data-types="direct shape:hi90_bygg_ark">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Naturstein gulv</div>
@@ -3736,7 +3763,7 @@
            data-models="hi90_bimk_rib.ifc"
            data-types="direct shape:ivt-">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Polert betong</div>
@@ -3748,7 +3775,7 @@
            data-models="hi90_ark.ifc"
            data-types="puss 50">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Puss</div>
@@ -3760,7 +3787,7 @@
            data-models="hi90_ark.ifc"
            data-types="puss - gips 235 x 265">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Puss - Gips</div>
@@ -3772,7 +3799,7 @@
            data-models="hi90_bimk_rib.ifc"
            data-types="direct shape:hi90_bygg_ark">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Stein - Marmor sort</div>
@@ -3784,7 +3811,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:260403-bygg ark standard">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Stein - Skifer 11</div>
@@ -3796,7 +3823,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:260403-bygg ark standard">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #8dd4b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Stein - Skifer fasade</div>
@@ -3808,7 +3835,7 @@
            data-models="hi90_bimk_rib.ifc"
            data-types="direct shape:hi90_bygg_ark">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #8dd4b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Terrazzo Hvit</div>
@@ -3820,7 +3847,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:yvt-">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Tiles - Brown 30x30</div>
@@ -3832,7 +3859,7 @@
            data-models="hi90_bimk_ark.ifc hi90_bimk_rib.ifc hi90_rib.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" style="color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</div>
@@ -3844,7 +3871,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Eik - vertikal</div>
@@ -3856,7 +3883,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Limtre</div>
@@ -3868,7 +3895,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Stål - Strukturell</div>
@@ -3880,7 +3907,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Tre</div>
