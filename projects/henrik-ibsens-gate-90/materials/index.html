@@ -901,6 +901,16 @@
         </a>
       </div>
     </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">System</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/status/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Status
+        </a>
+      </div>
+    </div>
   </nav>
 
   <div class="sidebar-footer">
@@ -922,9 +932,9 @@
   <div class="tb-header">
     <h1>Materialbibliotek</h1>
     <span class="tb-stats" style="margin-left: 16px;">
-      <span><strong>68</strong> unike materialer</span>
+      <span><strong>69</strong> unike materialer</span>
       <span>&middot;</span>
-      <span><strong>67</strong> navngitte</span>
+      <span><strong>68</strong> navngitte</span>
       
       <span>&middot;</span>
       <span style="color: var(--tl-yellow-text);"><strong>1</strong> uten navn</span>
@@ -1387,6 +1397,8 @@
       
       <option value="Betong Polygonal">Betong Polygonal</option>
       
+      <option value="Bjelke Stålplate:50x5">Bjelke Stålplate:50x5</option>
+      
       <option value="Blandebatteri i benk">Blandebatteri i benk</option>
       
       <option value="Boundary Frame 60 x 128">Boundary Frame 60 x 128</option>
@@ -1422,6 +1434,10 @@
       <option value="Concrete-Rectangular-Beam:150x630">Concrete-Rectangular-Beam:150x630</option>
       
       <option value="Concrete-Rectangular-Beam:175x370">Concrete-Rectangular-Beam:175x370</option>
+      
+      <option value="Concrete-Rectangular-Beam:200x300">Concrete-Rectangular-Beam:200x300</option>
+      
+      <option value="Concrete-Rectangular-Beam:200x620">Concrete-Rectangular-Beam:200x620</option>
       
       <option value="Concrete-Rectangular-Beam:200x630">Concrete-Rectangular-Beam:200x630</option>
       
@@ -1663,6 +1679,8 @@
       
       <option value="Floor:Bet.dekke eksist. T=180">Floor:Bet.dekke eksist. T=180</option>
       
+      <option value="Floor:Bet.dekke eksist. T=200">Floor:Bet.dekke eksist. T=200</option>
+      
       <option value="Floor:Bet.dekke eksist. T=220">Floor:Bet.dekke eksist. T=220</option>
       
       <option value="Floor:Concrete 270mm">Floor:Concrete 270mm</option>
@@ -1720,6 +1738,8 @@
       <option value="H 250 1">H 250 1</option>
       
       <option value="HD220:HD200">HD220:HD200</option>
+      
+      <option value="HE-A:HEA120">HE-A:HEA120</option>
       
       <option value="HE-B:HEB160">HE-B:HEB160</option>
       
@@ -1881,6 +1901,8 @@
       
       <option value="R-800-400">R-800-400</option>
       
+      <option value="RHS (EN 10219-2):RHS150x100x6.3">RHS (EN 10219-2):RHS150x100x6.3</option>
+      
       <option value="RHS (EN 10219-2):RHS180x100x10">RHS (EN 10219-2):RHS180x100x10</option>
       
       <option value="RIST 250">RIST 250</option>
@@ -1892,6 +1914,8 @@
       <option value="SHS (EN 10210-2):SHS100x6.3">SHS (EN 10210-2):SHS100x6.3</option>
       
       <option value="SHS (EN 10219-2) Column:SHS100x6.3">SHS (EN 10219-2) Column:SHS100x6.3</option>
+      
+      <option value="SHS (EN 10219-2) Column:SHS80x6.3">SHS (EN 10219-2) Column:SHS80x6.3</option>
       
       <option value="SHS (EN 10219-2):SHS80x6.3">SHS (EN 10219-2):SHS80x6.3</option>
       
@@ -2040,7 +2064,7 @@
       <option value="trp:trp">trp:trp</option>
       
     </select>
-    <span class="tb-count" id="mat-count">Viser 68 av 68</span>
+    <span class="tb-count" id="mat-count">Viser 69 av 69</span>
     <button class="btn-reset hidden" id="mat-reset-btn" onclick="clearMatSearch()">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       Nullstill
@@ -2076,45 +2100,45 @@
         <div class="treemap-grid">
           
           <div class="tm-cell drill-target"
-               style="left: 0.0%; top: 0.0%; width: 66.9725%; height: 32.9803%; background: #157954;"
+               style="left: 0.0%; top: 0.0%; width: 66.9725%; height: 32.6347%; background: #157954;"
                data-matname="Betong" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Betong<br><span class="tm-count">146</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 66.9725%; top: 0.0%; width: 33.0275%; height: 32.9803%; background: #1e9268;"
+               style="left: 66.9725%; top: 0.0%; width: 33.0275%; height: 32.6347%; background: #1e9268;"
                data-matname="Default Surface (6)" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Default Surface (6)<br><span class="tm-count">72</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 0.0%; top: 32.9803%; width: 26.6304%; height: 27.8366%; background: #27ab7d;"
+               style="left: 0.0%; top: 32.6347%; width: 26.738%; height: 27.994%; background: #27ab7d;"
+               data-matname="Betong eksisterende" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
+            Betong eksisterende<br><span class="tm-count">50</span>
+          </div>
+          
+          <div class="tm-cell drill-target"
+               style="left: 26.738%; top: 32.6347%; width: 26.2032%; height: 27.994%; background: #3fc18a;"
                data-matname="Default Surface (5)" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Default Surface (5)<br><span class="tm-count">49</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 26.6304%; top: 32.9803%; width: 25.5435%; height: 27.8366%; background: #3fc18a;"
-               data-matname="Betong eksisterende" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
-            Betong eksisterende<br><span class="tm-count">47</span>
-          </div>
-          
-          <div class="tm-cell drill-target"
-               style="left: 52.1739%; top: 32.9803%; width: 24.4565%; height: 27.8366%; background: #5dbf99;"
+               style="left: 52.9412%; top: 32.6347%; width: 24.0642%; height: 27.994%; background: #5dbf99;"
                data-matname="Maling - 12" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Maling - 12<br><span class="tm-count">45</span>
           </div>
           
           <div class="tm-cell drill-target"
-               style="left: 76.6304%; top: 32.9803%; width: 23.3696%; height: 27.8366%; background: #8dd4b8;"
+               style="left: 77.0053%; top: 32.6347%; width: 22.9947%; height: 27.994%; background: #8dd4b8;"
                data-matname="Default Surface (4)" onclick="filterByMatTreemap(this.getAttribute('data-matname'))">
             Default Surface (4)<br><span class="tm-count">43</span>
           </div>
           
           <div class="tm-cell "
-               style="left: 0.0%; top: 60.8169%; width: 100.0%; height: 39.1831%; background: #b3e2ce;color: var(--text-secondary);"
+               style="left: 0.0%; top: 60.6287%; width: 100.0%; height: 39.3713%; background: #b3e2ce;color: var(--text-secondary);"
                >
-            + 62 til<br><span class="tm-count">259</span>
+            + 63 til<br><span class="tm-count">263</span>
           </div>
           
         </div>
@@ -2137,16 +2161,16 @@
             <span class="top-bar-count">72</span>
           </div>
           
+          <div class="top-bar-row" title="Betong eksisterende">
+            <span class="top-bar-label">Betong eksisterende</span>
+            <div class="top-bar-track"><div class="top-bar-fill" style="width: 34%;"></div></div>
+            <span class="top-bar-count">50</span>
+          </div>
+          
           <div class="top-bar-row" title="Default Surface (5)">
             <span class="top-bar-label">Default Surface (5)</span>
             <div class="top-bar-track"><div class="top-bar-fill" style="width: 34%;"></div></div>
             <span class="top-bar-count">49</span>
-          </div>
-          
-          <div class="top-bar-row" title="Betong eksisterende">
-            <span class="top-bar-label">Betong eksisterende</span>
-            <div class="top-bar-track"><div class="top-bar-fill" style="width: 32%;"></div></div>
-            <span class="top-bar-count">47</span>
           </div>
           
           <div class="top-bar-row" title="Maling - 12">
@@ -2221,16 +2245,16 @@
             <span class="top-bar-count">9</span>
           </div>
           
+          <div class="top-bar-row" title="Steel - S355">
+            <span class="top-bar-label">Steel - S355</span>
+            <div class="top-bar-track"><div class="top-bar-fill" style="width: 6%;"></div></div>
+            <span class="top-bar-count">9</span>
+          </div>
+          
           <div class="top-bar-row" title="IfcOpeningElement">
             <span class="top-bar-label">IfcOpeningElement</span>
             <div class="top-bar-track"><div class="top-bar-fill" style="width: 5%;"></div></div>
             <span class="top-bar-count">7</span>
-          </div>
-          
-          <div class="top-bar-row" title="Steel - S355">
-            <span class="top-bar-label">Steel - S355</span>
-            <div class="top-bar-track"><div class="top-bar-fill" style="width: 4%;"></div></div>
-            <span class="top-bar-count">6</span>
           </div>
           
           <div class="top-bar-row" title="Gipsplate - Vegg">
@@ -2293,29 +2317,29 @@
         </tr>
         
         <tr class="mat-row"
+            data-name="betong eksisterende"
+            data-models="hi90_bimk_rib.ifc hi90_rib.ifc"
+            data-types="basic wall:betong, eksist. t=120 basic wall:betong, eksist. t=150 basic wall:betong, eksist. t=175 basic wall:betong, eksist. t=200 basic wall:betong, eksist. t=250 basic wall:betong, eksist. t=300 basic wall:betong, eksist. t=350 basic wall:betong, eksist. t=400 concrete-rectangular-beam:1000x400 concrete-rectangular-beam:100x100 concrete-rectangular-beam:1180x420 concrete-rectangular-beam:150x630 concrete-rectangular-beam:175x370 concrete-rectangular-beam:200x300 concrete-rectangular-beam:200x620 concrete-rectangular-beam:200x630 concrete-rectangular-beam:200x680 concrete-rectangular-beam:200x700 concrete-rectangular-beam:200x790 concrete-rectangular-beam:250x240 concrete-rectangular-beam:250x680 concrete-rectangular-beam:300x420 concrete-rectangular-beam:300x700 concrete-rectangular-beam:350x680 concrete-rectangular-beam:400x700 concrete-rectangular-beam:500x380 concrete-rectangular-beam:550x800 concrete-rectangular-beam:550x900 direct shape:basic wall:betong, eksist. t=200:1294253 direct shape:basic wall:betong, eksist. t=200:1294321 direct shape:basic wall:betong, eksist. t=200:1294568 direct shape:basic wall:betong, eksist. t=200:1298586 direct shape:basic wall:betong, eksist. t=200:1298587 direct shape:floor:bet.dekke eksist. t=150:1293301 direct shape:floor:bet.dekke eksist. t=180:1316360 direct shape:floor:bet.dekke eksist. t=220:1258948 floor:bet.dekke eksist. t=150 floor:bet.dekke eksist. t=170 floor:bet.dekke eksist. t=180 floor:bet.dekke eksist. t=200 floor:bet.dekke eksist. t=220 monolithic run:25 mm nosing søyle rektangulær betong:300x180 søyle rektangulær betong:300x250 søyle rektangulær betong:300x550 søyle rektangulær betong:350x700 søyle rektangulær betong:400x400 søyle rektangulær betong:400x600 søyle rektangulær betong:400x660 søyle rektangulær betong:400x750"
+            data-export-name="Betong eksisterende"
+            data-export-typecount="50"
+            data-export-models="HI90_BIMK_RIB.ifc; HI90_RIB.ifc">
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td style="font-weight: 500;">Betong eksisterende</td>
+          <td class="num">50</td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>8</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>42</strong></span></td>
+        </tr>
+        
+        <tr class="mat-row"
             data-name="default surface (5)"
             data-models="hi90_bimk_riv.ifc"
             data-types="bdea-1-025-012 bdea-1-025-025 bdea-1-031-020 bdea-1-031-031 bdeb-90-016 bdeb-90-020 bdeb-90-025 bded-1-025-020 bdeg-1-016 bdeg-1-020 bdem-1-020 bdem-1-025 bdet-1-031-025 cla c 250-1000 cla c 315-1000 direct shape:3d modell_hi90 exca 100 exca 160 grlc 300-150+trgc 300-150-200-l grlc 400-100+trgc 400-100-160-l grlc 400-150+trgc 400-150-250-l grlc 400-200+trgc 400-200-250-l grlc 500-100+trgc 500-100-200-l grlc 500-150+trgc 500-150-250-l grlc 500-200+trgc 500-200-315-l grlc 600-200+trgc 600-200-315-l grlc 600-300+trgc 600-300-400-l iris-400 iris-500 overluft 400x100 pra-400 rist 250 rlydd-1500 rekt. kanal, forsinket stål sordoa 160-600-50 sordoa 160-900-50 sordoa 250-600-50 sordoa 250-900-50 sordoa 315-900-50 sordoa 400-1200-50 sordoa 400-900-50 sirk. kanal, forsinket stål uba-125 uba-160 vav-r-250-u vav-r-315-u vav-r-400-u"
             data-export-name="Default Surface (5)"
             data-export-typecount="49"
             data-export-models="HI90_BIMK_RIV.ifc">
-          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Default Surface (5)</td>
           <td class="num">49</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIV <strong>49</strong></span></td>
-        </tr>
-        
-        <tr class="mat-row"
-            data-name="betong eksisterende"
-            data-models="hi90_bimk_rib.ifc hi90_rib.ifc"
-            data-types="basic wall:betong, eksist. t=120 basic wall:betong, eksist. t=150 basic wall:betong, eksist. t=175 basic wall:betong, eksist. t=200 basic wall:betong, eksist. t=250 basic wall:betong, eksist. t=300 basic wall:betong, eksist. t=350 basic wall:betong, eksist. t=400 concrete-rectangular-beam:1000x400 concrete-rectangular-beam:100x100 concrete-rectangular-beam:1180x420 concrete-rectangular-beam:150x630 concrete-rectangular-beam:175x370 concrete-rectangular-beam:200x630 concrete-rectangular-beam:200x680 concrete-rectangular-beam:200x700 concrete-rectangular-beam:200x790 concrete-rectangular-beam:250x240 concrete-rectangular-beam:250x680 concrete-rectangular-beam:300x420 concrete-rectangular-beam:300x700 concrete-rectangular-beam:350x680 concrete-rectangular-beam:400x700 concrete-rectangular-beam:500x380 concrete-rectangular-beam:550x800 concrete-rectangular-beam:550x900 direct shape:basic wall:betong, eksist. t=200:1294253 direct shape:basic wall:betong, eksist. t=200:1294321 direct shape:basic wall:betong, eksist. t=200:1294568 direct shape:basic wall:betong, eksist. t=200:1298586 direct shape:basic wall:betong, eksist. t=200:1298587 direct shape:floor:bet.dekke eksist. t=150:1293301 direct shape:floor:bet.dekke eksist. t=180:1316360 direct shape:floor:bet.dekke eksist. t=220:1258948 floor:bet.dekke eksist. t=150 floor:bet.dekke eksist. t=170 floor:bet.dekke eksist. t=180 floor:bet.dekke eksist. t=220 monolithic run:25 mm nosing søyle rektangulær betong:300x180 søyle rektangulær betong:300x250 søyle rektangulær betong:300x550 søyle rektangulær betong:350x700 søyle rektangulær betong:400x400 søyle rektangulær betong:400x600 søyle rektangulær betong:400x660 søyle rektangulær betong:400x750"
-            data-export-name="Betong eksisterende"
-            data-export-typecount="47"
-            data-export-models="HI90_BIMK_RIB.ifc; HI90_RIB.ifc">
-          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
-          <td style="font-weight: 500;">Betong eksisterende</td>
-          <td class="num">47</td>
-          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>8</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>39</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -2475,29 +2499,29 @@
         </tr>
         
         <tr class="mat-row"
+            data-name="steel - s355"
+            data-models="hi90_rib.ifc"
+            data-types="he-a:hea120 he-b:heb160 he-b:heb220 rhs (en 10219-2):rhs150x100x6.3 rhs (en 10219-2):rhs180x100x10 shs (en 10210-2):shs100x6.3 shs (en 10219-2) column:shs100x6.3 shs (en 10219-2) column:shs80x6.3 shs (en 10219-2):shs80x6.3"
+            data-export-name="Steel - S355"
+            data-export-typecount="9"
+            data-export-models="HI90_RIB.ifc">
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td style="font-weight: 500;">Steel - S355</td>
+          <td class="num">9</td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>9</strong></span></td>
+        </tr>
+        
+        <tr class="mat-row"
             data-name="ifcopeningelement"
             data-models="hi90_bimk_ark.ifc hi90_bimk_rib.ifc"
             data-types="direct shape:260403-bygg ark standard direct shape:floor:bet.dekke eksist. t=220:1258951 direct shape:id- direct shape:iå- direct shape:skap direct shape:v- direct shape:yd-"
             data-export-name="IfcOpeningElement"
             data-export-typecount="7"
             data-export-models="HI90_BIMK_ARK.ifc; HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">IfcOpeningElement</td>
           <td class="num">7</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>6</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>4</strong></span></td>
-        </tr>
-        
-        <tr class="mat-row"
-            data-name="steel - s355"
-            data-models="hi90_rib.ifc"
-            data-types="he-b:heb160 he-b:heb220 rhs (en 10219-2):rhs180x100x10 shs (en 10210-2):shs100x6.3 shs (en 10219-2) column:shs100x6.3 shs (en 10219-2):shs80x6.3"
-            data-export-name="Steel - S355"
-            data-export-typecount="6"
-            data-export-models="HI90_RIB.ifc">
-          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
-          <td style="font-weight: 500;">Steel - S355</td>
-          <td class="num">6</td>
-          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>6</strong></span></td>
         </tr>
         
         <tr class="mat-row"
@@ -3060,13 +3084,26 @@
         </tr>
         
         <tr class="mat-row"
+            data-name="structural framing fireproofing"
+            data-models="hi90_rib.ifc"
+            data-types="bjelke stålplate:50x5"
+            data-export-name="Structural Framing Fireproofing"
+            data-export-typecount="1"
+            data-export-models="HI90_RIB.ifc">
+          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td style="font-weight: 500;">Structural Framing Fireproofing</td>
+          <td class="num">1</td>
+          <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>1</strong></span></td>
+        </tr>
+        
+        <tr class="mat-row"
             data-name="terrazzo hvit"
             data-models="hi90_bimk_rib.ifc"
             data-types="direct shape:hi90_bygg_ark"
             data-export-name="Terrazzo Hvit"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_RIB.ifc">
-          <td><span class="legend-dot" style="background: #b3e2ce;"></span></td>
+          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
           <td style="font-weight: 500;">Terrazzo Hvit</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>1</strong></span></td>
@@ -3079,7 +3116,7 @@
             data-export-name="Tiles - Brown 30x30"
             data-export-typecount="1"
             data-export-models="HI90_BIMK_ARK.ifc">
-          <td><span class="legend-dot" style="background: #d4eee2;"></span></td>
+          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
           <td style="font-weight: 500;">Tiles - Brown 30x30</td>
           <td class="num">1</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>1</strong></span></td>
@@ -3092,7 +3129,7 @@
             data-export-name="&lt;Unnamed&gt;"
             data-export-typecount="0"
             data-export-models="HI90_BIMK_ARK.ifc; HI90_BIMK_RIB.ifc; HI90_RIB.ifc">
-          <td><span class="legend-dot" style="background: #94a3b8;"></span></td>
+          <td><span class="legend-dot" style="background: #157954;"></span></td>
           <td style="font-weight: 500; color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_ARK <strong>0</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_BIMK_RIB <strong>0</strong></span><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_RIB <strong>0</strong></span></td>
@@ -3105,7 +3142,7 @@
             data-export-name="Eik - vertikal"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #157954;"></span></td>
+          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
           <td style="font-weight: 500;">Eik - vertikal</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3118,7 +3155,7 @@
             data-export-name="Limtre"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #1e9268;"></span></td>
+          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
           <td style="font-weight: 500;">Limtre</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3131,7 +3168,7 @@
             data-export-name="Stål - Strukturell"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #27ab7d;"></span></td>
+          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
           <td style="font-weight: 500;">Stål - Strukturell</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3144,7 +3181,7 @@
             data-export-name="Tre"
             data-export-typecount="0"
             data-export-models="HI90_ARK.ifc">
-          <td><span class="legend-dot" style="background: #5dbf99;"></span></td>
+          <td><span class="legend-dot" style="background: #8dd4b8;"></span></td>
           <td style="font-weight: 500;">Tre</td>
           <td class="num">0</td>
           <td class="wrap-tags" style="font-size: 10px;"><span class="tag tag-blue" style="font-size: 9px; padding: 1px 6px;">HI90_ARK <strong>0</strong></span></td>
@@ -3181,27 +3218,27 @@
       </div>
       
       <div class="browse-card mat-row"
+           data-name="betong eksisterende"
+           data-models="hi90_bimk_rib.ifc hi90_rib.ifc"
+           data-types="basic wall:betong, eksist. t=120 basic wall:betong, eksist. t=150 basic wall:betong, eksist. t=175 basic wall:betong, eksist. t=200 basic wall:betong, eksist. t=250 basic wall:betong, eksist. t=300 basic wall:betong, eksist. t=350 basic wall:betong, eksist. t=400 concrete-rectangular-beam:1000x400 concrete-rectangular-beam:100x100 concrete-rectangular-beam:1180x420 concrete-rectangular-beam:150x630 concrete-rectangular-beam:175x370 concrete-rectangular-beam:200x300 concrete-rectangular-beam:200x620 concrete-rectangular-beam:200x630 concrete-rectangular-beam:200x680 concrete-rectangular-beam:200x700 concrete-rectangular-beam:200x790 concrete-rectangular-beam:250x240 concrete-rectangular-beam:250x680 concrete-rectangular-beam:300x420 concrete-rectangular-beam:300x700 concrete-rectangular-beam:350x680 concrete-rectangular-beam:400x700 concrete-rectangular-beam:500x380 concrete-rectangular-beam:550x800 concrete-rectangular-beam:550x900 direct shape:basic wall:betong, eksist. t=200:1294253 direct shape:basic wall:betong, eksist. t=200:1294321 direct shape:basic wall:betong, eksist. t=200:1294568 direct shape:basic wall:betong, eksist. t=200:1298586 direct shape:basic wall:betong, eksist. t=200:1298587 direct shape:floor:bet.dekke eksist. t=150:1293301 direct shape:floor:bet.dekke eksist. t=180:1316360 direct shape:floor:bet.dekke eksist. t=220:1258948 floor:bet.dekke eksist. t=150 floor:bet.dekke eksist. t=170 floor:bet.dekke eksist. t=180 floor:bet.dekke eksist. t=200 floor:bet.dekke eksist. t=220 monolithic run:25 mm nosing søyle rektangulær betong:300x180 søyle rektangulær betong:300x250 søyle rektangulær betong:300x550 søyle rektangulær betong:350x700 søyle rektangulær betong:400x400 søyle rektangulær betong:400x600 søyle rektangulær betong:400x660 søyle rektangulær betong:400x750">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
+          <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">50 typer</span>
+        </div>
+        <div class="browse-card-name" >Betong eksisterende</div>
+        <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_BIMK_RIB <strong>8</strong></span><span class="tag tag-blue" style="font-size: 9px;">HI90_RIB <strong>42</strong></span></div>
+      </div>
+      
+      <div class="browse-card mat-row"
            data-name="default surface (5)"
            data-models="hi90_bimk_riv.ifc"
            data-types="bdea-1-025-012 bdea-1-025-025 bdea-1-031-020 bdea-1-031-031 bdeb-90-016 bdeb-90-020 bdeb-90-025 bded-1-025-020 bdeg-1-016 bdeg-1-020 bdem-1-020 bdem-1-025 bdet-1-031-025 cla c 250-1000 cla c 315-1000 direct shape:3d modell_hi90 exca 100 exca 160 grlc 300-150+trgc 300-150-200-l grlc 400-100+trgc 400-100-160-l grlc 400-150+trgc 400-150-250-l grlc 400-200+trgc 400-200-250-l grlc 500-100+trgc 500-100-200-l grlc 500-150+trgc 500-150-250-l grlc 500-200+trgc 500-200-315-l grlc 600-200+trgc 600-200-315-l grlc 600-300+trgc 600-300-400-l iris-400 iris-500 overluft 400x100 pra-400 rist 250 rlydd-1500 rekt. kanal, forsinket stål sordoa 160-600-50 sordoa 160-900-50 sordoa 250-600-50 sordoa 250-900-50 sordoa 315-900-50 sordoa 400-1200-50 sordoa 400-900-50 sirk. kanal, forsinket stål uba-125 uba-160 vav-r-250-u vav-r-315-u vav-r-400-u">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">49 typer</span>
         </div>
         <div class="browse-card-name" >Default Surface (5)</div>
         <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_BIMK_RIV <strong>49</strong></span></div>
-      </div>
-      
-      <div class="browse-card mat-row"
-           data-name="betong eksisterende"
-           data-models="hi90_bimk_rib.ifc hi90_rib.ifc"
-           data-types="basic wall:betong, eksist. t=120 basic wall:betong, eksist. t=150 basic wall:betong, eksist. t=175 basic wall:betong, eksist. t=200 basic wall:betong, eksist. t=250 basic wall:betong, eksist. t=300 basic wall:betong, eksist. t=350 basic wall:betong, eksist. t=400 concrete-rectangular-beam:1000x400 concrete-rectangular-beam:100x100 concrete-rectangular-beam:1180x420 concrete-rectangular-beam:150x630 concrete-rectangular-beam:175x370 concrete-rectangular-beam:200x630 concrete-rectangular-beam:200x680 concrete-rectangular-beam:200x700 concrete-rectangular-beam:200x790 concrete-rectangular-beam:250x240 concrete-rectangular-beam:250x680 concrete-rectangular-beam:300x420 concrete-rectangular-beam:300x700 concrete-rectangular-beam:350x680 concrete-rectangular-beam:400x700 concrete-rectangular-beam:500x380 concrete-rectangular-beam:550x800 concrete-rectangular-beam:550x900 direct shape:basic wall:betong, eksist. t=200:1294253 direct shape:basic wall:betong, eksist. t=200:1294321 direct shape:basic wall:betong, eksist. t=200:1294568 direct shape:basic wall:betong, eksist. t=200:1298586 direct shape:basic wall:betong, eksist. t=200:1298587 direct shape:floor:bet.dekke eksist. t=150:1293301 direct shape:floor:bet.dekke eksist. t=180:1316360 direct shape:floor:bet.dekke eksist. t=220:1258948 floor:bet.dekke eksist. t=150 floor:bet.dekke eksist. t=170 floor:bet.dekke eksist. t=180 floor:bet.dekke eksist. t=220 monolithic run:25 mm nosing søyle rektangulær betong:300x180 søyle rektangulær betong:300x250 søyle rektangulær betong:300x550 søyle rektangulær betong:350x700 søyle rektangulær betong:400x400 søyle rektangulær betong:400x600 søyle rektangulær betong:400x660 søyle rektangulær betong:400x750">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
-          <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">47 typer</span>
-        </div>
-        <div class="browse-card-name" >Betong eksisterende</div>
-        <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_BIMK_RIB <strong>8</strong></span><span class="tag tag-blue" style="font-size: 9px;">HI90_RIB <strong>39</strong></span></div>
       </div>
       
       <div class="browse-card mat-row"
@@ -3349,27 +3386,27 @@
       </div>
       
       <div class="browse-card mat-row"
+           data-name="steel - s355"
+           data-models="hi90_rib.ifc"
+           data-types="he-a:hea120 he-b:heb160 he-b:heb220 rhs (en 10219-2):rhs150x100x6.3 rhs (en 10219-2):rhs180x100x10 shs (en 10210-2):shs100x6.3 shs (en 10219-2) column:shs100x6.3 shs (en 10219-2) column:shs80x6.3 shs (en 10219-2):shs80x6.3">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
+          <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">9 typer</span>
+        </div>
+        <div class="browse-card-name" >Steel - S355</div>
+        <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_RIB <strong>9</strong></span></div>
+      </div>
+      
+      <div class="browse-card mat-row"
            data-name="ifcopeningelement"
            data-models="hi90_bimk_ark.ifc hi90_bimk_rib.ifc"
            data-types="direct shape:260403-bygg ark standard direct shape:floor:bet.dekke eksist. t=220:1258951 direct shape:id- direct shape:iå- direct shape:skap direct shape:v- direct shape:yd-">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">7 typer</span>
         </div>
         <div class="browse-card-name" >IfcOpeningElement</div>
         <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_BIMK_ARK <strong>6</strong></span><span class="tag tag-blue" style="font-size: 9px;">HI90_BIMK_RIB <strong>4</strong></span></div>
-      </div>
-      
-      <div class="browse-card mat-row"
-           data-name="steel - s355"
-           data-models="hi90_rib.ifc"
-           data-types="he-b:heb160 he-b:heb220 rhs (en 10219-2):rhs180x100x10 shs (en 10210-2):shs100x6.3 shs (en 10219-2) column:shs100x6.3 shs (en 10219-2):shs80x6.3">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
-          <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">6 typer</span>
-        </div>
-        <div class="browse-card-name" >Steel - S355</div>
-        <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_RIB <strong>6</strong></span></div>
       </div>
       
       <div class="browse-card mat-row"
@@ -3889,11 +3926,23 @@
       </div>
       
       <div class="browse-card mat-row"
+           data-name="structural framing fireproofing"
+           data-models="hi90_rib.ifc"
+           data-types="bjelke stålplate:50x5">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
+          <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
+        </div>
+        <div class="browse-card-name" >Structural Framing Fireproofing</div>
+        <div class="browse-card-models"><span class="tag tag-blue" style="font-size: 9px;">HI90_RIB <strong>1</strong></span></div>
+      </div>
+      
+      <div class="browse-card mat-row"
            data-name="terrazzo hvit"
            data-models="hi90_bimk_rib.ifc"
            data-types="direct shape:hi90_bygg_ark">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #b3e2ce; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Terrazzo Hvit</div>
@@ -3905,7 +3954,7 @@
            data-models="hi90_bimk_ark.ifc"
            data-types="direct shape:yvt-">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #d4eee2; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">1 typer</span>
         </div>
         <div class="browse-card-name" >Tiles - Brown 30x30</div>
@@ -3917,7 +3966,7 @@
            data-models="hi90_bimk_ark.ifc hi90_bimk_rib.ifc hi90_rib.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #94a3b8; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" style="color: var(--text-tertiary); font-style: italic;">&lt;Unnamed&gt;</div>
@@ -3929,7 +3978,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #157954; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Eik - vertikal</div>
@@ -3941,7 +3990,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #1e9268; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Limtre</div>
@@ -3953,7 +4002,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #27ab7d; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Stål - Strukturell</div>
@@ -3965,7 +4014,7 @@
            data-models="hi90_ark.ifc"
            data-types="">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="legend-dot" style="background: #5dbf99; flex-shrink: 0;"></span>
+          <span class="legend-dot" style="background: #8dd4b8; flex-shrink: 0;"></span>
           <span style="color: var(--text-tertiary); font-size: 10px; margin-left: auto;">0 typer</span>
         </div>
         <div class="browse-card-name" >Tre</div>
