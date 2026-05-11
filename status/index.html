@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="60">
+  <title>SkiplumForge - Systemstatus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --radius: 0.75rem;
+      --green-bg: #dcfce7; --green-text: #166534;
+      --yellow-bg: #fef9c3; --yellow-text: #854d0e;
+      --red-bg: #fee2e2; --red-text: #991b1b;
+      --gray-bg: #f1f5f9; --gray-text: #64748b;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient); background-attachment: fixed;
+      color: var(--text-primary); min-height: 100vh;
+    }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); }
+    .container { max-width: 1300px; margin: 0 auto; padding: 24px; }
+    .mono { font-family: 'JetBrains Mono', Consolas, monospace; }
+
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
+      width: 36px; height: 36px; background: var(--primary); color: white;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700;
+    }
+    h1 { font-size: 22px; font-weight: 700; }
+    .sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .badge {
+      padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .badge-green { background: var(--green-bg); color: var(--green-text); }
+    .badge-yellow { background: var(--yellow-bg); color: var(--yellow-text); }
+    .badge-red { background: var(--red-bg); color: var(--red-text); }
+    .badge-gray { background: var(--gray-bg); color: var(--gray-text); }
+
+    .grid { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .card-title {
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
+    }
+    .kv-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+    .kv-key { color: var(--text-tertiary); }
+    .kv-val { color: var(--text-primary); font-weight: 500; }
+
+    .sparkline {
+      display: flex; align-items: flex-end; gap: 2px;
+      height: 40px; margin-top: 8px;
+    }
+    .spark-bar { flex: 1; background: var(--primary); border-radius: 2px 2px 0 0; min-height: 2px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+    th {
+      font-size: 10px; font-weight: 600; color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: 0.04em; background: #fafafa;
+    }
+    tr:last-child td { border-bottom: none; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .pill {
+      display: inline-block; padding: 2px 8px; border-radius: 10px;
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+    }
+    .pill-ok { background: var(--green-bg); color: var(--green-text); }
+    .pill-warn { background: var(--yellow-bg); color: var(--yellow-text); }
+    .pill-err { background: var(--red-bg); color: var(--red-text); }
+    .pill-idle { background: var(--gray-bg); color: var(--gray-text); }
+
+    .issues { font-size: 12px; }
+    .issue-row {
+      padding: 6px 0; border-bottom: 1px solid var(--border);
+      display: flex; gap: 10px; align-items: baseline;
+    }
+    .issue-row:last-child { border-bottom: none; }
+    .issue-time { color: var(--text-tertiary); font-family: 'JetBrains Mono', Consolas, monospace; font-size: 11px; min-width: 110px; }
+    .issue-level { font-size: 10px; font-weight: 700; min-width: 60px; text-transform: uppercase; }
+    .lvl-error { color: var(--red-text); }
+    .lvl-warn { color: var(--yellow-text); }
+
+    .footer-meta {
+      margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border);
+      font-size: 11px; color: var(--text-tertiary); text-align: center;
+    }
+    .footer-meta a { color: var(--primary); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="top-accent"></div>
+  <div class="container">
+
+    <div class="page-header">
+      <div class="brand">
+        <span class="brand-icon">SK</span>
+        <div>
+          <h1>Systemstatus</h1>
+          <div class="sub">Auto-refresh hvert 60. sekund &middot; Generert 11. may 2026 14:59:25</div>
+        </div>
+      </div>
+      <span class="badge badge-red">Krever oppmerksomhet</span>
+    </div>
+
+    <div class="grid grid-2" style="margin-bottom: 16px;">
+
+      <!-- P1 Fast Sync card -->
+      <div class="card">
+        <div class="card-title">P1 - Dalux Fast Sync</div>
+        <div class="kv-row"><span class="kv-key">Forrige kjøring</span><span class="kv-val mono">11.05 14:54:56</span></div>
+        <div class="kv-row"><span class="kv-key">Varighet</span><span class="kv-val mono">3m 2s</span></div>
+        <div class="kv-row"><span class="kv-key">Neste vindu</span><span class="kv-val mono">11.05 14:59:56</span></div>
+        <div class="kv-row"><span class="kv-key">Adaptiv intervall</span><span class="kv-val mono">5m 0s</span></div>
+        <div class="kv-row"><span class="kv-key">Antall målinger</span><span class="kv-val mono">2 av 20</span></div>
+        
+        <div class="card-title" style="margin-top: 16px;">Siste varighet (sek)</div>
+        <div class="sparkline">
+          
+          <div class="spark-bar" style="height: 100.0%;" title="211 s"></div>
+          
+          <div class="spark-bar" style="height: 86.0%;" title="182 s"></div>
+          
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-tertiary); margin-top: 4px;">
+          <span>min 182s</span>
+          <span>p90 211s</span>
+          <span>max 211s</span>
+        </div>
+        
+      </div>
+
+      <!-- P2 Hourly card -->
+      <div class="card">
+        <div class="card-title">P2 - Hourly (ACC + Notion + fargekoding)</div>
+        <div class="kv-row"><span class="kv-key">Forrige kjøring</span><span class="kv-val mono">11.05 12:00:01</span></div>
+        <div class="kv-row"><span class="kv-key">Forrige status</span><span class="kv-val"><span class="pill pill-warn">Pågår</span></span></div>
+        <div class="kv-row"><span class="kv-key">Varighet</span><span class="kv-val mono">-</span></div>
+        <div class="kv-row"><span class="kv-key">Neste planlagte</span><span class="kv-val mono">5/11/2026 3:00:00 PM</span></div>
+        <div class="kv-row"><span class="kv-key">Suksess siste 24t</span><span class="kv-val mono">0 / 22</span></div>
+      </div>
+
+    </div>
+
+    <!-- Per-project status -->
+    <div class="card" style="margin-bottom: 16px;">
+      <div class="card-title">Per prosjekt</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Prosjekt</th>
+            <th>Klient</th>
+            <th>Forrige Dalux-opplasting</th>
+            <th>Status</th>
+            <th class="num">Filer kopiert sist</th>
+            <th class="num">Køet for opplasting</th>
+            <th>Siste P1-kopi</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td><strong>Landbrukskvartalet</strong></td>
+            <td style="color: var(--text-tertiary);">Vedal</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-idle">idle</span>
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Grønland 55</strong></td>
+            <td style="color: var(--text-tertiary);">Magna</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-idle">idle</span>
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Kystbyen Slemmestad</strong></td>
+            <td style="color: var(--text-tertiary);">Vedal</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-idle">idle</span>
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Stasjonshagen Høvik</strong></td>
+            <td style="color: var(--text-tertiary);">Vedal</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-idle">idle</span>
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Haslevangen 15</strong></td>
+            <td style="color: var(--text-tertiary);">Vedal</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-idle">idle</span>
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Henrik Ibsens gate 90</strong></td>
+            <td style="color: var(--text-tertiary);">Magna</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-idle">idle</span>
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Kistefos</strong></td>
+            <td style="color: var(--text-tertiary);">Fokus Rådgivning</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-warn">Mangler kilde</span>
+              
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Palehaven</strong></td>
+            <td style="color: var(--text-tertiary);">Magna</td>
+            <td class="mono">-</td>
+            <td>
+              <span class="pill pill-idle">idle</span>
+            </td>
+            <td class="num mono">0</td>
+            <td class="num mono">0</td>
+            <td class="mono" style="font-size: 11px; color: var(--text-tertiary);">11.05 14:54:56</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Recent issues -->
+    
+    <div class="card" style="margin-bottom: 16px;">
+      <div class="card-title">Siste hendelser (24t)</div>
+      <div class="issues">
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 14:50:23</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxFast</span>
+          <span style="flex: 1;">Copy phase failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 14:50:23</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxFast</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s) [copy-only]</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 14:50:23</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxFast</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 11:22:57</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 11:16:34</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Dalux sync failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 11:16:34</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 10:17:22</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 10:14:44</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Dalux sync failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 10:14:44</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 09:18:03</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 09:15:08</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Dalux sync failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 09:15:08</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 08:19:00</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 08:18:46</span>
+          <span class="issue-level lvl-warning">WARNING</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Landbrukskvartalet: error - Could not click 'Last opp' button</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 08:16:04</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Dalux sync failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 08:16:04</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 07:17:30</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 07:17:13</span>
+          <span class="issue-level lvl-warning">WARNING</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Landbrukskvartalet: error - Could not click 'Last opp' button</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 07:14:59</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Dalux sync failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 07:14:59</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 06:16:16</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 06:16:01</span>
+          <span class="issue-level lvl-warning">WARNING</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Landbrukskvartalet: error - Could not click 'Last opp' button</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 06:13:56</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Dalux sync failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 06:13:56</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 05:18:45</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 05:15:40</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Dalux sync failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 05:15:40</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-HourlySync</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 04:17:27</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-NightlyActions</span>
+          <span style="flex: 1;">Nightly actions failed (exit 1)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 04:17:27</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-NightlyActions</span>
+          <span style="flex: 1;">Output: [INFO] Processing 8 project(s)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">11.05 04:17:27</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-NightlyActions</span>
+          <span style="flex: 1;">Script failed!</span>
+        </div>
+        
+      </div>
+    </div>
+    
+
+    <div class="footer-meta">
+      Status genereres av <code>build_status_page.py</code> &middot;
+      Lokale logger i <code class="mono">C:\Automation\logs\</code> &middot;
+      <a href="https://ed-skiplum.github.io/skiplum-reports/">Tilbake til prosjekter</a>
+    </div>
+  </div>
+</body>
+</html>
