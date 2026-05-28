@@ -254,8 +254,20 @@
     .bento-overview > .card { overflow: visible; }
     .bento-12 {
       grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto 1fr 1fr 1fr;
       grid-auto-rows: minmax(0, auto);
       gap: 12px;
+      height: 100%;
+      min-height: 0;
+    }
+    /* Cards inside the model-workspace bento can scroll internally so
+       overflowing content stays accessible without clamping the grid. */
+    .bento-12 > .card { min-height: 0; overflow: auto; }
+    .bento-12 .treemap-card { display: flex; flex-direction: column; }
+    .bento-12 .treemap-card .treemap-grid {
+      aspect-ratio: auto;
+      flex: 1;
+      min-height: 0;
     }
 
     .card {
@@ -850,9 +862,9 @@
   <div class="shell">
     <aside class="sidebar">
   <div class="sidebar-brand">
-    <a href="None">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/clients/magna/">
       <span class="brand-icon">SK</span>
-      <span class="brand-name">None</span>
+      <span class="brand-name">Magna</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     </a>
   </div>
@@ -934,7 +946,7 @@
     <h1>Henrik Ibsens gate 90</h1>
     <div class="page-header-sub">
       8 modeller &middot; ARK, BIMK, RIB, RIV&middot; Siste data: 27. mai 2026 17:34
-      &middot; Siste sjekk: 27. mai 2026 21:22
+      &middot; Siste sjekk: 28. mai 2026 13:27
     </div>
   </div>
   <div class="header-actions">
@@ -964,7 +976,7 @@
     <a class="card drill-target" href="https://ed-skiplum.github.io/skiplum-reports/projects/henrik-ibsens-gate-90/models/" style="text-decoration: none; color: inherit;">
       <div class="card-title">Modeller</div>
       <div class="card-value">8</div>
-      <div class="card-sub"><span style="color: var(--tl-green-text); font-weight: 600;">2 endret</span> &middot; <span style="color: var(--primary); font-weight: 600;">1 ny</span></div>
+      <div class="card-sub">Ingen endringer siden forrige sjekk</div>
     </a>
     <a class="card drill-target" href="https://ed-skiplum.github.io/skiplum-reports/projects/henrik-ibsens-gate-90/types/" style="text-decoration: none; color: inherit;">
       <div class="card-title">Typer totalt</div>
@@ -2489,7 +2501,7 @@
           <div>
             <div style="font-size: 14px; font-weight: 600;">HI90_BIMK_ARK.ifc</div>
             <div style="font-size: 11px; color: var(--text-tertiary);">
-              73.85 MB &middot; i dag &middot; <span style="color: var(--tl-green-text); font-weight: 600;">endret</span></div>
+              73.85 MB &middot; i dag</div>
           </div>
           <span class="disc-tag disc-bimk">BIMK</span>
         </div>
@@ -2558,7 +2570,7 @@
           <div>
             <div style="font-size: 14px; font-weight: 600;">HI90_BIMK_RIB_Plan8.ifc</div>
             <div style="font-size: 11px; color: var(--text-tertiary);">
-              0.16 MB &middot; i dag &middot; <span style="color: var(--primary); font-weight: 600;">ny</span></div>
+              0.16 MB &middot; i dag</div>
           </div>
           <span class="disc-tag disc-bimk">BIMK</span>
         </div>
@@ -2581,7 +2593,7 @@
           <div>
             <div style="font-size: 14px; font-weight: 600;">HI90_BIMK_RIV.ifc</div>
             <div style="font-size: 11px; color: var(--text-tertiary);">
-              541.32 MB &middot; i dag &middot; <span style="color: var(--tl-green-text); font-weight: 600;">endret</span></div>
+              541.32 MB &middot; i dag</div>
           </div>
           <span class="disc-tag disc-bimk">BIMK</span>
         </div>
