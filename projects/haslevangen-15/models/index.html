@@ -269,6 +269,24 @@
       flex: 1;
       min-height: 0;
     }
+    /* Viewport-fit chain for model_workspace: .content must be a column
+       flex with the active tab-panel + bento-12 absorbing remaining
+       height. Scoped via :has(.bento-12) so other pages stay block. */
+    .content:has(.bento-12) {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .content:has(.bento-12) > .back-link,
+    .content:has(.bento-12) > .model-header,
+    .content:has(.bento-12) > .tabs { flex-shrink: 0; }
+    .content:has(.bento-12) > .tab-panel.active {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+    }
+    .content:has(.bento-12) > .tab-panel.active > .bento-12 {
+      flex: 1; min-height: 0;
+    }
 
     .card {
       background: var(--card);
@@ -862,9 +880,9 @@
   <div class="shell">
     <aside class="sidebar">
   <div class="sidebar-brand">
-    <a href="None">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/clients/vedal/">
       <span class="brand-icon">SK</span>
-      <span class="brand-name">None</span>
+      <span class="brand-name">Vedal</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     </a>
   </div>
@@ -946,7 +964,7 @@
     <h1>Modeller</h1>
     <div class="page-header-sub">
       Haslevangen 15 &middot; 10 modeller
-      &middot; Sist oppdatert 29. may 2026
+      &middot; Sist oppdatert 30. may 2026
     </div>
   </div>
   <div class="header-actions">
@@ -958,9 +976,20 @@
 </div>
 
 <div class="fade-in">
-  <div class="bento" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
+  <div class="tb-filters" style="margin-bottom: var(--space-md);">
+    <div class="tb-search" id="models-search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="models-search-input" placeholder="Søk i modellnavn, fag eller IFC-klasse…" oninput="onModelsSearchInput()">
+      <button class="search-clear" onclick="clearModelsSearch()" title="Nullstill filter">&times;</button>
+    </div>
+    <span class="tb-count" id="models-count">Viser 10 av 10</span>
+  </div>
+
+  <div class="bento" id="models-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-a-xx-20-0001/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-a-xx-20-0001.ifc  ifcannotation ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifccolumn ifccovering ifccurtainwall ifcdoor ifcflowterminal ifcfurnishingelement ifcmember ifcopeningelement ifcplate ifcrailing ifcroof ifcsite ifcslab ifcstair ifcstairflight ifcwall ifcwallstandardcase ifcwindow"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-a-xx-20-0001/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-A-XX-20-0001.ifc</div>
@@ -982,7 +1011,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-b-xx-20-0001/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-b-xx-20-0001.ifc  ifcbeam ifcbuilding ifcbuildingstorey ifccolumn ifcopeningelement ifcproxy ifcsite ifcslab ifcwall ifcwallstandardcase"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-b-xx-20-0001/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-B-XX-20-0001.ifc</div>
@@ -1004,7 +1035,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-e-xx-20-0001/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-e-xx-20-0001.ifc  ifcbuilding ifcbuildingstorey ifcdistributionport ifcflowcontroller ifcflowfitting ifcflowsegment ifcflowterminal ifcsite"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-e-xx-20-0001/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-E-XX-20-0001.ifc</div>
@@ -1026,7 +1059,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-i-xx-20-0001/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-i-xx-20-0001.ifc  ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcflowterminal ifcfurnishingelement ifcplate ifcsite ifcslab ifcwallstandardcase"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-i-xx-20-0001/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-I-XX-20-0001.ifc</div>
@@ -1048,7 +1083,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-i-xx-20-0002/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-i-xx-20-0002.ifc  ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifccolumn ifcflowterminal ifcfurnishingelement ifcopeningelement ifcplate ifcsite ifcslab ifcwallstandardcase"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-i-xx-20-0002/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-I-XX-20-0002.ifc</div>
@@ -1070,7 +1107,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-i-xx-20-0003/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-i-xx-20-0003.ifc  ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcflowterminal ifcfurnishingelement ifcplate ifcsite ifcslab ifcwallstandardcase"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-i-xx-20-0003/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-I-XX-20-0003.ifc</div>
@@ -1092,7 +1131,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-l-xx-20-0001/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-l-xx-20-0001.ifc  ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcrailing ifcsite ifcslab ifcwallstandardcase"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-l-xx-20-0001/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-L-XX-20-0001.ifc</div>
@@ -1114,7 +1155,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-v-xx-20-0001/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-v-xx-20-0001.ifc  ifcairterminal ifcbuilding ifcbuildingstorey ifccoil ifccovering ifcductfitting ifcductsegment ifcfan ifcfiresuppressionterminal ifcgeographicelement ifcheatexchanger ifcpipefitting ifcpipesegment ifcsite ifcspaceheater ifcvalve ifcwasteterminal"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-v-xx-20-0001/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-V-XX-20-0001.ifc</div>
@@ -1136,7 +1179,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-w-xx-20-0001/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-w-xx-20-0001.ifc  ifcbuilding ifcbuildingelementproxy"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-w-xx-20-0001/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-W-XX-20-0001.ifc</div>
@@ -1158,7 +1203,9 @@
       </div>
     </a>
     
-    <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-x-xx-20-0001-eksisterende-og-planlagt-bebyggelse/" style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
+    <a class="card model-card" data-name="h15-x-xx-20-0001_eksisterende_og_planlagt_bebyggelse.ifc  ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcroof ifcsite ifcwall"
+       href="https://ed-skiplum.github.io/skiplum-reports/projects/haslevangen-15/models/h15-x-xx-20-0001-eksisterende-og-planlagt-bebyggelse/"
+       style="border-top: 3px solid #94a3b8; text-decoration: none; color: inherit; cursor: pointer; display: block;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
         <div style="min-width: 0; flex: 1;">
           <div style="font-size: 14px; font-weight: 600; word-break: break-all; line-height: 1.3;">H15-X-XX-20-0001_Eksisterende_og_planlagt_bebyggelse.ifc</div>
@@ -1181,7 +1228,41 @@
     </a>
     
   </div>
+  <div id="models-empty" class="hidden" style="text-align: center; padding: var(--space-xl); color: var(--text-tertiary); font-size: 13px;">
+    Ingen modeller matcher søket.
+  </div>
 </div>
+
+<script>
+  var MODELS_TOTAL = 10;
+
+  function filterModels() {
+    var q = document.getElementById('models-search-input').value.trim().toLowerCase();
+    var cards = document.querySelectorAll('#models-grid .model-card');
+    var visible = 0;
+    cards.forEach(function (c) {
+      var name = c.getAttribute('data-name') || '';
+      if (!q || name.indexOf(q) >= 0) { c.style.display = ''; visible++; }
+      else { c.style.display = 'none'; }
+    });
+    document.getElementById('models-count').textContent = 'Viser ' + visible + ' av ' + MODELS_TOTAL;
+    document.getElementById('models-empty').classList.toggle('hidden', visible !== 0);
+  }
+  function onModelsSearchInput() {
+    var wrap = document.getElementById('models-search-wrap');
+    var input = document.getElementById('models-search-input');
+    if (input.value.length > 0) { wrap.classList.add('has-value'); }
+    else { wrap.classList.remove('has-value'); }
+    filterModels();
+  }
+  function clearModelsSearch() {
+    var input = document.getElementById('models-search-input');
+    input.value = '';
+    document.getElementById('models-search-wrap').classList.remove('has-value');
+    filterModels();
+    input.focus();
+  }
+</script>
 
         </div>
       

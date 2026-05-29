@@ -269,6 +269,24 @@
       flex: 1;
       min-height: 0;
     }
+    /* Viewport-fit chain for model_workspace: .content must be a column
+       flex with the active tab-panel + bento-12 absorbing remaining
+       height. Scoped via :has(.bento-12) so other pages stay block. */
+    .content:has(.bento-12) {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .content:has(.bento-12) > .back-link,
+    .content:has(.bento-12) > .model-header,
+    .content:has(.bento-12) > .tabs { flex-shrink: 0; }
+    .content:has(.bento-12) > .tab-panel.active {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+    }
+    .content:has(.bento-12) > .tab-panel.active > .bento-12 {
+      flex: 1; min-height: 0;
+    }
 
     .card {
       background: var(--card);
@@ -862,9 +880,9 @@
   <div class="shell">
     <aside class="sidebar">
   <div class="sidebar-brand">
-    <a href="None">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/clients/magna/">
       <span class="brand-icon">SK</span>
-      <span class="brand-name">None</span>
+      <span class="brand-name">Magna</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     </a>
   </div>
@@ -946,7 +964,7 @@
     <h1>Grønland 55</h1>
     <div class="page-header-sub">
       15 modeller &middot; ARK, BIMK, RIB, RIBp, RIE, RIV&middot; Siste data: 21. mai 2026 15:22
-      &middot; Siste sjekk: 29. mai 2026 20:53
+      &middot; Siste sjekk: 30. mai 2026 01:23
     </div>
   </div>
   <div class="header-actions">
@@ -2479,9 +2497,20 @@
 
 <div class="tab-panel" id="tab-models">
   <div class="fade-in">
-    <div class="bento" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="tb-filters" style="margin-bottom: var(--space-md);">
+      <div class="tb-search" id="pd-models-search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="pd-models-search-input" placeholder="Søk i modellnavn, fag eller IFC-klasse…" oninput="onPdModelsSearchInput()">
+        <button class="search-clear" onclick="clearPdModelsSearch()" title="Nullstill filter">&times;</button>
+      </div>
+      <span class="tb-count" id="pd-models-count">Viser 15 av 15</span>
+    </div>
+
+    <div class="bento" id="pd-models-grid" style="grid-template-columns: repeat(4, 1fr);">
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark/" style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_ark.ifc ark ifcannotation ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifccolumn ifccovering ifccurtainwall ifcdoor ifcflowterminal ifcfurnishingelement ifcmember ifcopeningelement ifcplate ifcrailing ifcramp ifcrampflight ifcroof ifcsite ifcslab ifcspace ifcstair ifcstairflight ifcwall ifcwallstandardcase ifcwindow"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark/"
+         style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_ARK.ifc</div>
@@ -2504,7 +2533,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark-eksisterende-mmi750/" style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_ark_eksisterende_mmi750.ifc ark ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifccolumn ifccovering ifccurtainwall ifcfurniture ifcmember ifcopeningelement ifcplate ifcrailing ifcsite ifcstair ifcwall"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark-eksisterende-mmi750/"
+         style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_ARK_Eksisterende_MMI750.ifc</div>
@@ -2527,7 +2558,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark-kontekst/" style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_ark_kontekst.ifc ark ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcsite ifcslab"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ark-kontekst/"
+         style="border-top: 3px solid #1a56db; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_ARK_KONTEKST.ifc</div>
@@ -2550,7 +2583,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-bimk-generert-fasade/" style="border-top: 3px solid #475569; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_bimk_generert-fasade.ifc bimk ifcbuilding ifcbuildingstorey ifccovering ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-bimk-generert-fasade/"
+         style="border-top: 3px solid #475569; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_BIMK_Generert-fasade.ifc</div>
@@ -2573,7 +2608,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rib/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_rib.ifc rib ifcbeam ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifccolumn ifcmember ifcopeningelement ifcplate ifcsite ifcslab ifcwall ifcwallstandardcase"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rib/"
+         style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIB.ifc</div>
@@ -2596,7 +2633,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rib-prefab/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_rib_prefab.ifc rib ifcbeam ifcbuilding ifcbuildingstorey ifccolumn ifcmember ifcopeningelement ifcsite ifcslab ifcwallstandardcase"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rib-prefab/"
+         style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIB_Prefab.ifc</div>
@@ -2619,7 +2658,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ribprefab/" style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_ribprefab.ifc ribp ifcbeam ifcbuilding ifcbuildingstorey ifccolumn ifccovering ifcfastener ifcmechanicalfastener ifcmember ifcplate ifcsite ifcslab ifcwall"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-ribprefab/"
+         style="border-top: 3px solid #92400e; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIBprefab.ifc</div>
@@ -2642,7 +2683,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie/" style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_rie.ifc rie ifcbuilding ifcbuildingstorey ifcdistributioncontrolelement ifcenergyconversiondevice ifcflowcontroller ifcflowfitting ifcflowsegment ifcflowterminal ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie/"
+         style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIE.ifc</div>
@@ -2665,7 +2708,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie-eksisterende-mmi740/" style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_rie_eksisterende_mmi740.ifc rie ifcbuilding ifcbuildingstorey ifcdistributionport ifcflowsegment ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie-eksisterende-mmi740/"
+         style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIE_Eksisterende_MMI740.ifc</div>
@@ -2688,7 +2733,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie-eksisterende-mmi750/" style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_rie_eksisterende_mmi750.ifc rie ifcannotation ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcdistributionport ifcflowfitting ifcflowsegment ifcflowterminal ifcgrid ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie-eksisterende-mmi750/"
+         style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIE_Eksisterende_MMI750.ifc</div>
@@ -2711,7 +2758,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie-utsparinger/" style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_rie_utsparinger.ifc rie ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-rie-utsparinger/"
+         style="border-top: 3px solid #9d174d; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIE_utsparinger.ifc</div>
@@ -2734,7 +2783,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv-utsparinger/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_riv._utsparinger.ifc riv ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifcgeographicelement ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv-utsparinger/"
+         style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIV._Utsparinger.ifc</div>
@@ -2757,7 +2808,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_riv.ifc riv ifcairterminal ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifccoil ifccooledbeam ifccovering ifcdamper ifcductfitting ifcductsegment ifcductsilencer ifcfan ifcfiresuppressionterminal ifcflowmeter ifcgeographicelement ifcheatexchanger ifcpipefitting ifcpipesegment ifcpump ifcsanitaryterminal ifcsite ifcspaceheater ifctank ifcvalve ifcwasteterminal"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv/"
+         style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIV.ifc</div>
@@ -2780,7 +2833,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv-eksisterende-mmi740/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_riv_eksisterende_mmi740.ifc riv ifcbuilding ifcbuildingstorey ifccovering ifcdistributionport ifcflowcontroller ifcflowfitting ifcflowsegment ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv-eksisterende-mmi740/"
+         style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIV_Eksisterende_MMI740.ifc</div>
@@ -2803,7 +2858,9 @@
         </div>
       </a>
       
-      <a class="card" href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv-eksisterende-mmi750/" style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
+      <a class="card pd-model-card" data-name="g55_riv_eksisterende_mmi750.ifc riv ifcbuilding ifcbuildingelementproxy ifcbuildingstorey ifccovering ifcdistributionport ifcflowcontroller ifcflowfitting ifcflowsegment ifcflowterminal ifcgrid ifcsite"
+         href="https://ed-skiplum.github.io/skiplum-reports/projects/grnland-55/models/g55-riv-eksisterende-mmi750/"
+         style="border-top: 3px solid #065f46; text-decoration: none; color: inherit; cursor: pointer;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <div style="font-size: 14px; font-weight: 600;">G55_RIV_Eksisterende_MMI750.ifc</div>
@@ -2826,6 +2883,9 @@
         </div>
       </a>
       
+    </div>
+    <div id="pd-models-empty" class="hidden" style="text-align: center; padding: var(--space-xl); color: var(--text-tertiary); font-size: 13px;">
+      Ingen modeller matcher søket.
     </div>
   </div>
 </div>

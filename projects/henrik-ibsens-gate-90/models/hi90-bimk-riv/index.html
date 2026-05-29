@@ -269,6 +269,24 @@
       flex: 1;
       min-height: 0;
     }
+    /* Viewport-fit chain for model_workspace: .content must be a column
+       flex with the active tab-panel + bento-12 absorbing remaining
+       height. Scoped via :has(.bento-12) so other pages stay block. */
+    .content:has(.bento-12) {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .content:has(.bento-12) > .back-link,
+    .content:has(.bento-12) > .model-header,
+    .content:has(.bento-12) > .tabs { flex-shrink: 0; }
+    .content:has(.bento-12) > .tab-panel.active {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+    }
+    .content:has(.bento-12) > .tab-panel.active > .bento-12 {
+      flex: 1; min-height: 0;
+    }
 
     .card {
       background: var(--card);
@@ -1084,75 +1102,63 @@
         
         <div class="tm-cell drill-target"
              style="left: 0.0%; top: 0.0%; width: 50.8624%; height: 61.5%; background: #157954;"
-             data-drill-class="IfcCovering" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcCovering<br><span class="tm-count">14 627</span>
-        </div>
+             title="IfcCovering · 14 627"
+             data-drill-class="IfcCovering" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcCovering<br><span class="tm-count">14 627</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 50.8624%; top: 0.0%; width: 49.1376%; height: 61.5%; background: #1e9268;"
-             data-drill-class="IfcFlowSegment" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcFlowSegment<br><span class="tm-count">14 131</span>
-        </div>
+             title="IfcFlowSegment · 14 131"
+             data-drill-class="IfcFlowSegment" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcFlowSegment<br><span class="tm-count">14 131</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 0.0%; top: 61.5%; width: 77.3942%; height: 26.0153%; background: #27ab7d;"
-             data-drill-class="IfcFlowFitting" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcFlowFitting<br><span class="tm-count">9 415</span>
-        </div>
+             title="IfcFlowFitting · 9 415"
+             data-drill-class="IfcFlowFitting" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcFlowFitting<br><span class="tm-count">9 415</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 77.3942%; top: 61.5%; width: 11.7961%; height: 26.0153%; background: #3fc18a;"
-             data-drill-class="IfcFlowTerminal" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcFlowTerminal<br><span class="tm-count">1 435</span>
-        </div>
+             title="IfcFlowTerminal · 1 435"
+             data-drill-class="IfcFlowTerminal" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcFlowTerminal<br><span class="tm-count">1 435</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 89.1903%; top: 61.5%; width: 10.8097%; height: 26.0153%; background: #5dbf99;"
-             data-drill-class="IfcFlowController" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcFlowController<br><span class="tm-count">1 315</span>
-        </div>
+             title="IfcFlowController · 1 315"
+             data-drill-class="IfcFlowController" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcFlowController<br><span class="tm-count">1 315</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 0.0%; top: 87.5152%; width: 14.2857%; height: 12.4848%; background: #8dd4b8;"
-             data-drill-class="IfcEnergyConversionDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcEnergyConversionDevice<br><span class="tm-count">543</span>
-        </div>
+             title="IfcEnergyConversionDevice · 543"
+             data-drill-class="IfcEnergyConversionDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcEnergyConversionDevice<br><span class="tm-count">543</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 14.2857%; top: 87.5152%; width: 14.2857%; height: 12.4848%; background: #b3e2ce;"
-             data-drill-class="IfcFlowTreatmentDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcFlowTreatmentDevice<br><span class="tm-count">228</span>
-        </div>
+             title="IfcFlowTreatmentDevice · 228"
+             data-drill-class="IfcFlowTreatmentDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcFlowTreatmentDevice<br><span class="tm-count">228</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 28.5714%; top: 87.5152%; width: 14.2857%; height: 12.4848%; background: #d4eee2;"
-             data-drill-class="IfcFlowMovingDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcFlowMovingDevice<br><span class="tm-count">11</span>
-        </div>
+             title="IfcFlowMovingDevice · 11"
+             data-drill-class="IfcFlowMovingDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcFlowMovingDevice<br><span class="tm-count">11</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 42.8571%; top: 87.5152%; width: 14.2857%; height: 12.4848%; background: #157954;"
-             data-drill-class="IfcFlowStorageDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcFlowStorageDevice<br><span class="tm-count">2</span>
-        </div>
+             title="IfcFlowStorageDevice · 2"
+             data-drill-class="IfcFlowStorageDevice" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcFlowStorageDevice<br><span class="tm-count">2</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 57.1429%; top: 87.5152%; width: 14.2857%; height: 12.4848%; background: #1e9268;"
-             data-drill-class="IfcBuildingStorey" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcBuildingStorey<br><span class="tm-count">2</span>
-        </div>
+             title="IfcBuildingStorey · 2"
+             data-drill-class="IfcBuildingStorey" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuildingStorey<br><span class="tm-count">2</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 71.4286%; top: 87.5152%; width: 14.2857%; height: 12.4848%; background: #27ab7d;"
-             data-drill-class="IfcBuilding" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcBuilding<br><span class="tm-count">1</span>
-        </div>
+             title="IfcBuilding · 1"
+             data-drill-class="IfcBuilding" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuilding<br><span class="tm-count">1</span></div>
         
         <div class="tm-cell drill-target"
              style="left: 85.7143%; top: 87.5152%; width: 14.2857%; height: 12.4848%; background: #3fc18a;"
-             data-drill-class="IfcSite" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">
-          IfcSite<br><span class="tm-count">1</span>
-        </div>
+             title="IfcSite · 1"
+             data-drill-class="IfcSite" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSite<br><span class="tm-count">1</span></div>
         
       </div>
     </div>
