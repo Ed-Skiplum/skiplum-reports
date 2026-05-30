@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kistefos — BIM-gjennomføringsplan</title>
+  <title>KNM_RIVeg_NTM_Local.ifc — Modellarbeidsflate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -880,9 +880,9 @@
   <div class="shell">
     <aside class="sidebar">
   <div class="sidebar-brand">
-    <a href="None">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
       <span class="brand-icon">SK</span>
-      <span class="brand-name">None</span>
+      <span class="brand-name">SkiplumForge</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     </a>
   </div>
@@ -901,7 +901,7 @@
     <div class="nav-section">
       <div class="nav-section-label">Filer</div>
       <div class="nav-section-items">
-        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/models/">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/models/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
           Modeller
         </a>
@@ -911,7 +911,7 @@
     <div class="nav-section">
       <div class="nav-section-label">Verifikasjon</div>
       <div class="nav-section-items">
-        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/requirements/">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/requirements/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
           BIM-krav
         </a>
@@ -959,1800 +959,482 @@
       
         <div class="content">
           
-<div class="page-header fade-in">
-  <div>
-    <h1>Krav i BIM-gjennomføringsplan</h1>
-    <div class="page-header-sub">Kistefos &middot; Krav, konfigurasjon og metodikk</div>
-  </div>
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>KNM_RIVeg_NTM_Local.ifc</h1>
+  <span class="badge badge-disc disc-riv">RIV</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-red">Avvik</span>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
 </div>
 
 
-<div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">Universelle krav</span>
-    <span style="font-size: 11px; color: var(--text-tertiary);">Gjelder alle IFC-modeller uavhengig av prosjekt</span>
-  </div>
-  <table class="dash-table">
-    <thead>
-      <tr>
-        <th style="width: 40px;">Status</th>
-        <th>Krav</th>
-        <th>Kategori</th>
-        <th>Beskrivelse</th>
-        <th>Terskel</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-      <tr>
-        <td>
-          <span class="tl-dot yellow"></span>
-          
-        </td>
-        <td style="font-weight: 500;">IFC-skjema</td>
-        <td><span class="tag tag-gray">Format</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">IFC-skjema skal være IFC4 eller nyere. IFC2X3 er akseptert men anbefales oppgradert.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot yellow"></span>
-          
-        </td>
-        <td style="font-weight: 500;">Forfatterverktøy</td>
-        <td><span class="tag tag-gray">Identitet</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal identifisere forfatterverktøyet (Revit, ArchiCAD, Tekla, etc.).</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot red"></span>
-          
-        </td>
-        <td style="font-weight: 500;">Enhet mm</td>
-        <td><span class="tag tag-gray">Geometri</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Lengdeenhet i modellen skal være millimeter. Feil enhet gir feil dimensjoner i koordinering.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot yellow"></span>
-          
-        </td>
-        <td style="font-weight: 500;">CRS definert</td>
-        <td><span class="tag tag-gray">Geolokasjon</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal ha definert koordinatreferansesystem (IfcProjectedCRS). Kun tilgjengelig i IFC4+.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot yellow"></span>
-          
-        </td>
-        <td style="font-weight: 500;">Etasjer definert</td>
-        <td><span class="tag tag-gray">Struktur</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal ha minst én definert etasje (IfcBuildingStorey) for romlig struktur.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot gray"></span>
-        </td>
-        <td style="font-weight: 500;">Modellhierarki</td>
-        <td><span class="tag tag-gray">Struktur</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Alle elementer skal være plassert i romlig hierarki (etasje/rom). Foreldreløse elementer mangler i etasjevisning.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot gray"></span>
-        </td>
-        <td style="font-weight: 500;">Typed elementer</td>
-        <td><span class="tag tag-gray">Typer</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Alle IfcProduct-instanser skal ha en tilknyttet IfcTypeObject (IsTypedBy). Utypede elementer mangler standardisert informasjon.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot gray"></span>
-        </td>
-        <td style="font-weight: 500;">Ubrukte typer</td>
-        <td><span class="tag tag-gray">Typer</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Ingen IfcTypeObject uten tilhørende instanser. Ubrukte typer er overflødig data.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot green"></span>
-          
-        </td>
-        <td style="font-weight: 500;">Ingen proxy-typer</td>
-        <td><span class="tag tag-gray">Typer</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Elementer eksportert som IfcBuildingElementProxy har mistet sin semantiske klassifisering.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot green"></span>
-          
-        </td>
-        <td style="font-weight: 500;">Unike GUID</td>
-        <td><span class="tag tag-gray">Identitet</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Alle GlobalId-er skal være unike. Duplikater skaper konflikter ved sammenslåing og revisjonssporing.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
-          <span class="tl-dot red"></span>
-          
-        </td>
-        <td style="font-weight: 500;">Basismengder (Qto)</td>
-        <td><span class="tag tag-gray">Mengder</span></td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Elementer skal ha Qto_*-property sets med basismengder (lengde, areal, volum). Nødvendig for mengdeuttak og kostnadsestimering.</td>
-        <td style="font-size: 11px; white-space: nowrap;">
-          <span class="tl-text green">&ge;90%</span> /
-          <span class="tl-text yellow">&ge;30%</span> /
-          <span class="tl-text red">&lt;30%</span>
-        </td>
-      </tr>
-      
-    </tbody>
-  </table>
-</div>
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-12 fade-in">
 
+    
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">55</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">1</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">1.15</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val red">36%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
+    </div>
 
-
-<div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">Prosjektspesifikk egenskapskonfigurasjon</span>
-    <span style="font-size: 11px; color: var(--text-tertiary);">Hvilke PSet/property-stier brukes for dette prosjektet</span>
-  </div>
-  <table class="dash-table">
-    <thead>
-      <tr>
-        <th>Egenskap</th>
-        <th>Type</th>
-        <th>PSet-sti</th>
-        <th>Aggregering</th>
-        <th>Relevante klasser</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-      <tr>
-        <td style="font-weight: 600;">Brannklasse (FireRating)</td>
-        <td>
-          
-          <span class="tag tag-green">IFC-standard</span>
-          
-        </td>
-        <td>
-          
-          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
-            <span style="font-weight: 600;">FireRating</span>
+    
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Kistefos</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">RIV</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">Novapoint 2026.1a</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">Trimble Solutions Sandvika AS</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-warn">metre</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row">
+            <span class="id-key">CRS satt</span>
+            
+            <span class="q-val q-warn">N/A</span>
             
           </div>
           
+          <div class="id-row" style="font-size: 9px; color: var(--text-tertiary); font-style: italic;">IFC2X3 har ingen IfcProjectedCRS</div>
           
-        </td>
-        <td style="font-size: 11px;">
-          
-          <span class="tag tag-gray">Verdifordeling</span>
-          
-        </td>
-        <td style="font-size: 11px; color: var(--text-secondary);">
-          
-          IfcBeam, IfcColumn, IfcDoor, IfcSlab, IfcWall, IfcWallStandardCase
-          
-        </td>
-      </tr>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 100.0%; background: #157954;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">52</span>
+          <span class="geom-legend-label">SurfaceModel</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 90.9091%; background: #157954;"
+             title="IfcSlab · 50"
+             data-drill-class="IfcSlab" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSlab<br><span class="tm-count">50</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 90.9091%; width: 40.0%; height: 9.0909%; background: #1e9268;"
+             title="IfcProxy · 2"
+             data-drill-class="IfcProxy" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcProxy<br><span class="tm-count">2</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 40.0%; top: 90.9091%; width: 20.0%; height: 9.0909%; background: #27ab7d;"
+             title="IfcBuilding · 1"
+             data-drill-class="IfcBuilding" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuilding<br><span class="tm-count">1</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 60.0%; top: 90.9091%; width: 20.0%; height: 9.0909%; background: #3fc18a;"
+             title="IfcBuildingStorey · 1"
+             data-drill-class="IfcBuildingStorey" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuildingStorey<br><span class="tm-count">1</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 80.0%; top: 90.9091%; width: 20.0%; height: 9.0909%; background: #5dbf99;"
+             title="IfcSite · 1"
+             data-drill-class="IfcSite" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSite<br><span class="tm-count">1</span></div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+      </div>
       
-      <tr>
-        <td style="font-weight: 600;">Bærende (LoadBearing)</td>
-        <td>
-          
-          <span class="tag tag-green">IFC-standard</span>
-          
-        </td>
-        <td>
-          
-          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
-            <span style="font-weight: 600;">LoadBearing</span>
+      <div class="q-row">
+        <span class="q-label">IFC-skjema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatterverktøy</span>
+        <span class="q-val q-warn">Novapoint 2026.1a</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enhet mm</span>
+        <span class="q-val q-fail">m</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">CRS definert</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer definert</span>
+        <span class="q-val q-ok">1 etasje</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Modellhierarki</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-fail">0%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Ubrukte typer</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Ingen proxy-typer</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Unike GUID</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Basismengder (Qto)</span>
+        <span class="q-val q-fail">Mangler</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card storey-card">
+      <div class="card-header">
+        <div class="card-title">Elementer per etasje</div>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('(unnamed storey)')">
+        <span class="storey-name">(unnamed store</span>
+        <span class="storey-elev">—</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
+        <span class="storey-count">52</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card type-progress-card">
+      <div class="card-header">
+        <div class="card-title">Topp IFC-klasser</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcSlab')">
+          <span class="bar-label" style="width: 110px;">IfcSlab</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 91%;"></div></div>
+          <span class="bar-count" style="width: 36px;">50</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcProxy')">
+          <span class="bar-label" style="width: 110px;">IfcProxy</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 4%;"></div></div>
+          <span class="bar-count" style="width: 36px;">2</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuilding')">
+          <span class="bar-label" style="width: 110px;">IfcBuilding</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 2%;"></div></div>
+          <span class="bar-count" style="width: 36px;">1</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuildingStorey')">
+          <span class="bar-label" style="width: 110px;">IfcBuildingStorey</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 2%;"></div></div>
+          <span class="bar-count" style="width: 36px;">1</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcSite')">
+          <span class="bar-label" style="width: 110px;">IfcSite</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 2%;"></div></div>
+          <span class="bar-count" style="width: 36px;">1</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card materials-card">
+      <div class="card-header">
+        <div class="card-title">Materialer</div>
+      </div>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card info-card">
+      <div class="card-header">
+        <div class="card-title">Forfatterinfo</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Verktøy</span>
+        <span class="meta-val">Novapoint 2026.1a</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Organisasjon</span>
+        <span class="meta-val">Trimble Solutions Sandvika AS</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-key" style="width: auto; flex: 1;">Schema</span>
+        <span class="meta-val">IFC2X3</span>
+      </div>
+      <div class="meta-row" style="border-bottom: none;">
+        <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
+        <span class="meta-val">1.15 MB</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">4</div>
+      <div class="card-sub">Krav oppfylt</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">2</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">IFC-skjema</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">Novapoint 2026.1a</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Enhet mm</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">Funnet: m</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Etasjer definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">1 etasje</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Modellhierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Typed elementer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">55 av 55 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Unike GUID</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Basismengder (Qto)</td>
+          <td><span class="tag tag-gray">Mengder</span></td>
+          <td style="color: var(--text-secondary);">Ingen Qto_* base quantity property sets funnet</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">Novapoint 2026.1a</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">Trimble Solutions Sandvika AS</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">KNM_RIVeg_NTM_Local.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">1.15 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Kistefos</span>
+            <span class="tree-type">IfcProject</span>
+          </div>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                    <div class="tree-node">
+                      <div class="tree-node-inner">
+                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        <span class="tree-label">(unnamed) (+0.000)</span>
+                        <span class="tree-type">IfcBuildingStorey</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
             
           </div>
-          
-          
-        </td>
-        <td style="font-size: 11px;">
-          
-          <span class="tag tag-gray">Verdifordeling</span>
-          
-        </td>
-        <td style="font-size: 11px; color: var(--text-secondary);">
-          
-          IfcBeam, IfcColumn, IfcFooting, IfcPile, IfcSlab, IfcWall, IfcWallStandardCase
-          
-        </td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600;">Ekstern (IsExternal)</td>
-        <td>
-          
-          <span class="tag tag-green">IFC-standard</span>
-          
-        </td>
-        <td>
-          
-          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
-            <span style="font-weight: 600;">IsExternal</span>
-            
-          </div>
-          
-          
-        </td>
-        <td style="font-size: 11px;">
-          
-          <span class="tag tag-gray">Verdifordeling</span>
-          
-        </td>
-        <td style="font-size: 11px; color: var(--text-secondary);">
-          
-          IfcCurtainWall, IfcDoor, IfcRoof, IfcSlab, IfcWall, IfcWallStandardCase, IfcWindow
-          
-        </td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600;">MMI (Model Maturity Index)</td>
-        <td>
-          
-          <span class="tag tag-blue">Prosjektspesifikk</span>
-          
-        </td>
-        <td>
-          
-          
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
-          
-        </td>
-        <td style="font-size: 11px;">
-          
-          <span class="tag tag-gray">Verdifordeling</span>
-          
-        </td>
-        <td style="font-size: 11px; color: var(--text-secondary);">
-          
-          <span style="color: var(--text-tertiary);">Alle klasser</span>
-          
-        </td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600;">NS 3451 (Bygningsdelskode)</td>
-        <td>
-          
-          <span class="tag tag-blue">Prosjektspesifikk</span>
-          
-        </td>
-        <td>
-          
-          
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
-          
-        </td>
-        <td style="font-size: 11px;">
-          
-          <span class="tag tag-gray">Verdifordeling</span>
-          
-        </td>
-        <td style="font-size: 11px; color: var(--text-secondary);">
-          
-          <span style="color: var(--text-tertiary);">Alle klasser</span>
-          
-        </td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600;">NS 3457-8 (Komponentkode)</td>
-        <td>
-          
-          <span class="tag tag-blue">Prosjektspesifikk</span>
-          
-        </td>
-        <td>
-          
-          
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
-          
-        </td>
-        <td style="font-size: 11px;">
-          
-          <span class="tag tag-gray">Verdifordeling</span>
-          
-        </td>
-        <td style="font-size: 11px; color: var(--text-secondary);">
-          
-          <span style="color: var(--text-tertiary);">Alle klasser</span>
-          
-        </td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600;">TFM (Tverrfaglig Merkesystem)</td>
-        <td>
-          
-          <span class="tag tag-blue">Prosjektspesifikk</span>
-          
-        </td>
-        <td>
-          
-          
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
-          
-        </td>
-        <td style="font-size: 11px;">
-          
-          <span class="tag tag-gray">Kun dekning</span>
-          
-        </td>
-        <td style="font-size: 11px; color: var(--text-secondary);">
-          
-          <span style="color: var(--text-tertiary);">Alle klasser</span>
-          
-        </td>
-      </tr>
-      
-    </tbody>
-  </table>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">Property Sets i bruk</span>
-    <span style="font-size: 11px; color: var(--text-tertiary);">107 PSets på tvers av alle modeller</span>
-  </div>
-  <table class="dash-table">
-    <thead>
-      <tr>
-        <th>PSet-navn</th>
-        <th>Klassifisering</th>
-        <th class="num">Modeller</th>
-        <th class="num">Instanser</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_QuantityTakeOff</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">18</td>
-        <td class="num">11 510</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingElementProxyCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">18</td>
-        <td class="num">4 034</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_DistributionFlowElementCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">3 131</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">NOSKI_Stier</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">2 402</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">ePset_Simplebim</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">2 267</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Other</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">2 066</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfWall</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">2 048</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_WallCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">2 048</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Identity Data</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">2 031</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Dimensions</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">2 015</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Phasing</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">1 921</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">NOSKI_Contour</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">1 721</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">NOSKI_Trees</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">1 544</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Structural</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">1 520</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_FlowSegmentDuctSegment</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">1 451</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_FlowSegmentPipeSegment</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">1 451</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Constraints</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">1 438</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Common</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">7</td>
-        <td class="num">1 384</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset Ny Struktur</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">1 360</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Novapoint Road</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">5</td>
-        <td class="num">1 266</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Forma Element Properties</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">941</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Licensing</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">940</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BaseMapLayer</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">694</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_OpeningElementCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">5</td>
-        <td class="num">643</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Cross-Section Definition</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">595</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Construction</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">575</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_SlabCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">553</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfSlab</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">5</td>
-        <td class="num">552</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_DuctSegmentTypeCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">551</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcingBarBendingsISOCD3766Common</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">549</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Rebar Set</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">549</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">NOSKI_Nairy</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">313</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">DDS_Pset_ObjectSetting</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">307</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_Tree</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">293</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_MemberCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">4</td>
-        <td class="num">250</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">AC_Pset_Dimension</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">240</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">AC_Pset_RenovationAndPhasing</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">240</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ManufacturerOccurrence</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">240</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ManufacturerTypeInformation</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">240</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">DDS_Pset_LightFixtureType</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">177</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">DDS_Pset_PlacementOccurrence</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">177</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BeamCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">173</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_PlateCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">161</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ConcreteElementGeneral</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">148</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Tekla Common</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">141</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Tekla Quantity</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">141</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Analysis Results</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">122</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Data</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">122</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">NOSKI_Transformation</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">119</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Novapoint UtilityNetwork</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">118</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingStoreyCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">21</td>
-        <td class="num">92</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfBeam</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">92</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ProductRequirements</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">20</td>
-        <td class="num">90</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_AirSideSystemInformation</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">20</td>
-        <td class="num">89</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CoveringCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">87</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Novapoint ManholeProperties</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">82</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">BeamBaseQuantities</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">81</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Identity Data(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">78</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Other(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">78</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">NOSKI_Zoning</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">67</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_RoofCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">64</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ColumnCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">61</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_DoorCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">56</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Graphics</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">47</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">NOSKI_DXF</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">42</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">28</td>
-        <td class="num">41</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfColumn</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">36</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">PlateBaseQuantities</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">34</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">AssemblyBaseQuantities</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">32</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Tekla Assembly</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">32</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarCountOfIndependentFooting</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">30</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_ReinforcementBarPitchOfContinuousFooting</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">30</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Analytical Alignment</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">29</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">ColumnBaseQuantities</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">25</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Materials and Finishes</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">25</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Constraints(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">23</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Horizontal Grid</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">21</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Vertical Grid</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">21</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Mechanical</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">19</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">ProfileProperties</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">15</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_CurtainWallCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">13</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Graphics(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">12</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Geometric Position</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">11</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Tekla Bolt</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">8</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingWaterStorage</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">7</td>
-        <td class="num">7</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">ePset_BuildingEnergyTarget</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">7</td>
-        <td class="num">7</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Construction(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">6</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Layers(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">6</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Materials and Finishes(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">6</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingUse</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">6</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_BuildingUseAdjacent</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">6</td>
-        <td class="num">6</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Structural(Type)</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">6</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">DDS_Pset_HeatingConsumerOccurrence</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">4</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Slab Shape Edit</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">4</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Text</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">4</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Visibility</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">2</td>
-        <td class="num">4</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_EnvironmentalImpactIndicators</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">3</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_KistefosArtwork</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">3</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_RailingCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">3</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_WindowCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">3</td>
-        <td class="num">3</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Electrical</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">2</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Mechanical - Flow</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">2</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Electrical - Circuiting</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">1</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Electrical - Loads</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">1</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_LandRegistration</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">1</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">Pset_SiteCommon</td>
-        <td>
-          
-          <span class="tag tag-green">IFC native</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">1</td>
-      </tr>
-      
-      <tr>
-        <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">SlabBaseQuantities</td>
-        <td>
-          
-          <span class="tag tag-yellow">Poorly named</span>
-          
-        </td>
-        <td class="num">1</td>
-        <td class="num">1</td>
-      </tr>
-      
-    </tbody>
-  </table>
-</div>
-
-
-
-
-<div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">Filnavnkonvensjon</span>
-    <span style="font-size: 11px; color: var(--text-tertiary);">Hvordan modellfilnavn parses til disiplin</span>
-  </div>
-  <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
-    Forventet mønster: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">{PROSJEKT}_{DISIPLIN}[_{BYGG}][_{beskrivelse}].ifc</code>
-  </div>
-  <table class="dash-table">
-    <thead>
-      <tr>
-        <th>Prosjektprefix</th>
-        <th>Prosjektnavn</th>
-        <th>Eksempel</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">G55</td>
-        <td>Grønland 55</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">G55_ARK.ifc</td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">H15</td>
-        <td>Haslevangen 15</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">H15_ARK.ifc</td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">HI90</td>
-        <td>Henrik Ibsens gate 90</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">HI90_ARK.ifc</td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">KNM</td>
-        <td>Kistefos</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">KNM_ARK.ifc</td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">KSV</td>
-        <td>Kystbyen Slemmestad</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">KSV_ARK.ifc</td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">LBK</td>
-        <td>Landbrukskvartalet</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">LBK_ARK.ifc</td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">PH</td>
-        <td>Palehaven</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">PH_ARK.ifc</td>
-      </tr>
-      
-      <tr>
-        <td style="font-weight: 600; font-family: monospace;">SH</td>
-        <td>Stasjonshagen Høvik</td>
-        <td style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">SH_ARK.ifc</td>
-      </tr>
-      
-    </tbody>
-  </table>
-  
-  <div style="margin-top: 12px;">
-    <div style="font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Gjenkjente disiplinkoder:</div>
-    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-      
-      <span class="disc-tag disc-ark">ARK</span>
-      
-      <span class="disc-tag disc-rib">RIB</span>
-      
-      <span class="disc-tag disc-ribp">RIBp</span>
-      
-      <span class="disc-tag disc-rie">RIE</span>
-      
-      <span class="disc-tag disc-rig">RIG</span>
-      
-      <span class="disc-tag disc-riv">RIV</span>
-      
-      <span class="disc-tag disc-riva">RIVa</span>
-      
-      <span class="disc-tag disc-rivr">RIVr</span>
-      
-      <span class="disc-tag disc-rivs">RIVs</span>
-      
-      <span class="disc-tag disc-rivv">RIVv</span>
-      
-      <span class="disc-tag disc-lark">LARK</span>
-      
-      <span class="disc-tag disc-riva">RIVA</span>
-      
-      <span class="disc-tag disc-bimk">BIMK</span>
-      
-      <span class="disc-tag disc-riveg">RIVeg</span>
-      
-    </div>
-  </div>
-  
-</div>
-
-
-
-<div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">Koordinatkrav</span>
-    <span style="font-size: 11px; color: var(--text-tertiary);">Geolokasjon og orientering</span>
-  </div>
-  <table class="dash-table">
-    <thead>
-      <tr>
-        <th>Krav</th>
-        <th>Beskrivelse</th>
-        <th>IFC-entitet</th>
-        <th>Tilgjengelig</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="font-weight: 500;">Koordinatreferansesystem (CRS)</td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Modellen skal ha definert IfcProjectedCRS slik at posisjonen kan transformeres til reelle koordinater.</td>
-        <td style="font-family: monospace; font-size: 11px;">IfcProjectedCRS</td>
-        <td><span class="tag tag-green">IFC4+</span></td>
-      </tr>
-      <tr>
-        <td style="font-weight: 500;">Prosjektbasepunkt (MapConversion)</td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Eastings, Northings og OrthogonalHeight definerer prosjektets posisjon i det valgte koordinatsystemet.</td>
-        <td style="font-family: monospace; font-size: 11px;">IfcMapConversion</td>
-        <td><span class="tag tag-green">IFC4+</span></td>
-      </tr>
-      <tr>
-        <td style="font-weight: 500;">Rotasjon / True North</td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Modellens orientering relativt til geografisk nord. Defineres via IfcGeometricRepresentationContext.TrueNorth eller IfcMapConversion.XAxisAbscissa/Ordinate.</td>
-        <td style="font-family: monospace; font-size: 11px;">TrueNorth / XAxis*</td>
-        <td><span class="tag tag-gray">Alle skjema</span></td>
-      </tr>
-      <tr>
-        <td style="font-weight: 500;">Site-referanse (RefLatitude/RefLongitude)</td>
-        <td style="color: var(--text-secondary); font-size: 11px;">Geografisk posisjon på IfcSite. NB: Mange eksportører setter standardverdier (Boston, MA) — verifiser mot prosjektadresse.</td>
-        <td style="font-family: monospace; font-size: 11px;">IfcSite.Ref*</td>
-        <td><span class="tag tag-gray">Alle skjema</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-<div class="card fade-in" style="margin-bottom: 16px;">
-  <div class="card-header">
-    <span class="card-title">Fargeskala</span>
-  </div>
-  <div style="display: flex; gap: 24px; font-size: 12px; padding: 8px 0;">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <span class="tl-dot green"></span>
-      <div>
-        <div style="font-weight: 600; color: var(--tl-green-text);">Bestått (&ge;90%)</div>
-        <div style="color: var(--text-tertiary); font-size: 11px;">Kravet er oppfylt</div>
+        </div>
+        
       </div>
     </div>
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <span class="tl-dot yellow"></span>
-      <div>
-        <div style="font-weight: 600; color: var(--tl-yellow-text);">Advarsel (30–89%)</div>
-        <div style="color: var(--text-tertiary); font-size: 11px;">Delvis oppfylt, bør utbedres</div>
-      </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
     </div>
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <span class="tl-dot red"></span>
-      <div>
-        <div style="font-weight: 600; color: var(--tl-red-text);">Avvik (&lt;30%)</div>
-        <div style="color: var(--text-tertiary); font-size: 11px;">Må utbedres</div>
+    <div class="meta-group-body">
+      <div class="meta-row">
+        <span class="meta-key">CRS satt</span>
+        <span class="meta-val">Nei</span>
       </div>
-    </div>
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <span class="tl-dot gray"></span>
-      <div>
-        <div style="font-weight: 600; color: var(--tl-gray-text);">N/A</div>
-        <div style="color: var(--text-tertiary); font-size: 11px;">Ikke relevant (f.eks. CRS i IFC2X3)</div>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -2788,14 +1470,175 @@
   </div>
 
   
+<script id="model-data" type="application/json">{"instance_counts": {"IfcBuilding": 1, "IfcBuildingStorey": 1, "IfcProxy": 2, "IfcSite": 1, "IfcSlab": 50}, "instances": [{"guid": "25O8Ls$AbBve69C4UejmcW", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | 2.01 | H. Skulder 1", "type_name": ""}, {"guid": "2WQ_izN5P5chtItT0rSgRN", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | 1.01 | H. Kj\u00f8refelt 1", "type_name": ""}, {"guid": "06iZo4niX6NeL6Turu69m2", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | -1.01 | V. Kj\u00f8refelt 1", "type_name": ""}, {"guid": "1p1hW$Q8DBigVu5Ed0m2$c", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | -2.01 | V. Skulder 1", "type_name": ""}, {"guid": "1a6DY$ZHX1uOK89_s9lFIC", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | 4.01 | H.Gr\u00f8ft  1", "type_name": ""}, {"guid": "3wn66e5fX5afZGaYG_UCqX", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | -4.01 | V. Gr\u00f8ft 1", "type_name": ""}, {"guid": "3wuzttcZbBtuvNR5ttidat", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | -5.11 | V. Fjellskj. 11", "type_name": ""}, {"guid": "1IgY9d7cLA1PRNiTvbC9jj", "ifc_class": "IfcSlab", "name": "f-veg_63000_alt.3 | 5.11 | H. Fjellskj. 11", "type_name": ""}, {"guid": "2RCWLdJjL3OgdYg6KJrh8L", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -4.02 | V. Gr\u00f8ft 2", "type_name": ""}, {"guid": "1MBGrCVinBu8RfPxAQbyrp", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -5.11 | V. Fjellskj. 11", "type_name": ""}, {"guid": "1Xe5tWCfrArPqxpCIICp4v", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -4.01 | V. Gr\u00f8ft 1", "type_name": ""}, {"guid": "3zVdTMq690EQ_SgBUOEL64", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -2.01 | V. Skulder 1", "type_name": ""}, {"guid": "0WUVDa8evCtPVKDguC3xeK", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | 2.01 | H. Skulder 1", "type_name": ""}, {"guid": "2BUdTSytvBTBSahHLGhys1", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -7.11 | V. Fylling 11", "type_name": ""}, {"guid": "08Teeoak90Hhn5qdWYH7PS", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | 1.01 | H. Kj\u00f8refelt 1", "type_name": ""}, {"guid": "2byyfCyWTDu8RilsQxP2Xd", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | 4.02 | H. Gr\u00f8ft  2", "type_name": ""}, {"guid": "0Uok7KHcDBMwfp7sIhnU63", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -1.01 | V. Kj\u00f8refelt 1", "type_name": ""}, {"guid": "1dWqED1PP1Ewopo37txv0c", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -4.02 | V. Gr\u00f8ft 2", "type_name": ""}, {"guid": "3f7lACyXb6ERIi2DFDstUG", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | 5.11 | H. Fjellskj. 11", "type_name": ""}, {"guid": "2iJBofUMP5MRhLMqfKCBWq", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | 4.01 | H. Gr\u00f8ft  1", "type_name": ""}, {"guid": "2fmyRtrgb1GBCx$Q89myx1", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -5.11 | V. Fjellskj. 11", "type_name": ""}, {"guid": "25nkK9hUH5ceGZCCWI7FCz", "ifc_class": "IfcSlab", "name": "f-veg_70000_avkj\u00f8rsel | -4.01 | V. Gr\u00f8ft 1", "type_name": ""}, {"guid": "3WsMedxljBUvQ2OYfmoPL_", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -7.11 | V. Fylling 11", "type_name": ""}, {"guid": "2W7FXNd$97EBuAGRt0EP4J", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -3.15 | V.Tillegg  15", "type_name": ""}, {"guid": "0A$VfCsXv1aOp8_Bc2fLEN", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -6.11 | V. Jordskj. 11", "type_name": ""}, {"guid": "0JwfJv0WH8IwE4Atcdzulr", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -4.02 | V. Gr\u00f8ft 2", "type_name": ""}, {"guid": "1NwyaGX6T7YObz3DqCP6nQ", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -4.01 | V. Gr\u00f8ft 1", "type_name": ""}, {"guid": "0BZmIeYP15pvzVyE5SuMcY", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 2.01 | H. Skulder 1", "type_name": ""}, {"guid": "32q6F21gbFbfVuT_0UEIfZ", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 4.01 | H.Gr\u00f8ft  1", "type_name": ""}, {"guid": "3lR9XOqP5E3uG3FyPh56Rc", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 4.02 | H.Gr\u00f8ft  2", "type_name": ""}, {"guid": "25_Jvs5tLErOFcdy3PvV_Q", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -7.11 | V. Fylling 11", "type_name": ""}, {"guid": "314$LnMTrDMgTwzcheukAB", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 4.01 | H.Gr\u00f8ft  1", "type_name": ""}, {"guid": "3CGd9IvuzC5xhIxK6jonk2", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 6.11 | H. Jordskj. 11", "type_name": ""}, {"guid": "0O8iFF$drCBA_ZvZgyoZ1P", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 2.01 | H. Skulder 1", "type_name": ""}, {"guid": "2PRrXicMz3yPMw_ULdoW1j", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 4.01 | H.Gr\u00f8ft  1", "type_name": ""}, {"guid": "1qhFkTi919i9qnF8ZDdXv1", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 4.02 | H.Gr\u00f8ft  2", "type_name": ""}, {"guid": "3dBJBFGaTDCvSvxjean9vm", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -2.01 | V. Skulder 1", "type_name": ""}, {"guid": "0hfdzNkg55hwtoYFcorkro", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 6.11 | H. Jordskj. 11", "type_name": ""}, {"guid": "1RBiyaN1H0RBrDnk9BPVHO", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 1.01 | H. Kj\u00f8refelt 1", "type_name": ""}, {"guid": "0_JKhusIf40OzC_uyL6hYk", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 2.01 | H. Skulder 1", "type_name": ""}, {"guid": "19n8Sa94b6Bg2RkLx8XM3U", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -1.01 | V. Kj\u00f8refelt 1", "type_name": ""}, {"guid": "3KFLbffx99HPc69issT2XR", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 6.11 | H. Jordskj. 11", "type_name": ""}, {"guid": "0F8yfUk9HDaQdG_1mj_dox", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | 4.02 | H.Gr\u00f8ft  2", "type_name": ""}, {"guid": "1rop$Xb6D0$x0Zqu9Ph_EW", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -6.11 | V. Jordskj. 11", "type_name": ""}, {"guid": "0pxH5XItr618MxEXNiqRGu", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -4.01 | V. Gr\u00f8ft 1", "type_name": ""}, {"guid": "1AgUVhQEL3WOZX0A0VxQqE", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -4.02 | V. Gr\u00f8ft 2", "type_name": ""}, {"guid": "0pjP1lPdfF9hQ2atLoStTt", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -6.11 | V. Jordskj. 11", "type_name": ""}, {"guid": "1tO963f3L9WQXAzh8L$8ex", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -4.02 | V. Gr\u00f8ft 2", "type_name": ""}, {"guid": "3sFYB5l2509Pd5gKUmmsnG", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -4.01 | V. Gr\u00f8ft 1", "type_name": ""}, {"guid": "0Qy0KAkJP9hxzbPTtAoMFO", "ifc_class": "IfcSlab", "name": "f-veg_20000_del 2_alt.3 | -7.11 | V. Fylling 11", "type_name": ""}, {"guid": "3mD8H_reH0YxuEm1mB4vHq", "ifc_class": "IfcProxy", "name": "f-veg_20000_del 2_alt.3 | -3.14 | V.Tillegg  14", "type_name": ""}, {"guid": "2Qvu9MmDzAAhEW9Fms267G", "ifc_class": "IfcProxy", "name": "f-veg_20000_del 2_alt.3 | -3.13 | V.Tillegg  13", "type_name": ""}, {"guid": "0swA6IgRzEMRpFj$41mbSz", "ifc_class": "IfcBuilding", "name": "Default Building", "type_name": ""}, {"guid": "1NMWc9xh91mAR1ZfITz15c", "ifc_class": "IfcBuildingStorey", "name": "(unnamed)", "type_name": ""}, {"guid": "1V8qddy_v5SvAQ7W0$mMG7", "ifc_class": "IfcSite", "name": "Default Site", "type_name": ""}], "types": []}</script>
 <script>
-  function switchReqTab(name) {
-    ['storeys', 'mmi', 'tfm'].forEach(function (t) {
-      var el = document.getElementById('req-tab-' + t);
-      if (el) el.style.display = t === name ? '' : 'none';
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+  }
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  /* ── Tabbed drill helpers ── */
+
+  function _typesTab(types) {
+    var sorted = types.slice().sort(function (a, b) { return b.instance_count - a.instance_count; });
+    return {
+      label: 'Typer',
+      count: sorted.length,
+      render: function () {
+        if (!sorted.length) return '<div class="modal-empty">Ingen typer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>IFC-klasse</th><th>Typenavn</th><th class="num">Instanser</th></tr></thead><tbody>';
+        sorted.forEach(function (t) {
+          html += '<tr><td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(t.ifc_class) + '</span></td>' +
+            '<td style="font-weight: 500;">' + escapeHtml(t.name) + '</td>' +
+            '<td class="num">' + t.instance_count + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['IFC-klasse', 'Typenavn', 'Instanser'],
+          rows: sorted.map(function (t) { return [t.ifc_class, t.name, t.instance_count]; }),
+        };
+      },
+    };
+  }
+
+  function _materialsTab(types) {
+    var matCounts = {};
+    types.forEach(function (t) {
+      (t.materials || []).forEach(function (m) {
+        if (!matCounts[m]) matCounts[m] = { name: m, types: 0, instances: 0 };
+        matCounts[m].types += 1;
+        matCounts[m].instances += t.instance_count;
+      });
     });
-    event.target.parentElement.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
-    event.target.classList.add('active');
+    var rows = Object.values(matCounts).sort(function (a, b) { return b.instances - a.instances; });
+    return {
+      label: 'Materialer',
+      count: rows.length,
+      render: function () {
+        if (!rows.length) return '<div class="modal-empty">Ingen materialer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Materialnavn</th><th class="num">Typer</th><th class="num">Instanser</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td><td class="num">' + r.types + '</td><td class="num">' + r.instances + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Materialnavn', 'Typer', 'Instanser'],
+          rows: rows.map(function (r) { return [r.name, r.types, r.instances]; }),
+        };
+      },
+    };
+  }
+
+  function _instancesTab(predicate, totalOverride) {
+    var rows = (DRILL.instances || []).filter(predicate);
+    // totalOverride: when filtering by IFC class we know the true total from instance_counts;
+    // for material/storey filters we can only count what we have.
+    var displayCount = totalOverride != null ? totalOverride : rows.length;
+    return {
+      label: 'Instanser',
+      count: displayCount,
+      render: function () {
+        if (!rows.length) {
+          if (totalOverride && totalOverride > 0) {
+            return '<div class="modal-empty">' + totalOverride + ' instanser i modellen, men ingen i payload (sample-grense)</div>';
+          }
+          return '<div class="modal-empty">Ingen instanser</div>';
+        }
+        var truncated = totalOverride != null && totalOverride > rows.length;
+        var html = '';
+        if (truncated) {
+          html += '<div style="font-size: 11px; color: var(--text-tertiary); padding: 8px 0; font-style: italic;">Viser ' + rows.length + ' av ' + totalOverride + ' instanser (sample-grense per klasse). Last ned for full liste fra modellsync-databasen.</div>';
+        }
+        html += '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Navn</th><th>GUID</th><th>IFC-klasse</th><th>Type</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td>' +
+            '<td style="font-family: monospace; font-size: 10px; color: var(--text-tertiary);">' + escapeHtml(r.guid) + '</td>' +
+            '<td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(r.ifc_class) + '</span></td>' +
+            '<td>' + escapeHtml(r.type_name) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Navn', 'GUID', 'IFC-klasse', 'Type'],
+          rows: rows.map(function (r) { return [r.name, r.guid, r.ifc_class, r.type_name]; }),
+        };
+      },
+    };
+  }
+
+  function drillIfcClass(cls) {
+    // cls is the instance class from the treemap (e.g. IfcMember)
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.instance_class === cls || t.ifc_class === cls;
+    });
+    var totalCount = (DRILL.instance_counts || {})[cls] || 0;
+    openTabbedModal(
+      cls,
+      matchingTypes.length + ' typer · ' + totalCount + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        _instancesTab(function (i) { return i.ifc_class === cls; }, totalCount),
+      ]
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    var typesWithStoreyCount = matchingTypes.map(function (t) {
+      return Object.assign({}, t, { instance_count: t.storeys[storeyName] });
+    });
+    var totalInstances = typesWithStoreyCount.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Etasje: ' + storeyName,
+      typesWithStoreyCount.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(typesWithStoreyCount),
+        _materialsTab(typesWithStoreyCount),
+        // Storey-level instance filtering needs per-instance storey data we don't capture yet
+        { label: 'Instanser', count: 0, render: function () { return '<div class="modal-empty">Per-instans etasjedata ikke tilgjengelig ennå</div>'; }, exportRows: function () { return { headers: [], rows: [] }; } },
+      ]
+    );
+  }
+
+  function drillMaterial(matName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    var typeNames = {};
+    matchingTypes.forEach(function (t) { typeNames[t.name] = true; });
+    var totalInstances = matchingTypes.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Materiale: ' + matName,
+      matchingTypes.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        // Materials don't propagate to per-instance index, so filter by matching type name
+        _instancesTab(function (i) { return typeNames[i.type_name]; }),
+      ]
+    );
   }
 </script>
 
