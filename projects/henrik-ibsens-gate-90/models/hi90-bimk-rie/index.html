@@ -988,15 +988,15 @@
         <span class="kpi-lbl">typer</span>
       </div>
       <div class="kpi-chip">
-        <span class="kpi-val">21</span>
+        <span class="kpi-val">47</span>
         <span class="kpi-lbl">elementer</span>
       </div>
       <div class="kpi-chip">
-        <span class="kpi-val">9</span>
+        <span class="kpi-val">3</span>
         <span class="kpi-lbl">etasjer</span>
       </div>
       <div class="kpi-chip">
-        <span class="kpi-val">0.15</span>
+        <span class="kpi-val">0.4</span>
         <span class="kpi-lbl">MB &middot; IFC4</span>
       </div>
       <div class="kpi-chip">
@@ -1045,23 +1045,31 @@
       </div>
       <div class="geom-stack">
         
-        <div class="geom-seg" style="width: 50.0%; background: #157954;"></div>
+        <div class="geom-seg" style="width: 37.5%; background: #157954;"></div>
         
-        <div class="geom-seg" style="width: 50.0%; background: #5dbf99;"></div>
+        <div class="geom-seg" style="width: 37.5%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 25.0%; background: #8dd4b8;"></div>
         
       </div>
       <div class="geom-legend">
         
         <div class="geom-legend-item">
           <div class="geom-legend-dot" style="background: #157954;"></div>
-          <span class="geom-legend-count">10</span>
-          <span class="geom-legend-label">SweptSolid</span>
+          <span class="geom-legend-count">42</span>
+          <span class="geom-legend-label">MappedRepresentation</span>
         </div>
         
         <div class="geom-legend-item">
           <div class="geom-legend-dot" style="background: #5dbf99;"></div>
-          <span class="geom-legend-count">10</span>
+          <span class="geom-legend-count">42</span>
           <span class="geom-legend-label">Curve3D</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">28</span>
+          <span class="geom-legend-label">SweptSolid</span>
         </div>
         
       </div>
@@ -1075,22 +1083,22 @@
       <div class="treemap-grid">
         
         <div class="tm-cell drill-target"
-             style="left: 0.0%; top: 0.0%; width: 52.6316%; height: 90.4762%; background: #157954;"
-             title="IfcCableCarrierSegment · 10"
-             data-drill-class="IfcCableCarrierSegment" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcCableCarrierSegment<br><span class="tm-count">10</span></div>
+             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 89.3617%; background: #157954;"
+             title="IfcCableCarrierSegment · 42"
+             data-drill-class="IfcCableCarrierSegment" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcCableCarrierSegment<br><span class="tm-count">42</span></div>
         
         <div class="tm-cell drill-target"
-             style="left: 52.6316%; top: 0.0%; width: 47.3684%; height: 90.4762%; background: #1e9268;"
-             title="IfcBuildingStorey · 9"
-             data-drill-class="IfcBuildingStorey" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuildingStorey<br><span class="tm-count">9</span></div>
+             style="left: 0.0%; top: 89.3617%; width: 60.0%; height: 10.6383%; background: #1e9268;"
+             title="IfcBuildingStorey · 3"
+             data-drill-class="IfcBuildingStorey" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuildingStorey<br><span class="tm-count">3</span></div>
         
         <div class="tm-cell drill-target"
-             style="left: 0.0%; top: 90.4762%; width: 50.0%; height: 9.5238%; background: #27ab7d;"
+             style="left: 60.0%; top: 89.3617%; width: 20.0%; height: 10.6383%; background: #27ab7d;"
              title="IfcBuilding · 1"
              data-drill-class="IfcBuilding" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuilding<br><span class="tm-count">1</span></div>
         
         <div class="tm-cell drill-target"
-             style="left: 50.0%; top: 90.4762%; width: 50.0%; height: 9.5238%; background: #3fc18a;"
+             style="left: 80.0%; top: 89.3617%; width: 20.0%; height: 10.6383%; background: #3fc18a;"
              title="IfcSite · 1"
              data-drill-class="IfcSite" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSite<br><span class="tm-count">1</span></div>
         
@@ -1125,7 +1133,7 @@
       
       <div class="q-row">
         <span class="q-label">Etasjer definert</span>
-        <span class="q-val q-ok">9 etasjer</span>
+        <span class="q-val q-ok">3 etasjer</span>
       </div>
       
       <div class="q-row">
@@ -1135,7 +1143,7 @@
       
       <div class="q-row">
         <span class="q-label">Typed elementer</span>
-        <span class="q-val q-warn">48%</span>
+        <span class="q-val q-warn">89%</span>
       </div>
       
       <div class="q-row">
@@ -1166,11 +1174,25 @@
         <div class="card-title">Elementer per etasje</div>
       </div>
       
+      <div class="storey-row drill-target" onclick="drillStorey('6. etasje')">
+        <span class="storey-name">6. etasje</span>
+        <span class="storey-elev">+39.8</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
+        <span class="storey-count">14</span>
+      </div>
+      
+      <div class="storey-row drill-target" onclick="drillStorey('5. etasje')">
+        <span class="storey-name">5. etasje</span>
+        <span class="storey-elev">+36.7</span>
+        <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
+        <span class="storey-count">14</span>
+      </div>
+      
       <div class="storey-row drill-target" onclick="drillStorey('4. etasje')">
         <span class="storey-name">4. etasje</span>
         <span class="storey-elev">+33.6</span>
         <div class="storey-bar"><div class="storey-bar-fill" style="width: 100%;"></div></div>
-        <span class="storey-count">10</span>
+        <span class="storey-count">14</span>
       </div>
       
     </div>
@@ -1184,25 +1206,25 @@
         
         <div class="bar-row drill-target" onclick="drillIfcClass('IfcCableCarrierSegment')">
           <span class="bar-label" style="width: 110px;">IfcCableCarrierSegment</span>
-          <div class="bar-track"><div class="bar-fill primary" style="width: 48%;"></div></div>
-          <span class="bar-count" style="width: 36px;">10</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 89%;"></div></div>
+          <span class="bar-count" style="width: 36px;">42</span>
         </div>
         
         <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuildingStorey')">
           <span class="bar-label" style="width: 110px;">IfcBuildingStorey</span>
-          <div class="bar-track"><div class="bar-fill primary" style="width: 43%;"></div></div>
-          <span class="bar-count" style="width: 36px;">9</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 6%;"></div></div>
+          <span class="bar-count" style="width: 36px;">3</span>
         </div>
         
         <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuilding')">
           <span class="bar-label" style="width: 110px;">IfcBuilding</span>
-          <div class="bar-track"><div class="bar-fill primary" style="width: 5%;"></div></div>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 2%;"></div></div>
           <span class="bar-count" style="width: 36px;">1</span>
         </div>
         
         <div class="bar-row drill-target" onclick="drillIfcClass('IfcSite')">
           <span class="bar-label" style="width: 110px;">IfcSite</span>
-          <div class="bar-track"><div class="bar-fill primary" style="width: 5%;"></div></div>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 2%;"></div></div>
           <span class="bar-count" style="width: 36px;">1</span>
         </div>
         
@@ -1250,7 +1272,7 @@
       </div>
       <div class="meta-row" style="border-bottom: none;">
         <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
-        <span class="meta-val">0.15 MB</span>
+        <span class="meta-val">0.4 MB</span>
       </div>
     </div>
 
@@ -1324,7 +1346,7 @@
           <td><span class="tl-dot green"></span></td>
           <td style="font-weight: 500;">Etasjer definert</td>
           <td><span class="tag tag-gray">Struktur</span></td>
-          <td style="color: var(--text-secondary);">9 etasjer</td>
+          <td style="color: var(--text-secondary);">3 etasjer</td>
         </tr>
         
         <tr>
@@ -1338,7 +1360,7 @@
           <td><span class="tl-dot yellow"></span></td>
           <td style="font-weight: 500;">Typed elementer</td>
           <td><span class="tag tag-gray">Typer</span></td>
-          <td style="color: var(--text-secondary);">11 av 21 elementer mangler IfcTypeObject</td>
+          <td style="color: var(--text-secondary);">5 av 47 elementer mangler IfcTypeObject</td>
         </tr>
         
         <tr>
@@ -1386,7 +1408,7 @@
       <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">—</span></div>
       <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">—</span></div>
       <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">HI90_BIMK_RIE.ifc</span></div>
-      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">0.15 MB</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">0.4 MB</span></div>
     </div>
   </div>
 
@@ -1421,54 +1443,6 @@
                     <span class="tree-type">IfcBuilding</span>
                   </div>
                   <div class="tree-children">
-                    
-                    <div class="tree-node">
-                      <div class="tree-node-inner">
-                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                        <span class="tree-label">U3. etasje (+14.900)</span>
-                        <span class="tree-type">IfcBuildingStorey</span>
-                      </div>
-                    </div>
-                    
-                    <div class="tree-node">
-                      <div class="tree-node-inner">
-                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                        <span class="tree-label">U2. etasje (+17.700)</span>
-                        <span class="tree-type">IfcBuildingStorey</span>
-                      </div>
-                    </div>
-                    
-                    <div class="tree-node">
-                      <div class="tree-node-inner">
-                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                        <span class="tree-label">U1. etasje (+20.700)</span>
-                        <span class="tree-type">IfcBuildingStorey</span>
-                      </div>
-                    </div>
-                    
-                    <div class="tree-node">
-                      <div class="tree-node-inner">
-                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                        <span class="tree-label">1. etasje (+24.150)</span>
-                        <span class="tree-type">IfcBuildingStorey</span>
-                      </div>
-                    </div>
-                    
-                    <div class="tree-node">
-                      <div class="tree-node-inner">
-                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                        <span class="tree-label">2. etasje (+27.400)</span>
-                        <span class="tree-type">IfcBuildingStorey</span>
-                      </div>
-                    </div>
-                    
-                    <div class="tree-node">
-                      <div class="tree-node-inner">
-                        <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                        <span class="tree-label">3. etasje (+30.500)</span>
-                        <span class="tree-type">IfcBuildingStorey</span>
-                      </div>
-                    </div>
                     
                     <div class="tree-node">
                       <div class="tree-node-inner">
@@ -1553,7 +1527,7 @@
   </div>
 
   
-<script id="model-data" type="application/json">{"instance_counts": {"IfcBuilding": 1, "IfcBuildingStorey": 9, "IfcCableCarrierSegment": 10, "IfcSite": 1}, "instances": [{"guid": "3i8xGUXrX62BmNInCaQSod", "ifc_class": "IfcCableCarrierSegment", "name": "tray_001", "type_name": "EKS_Kabelbro_600"}, {"guid": "1J9BEtcbL3B8o0iSw1ysIF", "ifc_class": "IfcCableCarrierSegment", "name": "tray_002", "type_name": "EKS_Kabelbro_200"}, {"guid": "3f$MZscDPFVB3AblJPQXM3", "ifc_class": "IfcCableCarrierSegment", "name": "tray_003", "type_name": "EKS_Kabelbro_200"}, {"guid": "1nU3h5plXEdAT1NZv9kuGi", "ifc_class": "IfcCableCarrierSegment", "name": "tray_004", "type_name": "EKS_Kabelbro_200"}, {"guid": "2tHzOBCZLAJxOVvWJIdYX3", "ifc_class": "IfcCableCarrierSegment", "name": "tray_005", "type_name": "EKS_Kabelbro_600"}, {"guid": "0GSkU43pb8T9h2kbc6ufiI", "ifc_class": "IfcCableCarrierSegment", "name": "tray_006", "type_name": "EKS_Kabelbro_600"}, {"guid": "06MQ6D0V585eSbUoKiB$Ki", "ifc_class": "IfcCableCarrierSegment", "name": "tray_007", "type_name": "EKS_Kabelbro_200"}, {"guid": "0kteTEcnj6xOhhev3tM0VC", "ifc_class": "IfcCableCarrierSegment", "name": "tray_008", "type_name": "EKS_Kabelbro_200"}, {"guid": "2UROZBPtn3LvTN7$msVqnf", "ifc_class": "IfcCableCarrierSegment", "name": "tray_009", "type_name": "EKS_Kabelbro_200"}, {"guid": "1sD2xONnX7TvBlyvwYnpa7", "ifc_class": "IfcCableCarrierSegment", "name": "tray_010", "type_name": "EKS_Kabelbro_200"}, {"guid": "3AMeTOOFsdVLZuNV0$27s5", "ifc_class": "IfcBuilding", "name": "Bygg", "type_name": ""}, {"guid": "2ycl9K$T2vRKRGISrw0zyB", "ifc_class": "IfcBuildingStorey", "name": "U3. etasje", "type_name": ""}, {"guid": "1Hse_qUxS2fZDUsZgLjSzN", "ifc_class": "IfcBuildingStorey", "name": "U2. etasje", "type_name": ""}, {"guid": "2RgOFLn4ZFbd7xUjDVxjWE", "ifc_class": "IfcBuildingStorey", "name": "U1. etasje", "type_name": ""}, {"guid": "2CJyXZmGmbuAJOE8yIW7pk", "ifc_class": "IfcBuildingStorey", "name": "1. etasje", "type_name": ""}, {"guid": "0St1hMhFUHZyrAECcby7I2", "ifc_class": "IfcBuildingStorey", "name": "2. etasje", "type_name": ""}, {"guid": "0jWyugi$$uVWPS$YRgsdSE", "ifc_class": "IfcBuildingStorey", "name": "3. etasje", "type_name": ""}, {"guid": "3EHHRLPtPqP_5yAfl0ieyJ", "ifc_class": "IfcBuildingStorey", "name": "4. etasje", "type_name": ""}, {"guid": "1FV2b3jXGTyx8eC6KjoG27", "ifc_class": "IfcBuildingStorey", "name": "5. etasje", "type_name": ""}, {"guid": "33k4n0qBqU$GSrZsa2S0IB", "ifc_class": "IfcBuildingStorey", "name": "6. etasje", "type_name": ""}, {"guid": "3XqzmTlj5Fd8pDPZefGnRD", "ifc_class": "IfcSite", "name": "HI90 Site", "type_name": ""}], "types": [{"ifc_class": "IfcCableCarrierSegmentType", "instance_class": "IfcCableCarrierSegment", "instance_count": 7, "materials": ["Steel"], "name": "EKS_Kabelbro_200", "storeys": {"4. etasje": 7}}, {"ifc_class": "IfcCableCarrierSegmentType", "instance_class": "IfcCableCarrierSegment", "instance_count": 3, "materials": ["Steel"], "name": "EKS_Kabelbro_600", "storeys": {"4. etasje": 3}}]}</script>
+<script id="model-data" type="application/json">{"instance_counts": {"IfcBuilding": 1, "IfcBuildingStorey": 3, "IfcCableCarrierSegment": 42, "IfcSite": 1}, "instances": [{"guid": "3ONmtS1Pv6PQQV4PMj5LgP", "ifc_class": "IfcCableCarrierSegment", "name": "tray_001_P4", "type_name": "EKS_Kabelbro_600"}, {"guid": "2kTPj1HqzEd9OhDv7bEDGb", "ifc_class": "IfcCableCarrierSegment", "name": "tray_002_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "2GNor2xq59WejoH25SF$$A", "ifc_class": "IfcCableCarrierSegment", "name": "tray_003_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "3aWecHIO96_Rc4LiCONLsh", "ifc_class": "IfcCableCarrierSegment", "name": "tray_004_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "1K0j1RIhn3dfbj4c_pxWWO", "ifc_class": "IfcCableCarrierSegment", "name": "tray_005_P4", "type_name": "EKS_Kabelbro_600"}, {"guid": "1TiVz$hz90VQ6AXg_cX2EA", "ifc_class": "IfcCableCarrierSegment", "name": "tray_006_P4", "type_name": "EKS_Kabelbro_600"}, {"guid": "1d$L0Flqn8uOWZ_kaloub8", "ifc_class": "IfcCableCarrierSegment", "name": "tray_007_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "1WePda4tf9T9StksAJqU5x", "ifc_class": "IfcCableCarrierSegment", "name": "tray_008_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "1xtXQorLD2VBHq5hsoient", "ifc_class": "IfcCableCarrierSegment", "name": "tray_009_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "3$nabFi2f4jf5Ve9fFsktd", "ifc_class": "IfcCableCarrierSegment", "name": "tray_010_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "0gG5pmcbTD1P$_CY1ENqOT", "ifc_class": "IfcCableCarrierSegment", "name": "T1_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "1gcEzQjyrChuT$0z2kcHeK", "ifc_class": "IfcCableCarrierSegment", "name": "T2_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "3Jwy7OyhX0fOBG7QF3N1Lc", "ifc_class": "IfcCableCarrierSegment", "name": "T3_P4", "type_name": "EKS_Kabelbro_600"}, {"guid": "1RrnTWVKL3vxnZJd$7J9z4", "ifc_class": "IfcCableCarrierSegment", "name": "T5_P4", "type_name": "EKS_Kabelbro_200"}, {"guid": "2EIs_nnU1D4e77$KFQvXaC", "ifc_class": "IfcCableCarrierSegment", "name": "tray_001_P5", "type_name": "EKS_Kabelbro_600"}, {"guid": "3fvmhz645A8g6cr6ZJKrZN", "ifc_class": "IfcCableCarrierSegment", "name": "tray_002_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "1kDIEhfhj1AuiCsXb3cQvI", "ifc_class": "IfcCableCarrierSegment", "name": "tray_003_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "2SLkiFIX1BVeJ6A0tER$OW", "ifc_class": "IfcCableCarrierSegment", "name": "tray_004_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "1OPD2v6FXEuRqMdGndAUps", "ifc_class": "IfcCableCarrierSegment", "name": "tray_005_P5", "type_name": "EKS_Kabelbro_600"}, {"guid": "2N$ar5wpDDHfWGgZG2SKnz", "ifc_class": "IfcCableCarrierSegment", "name": "tray_006_P5", "type_name": "EKS_Kabelbro_600"}, {"guid": "2vv0d7pS90r81WIpJtunZ3", "ifc_class": "IfcCableCarrierSegment", "name": "tray_007_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "2bNQtMarz3pPgYyXyr5OAp", "ifc_class": "IfcCableCarrierSegment", "name": "tray_008_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "21OJywwJH0chAJi5bp0hD$", "ifc_class": "IfcCableCarrierSegment", "name": "tray_009_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "1vaXixkPj2JwLdRx2kf9n2", "ifc_class": "IfcCableCarrierSegment", "name": "tray_010_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "3jwIdTm0L9rQy7NL7X_VXs", "ifc_class": "IfcCableCarrierSegment", "name": "T1_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "0vmdTKher3$88FfmQabAGT", "ifc_class": "IfcCableCarrierSegment", "name": "T2_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "1C8i5JpBD7CP3Ne28lx5Ec", "ifc_class": "IfcCableCarrierSegment", "name": "T3_P5", "type_name": "EKS_Kabelbro_600"}, {"guid": "2LSrj0agvEKxkgW6xNLhwD", "ifc_class": "IfcCableCarrierSegment", "name": "T5_P5", "type_name": "EKS_Kabelbro_200"}, {"guid": "07M6bQBgf1ywmj2BfwBLkm", "ifc_class": "IfcCableCarrierSegment", "name": "tray_001_P6", "type_name": "EKS_Kabelbro_600"}, {"guid": "3InW7TUhL5wuT4gRiPPo8e", "ifc_class": "IfcCableCarrierSegment", "name": "tray_002_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "0RCBLpCUnEmPoqB3LJ_pqX", "ifc_class": "IfcCableCarrierSegment", "name": "tray_003_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "08Y_XU9TP7au$HNWW3DIiN", "ifc_class": "IfcCableCarrierSegment", "name": "tray_004_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "2odhfJq_j5jeXIAzF$4tTL", "ifc_class": "IfcCableCarrierSegment", "name": "tray_005_P6", "type_name": "EKS_Kabelbro_600"}, {"guid": "3I2MrfGg1EJuswNKC_b9K8", "ifc_class": "IfcCableCarrierSegment", "name": "tray_006_P6", "type_name": "EKS_Kabelbro_600"}, {"guid": "3T$ah2t152qh528XdSdC92", "ifc_class": "IfcCableCarrierSegment", "name": "tray_007_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "0$meuNpE17CPIwCDn5Nasi", "ifc_class": "IfcCableCarrierSegment", "name": "tray_008_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "2cW9pgxsjAeOGunZ6LbBqw", "ifc_class": "IfcCableCarrierSegment", "name": "tray_009_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "0eavtDG$53kwdGdF7lMOmu", "ifc_class": "IfcCableCarrierSegment", "name": "tray_010_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "23jfN2ftfDxOXaNLmwj3hY", "ifc_class": "IfcCableCarrierSegment", "name": "T1_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "2kaFwRXZH8o8RlD4Ibn0Cy", "ifc_class": "IfcCableCarrierSegment", "name": "T2_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "25KpFJHgL1wRiWD1tFHz6G", "ifc_class": "IfcCableCarrierSegment", "name": "T3_P6", "type_name": "EKS_Kabelbro_600"}, {"guid": "0zPO1NPvX2GByuC6Gkatyw", "ifc_class": "IfcCableCarrierSegment", "name": "T5_P6", "type_name": "EKS_Kabelbro_200"}, {"guid": "3AMeTOOFsdVLZuNV0$27s5", "ifc_class": "IfcBuilding", "name": "Bygg", "type_name": ""}, {"guid": "3EHHRLPtPqP_5yAfl0ieyJ", "ifc_class": "IfcBuildingStorey", "name": "4. etasje", "type_name": ""}, {"guid": "1FV2b3jXGTyx8eC6KjoG27", "ifc_class": "IfcBuildingStorey", "name": "5. etasje", "type_name": ""}, {"guid": "33k4n0qBqU$GSrZsa2S0IB", "ifc_class": "IfcBuildingStorey", "name": "6. etasje", "type_name": ""}, {"guid": "3KpCV$OZ95FO262j$T5mzq", "ifc_class": "IfcSite", "name": "HI90 Site", "type_name": ""}], "types": [{"ifc_class": "IfcCableCarrierSegmentType", "instance_class": "IfcCableCarrierSegment", "instance_count": 30, "materials": ["Steel"], "name": "EKS_Kabelbro_200", "storeys": {"4. etasje": 10, "5. etasje": 10, "6. etasje": 10}}, {"ifc_class": "IfcCableCarrierSegmentType", "instance_class": "IfcCableCarrierSegment", "instance_count": 12, "materials": ["Steel"], "name": "EKS_Kabelbro_600", "storeys": {"4. etasje": 4, "5. etasje": 4, "6. etasje": 4}}]}</script>
 <script>
   var DRILL = JSON.parse(document.getElementById('model-data').textContent);
 
