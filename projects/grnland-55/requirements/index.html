@@ -542,6 +542,31 @@
 
     /* Versions/info card */
     .info-card { grid-column: span 3; }
+    .mmi-card { grid-column: span 3; display: flex; flex-direction: column; gap: 8px; }
+    .mmi-card .card-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .mmi-card .card-header-meta { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .mmi-body { display: flex; align-items: center; gap: 14px; flex: 1; min-height: 0; }
+    .mmi-donut { width: 110px; height: 110px; flex-shrink: 0; }
+    .mmi-legend {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11px; flex: 1; min-width: 0;
+      overflow-y: auto;
+    }
+    .mmi-legend li {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 6px;
+    }
+    .mmi-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .mmi-legend-label { color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mmi-legend-count { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+    .mmi-legend-pct { font-variant-numeric: tabular-nums; color: var(--text-tertiary); min-width: 36px; text-align: right; }
+    .mmi-source { font-size: 10px; color: var(--text-tertiary); font-style: italic; margin-top: 4px; word-break: break-word; }
+    .mmi-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 16px 8px; text-align: center; gap: 4px; color: var(--text-tertiary); }
+    .mmi-empty-title { font-size: 13px; font-weight: 600; }
+    .mmi-empty-sub { font-size: 11px; }
 
     /* Validation tab */
     .summary-cards {
@@ -880,9 +905,9 @@
   <div class="shell">
     <aside class="sidebar">
   <div class="sidebar-brand">
-    <a href="None">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/clients/magna/">
       <span class="brand-icon">SK</span>
-      <span class="brand-name">None</span>
+      <span class="brand-name">Magna</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     </a>
   </div>
@@ -1262,8 +1287,16 @@
         </td>
         <td>
           
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="color: var(--primary);">G55_Prosjektinfo</span>.<span style="font-weight: 600;">G55_MMI</span>
+            <span style="color: var(--text-tertiary); font-size: 10px;"> (fallback)</span>
+          </div>
           
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="font-weight: 600;">MMI</span>
+            
+          </div>
+          
           
         </td>
         <td style="font-size: 11px;">
@@ -1287,8 +1320,16 @@
         </td>
         <td>
           
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="color: var(--primary);">G55_Prosjektinfo</span>.<span style="font-weight: 600;">G55_NS3451</span>
+            <span style="color: var(--text-tertiary); font-size: 10px;"> (fallback)</span>
+          </div>
           
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="font-weight: 600;">NS3451</span>
+            
+          </div>
+          
           
         </td>
         <td style="font-size: 11px;">
@@ -1312,8 +1353,16 @@
         </td>
         <td>
           
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="color: var(--primary);">G55_Prosjektinfo</span>.<span style="font-weight: 600;">G55_NS3457</span>
+            <span style="color: var(--text-tertiary); font-size: 10px;"> (fallback)</span>
+          </div>
           
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="font-weight: 600;">NS3457</span>
+            
+          </div>
+          
           
         </td>
         <td style="font-size: 11px;">
@@ -1337,8 +1386,16 @@
         </td>
         <td>
           
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="color: var(--primary);">G55_Prosjektinfo</span>.<span style="font-weight: 600;">G55_TFM</span>
+            <span style="color: var(--text-tertiary); font-size: 10px;"> (fallback)</span>
+          </div>
           
-          <span style="color: var(--text-tertiary); font-style: italic;">Ikke konfigurert</span>
+          <div style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; margin-bottom: 2px;">
+            <span style="font-weight: 600;">TFM</span>
+            
+          </div>
+          
           
         </td>
         <td style="font-size: 11px;">
@@ -1364,6 +1421,20 @@
 
 
 
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header"><span class="card-title">MMI-koder</span></div>
+  <div style="font-size: 12px; color: var(--text-secondary);">
+    Sjekkes via: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">G55_Prosjektinfo.G55_MMI</code>
+  </div>
+</div>
+
+
+<div class="card fade-in" style="margin-bottom: 16px;">
+  <div class="card-header"><span class="card-title">TFM</span></div>
+  <div style="font-size: 12px; color: var(--text-secondary);">
+    Sjekkes via: <code style="background: var(--tl-gray-bg); padding: 2px 6px; border-radius: 4px; font-size: 11px;">G55_Prosjektinfo.G55_TFM</code>
+  </div>
+</div>
 
 
 
@@ -1389,11 +1460,11 @@
         <td style="font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; font-weight: 500;">G55_Prosjektinfo</td>
         <td>
           
-          <span class="tag tag-blue">Custom</span>
+          <span class="tag tag-yellow">Poorly named</span>
           
         </td>
         <td class="num">10</td>
-        <td class="num">68 943</td>
+        <td class="num">69 016</td>
       </tr>
       
       <tr>
@@ -1404,7 +1475,7 @@
           
         </td>
         <td class="num">2</td>
-        <td class="num">35 241</td>
+        <td class="num">35 315</td>
       </tr>
       
       <tr>
@@ -1547,7 +1618,7 @@
           
         </td>
         <td class="num">1</td>
-        <td class="num">6 033</td>
+        <td class="num">6 032</td>
       </tr>
       
       <tr>
@@ -1635,7 +1706,7 @@
           
         </td>
         <td class="num">1</td>
-        <td class="num">2 313</td>
+        <td class="num">2 312</td>
       </tr>
       
       <tr>

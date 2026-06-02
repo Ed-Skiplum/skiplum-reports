@@ -542,6 +542,31 @@
 
     /* Versions/info card */
     .info-card { grid-column: span 3; }
+    .mmi-card { grid-column: span 3; display: flex; flex-direction: column; gap: 8px; }
+    .mmi-card .card-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .mmi-card .card-header-meta { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .mmi-body { display: flex; align-items: center; gap: 14px; flex: 1; min-height: 0; }
+    .mmi-donut { width: 110px; height: 110px; flex-shrink: 0; }
+    .mmi-legend {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11px; flex: 1; min-width: 0;
+      overflow-y: auto;
+    }
+    .mmi-legend li {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 6px;
+    }
+    .mmi-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .mmi-legend-label { color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mmi-legend-count { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+    .mmi-legend-pct { font-variant-numeric: tabular-nums; color: var(--text-tertiary); min-width: 36px; text-align: right; }
+    .mmi-source { font-size: 10px; color: var(--text-tertiary); font-style: italic; margin-top: 4px; word-break: break-word; }
+    .mmi-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 16px 8px; text-align: center; gap: 4px; color: var(--text-tertiary); }
+    .mmi-empty-title { font-size: 13px; font-weight: 600; }
+    .mmi-empty-sub { font-size: 11px; }
 
     /* Validation tab */
     .summary-cards {
@@ -1305,26 +1330,17 @@
     </div>
 
     
-    <div class="card info-card">
+    <div class="card mmi-card">
       <div class="card-header">
-        <div class="card-title">Forfatterinfo</div>
+        <div class="card-title">MMI-fordeling</div>
+        
       </div>
-      <div class="meta-row">
-        <span class="meta-key" style="width: auto; flex: 1;">Verktøy</span>
-        <span class="meta-val">Tekla Structures</span>
+      
+      <div class="mmi-empty">
+        <div class="mmi-empty-title">Ingen MMI-data</div>
+        <div class="mmi-empty-sub">Ingen IfcElement i modellen har en egenskap som heter «MMI».</div>
       </div>
-      <div class="meta-row">
-        <span class="meta-key" style="width: auto; flex: 1;">Organisasjon</span>
-        <span class="meta-val">Trimble Solutions Corporation</span>
-      </div>
-      <div class="meta-row">
-        <span class="meta-key" style="width: auto; flex: 1;">Schema</span>
-        <span class="meta-val">IFC2X3</span>
-      </div>
-      <div class="meta-row" style="border-bottom: none;">
-        <span class="meta-key" style="width: auto; flex: 1;">Filstørrelse</span>
-        <span class="meta-val">26.87 MB</span>
-      </div>
+      
     </div>
 
   </div>
