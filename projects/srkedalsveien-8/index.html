@@ -988,8 +988,8 @@
   <div>
     <h1>Sørkedalsveien 8</h1>
     <div class="page-header-sub">
-      14 modeller &middot; —&middot; Siste data: 26. mai 2026 12:31
-      &middot; Siste sjekk: 2. jun 2026 21:42
+      14 modeller &middot; —&middot; Siste data: 3. jun 2026 19:29
+      &middot; Siste sjekk: 3. jun 2026 21:41
     </div>
   </div>
   <div class="header-actions">
@@ -1019,11 +1019,11 @@
     <a class="card drill-target" href="https://ed-skiplum.github.io/skiplum-reports/projects/srkedalsveien-8/models/" style="text-decoration: none; color: inherit;">
       <div class="card-title">Modeller</div>
       <div class="card-value">14</div>
-      <div class="card-sub">Ingen endringer siden forrige sjekk</div>
+      <div class="card-sub"><span style="color: var(--tl-green-text); font-weight: 600;">1 endret</span></div>
     </a>
     <a class="card drill-target" href="https://ed-skiplum.github.io/skiplum-reports/projects/srkedalsveien-8/types/" style="text-decoration: none; color: inherit;">
       <div class="card-title">Typer totalt</div>
-      <div class="card-value">10649<span style="font-size: 16px; color: var(--text-tertiary); font-weight: 400"></span></div>
+      <div class="card-value">10653<span style="font-size: 16px; color: var(--text-tertiary); font-weight: 400"></span></div>
       <div class="card-sub">Ingen ubrukte</div>
     </a>
     <a class="card drill-target" href="https://ed-skiplum.github.io/skiplum-reports/projects/srkedalsveien-8/materials/" style="text-decoration: none; color: inherit;">
@@ -1484,7 +1484,7 @@
         <div class="bar-row">
           <span class="bar-label-left"><span class="disc-tag disc-udefinert">Udefinert</span></span>
           <div class="bar-track"><div class="bar-fill yellow" style="width: 59%"></div></div>
-          <span class="bar-count">147671/250421</span>
+          <span class="bar-count">148187/250941</span>
         </div>
         
       </div>
@@ -3852,13 +3852,13 @@
           <div>
             <div style="font-size: 14px; font-weight: 600;">S8A_RIV.ifc</div>
             <div style="font-size: 11px; color: var(--text-tertiary);">
-              411.8 MB &middot; 1 mnd siden</div>
+              421.9 MB &middot; i dag &middot; <span style="color: var(--tl-green-text); font-weight: 600;">endret</span></div>
           </div>
           
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 12px;">
-          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>41 396</strong></div>
-          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>226</strong></div>
+          <div><span style="color: var(--text-tertiary);">Elementer</span><br><strong>41 916</strong></div>
+          <div><span style="color: var(--text-tertiary);">Typer</span><br><strong>230</strong></div>
           <div><span style="color: var(--text-tertiary);">Etasjer</span><br><strong>18</strong></div>
           <div><span style="color: var(--text-tertiary);">Krav</span><br><strong>8/11</strong></div>
         </div>
@@ -3992,7 +3992,7 @@
   }
 
   function drillDisciplines() {
-    var data = [{"code": "Udefinert", "disc_class": "default", "element_count": 250421, "model_count": 14, "models": ["I01_02 S\u00f8rkedalsveien 8.ifc", "S8_PREFAB_STL_optimized.ifc", "S8_Radiator.ifc", "S8_RIB_NY.ifc", "S8_RIE.ifc", "S8A_ARK.ifc", "S8A_ARK_eksisterende.ifc", "S8A_ARK_MMI300.ifc", "S8A_ARK_MMI700.ifc", "S8A_ARK_MMI900.ifc", "S8A_IARK_Plan4_M\u00f8bler.ifc", "S8A_IARK_Plan6_M\u00f8bler.ifc", "S8A_RIV.ifc", "S8A_RIV_m.MMI.ifc"]}];
+    var data = [{"code": "Udefinert", "disc_class": "default", "element_count": 250941, "model_count": 14, "models": ["I01_02 S\u00f8rkedalsveien 8.ifc", "S8_PREFAB_STL_optimized.ifc", "S8_Radiator.ifc", "S8_RIB_NY.ifc", "S8_RIE.ifc", "S8A_ARK.ifc", "S8A_ARK_eksisterende.ifc", "S8A_ARK_MMI300.ifc", "S8A_ARK_MMI700.ifc", "S8A_ARK_MMI900.ifc", "S8A_IARK_Plan4_M\u00f8bler.ifc", "S8A_IARK_Plan6_M\u00f8bler.ifc", "S8A_RIV.ifc", "S8A_RIV_m.MMI.ifc"]}];
     var rows = data.map(function (d) {
       return { name: d.code + (d.code === 'Udefinert' ? '' : ''), count: d.model_count + ' modeller, ' + d.element_count + ' elementer' };
     });
