@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNM_BIMK_ARK_Global.ifc — Modellarbeidsflate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
+
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
+
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
+
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
+
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
+
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
+
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      align-items: start;
+    }
+    .bento-overview > .card { overflow: visible; }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto 1fr 1fr 1fr;
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+      height: 100%;
+      min-height: 0;
+    }
+    /* Cards inside the model-workspace bento can scroll internally so
+       overflowing content stays accessible without clamping the grid. */
+    .bento-12 > .card { min-height: 0; overflow: auto; }
+    .bento-12 .treemap-card { display: flex; flex-direction: column; }
+    .bento-12 .treemap-card .treemap-grid {
+      aspect-ratio: auto;
+      flex: 1;
+      min-height: 0;
+    }
+    /* Viewport-fit chain for model_workspace: .content must be a column
+       flex with the active tab-panel + bento-12 absorbing remaining
+       height. Scoped via :has(.bento-12) so other pages stay block. */
+    .content:has(.bento-12) {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .content:has(.bento-12) > .back-link,
+    .content:has(.bento-12) > .model-header,
+    .content:has(.bento-12) > .tabs { flex-shrink: 0; }
+    .content:has(.bento-12) > .tab-panel.active {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+    }
+    .content:has(.bento-12) > .tab-panel.active > .bento-12 {
+      flex: 1; min-height: 0;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      position: relative; width: 100%; aspect-ratio: 16/10;
+      border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      position: absolute;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.85; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+    .mmi-card { grid-column: span 3; display: flex; flex-direction: column; gap: 8px; }
+    .mmi-card .card-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .mmi-card .card-header-meta { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .mmi-body { display: flex; align-items: center; gap: 14px; flex: 1; min-height: 0; }
+    .mmi-donut { width: 110px; height: 110px; flex-shrink: 0; }
+    .mmi-legend {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11px; flex: 1; min-width: 0;
+      overflow-y: auto;
+    }
+    .mmi-legend li {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 6px;
+    }
+    .mmi-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .mmi-legend-label { color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mmi-legend-count { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+    .mmi-legend-pct { font-variant-numeric: tabular-nums; color: var(--text-tertiary); min-width: 36px; text-align: right; }
+    .mmi-source { font-size: 10px; color: var(--text-tertiary); font-style: italic; margin-top: 4px; word-break: break-word; }
+    .mmi-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 16px 8px; text-align: center; gap: 4px; color: var(--text-tertiary); }
+    .mmi-empty-title { font-size: 13px; font-weight: 600; }
+    .mmi-empty-sub { font-size: 11px; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 28px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-search .search-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; border: none; background: var(--tl-gray-bg);
+      border-radius: 50%; cursor: pointer; color: var(--text-tertiary);
+      display: none; align-items: center; justify-content: center;
+      font-size: 12px; line-height: 1; padding: 0; transition: all 0.15s;
+    }
+    .tb-search .search-clear:hover { background: var(--border); color: var(--text-primary); }
+    .tb-search.has-value .search-clear { display: flex; }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Browser viz row + view toggle (used by type/materials browsers) */
+    .browser-viz {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg) 0;
+    }
+    .browser-viz .card { padding: 14px 16px; }
+    .browser-viz .card-title { font-size: 10px; }
+    .browser-viz .treemap-grid { aspect-ratio: 16/8; }
+
+    .top-bar-list { display: flex; flex-direction: column; gap: 4px; }
+    .top-bar-row {
+      display: grid; grid-template-columns: 180px 1fr 50px; gap: 8px;
+      align-items: center; font-size: 11px;
+    }
+    .top-bar-row .top-bar-label {
+      color: var(--text-secondary); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-bar-row .top-bar-track {
+      height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+    }
+    .top-bar-row .top-bar-fill {
+      height: 100%; background: var(--primary); border-radius: 4px;
+    }
+    .top-bar-row .top-bar-count {
+      font-weight: 600; color: var(--text-primary);
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+
+    .view-toggle {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .view-toggle button {
+      padding: 5px 10px; border: none; background: white;
+      cursor: pointer; color: var(--text-tertiary); transition: all 0.15s;
+      font: inherit; font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .view-toggle button:not(:last-child) { border-right: 1px solid var(--border); }
+    .view-toggle button.active { background: var(--primary-light); color: var(--primary); }
+    .view-toggle button:hover:not(.active) { background: #f8f8f8; }
+
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .browse-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 11px;
+    }
+    .browse-card-name {
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      word-break: break-word; line-height: 1.3;
+    }
+    .browse-card-meta {
+      display: flex; gap: 6px; flex-wrap: wrap; font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .browse-card-pills { display: flex; flex-wrap: wrap; gap: 3px; }
+    .browse-card-pills .tl-cell { font-size: 9px; padding: 1px 6px; }
+    .browse-card-models {
+      display: flex; flex-wrap: wrap; gap: 3px; line-height: 1.6;
+    }
+    .browse-card-mat {
+      font-size: 10px; color: var(--text-secondary);
+      word-break: break-word;
+    }
+
+    /* Wrapping/sizable columns: cells wrap between min and max width */
+    table.wrappable td, table.wrappable th {
+      white-space: normal !important;
+      word-break: break-word;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      vertical-align: top;
+    }
+    table.wrappable td.wrap-tags { line-height: 1.7; }
+
+    /* Resizable table columns (drag handles in header) */
+    table.resizable { table-layout: auto; }
+    table.resizable th { position: relative; }
+    table.resizable th .col-resizer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 6px;
+      cursor: col-resize; user-select: none;
+      background: transparent; transition: background 0.15s;
+    }
+    table.resizable th .col-resizer:hover,
+    table.resizable th .col-resizer.dragging { background: var(--primary); opacity: 0.4; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .tm-cell.active-filter { outline: 3px solid var(--navy); outline-offset: -3px; filter: brightness(1.1); }
+
+    /* Reset filters button */
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px; border: 1px solid var(--tl-red-dot); border-radius: 6px;
+      font: inherit; font-size: 11px; font-weight: 500;
+      color: var(--tl-red-text); background: var(--tl-red-bg);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-reset:hover { background: var(--tl-red-dot); color: white; }
+    .btn-reset.hidden { display: none; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SK</span>
+      <span class="brand-name">SkiplumForge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Kistefos</div>
+
+    
+
+    <div style="margin-top: 8px;">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/models/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Verifikasjon</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/requirements/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+          BIM-krav
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialer
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">System</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/status/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Status
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </div>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+        <div class="content">
+          
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>KNM_BIMK_ARK_Global.ifc</h1>
+  <span class="badge badge-disc disc-bimk">BIMK</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-red">Avvik</span>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
+</div>
+
+
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-12 fade-in">
+
+    
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">1 041</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">0</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">17.5</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val red">27%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
+    </div>
+
+    
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Kistefos</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">BIMK</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">Not Defined</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">Datacubist</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-ok">mm</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row">
+            <span class="id-key">CRS satt</span>
+            
+            <span class="q-val q-warn">N/A</span>
+            
+          </div>
+          
+          <div class="id-row" style="font-size: 9px; color: var(--text-tertiary); font-style: italic;">IFC2X3 har ingen IfcProjectedCRS</div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 69.6%; background: #157954;"></div>
+        
+        <div class="geom-seg" style="width: 29.6%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 0.8%; background: #8dd4b8;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">724</span>
+          <span class="geom-legend-label">Brep</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #5dbf99;"></div>
+          <span class="geom-legend-count">308</span>
+          <span class="geom-legend-label">SweptSolid</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">8</span>
+          <span class="geom-legend-label">SurfaceModel</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 54.3147%; height: 53.8742%; background: #157954;"
+             title="IfcBeam · 321"
+             data-drill-class="IfcBeam" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBeam<br><span class="tm-count">321</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 54.3147%; top: 0.0%; width: 45.6853%; height: 53.8742%; background: #1e9268;"
+             title="IfcColumn · 270"
+             data-drill-class="IfcColumn" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcColumn<br><span class="tm-count">270</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 53.8742%; width: 43.0595%; height: 32.1787%; background: #27ab7d;"
+             title="IfcWindow · 152"
+             data-drill-class="IfcWindow" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcWindow<br><span class="tm-count">152</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 43.0595%; top: 53.8742%; width: 32.0113%; height: 32.1787%; background: #3fc18a;"
+             title="IfcRailing · 113"
+             data-drill-class="IfcRailing" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcRailing<br><span class="tm-count">113</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 75.0708%; top: 53.8742%; width: 24.9292%; height: 32.1787%; background: #5dbf99;"
+             title="IfcStair · 88"
+             data-drill-class="IfcStair" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcStair<br><span class="tm-count">88</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 86.0529%; width: 47.7124%; height: 13.9471%; background: #8dd4b8;"
+             title="IfcWall · 73"
+             data-drill-class="IfcWall" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcWall<br><span class="tm-count">73</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 47.7124%; top: 86.0529%; width: 13.0719%; height: 13.9471%; background: #b3e2ce;"
+             title="IfcRoof · 9"
+             data-drill-class="IfcRoof" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcRoof<br><span class="tm-count">9</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 60.7843%; top: 86.0529%; width: 13.0719%; height: 13.9471%; background: #d4eee2;"
+             title="IfcSlab · 8"
+             data-drill-class="IfcSlab" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSlab<br><span class="tm-count">8</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 73.8562%; top: 86.0529%; width: 13.0719%; height: 13.9471%; background: #157954;"
+             title="IfcBuildingElementProxy · 6"
+             data-drill-class="IfcBuildingElementProxy" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuildingElementProxy<br><span class="tm-count">6</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 86.9281%; top: 86.0529%; width: 13.0719%; height: 13.9471%; background: #1e9268;"
+             title="IfcSite · 1"
+             data-drill-class="IfcSite" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSite<br><span class="tm-count">1</span></div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">IFC-skjema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatterverktøy</span>
+        <span class="q-val q-warn">Not Defined</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enhet mm</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">CRS definert</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer definert</span>
+        <span class="q-val q-warn">Mangler</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Modellhierarki</span>
+        <span class="q-val q-fail">1/1041</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-fail">0%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Ubrukte typer</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Ingen proxy-typer</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Unike GUID</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Basismengder (Qto)</span>
+        <span class="q-val q-fail">Mangler</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card storey-card">
+      <div class="card-header">
+        <div class="card-title">Elementer per etasje</div>
+      </div>
+      
+    </div>
+
+    
+    <div class="card type-progress-card">
+      <div class="card-header">
+        <div class="card-title">Topp IFC-klasser</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBeam')">
+          <span class="bar-label" style="width: 110px;">IfcBeam</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 31%;"></div></div>
+          <span class="bar-count" style="width: 36px;">321</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcColumn')">
+          <span class="bar-label" style="width: 110px;">IfcColumn</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 26%;"></div></div>
+          <span class="bar-count" style="width: 36px;">270</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcWindow')">
+          <span class="bar-label" style="width: 110px;">IfcWindow</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 15%;"></div></div>
+          <span class="bar-count" style="width: 36px;">152</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcRailing')">
+          <span class="bar-label" style="width: 110px;">IfcRailing</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 11%;"></div></div>
+          <span class="bar-count" style="width: 36px;">113</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcStair')">
+          <span class="bar-label" style="width: 110px;">IfcStair</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 8%;"></div></div>
+          <span class="bar-count" style="width: 36px;">88</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card materials-card">
+      <div class="card-header">
+        <div class="card-title">Materialer</div>
+      </div>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card mmi-card">
+      <div class="card-header">
+        <div class="card-title">MMI-fordeling</div>
+        
+      </div>
+      
+      <div class="mmi-empty">
+        <div class="mmi-empty-title">Ingen MMI-data</div>
+        <div class="mmi-empty-sub">Ingen IfcElement i modellen har en egenskap som heter «MMI».</div>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Krav oppfylt</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">IFC-skjema</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">Not Defined</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Enhet mm</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Etasjer definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">Mangler</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Modellhierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">1040 elementer uten plassering (100%)</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Typed elementer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">1041 av 1041 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Unike GUID</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Basismengder (Qto)</td>
+          <td><span class="tag tag-gray">Mengder</span></td>
+          <td style="color: var(--text-secondary);">Ingen Qto_* base quantity property sets funnet</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">Not Defined</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">Datacubist</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">KNM_BIMK_ARK_Global.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">17.5 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Kistefos</span>
+            <span class="tree-type">IfcProject</span>
+          </div>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row">
+        <span class="meta-key">CRS satt</span>
+        <span class="meta-val">Nei</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button class="btn-outline" id="modal-csv" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalCsv()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            CSV
+          </button>
+          <button class="btn-primary" id="modal-xlsx" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalXlsx()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            XLSX
+          </button>
+          <button class="modal-close" onclick="closeModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  
+<script id="model-data" type="application/json">{"instance_counts": {"IfcBeam": 321, "IfcBuildingElementProxy": 6, "IfcColumn": 270, "IfcRailing": 113, "IfcRoof": 9, "IfcSite": 1, "IfcSlab": 8, "IfcStair": 88, "IfcWall": 73, "IfcWindow": 152}, "instances": [{"guid": "3UvXTS99H9kP8soYA$d1pq", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2ni42WQ5L5XPo_uA6DdKeJ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2H7LziRC5DhfHbBeU1X$0F", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1rvns5_$D3a8bd53Pyyw4j", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1lPb1UwP1CJeVKHbZClxkL", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "32LYG5GCj7SfP$TZ_DwwcN", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1oKeZ6IhPBUwoT6P17pk8D", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1dxdqNvbn55xECPCtCTQeA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0teOd5RZn60Q025CgP6NhU", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "37NZMxoLD3kwfrv1pkFgeZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "10gUZCTxD13ATlT5amY0cM", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3BQeNQtk9FDOxsculEqqRf", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0xKvHSeGTFfhEWMek4ZaUb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2uKAfOpDv9wQ1e237sBtYh", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2p2n1eT7HCiuGEDo3C7TGm", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0uSw75l8bFrQvoTcuFALUE", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2_jFzohTX6ze0lu9TWBLTb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0NhgOoH8T0ROayrGhO2rjk", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1jpfOMBAL1uBYUnvtCKDxZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "25O1_2oDD2o9bv08l28PtR", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0dhpqvBt5DVfuK5nPekX5j", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2vIv8yuwDEIebPa6MYBwGk", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3IVI0P7iz4SPCTa42nZyLC", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "33G8O43sLCXOoonYHm4rqX", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1j30hsTML6tfgfaWk_tAsC", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "24TyyCBUv1Ou5wzN2A9wmb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0PPX66r959MueNPM$E_Laq", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "12uXYqvNP8ReosoitRCvUW", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "32AHVfjaD559We70eanSia", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3DT3iqfInFguCswd9n51ut", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1qiH8LS2L4h9aegzylrnxb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3mAFQXiGfB0gL3WPRqw83g", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2Gcj2UUdrCaODwH$RE5nHz", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "329qWASS1EkPvPGdQ444wc", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2YBKn$4sz4CA$E$0FGXcTy", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "167E4puFrD8ubM6yzmgqDx", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2jVnghLtr1XvEcvelK0wco", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "34PWinw$P93RHPzN1p9yeB", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2iWGKvzyD5pRlACjDmy$EG", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0jPAlV6Jv0Fh5J8$dGnS2y", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1do1NSgnj2ihsg9JblCav8", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2N6$NiyijFy9iirDMC1cu3", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1LT7agFAT9vf5lOIknucaH", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1H1NnoK4PEJPYgaNbCINJF", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2pHuail9z229IYwj9jH2rG", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0egmcU0Fv6NuGClMooJL_8", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0H0F1epJz6cfDmJuBOz6RC", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1q8e7XaTr5ROvtOfLaH03m", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "10FT$Rmk13IRXIxCuOC66F", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1d6L$oEZrEZhsJTbkCj89_", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2BIrp21_v9eejHVlGcU1Iz", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1wc23t89f4g9xqhC0PJGd2", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3XP_TJ7On1TurBfne3GUwZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3y8uleFy1Auh$pAlxQN3ez", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3Z2hk3Cd955wtOy3wdoJhw", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1gfI$V_15BHxvJG4l2BoNp", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1QnbVCqdjBMfbJnyqs9fsx", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "35w6jMv1z8xP55aRZsOXVN", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2b8zKrXwf2s9ys5seEGIll", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1cV1aBWzD7$evFRUHHiS_8", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1Cm1lZ_T10I87Ql5le32QD", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3cX2h9ZCj0_PxK_xciA9iN", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2FDE84oF9C4821Mvol54c$", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0Xv0MgC6z5T9KvRqJ$j$GP", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3$tOqvORT5yg2uT_iTFPqw", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2d4sn6iqDA1BjgoVTqdq0b", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2F_MBfSw52XR7yB0_kJ1V9", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3tDc8NbXT1AeIgKlKkmUb4", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2tnyFExxn8m8gEjinfZL3J", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0uOLp7CYv6nvXA$h1r49Hv", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1sFmNPaCL2NwVJKstv2KZo", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "07KzftA7n9Bv$z_B5Ug4hE", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1B1pmyzJf1jfxgRcqpGxzf", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3TzyTUj21CH8o8DqgKF9UD", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3lKY562xHBgRcHKwZGYTp1", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1I$C8Ao$zByBIydMXOL2Ez", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2C0nukZ8fCPwEERovnqpzD", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3WidAObIz7kO_KgObJ$LtN", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0pf5CH5yT4ohxbQ8voblcj", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1rkplzH5nCsBaP9S_Wm36G", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "39gJ4qfPD6GBBl17c6x51o", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2Nuezgav59SO1Lxovgts1K", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1zJ9JIhOP4PxAlWQZdBM6Q", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1GXa4zFdzBB8InrRWUc_Zt", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2qn8EiVZfDbQXl6F4IgRq4", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "38zZF0_6LESeJdR4eWuwDT", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2GiCTBslX9fvG4xKJP$CKz", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3ZDTQHY8D61xzTTyWl6FwY", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "38OWp9wJz8QgBt8yvSkAdt", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "04MshypJ928uwgAwpMafeM", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2BLUn6XUDAKvOtmAVtST2$", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "02dL$a2K1Dbei_gRA2WV8j", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "11YNiDLNP5$gALAo0mEvA6", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "03iai8WFz2yQDJMOioIYRb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1T$aC3WZXC0Qc1KUMivn9D", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0uK5A01mb4uB4QhpuY4kEc", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2gBzlpdrj4pfuw$Xi8Y7vb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3Ec18ApML7EuqLm9rRmiUt", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0mX6U0_Ij3FvgrpgZFm5fm", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0yclpD8HD53huunnG5hlqZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3n5tql6Nf4pgcwhM59$6gO", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1UtJMYVVD4SP_gf8eOXE8M", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1CslQQwhj4vhuc9Zf6r$PU", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0ge1QjB6X8VPqyijjrV7sg", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2$21vHSA15twe40vWGVmSw", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2iB9N0pm11qAjOE6WYtAxg", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3C65RAdy11Eviht_Xvpe$_", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1eqIov5TP9XOpJs7WMO3uA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1Ss6GhX5PDhx7YOcpMBFjP", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1qBB9L6rrA5PCPp$jb5oov", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2k_vXpDyzB298M9ivCoEFX", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1gcuXNlY507uowNqrvNhoR", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3fHNQqae99sRkU8wnWFe$U", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "27VC3duo1CyAN8s8UKA4uT", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1inPYXA0n8zBM3xxAa3xST", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2JVmXOwED6m9uvPc_gt955", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1xCnYIzTrCoh0zfKx9aKE3", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "27VctTxRX2yBbHjoj8Lbwj", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3YyjE6WuLFbhbNFsxgnPzG", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3TW6btJXHBRQlDU5ws_RPH", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1m43UrYLL4598Pc_2r0OA2", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0y62_MV216IBA0wzhqxaqA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0Zi1Im_7P2Hh_TOr2vBB4q", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2wT3HDvZTFXvVNj$9Exaf3", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2zkzYZb7LAxg4ja4Oq98Gr", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1WKFhm73LDcPoKj8qvJz5A", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3tyDw6npPEWu2W16LCtFbo", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2eoxYomfv6vQf4keP$zmcr", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2_BUuD1jjFYPZaiM2BqncQ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2Eu2pU$prAShqDlOSqK2sy", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2RsBExU890uAiMIMcWQHgc", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3$jOd3fRr9aOCpL7OY01rV", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3gWPQnk0TEa8ofp11_pacA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0FgyxbyyX88vk4oXlt0pgZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1DYDTP9J11CRbUzubvnOGD", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3SU7e1Ijj62whuBV5WyrHJ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0CCgMffSf5pBBJYgXJAIKK", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1oqZhjlNz7ie4MJMAiCYbi", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0MVSXDa5b4E9wPyhZtW6tz", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1KPd3lTT161BxEReGPBgYx", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3vYYg1rrL2vfEBkyorBCX3", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0PtNd3wujELwuCBmbvPacG", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "35WgsjrsD14937IARxwpWH", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0eAjFVBJz71vvzSVhcmoFq", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3PuXp8g8b27u8ubFVqL7f5", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0Ex_WGb3HAMfuOkIjSpTcJ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "317pxAx4HF1hAqn5wzyoPX", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1PBARWVsrC98SR28SQBUrY", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3xIhkuLNfCS9FXZUk03WgG", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2HYyDlZBT4IeE54I3Hl2TW", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1e6_NkAwbF$evXLrfZtOPb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1If1TesQ11rg5fp0funsT0", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "18X$O7oZv2IB71mQDbtlMA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "39tlxnYNz5rxdub2YdB7nO", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3HnM9Yzp1FYPPPEZKwyDn$", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1d4xc3ikn1Westcqf8pznb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0TRBZ_vbr6zROUzkyPorsZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3rTDugrmnDCQ7nf960NpQC", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "27F7mXv_X9zwZax$qRXkCZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1S69EeeD1BQf5bslbRy5Yj", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "32_IQjv313if2EApJTKMgB", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1ykLdK6ObBgBkxfrT2ff0e", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3YfEzYJhPECPZazKwZBM60", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1cICQcBUPDiuWSoSzaRPGB", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2In5o3F25C6A4sCaO634pr", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1Jfpf019r8chaVLEWbYr2T", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3pt7XICDPAtfK0icUrVK$o", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2sqceA_ajDgOGO1d39fGOt", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0b4nyyxXb7yfoPYX$I4MqD", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1AQqcWhWnDWhe3_0GW2Uf_", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3B_1L9MEXDqeHBNw1aK5Tu", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3dTi1XlujFwxVouXAIjiqP", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0i99cBHw96$uaBVWqRv6Ve", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2JR6hkky9AZ9n2PAln37Ep", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1MAakc7FP2EhJ24r8gs4fY", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0awc_WjqPCnway$rgBrEdn", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2VaKCBo3119f0S_dIhrmRD", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3R4L2TV3zA8uvBWm0x$0Mv", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3q5QBpEXvANuQ4cssyAJIj", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3_RuLAefzA2BdCEQhyF6fV", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0Ax6uk9ejATe1Nr9ykeU2x", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2GC71BYur9ihGDTylcKRKP", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "03OxKkx451agYYMl5Sslm3", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2DmU5G7v95JuxGrYlJRKxN", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0jlFK$4Cj2ywEag73Nbh0X", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0Ebg5MEaj6nuaDY0YaQMB6", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1tHnhGWST3phn0VYHvdpeH", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3zGuq$vz5DDA4HD07jjNuS", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3lvOpReTb3B9PZNwRtgZYa", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1MJqJmwd10avdjpG7hYO_i", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1GnfJU_3LBNOJsxz0aU_Rg", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2PmLMfJXz5bOeZSSEox0qu", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0zYnGYAUn1IxSs2Mcb9zIG", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0G_wjgfpH2093XB7RjLYtn", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1iICryBAr2yObdWZYzL4$B", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1bCrD$iD5Dmf3m58oZkEsX", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3WSTjWXcLCWfzi3gTZDCVc", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3gqCYe$DDELgy2GFluzazR", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2696is0JX0xASnDdYqU4Mp", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1NJtUgd_L0HRE5wBqvfsoU", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3nwVMvr55DCf9eF2pkvHar", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2G5pLBNT52hAFsiN44GxIH", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0mqr11N4T4h9J1K5wYIZeB", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "11WOpzJPT7bAdreI8TITyM", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2GR99qRHjE2hG6RsIlLdR_", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0tproYRlnFcvkmflD1lVJq", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1WlF2yeUn1YOBulAjq55hc", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2BJD$VW41BXxW1Ki3KhbWN", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0tHKJC3xX0QurPMkR7eEPA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "098Q8axHv2EQ$L1yj2z1vA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3TihaPTDz1PA7b_ArFYj1M", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2cVSWJ$rb6nP7Y6zqDxlGO", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2WXEBxk0bEYvi0_p3PB_c2", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "15sz3sKIX8fODiMjd9Dsqy", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1xLkX577vErhhHZIu5d9Fz", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3CCX5Xv7L4IPI8EeF3FGkX", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1eFXJRGvP6NurWypmoUQuy", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "31AeRYsxX4jeG9Rn$s1_2E", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3kgTNe02z2dPpaiQ1sRbrU", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2qSmWMXTH7dQILDo98R7ij", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "29nDITEyv9OPl11yrPhrJf", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1mRGqITazDqvSAoilh3B6G", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1KdtAHcZ159Qj_u2GHuDGb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1ZANynUNn038XwVaLNTOOF", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "00FhYXC$rD0PAv5uTs2YlK", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2ucOROH2500eLUsoBoBmup", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0kOOBbw7DCyBAkom_A14Yy", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2AIOE_c0T9AwwJycJmKDkb", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2TGzPJEtDFUgFkllFSUbli", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0Mz8LuiK5F$h8oFoloZNaE", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3LvC55iaf5$8zIZ_QP8XTS", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1bS2s_6AP4LO6y2oE_2wT7", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1lXet9Rp96JebroKsdVlQY", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "20A$dMvmP6RvrspgxecQY8", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3c4C$TawTB5BWrRqPKiojS", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2QLgZS$Z12KhGIcrs9RPNC", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1HXGz2LTfFURoF9K5$pYK0", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3URNj2RGP53f9zP_QY9Gil", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0tvOx$2DXDq8FIiL51CWjO", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3LTlu_1P9BgRTyXVx17KLw", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1f6h9GXqvCjeHFS$PGGEML", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0_x73iVyXEPBgY3b5lOoQf", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2uxGqCuVTA$PQnHQeY0rbj", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0TI1a1aJj9kvYiCdHrLyNH", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3ciuId9Yn12RGXAaOjzXzg", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2T_6g$JG59uBtxsvWthmHH", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "15mcjERZP6A9sy12JF5eCA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2CsE6q135BRw2OhOknXe15", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2K7y4wZ2TBswML$SW1RTYq", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1Ki_RAgarB4PmY$xxHbl5d", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2kDRNu35X4ygwYkDakh8Jh", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "24MIvbATT7zufZZI8F_YQL", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "29LwSgQszCcx9I77g4Tqj8", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2_ayrzeiT4ee35S7w6Mwmo", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0urLYvpMrEX9XsLCQcxUoe", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "38VQYn$FX4VeDu6GRZTwhe", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2ks2sGU0f92faFQYpVwqnJ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1ea0YE7cLALBjdwFH5gX8E", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1YsMYFDcX6euYaIDh819Js", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1liL1BPH9BHwiPObcvvLKA", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2ZP37FM0fC8vsT7ly2ha57", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1vZ1$fT4f5DPqAuSm60BgO", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2zbkRbefPACvZs_zv3CPtU", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1GU$FaZjH1WQjHhZgzj86e", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3pUVsEtFfFD9mppmwc6USU", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2w2TBdlL557xOKlkzzAdfR", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0MD2y4RMP0fRTQi9rOlyrd", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0STbHLJ1f6JAFYYh7GHY3$", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0Z4qRcZw590eUCHQyAN7CR", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3TkATsyw1DGux6j4qDToB$", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1rr3SuFiDEQxn7AFuhE04p", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1SCzVaKkD0uxMgHjBNt2kF", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2b4pqw_K11OhqOG21jir70", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1cNo9a3d531RYsBuM7xNdf", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0QMuMaHl5Cwf$kIBc1wNy6", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "28$GoLr4115w6LlUQNAogw", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "37dacR8fX6iA2T_cxcjknF", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "01yPlNU358igwoMbCqi2pu", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3o1grvf7LFJfy25RtSd2lY", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2uHCuKnbDEhB4W0g1CdpHE", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "12xJPgWXnAwPwXM4WN33bO", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "000uCSzMP92fc4udsxyLUi", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2H3JLuycv8BO8U8vMyDk8S", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2_qwhOUY90oA2yY0QDRd33", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "27KVr1nW9AvvRkUMeD8qT_", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2v13QFwHHC9AQ_WBiQZO2s", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0jFoM91$b0CgXVmNNPzJdX", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1ZFpnF3XPCHQ2$j_expLCq", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "19i0kRIkr0$f12Muxa9WEe", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2PhhPc3Bb61AvS19js8dE8", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "010Yw68krCAOwYfZr0wK24", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0yvtHMSYX9qRoasFTx5PpE", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2kQPwNMvL7SfgMh_8lydxp", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2BROkWnbX5sw9Qaivvnm2C", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3cyW3vh7n0BwpsaWaKVSTc", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0fVEM7_qvEZPRNqPsbeGWZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1Cjl29OOP0n9o26QYPpr2L", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3rsC8LqFb50v3rk2DrTa$f", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2u$Q7I62nBYf_mY$WjzQnM", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "337_wh75n8$93IqdSGC2P8", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3T84PFj3D43OywIFiWIbBE", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1ogq_$y458$vIHlohPy742", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0rNlGsfhPAGx7PCJki4h$F", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2UYpGiJxH8NBNnOoXApHbY", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1IFwaQT7r4Jh$8zxr9OwEf", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0vl0UeSM96O80mhR1LDKGB", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1EFLFZJe5DmAZu07WHS5pP", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2RoskIZUD4ohkluCgZSXG3", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1B3ZpcRdb6w8UFlKKCPD7g", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "2huQ00w0L7QwySO1vDfTwV", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1x5EyFX5LFZg8ybm39979E", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1BqCrvX9X79gUF9fSPobtg", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3178J7pMf4W9q60vGRWiZB", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0YNWUstNP7KPT$FTjF9L65", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1nwXu2NOnCpxCKem2kVHT4", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "1YX3pP4H17dgIVcuZ0897n", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0NRxqQALD7YQ7wrOMisOwC", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0RIZWVgNLCYRWpvBtU_llF", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3UsiJTlMX7zgh12bLmshK$", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0rDiTx_759ceWNG4fuEwf3", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "0TJ9e7XW13eBAugmpIy7VZ", "ifc_class": "IfcBeam", "name": "(unnamed)", "type_name": ""}, {"guid": "3G$_oe_dPFgBGm1SpLPw8N", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2aumysdgv0TwUt9DhD7tcD", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3wf2kOJn56dRT1gIVlg8K8", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3mBnPG6mP0MQhgph4txoiR", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "175FK_Wdf868zCiKdRs_VE", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3O731xoqLDXgAt7OnuCvRU", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1xccs7T8X6eQZyxeVw3qF0", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0dqapr4IT1gAwT8j4qkiAi", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2Wr6S5Zhr12PYeG9vHXkIa", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1i1RyBi6z1tOX0EgdMIwcd", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2pFOLrLvn7beDkJqgmuiK5", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "13WFRZ3Z13Nwzo527tjcuI", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "39LOGKgnDCHhHKEse3nyea", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1JfBhCCTHAAB_RjgvKCCBe", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1C1Flxubb3wRRW2DjRoddK", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1DUYO8hdT9ZedTqI57vKgo", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "35szlippr1eOhutlGzBpDY", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0feskjLW13s8PJBzfnl94Q", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1R$iRfviv8LRSXq39h$LZu", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2yPQDQBMv8NQ8YZwlOX3Al", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2SytGELxf2iPJt_rFuz6VH", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1jcy5cabLCyf48BFlXk6OJ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0NWQ507cbC3wyV4uslFRvN", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3nXag_vi56ru$uOP89pACw", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1A306SA$1BM9gbnu4yFAVh", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0CEm$BOjn5_QmO01MkKnmW", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "12M69a84P77gxhNDTjqEo$", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "32JMxVRMzE4eQ1M$9zAVbj", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3fSQaZa8D0_AbKYGi88L09", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2uRyzhi$j71wnNvPg6DQWJ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3YkJpxVSv3Cx2I0nWsvEQr", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0c0S178bv8VgXe2rwy$KSZ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0l$BmN0yj0afbFscBlU0TO", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0SA3ioiK1E9hEGpLwoSETs", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1c1Xody013mhflpAxQBl5g", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3Lz5db2Zf5xO6gfMv$j4Rr", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3s8rkSqmz4B8bcFsDwq$rk", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0JOzsN1wD7lgmBVwEOHqiR", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3r4vSg7Nr3zeD8ZA4glA7m", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0z20RUO7jEbBkvVH_rU9zY", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0l8bvXXVL6pgww892AO8lf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3R0BrhaxL2H9vrOpcyrvy9", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0ifLvLVgD4jQ9EwFtU3k_4", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3uSFbUzBLFexJwpnTSdbmu", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2uI5tffMbAbeifCRB3kCA1", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0LBQzxAOH4HegyudflgHEb", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1_ojR9Bp11kfdYkGZ9b2j1", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3a1JkSQvf0aQH2Zm4Zm7rb", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3OMUCUU1P5COhByoCvIcEw", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2krr96ijz47gcLOxwgRKxu", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3_J_6SXW5BWRv6eqxVVRgz", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3wFXGcQAjAewBoiQTYZ_jm", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1Ii8_0zvPEjOZighT5CEDS", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2m$FaH_Wn0hgizP48BGfSY", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3smYDzniD1d9GN9zspTgpt", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2VB22p$u9A8QAOgkxUG7wC", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1wz3p9RyjCOxl5yaiYTVi0", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0CoO0FgJ5FBxY2TfGtDj3F", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2F$B_tZAX8Z9YwuZAdYNg0", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2QHuBrSJH7ogS9L2S$Dg1C", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1_4XNGqXHBrA4qlaQieLDv", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "08TPgjk7L6senoa_QOXmLz", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2oI$f7f_59YP21m5hA1etN", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2P01NYIRz2jxfBbPHpeukf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1OLwN2TQz0GBvIsoAcQoxr", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3k8AhIqrX7lv_RQa5v80X0", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2Sp3fxl454df0hoa2BaHdm", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1os9ZRTrH8HOOkxYlmB$zz", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2b1C9u_Tv6l9Sif1fXckTf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0m4gw$LKDBo9_6e7J_7d9C", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3vWIqLrxPFbeAv4MAnxV_s", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0CMDDq1t5BKxqCQpHZrDw9", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "35yiMblPvBNxVXdb0cPHtk", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2cnKZYKzj5JAAD3dHcqKdx", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3ewmZcb1vD5euWpfQZkcEX", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0lFEgtzLT9Nu5LKhZ2A_Da", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1$DbTMt2b4OfUP$p$q$jTM", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2r4Y9v6nv4XPmvnflRpm$l", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3rDJWbJAz1Uh9zHVP$J3Nf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2VtoVHgPnB9AFFs4gtUBxa", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3V7SpErob0sA15N8eONnDK", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0dj67J5Kn2qxjrvZjHgNVM", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2Cy4rWjh5FPO4w_IYQPNCy", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0KPn963qL9CBKfwMp8gxqH", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3ksNOn3dP6MxkcECq_0rb7", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0X8aWNgG15dATrOZ42M6s$", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3Mn5iPhjb5dBaJN8qU7Bhz", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3OpIEr4$D12exm2cPokyMQ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "05MYvjFi1Dre36yny_9KAk", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1YPTRh7Bj2lA7hnhphBCT1", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3r2gLvR$j4Lx_zITMogJau", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2WBGa4jjb6yR40FMCEq_Tg", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2J_eFrjeL7suGui2HdoQ8Y", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1hG09u3lL1XRLAGvxzqpYD", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1UJRDDdgLFcuoLeYAQTG6A", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0pOWJtX3f7BvgqierOnNJa", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3ijkFxCdLAM8Uu5vQ0$Q4$", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2dT3kFzn9BHgmz8mec4W2b", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3FQ6Z92uz6LBpVUVK2jRgz", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0tZ_ddnTX1mgetyKpAWzaO", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0kSsY5_JH9GQHjsvNUQ2XV", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "00w8bfGMP8fwamNo0MSTCT", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2X1ExkeMv6_ORFPVk4vgwu", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1OUEuCBlv20wEXdzzh6APf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2XQssjaUX7xR3koCEgL64q", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0SYIGswIvD3wu8bSIu1OPE", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1Scr2xWtzEAQYNU71i81rv", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0AZwX5MMfBGwxQqKqq$6SK", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2oc2W5qCb1WPMB9$cGzNCS", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3vxt86GpDF8BFK0g9KVAxf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0Of$pQuoz18BoHs2osDV_9", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0LvWcltAP5HxWBDz4UGeOU", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2QDS1$HB5D9Bw42NC0RSOY", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2b22F9loL0yBOm1wp$31UI", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "03Vp8frhvEmfayxvZx_G4G", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1OnL0E_g59WffDwMVTQQ2T", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "00_vUF$pz4Cw_Wl9eS5L9x", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "237MXQBaT44uTv7JwAHwlP", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3V7poe4EvBBh7O5axcepPf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2__97FUKnBwvX74SRv$Zur", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "18SpEJYJL9kOGC32Em10JZ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "24EXhmB8rBr8xSqg7GTbFM", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2tWLgirdr67POgDy58Hvm8", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2CxQtnaXv0hQWN6i53AAaV", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0VBCF_9WrC6gtHp0xi22GT", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1X2OjB6fL6rh3ucyYO7gd9", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1EWCgwsS5DUwOIS6NxQhZ7", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1k89TAa6D4RR2u3$_cyduG", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1Z0cqiL3H66wLnSsr8rE7_", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "19oCbKsl9A6hru7pRlKgaA", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2Mjmlr9Fn6p94fXJq4DlAx", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2n2nW8HwzDJggzeh1x0TVZ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0EgVuJSMb6mvJgpHqdCkV_", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3xWl3rZ8TD38rhqtKr3Rk$", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2Q$5UP1aP2dwrSdTWJJxZg", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1TqpgR1CbCaevAg8MxJ5Od", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2EyKLz_Ar74hR_OT50hlJG", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "07Q$z0NnH4QRchu0e_CJMv", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0lsaqmNyz5G9ISn_QUPOvm", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3VUT4M5yT7Rx7H_b_ldtkh", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0DJD4vIcX9VhF9yH3Pk5AH", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "38Rr6lMa1FORVUVBDjPf3l", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2ahGS7aR91wu7SeKbIehlE", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "15c7zzchTER9nymfM_KpW1", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0Wf3DaPKjFUxmUHvQ6_HUF", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3$B56cgSvFm88heBz9hH$$", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0j7LBKcNr9cu1Gc87bMjg1", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2O0NZeqUL36uQXeThJoo9Q", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0BrqC4AmjCzx7oGh_U3tg6", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "38QbfiAcv9twz7$zM8v43U", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "33xYmffF59Jf1QpFBPS0tf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "041n8TxmjCqh3mkWCjdLR7", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1YHVhLkA91eBSgAne4zSWj", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "36i4i2Dg14fBfiAWvIpACm", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3n2HZf40bBawla4urVi$TD", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2DwaXA9ez9l9A0DD3WlVhZ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3iIAOIgib05PRLOE$jfsI$", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3HfV$mS$96WhjlgDoOB0Ez", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1pSVW7GGT09ByFr0KMUyxr", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "01SkBZ6Sr58gSPMc0rYjU6", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "13vdrwSPL51RWw_mVhsddq", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2xGexrmObCmefnfCYcO6tX", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "19$D9CZiX10RhmfB3y33p5", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2tqES34Vj6rgOiPLE1UURf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "38I7hsDIz0URMIjZxBmCzY", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2ZfNmbDl5DJAKsrdkSuDOA", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3B_fELAbPFd99O8CkMmmrN", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1wkAt9wVL0rPcbQmiWKnce", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1kLsB6CfP3PPiWJm6ENjMt", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0q9Zi0OyD6qBFS3RScXdXx", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3M5ItMnwD6Sx16tLSs9q6W", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3pPXSnfxb0mQhmUOK16dGW", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2xjIpUkuH4PBv80LAiJTrZ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1mFWQv3yLDIgzek9bDv6Bq", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "139EtuW9vAov57BjHJfBjD", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1KuIru86H9lRlUqs2ZD09w", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "12F_xuOMj8OBivMWMqP_j9", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0wuePNOPXBZAHxH5PC4hXg", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "27Vyun5wH3OQRNY0ceugbG", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3dqN8GqynEHvdWrwuKwWxt", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1ubBHTPxzE6wHAOzpk3O8h", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1DctzHPXX7kfctTfoxQGIO", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3sWVkGun16AQs1ktrZjzQS", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0ptjqJDFr4BgIKxs99BzAT", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1BrBsjUGX2sfB5j9Sw70zS", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "316_XiodHATA00npRIIM97", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "13hULpEbf98PbYODGTRmyF", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3NhGRiKgb568ZlElzhDEFm", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1jhUOK5TzBju89WF5eHWek", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2jQChUwQ540uF5jSX1xrXg", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3HevstCUfBfRReSx4DiVkq", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2gacl3QVT1K8phhZKSc3zc", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0cv8C5OEn4afoZoQP_Gjuw", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0kkBaNSv5EG9EuBwdcZWQ7", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0xT4rFUR58v8LluVygZI01", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2CiCc243zEGuTUipRQMGN5", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1lG3WrmjbCI9gQ8JFQM5_n", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2NNudZQ35EXufMXyQ6si8K", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "02x0bbd1H9rvwg2c8vOR_A", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0J2vYw7wrA5OqHizAkXM79", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0BjD1rlgvESvzuFkm3XtUF", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "29DqKGmmbACOnJt1MBL_1_", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1Cgl7_GM96vQEpt41aBUUA", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1wq1hEdy5EmBV$ncmoPmRc", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1fsZUZ8JP6dxdz_loG0dqJ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0$2UWnPJjDbP32a2r9ztQO", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0Uuu$p80X6HhrtFeOS0ws1", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2UyLJlMCD9WP8FhwpUbc01", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "12yNC8_RvAvelNwpk3s4II", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3UYxXTZtHFffiOLEn0GyKU", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "00jSi2Cgv41febs_KwZQlC", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3PGsHTarfD5eK3WwUgy2ro", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0yetq5BBL79uza340a_Z_L", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "28aKElOkHFtulvJWU77Ndf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0q5u38fEv8zQOCGMsVD1dl", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2rTSZTXGX7w8ShKt20L$$U", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0Z$Dxz8lLDLBlLh8bt4K67", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0Bu3xlQfvBE87ACjnUfeu2", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3qkNSmq8fD4BUVHEXPqbtC", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2P5vzenDX8RQaWOPQGowWG", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2iW1ySLRb4twWGwF4ZPwyc", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0g7Ng6pdr0IeG8YP$NnUhB", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2vtVH5Myf6FgmKqnEqpBQN", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3LcNOhiiz0hhgK0tvpwtkY", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3OFk$Jc$90dPeeOOuuUIyF", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2L0ONE02L2UA$3_cpTYsrX", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3EDwbeAaTDh8QFdXT6Q9dt", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0GwktWuvzAneXz8ZS2pgYh", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2G83cb8SH4bQgJmRP9J7_I", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0nc2RyLev33u8CbB8alYYd", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3owDkTk8r66xE$f6E6tGik", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3JVPQqmGz84fIbnUTtnCsU", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1SXo9_PZn8lfBuL9Q$KFJt", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3SBNOT1GT7KfPoecswVqd_", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1zKhdcbcv1$Q7s0tDI5wGe", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0G4J3pwnf3guG3o9_2U1AH", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3bmBObCR94bAgCWd7GE$sM", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0VVEyWf6z15B0hZkfS$ALj", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3TcDU6HDP59xUyFnO5M75k", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0E1EmgbiXF2BYEGK8gR_MC", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "144OfTjxHEARx8is7zQ8sP", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0iv5wwk1HCOP36eSdj6TcK", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3elHdEDeT7vvY0N9MAZBV3", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "20ZyE6AAP3ihnXaAB4H3ny", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2WQBb0Uz55U80xpoH76Oh6", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "21nbkc14b4W9aV$C$Uta1j", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "16wfQVK7L8cOKbg_pqKAO7", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1nOtmJiCzAWB7M$raSoyG3", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "31x8BjhXL3qgBaa95caK_5", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "02WJdjPh92ZPmqnHLBbrCI", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2cc$qRoNHC$B_$SK3oI$nY", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1dJfZ_$3TEexcIF2bYfY1U", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2sDq4M0SDBuhQmfQpRzZgM", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0vx4SnT4z0pvz$Na3ejJ0Q", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0jl_aNSEzFKv$qOzbrOkqz", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1LCRpy2nXBxBmmKdsUZ9CQ", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3wmXZi$D5DL8YYBhJfxQhT", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0wHvgU4abADOffVuq0h9rp", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0R2pOpt1X7bPBdaAXEQmTv", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1Yc8ZiSF18cAVxl3IFhiC5", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0mS1nI7aT1GxoxHMKAGpM_", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "36G62espT8fOqi3Da4NsxA", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0PUGP42RH7EAa3racGANuf", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1IprYVWKjFLfvadVVTCOTR", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "20pIOxEiv3Gud3Bhd$Xuds", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3azn7TLxnAiPXBXPS_tFUG", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1PL0YDO1r0MeALfcyPTrmN", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "2mTbMRlXL1wvnAOwHMyO5w", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1cqyx5tYP2GgyZJs6gRFdW", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3MfK77Wb9AjvKnowIrtUb7", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "3dB8xiwcX2hAbN6llOhSjC", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0yz6EQEQf3GPkTMfpkey4a", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0IF2xxrfXAtevBAt4st2QC", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1xh1dzHOPCJ8dUNR5I4d6y", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "1eIcVTLb56uw0yq7egifrw", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0D2tTJRIP86R9stYCpNGL$", "ifc_class": "IfcColumn", "name": "(unnamed)", "type_name": ""}, {"guid": "0dn92J8pj2Q8qDIsJuaAhE", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3bfXVhpLn28PoVqBynwdLp", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1EUYJNHED1GBvxlBWGxjCK", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1SA6g$ag9DTQucnWsckIAN", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3uhy$K$lX4H83Ku2nQ9CNq", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3V9jdKRYD8Z9NBeAzM99XY", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3PYbPtXG9DFBrl5QA9WS$r", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0FCu3WioHEQxbAfEmMJhql", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0Dm7f2wJb5Tw4LNoA5qBq6", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0NmrCr$er6IOuWFEPB2vu6", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2MtixvxQf9786FreFYdjYY", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0yeQAWIHX6uvGe6n7Kx6lX", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2D50Xy8JPA2QLxDk_DujfW", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2B4cKQGDX9SgIkoxSCMJ6m", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2sGa3sQ052Kh_CX8xcG6pQ", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "23pygAYMf99BPYApSHqYHg", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1_CZx3eKv6O8HkMCa7OOUC", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "37faI$cbn93A7tSAD$4gnh", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1pJ5iVIoDEsgJhW92jWGMQ", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1fUWnlLgn898YLYLe2tkr7", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1grbMAXY13TgCQCMVPTdNF", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3BQiyubWX1YO6LAOU7$2VP", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0CZTXIszPDTBrxLxfTX_mU", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2sRIgo0Cz6hwPTsL07yjIo", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1kfG1RW2fB8QmfmzT1UTwc", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2SxH$SqXn1Ow9xLUz3JgKd", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2hT4vlJQv84e47j_RR8bLG", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3t5QdXtkr9UB$Cxjb4COC5", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0r0BAdfirFGfBFlyW7XAlX", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2r7RKXySH0jwt_2AJuO2Ce", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "39cjboq3b9RvPnWmGlONVC", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1JisUisKn7ZhwHQWYNoOtz", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2x42H6cjH3$QQteC8ooBRo", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "01FtZ9Eu1FcuYwlwpUt$wo", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2GIG8BHKD409P8MrS7blOc", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0L8Ucu81TD2w369SNTMM2X", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2Yrz_3tsX6KhaL8a3YiqcU", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "21MieCWxb6N86P1frmWhxT", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2mgSOA2N59iwscoCsBR0A_", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2hWe837YD0MPqwq8ICKVi9", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3NNJfPkUH789FJS7pf2w6F", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3W2a0aQBf81xrSdZesLxUJ", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "06NF6EXHX1vvuozMq6_8Le", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "20C6GhBFfF6xC5PxO4Tuu_", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3jK6JG$q13cgu_p_6BMvfz", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0DyQMTt7z9kAk7_4I0W1JA", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "00QCYhSdbDUQnbiNWKtsDk", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0lia46Ec90z96Xsc7qWdiV", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0F6lbuPnfEZ8OHAlBX8ZAN", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "27hIgKLG59dhDmZpp8hFeN", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1GMJuMtIr9_fEIdP1py1PO", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1oIPMEJWb2XxP_w7TFpOnP", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2WgiZm0eH3axFPIHLwf5bN", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3$XZj_QQz1Gw1$rH$vargm", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3UrmtDRHf0khgVyhcwPnAh", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1BPdxTIe943vtHQax8JhPC", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0WdyVRNc5BW8HBmClCmFSx", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1gpSPum55B3fHnnXl5_xLh", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "28hy3wYRD5tBq_JPzoT2bN", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3wXiZhCVP89uv31RzfwnvR", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1U8NF9mzbCVPcPs3Fo0Ta1", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3_Hn6cNrL9afQUF_g5ov_8", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0_kSxU$F51XA11jptgYlHT", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "01gtaBn1H9fQE0ThrfHOIA", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "05I07vUpf37REob1VxvBbk", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0AZR0utfjFJPPRU0STbCY4", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2GiAXP4M1Bwf1hXCJzpGuj", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0fufZlYFf0M8S$vNhCjlxq", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "19KKDy_21BjeIe5nzFMvLb", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3O8yOqbuP4BRdObXcklK$i", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3FIaKraTn91g_0231jXMUD", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1E3Eiofib7lx7vV73DOKq_", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1IVLgxF0T78v9iJdINQL7z", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0Vn7D3zgz979yejguleZlr", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2Qa3GMdNHAtOa6O7ylAT_c", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3fH8Ripxz4YBbG8o3mmVpO", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2TFo3p$RX5$eknOedfSDma", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0XI$pg5RH4xPualDs_LnZi", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2CsmhMljD3dAkF49rKCsxW", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0z3fggEi16k8w7r2UJ0i6o", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0K7RpskELDAhWdg5WJqLrX", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1RQUaGwR1D38I0H0f9XVTb", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1QNkbcKPr3uxZ_0C4t_ee0", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1oo9dImL904vzqn$uEC3$N", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "227w22HFv2jveb0CRtlneB", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2O0uNQq1944gHs5$cBHYsv", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3KE3$Sy$n7de7VBv_Qg3kD", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0TFEsQ8prCJwMTgbHjoKjC", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "23JkuVxynDYgfnCpdVztuS", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2EiZ8yLJb08hXvtgxIMlm3", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0I_7wI5ZX0wh5WZqKwbei5", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1aUlqqveLFBPH9uTyYHCcD", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0TjlSUIz92Autaz98Vzew8", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3tzxNNxWbEm8KKL29kpC8T", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0j42i0hf922Pv$bcpDQ33J", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1A4apd66XE9eNaG6zIVcAL", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2GXAmeqTH2AR_reZxVqL3w", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "17DJT3R1XFgQeIRzP8ra1c", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1dqSxTyan3Nxt_ImsTt3aQ", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2uWPdTXFD8nQpDlRBs28KQ", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "00WDk0849098qLKO9_Mfs3", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1uTklUyFj4dRhNG$ZgfKBx", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2qQrsJTc5C4fuM_XSuVk3Y", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1VITjp0F19RBFuKUZNulnz", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2A9eNIgt13ygMsteagBnu5", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1Yklnrb8fD_QpqM4nBA5mc", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1FDQRfyMj5mxP5P8QRvSob", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0Cjm65t5528RKCLkZP34HC", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3t3aXZ0ML7xeFUUAVOY3s3", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "2UTfC7dVb6DvFeY6OgaCjN", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "3nTCfD3tvFOg1turnzygrS", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1b7vNIP05FCebV443ZH$b3", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "1QO6lLa116effdeRwMhBQm", "ifc_class": "IfcRailing", "name": "(unnamed)", "type_name": ""}, {"guid": "0y_j1fD9b8kgrGkLwHvjKM", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "0f419Tb9nCguUu7KqGavVn", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "0saQhpcBPDXBEIDUwNmHsv", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "20iVG32WzAkv3SCCx1YP45", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "0lGSa1UMn4kg_NfBHLi91l", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "2F3TxH_RD6KwGkzSup5$FH", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "2CuxtW4lnFlA3$5nFmgMkV", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "18nwCa_Iv5deyPYeAuf4yx", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "1Esd3GdDX0bwW1vGcDSW1f", "ifc_class": "IfcRoof", "name": "(unnamed)", "type_name": ""}, {"guid": "0UIe4jGeT0Ie_L5yxN$YcD", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "1nNO_6Qj19fvccTJyDVpuf", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "2M0aM4n_1ApvNX_91ah$cC", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "2MlUtjcJHCsvqUicRghzg8", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "26XAvqvDz02BaM4Odu5ZbM", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "2DijuG6HPBmh4DEMgkNamx", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "0Ze8er9$j0OBb0$honQ6bA", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "1SWZuSM6XARBm0vJJBLeAf", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "3tTyJSKo53Ruidy8NvIWu4", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2n$R5cDMfEVOXYL3Ke9qvP", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2TLib5vTj9Dwto9hwtl9iq", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0g8$6M9QzBLgGzs6Bh7YMt", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0tqa5720f4x8jxw4mSPViQ", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2D04iUha9FPucZyyBB8NHI", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "01DkgDE$P8XugiU5KxFIdi", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0NQVk0$HD2bgWF3eyM2ym6", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0nqnU0A$f3uATeUOnqpecW", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "23PvGshpj3neRI1ao68zGI", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3CON8vcmn5yeSkgZYZQvRg", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3i2i8x4U1BXwN2ZKzwJ6GW", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3e7UJ94BHF2gaJMRjXhoxY", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "28ULeoG21978pg5BRp5AhN", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3l5O52OvfFDB6YERzB$f4c", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1AS7Ut8H98Kh_irn$S8r62", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3VVuxGQ0P6mRBoQGtqjTmB", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0mZyBt5Nr54Ojtg_akbP0o", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3Cmnm16er48AiBaG2PdSPF", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1Q9jK4dwv4yRFVfqQtlwfH", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3wEHGHxfrFl8uOw71PTkhl", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1YiKaN2kj5OBaRlUoh5qmf", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "13F$ZrSLr9exC_p_tT3mkp", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3QUOy6hsn5eAGLq6kiNbPf", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0xN3PcC2L2zPkau6gOKWzp", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0Wwm3e4hP6yQKIdHPJkr1R", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0NbH9vyk10z9lMIZGsW1cX", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3rjLx$pBH32BxrViHquoPN", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1rjrE1PMT3YfpxbxMHN$$V", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2o5A_Oa61F5ukyu1SacNRZ", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3_RGPe$BT0BBuGtXDlxyCJ", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2cObXAeCzEFvV8w1FHOcCS", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2KkDjHLJPAuOgRLqBLltgz", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "38rfePAnX2P8w9R$a4Aits", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "22OexiBOD8Jg67Df64UwOr", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3witvDbGf0swl4wJEQjMKy", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1tXPV8Lbv1bwhOoFYbynUp", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0Ec$P5lyX06xuBYR_Y4b3S", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1XzAP8RHH8AQ2lyHMnBy6E", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2ADePdw5D20uDD6ozkLtNO", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "28ZF7eEA99RAoRr9naJCKQ", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1C8Js$5tX0zhvlv43kn3QR", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1GRCiEPdz96xXoYbdHaTDe", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3QSzK$tOnBneO7GyyBq8LR", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "33Tdh_YvH86ASXAmQbZmld", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2JhRecf4XErRvryJ$gpDp5", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1Q6jmrJBH6KxhktoGHtMsU", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2$w2otH9T0Gu1YvLY$BMYB", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "25Hqg2ZiP0Rx7YKKVi4wH8", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0oiirlv7b7ufHNXZaVzvQL", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3R3b19M8DBW9wlss16Gv_5", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "31gRumXef0NRvnjqWXsW43", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1VJgLzJ7b99euhwMn6dfZ6", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1sl4iWjBr1LucmOff3dj65", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0DQZ_ylWX6_uOA4_iqPBsZ", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2huGvFFKD35B7Ww44QRXpA", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "060C037BP28ee0o7u7Doqa", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1yMA5r16zBlwMr9irmA3SV", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "23kRSETSjCHQC0xWg0Qswc", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2VmtT5VhT9EAl7wbJ4nyxn", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "334yWRYZLA$eBcqQq15HWl", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1ZWGOCCVXB18n$UBL3m6GB", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "38096aRbLEXBWvOPZ8SpEv", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2poWRflgjBbQmRUNEeAkMN", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2wQq0m4on6uRl0vwz9RT7r", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3hBS9KDW92SuFepcMdN$3e", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3hYOGE6bL4uAiVQj403UWD", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1JMTaKc5D2_81EcQ0FLD$_", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0oehxcE99788DNiB5DsIQT", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1JFO$4m5fFlQAo9Sv3atoT", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2CBR82d992bPhwmaO6UzEP", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "17fEFOn4j90BHwIiTsOLs8", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1B7TQzKn96GeAo0CWX4kTs", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3wRk6Jro5ElhcLfvAdezP2", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0A6$EfvQjFDfax8a5Xzqoa", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "07Ohavp6D5xQEYgTjyUirY", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1hHlKzO898TfWsxxBzfK7r", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2sXViydBDBzRHoZIQxSafl", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2nXeb0WSTCmvq2afQUkfqq", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2YPW4RAMP8IA47NeQjwoR6", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1P_CdNasfEwgDAi_5jjBBg", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1vwTWzmoH8e9_x$B09Zyxv", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1L9H3OjFPBReaU_9qBKf04", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "17S2T03V93uh905pJaMTlx", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "0sXvHKJnH2e8DfsqynvBqA", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2ol$dHEoP5a8BIjeNcZ2gY", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3z$qTHv5j4cheVJULWTuO0", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3uaQDOmPn01web90H8ufOs", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "2UHejsIyn82hFK9pVwrN0r", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3TQTr_6zrC9AMoHMChFodO", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3lvLnrVg1AWQGYCX3aUYtr", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2Ck598nB56dAkR31QqFNBh", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2DHJv$FFj0w9w9s8cSi6cW", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2nUndWSkv0xQz7Lm59kSkA", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1SuW$duVf9iAa$SnR2u7SL", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0mtpUlqLv9pBCnMXv_rCFt", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1W8z4U2Kz60h2waF_gpYLJ", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2iqL0ZUpPBxBxJ6PAEt0ot", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3QxXeGd1DDFRWlaSWP720O", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0CZNCW0k97hQmDom4piv0R", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0VCSQh0_DCtuXWVVMn36Dw", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3DYyUqLuz69AWFFRc9MBx7", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2mGKShN2LFPxa48EJ4ICx9", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0Q3JX3OML3_gX0GDFZKafp", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0P6g1lkS17XhcyrT7O_owH", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0Xqm_eFFbCmQr3zYwqaXku", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1mewtYcTb4OAqg48rhQpM0", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1_nS$aja57kxqvWToTeTBx", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "04awx8ibT7nhdyGqrlNoth", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1CL2qd4iDCxfkSLUemzLZI", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3c8ckwJqD2SfO$3g_2vrfI", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2MXDuJTf90mAamT$kOl9Gs", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2hq0Aduh16qwN1N4W2PmRw", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "33P$WF_LjEteJewfNwRST5", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1dtG3XltzAVQbsw_Adt4LF", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2GSgYCVKDCrfpEamEZm_hT", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1ZyiugQYP3hBDtJ6v1Qmk7", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2xvHDHmCfFGeLq$K3NpSmt", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2aP3r40YX2yhFhwBfi6_iK", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3KlJf5ak19pAfSZHd66hSi", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0cvSq_QITAveMpSv$jIcLM", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3QCR8VWQr6MfodGLDuVN3j", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2WOqGZJf58PxcHb4rUePlM", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3B4j3pKaP02O6$wBRCv3f7", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1NyDo5zbLBSOqQKWjcrbKb", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2bGrhlyw18M8OvHWLa4d0U", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3juoA5d1fEFAVTKvZezFiF", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0bRMjYnLf8JRspeUNNPXYN", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "10y46U9obDKQehOlWr2R4s", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "23zUQJzzj9xQ45lwT9UuUP", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1sJJo3Y2LD3Q5FKj8LDaAR", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2F6D6C0of9OQMSH4pNJAk7", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3onPLBvFv0ReQYP70gMMYk", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2bacAbQAL4Z8IVgpapsK$N", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0BLiMS409FifJr96v6hGwD", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0MmBD0AJDFdATc3tpKuAiu", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2T$WcM9zb9sOhyE432BUEY", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2ULP7dk_15XORvgrXut1QX", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2ngc5cHOn9bfySmbq1evc2", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3oqdwgWaTCRhcgLT3m9Mf1", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2QJGTKlC92_A6Ia3S45Yh$", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3GVMRBQfH8q8EPFRC9GX4m", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "19v29qKBD1FOzl9mKsvFiA", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "05pM46NE94CwKFScVd9ish", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3iWUF0KWDD79KS$QPGKEZn", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0oHr5jkdnEHv4BoSqjWz7j", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3_Lvlw5LLDiQQj2TMjrjuS", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1kb7btCPj6Hgmo1dBK5M3D", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2wSsdHtOr79xqOS7WTBW$G", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3zH7CjII51ShJf0g5VUZhk", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0l5wHB1nP2muvpIDaZgzOC", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2wUdwh3hL0cgpBgKbsJRA6", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2hDqbeVpL8CRXuZyOqrrvL", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3BO9dqp759Mx4oa5jVqSAL", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1GU8mw7ET3RBtlCOA$Ax8B", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "28dKfSe6H0jA0sKRk3ekQI", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1X_cYRa6PEFvgnBLUAYQfA", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2oj7u4J$f9tAoT7eSul6ZH", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3$q0JSwZf9$9BqrI$gztg7", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2zdIiKOQz0NAZ9HSUGLqdy", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "3ES3WPdQrEaAlYO_LhE7eP", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "01PgrLMkvB2uvOggeDc9Q8", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2dP994xAr2dAPOgVAJYOrW", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "03WsaRoHjAwPHNVXPZkufc", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1IyZmM_0P9Rx$OrZivVgkd", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2UJtdzvun0685SD4kyTNTE", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2z1lMJgOPDkuyNmbWTJy1$", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1IeMUMdB55$O7cZ$gmJKtu", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2t6fyaRJ1Bfw6ub59lZBmH", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3lVyuCumf6Dg5Yt7AY1xCn", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2sb2leyY1AKB$f6foQVucq", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0excmEOcHFkgVYtHD4GNvH", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "35gv1lmyb96e$VE6dRZ3Oi", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "158GzgZ3TBW9K79obx2NAb", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2KaCln8$vBAwnbXshhCIEZ", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3M$SeVuAj6qe9Vma1jeQUL", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2EMB8Dth59FeFd_BA7OHGy", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3c8zA2YC5E59Zo9HN88$n2", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "14h5KaM7v3_gE5Srhdg6Zv", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3tRkFmOgTDrxqhDu$gr$M4", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3J44Rsb8f8YuqZbAuF5$H2", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1SLeREncL3pO4QplhASvWh", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "00mIsmakn66hpTLQFZ$Kvk", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1a6YozYRX72eAO_qwuOjTV", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0pCqF3asTDVwa4CW5_3jKD", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "31dsEZ0K11nO3E36J59sTB", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0Ik9pViQL0zuYMyffaZ5ij", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1jWWAqK31DGfkXeQ19jWS7", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1cUGsJi0L4GOM$VbEiAgHX", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1PsJIcYs1Cm8V4gaitf3Gv", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3d5VHh_n94rBLmtGcDttYu", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2PgUJkWiL7DgfJSEGUXJcH", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1MUU6HghLB$8TvQ2ZPxbdT", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3JwuJkSRf9Sws$UTaEZw40", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3eHAqCrBvE18KHGcBGPOpj", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "11b6eQPTTDlwkp5b3Y6FpI", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "33gdIBADfAyRJp_lajapqE", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0mfXcPzVjBavAOGpRqmMJ5", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0HDwtEQwfCqg2V$IoIeRz3", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0_KHdDg2v7R9l$QfC08L7Z", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1RCml9i01FIAM5tOQ2QZGM", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1MJ0xw2EDFzB1TtyGUS3g2", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1evIP3sGH5nQZRtddh43H_", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3AVqtB0J1BrAGCFLud_9o9", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1DLYcmyM9A2PM7awhxRmZi", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3xiWb4AOjBExbfXSvkoULV", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2K$pjs3E59Iwvt0FSYriVA", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2CUlpCjNn7QvROt6d0UJx$", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "00mXyQoif1DfkKlW8x0zQD", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2IOzNkoYj6oBW9$ZK3U3XZ", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1XlWOVBUvD7uDW4INhGHXO", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2Lhqh_D8D80Ap33W7beSoO", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "058k_1ua9F2u8fYv1osFP$", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0AabyGsYf8YwV0rZ6IkZ_$", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "09RPxEnjD8_gxUXBVNJgEw", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3phwPltOz5UuwmBJmaajHd", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0hoMDummf0vhwmGH$Q9wpp", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1HDkyVpvD8cRkCMORTif9m", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1dtdJO_2bBh8UTDwEh85K7", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3NILkrL3X4FxH$FW1faTo7", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3_f8ESkbjEDfkJRWG45Qv5", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0lmmKuS712zB4WNjYt5ydv", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1$r28ffe553vrXTbF0_edZ", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3M7lHJkn56ghJaFCJkLBFq", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3vGbpcJAH7gf5_B9KKzqSn", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0NMGB0hBf0dOSAriwqOG0f", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0lbsJawO5AXBIRuBGotM5a", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2aNjPmjVLFtRpZau3sl2tz", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1m5$P7vLnDrx7tQxlwVKT8", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1cDLF$JZf6avs$vw6D9Urn", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "04crsXJdjCovhfQL0iB7iT", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3dmWIIdRXDsPJM46AkwPOH", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3Sn6WZdo12L95sIFAA0l$P", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "17UiPvTIX1DO9IdKIofdjA", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "00CQw1vvbAixBH9ntHr4gD", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0OMqSUULn0BeltYaGtI1ol", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1oxG41Tpn91vVWErfjfe2X", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1Espb6Rlj7TenmDY6kj$1P", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0a7miW$QL67vNW_4GdFxvL", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0Zs$OMo2z0BO72UKWWl0ql", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0YmS5Ez6r38u8R12SXHs9_", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2kqwwQVQ1AegN$lTW4p0Cb", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0xeyw3Stj8XPmM6mIWpf7j", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1N6X6Hqm55YQG9MBx4R0EK", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2$dsIAxcHBcg3CHus1RPrQ", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0izqCGkiX3$w8mN$REhk2j", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1nDqiVPr5Fqu8WTfaS0w_n", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "35QEsL9lX2seT_e9Z3P5pq", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2ry12UsQ1B5f_e2NUzVuaU", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3AtAZk7GrB1u4dGxO1W3Pn", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3C7NVwlYzC$AJ2zST5GK69", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3buRbSWUj3rPU89yqGX60M", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3eE6QkBef6oPI2mjI_hMqK", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1_AEnSpKT0OPSVMOtGUKCZ", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3K6Hkf0WPFBgoinpPYouqv", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2R4Zb6o_54pvJuYgaLMhx_", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0RAPJZnXXFm8WK$FY2YKWt", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2rdgT8w8j0AeZUlm4nwgDh", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1uAsHpUNz9iRBQfAU4ednb", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1pg27xVCT50wcXmbmdyDuX", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3_bAeIXo1DwPLKo8rEJ2JN", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3m5nozG8LAPxTX$uJ_DwYM", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0XHwYiPRPAZgg8_MqUDOiE", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2ZhFzccAj8Zf_SkCNw2zjt", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3Sn9KoUfb5m8k9BCH4zBvV", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2pdYXNtoL1UfPsbbTD5a6G", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1$OB0x0V56fBLciqrEy3ha", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "39kc3Um_T5JxD_yytbKZWW", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1WZrgdyb94BQqXVbCYNTdt", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2hui8tXEH1i8_Pe4yTcSMJ", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0GiPFsC5P4sOu4CIroRIQS", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1cptANM$rFqRamc6N76EYT", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1GN3AnxE92ePOPruLHuduK", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "22yAVP33fB7eDIiSeBdGuF", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0NGr9WzHfDdB2pZBWFMmLS", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3JkqTWsq5CPePC2khhsuwh", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1ZyMcKBG1EKBc3nsXYT30I", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3N2W6PGdPDHP9nbstDCCM_", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1QZVxWU4D8CB0odyjqu81B", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1sD6gQs_T3CBnx4qATwruC", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0TFVvfDdX3JOzN9WuuRC$9", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "02kQ7CFZ99iwXyqDvWIyW2", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3v5IurNlP7UAhC4kv5050U", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2So4YHAevBKOg8t4fqMGel", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1ACvYXRWD6yQGoF8s_DTM3", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0O$fo1Zrv5dRH6yYsT6A1p", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0gOICow517Uuc7JZ_9kOVC", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1c1mQKZkT8KA9bcj3cHDs8", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3A4BYTuq1Efg7H99FcnwJP", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2RG4OqBxb10gQtrWARmQad", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2veU5PWSH91e4jER20fcX5", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2ynsCL0H54a9iqNUojQpyV", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2YGoN2YUP4LeSp3NdEOZfK", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3XQwcvTmnC$QDrMA2p7Wjp", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1yrd0bOtT0i8wtsjvOBJAt", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2S25zuSmj20AntQb9WwRnN", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3oB82MIZH1QQB7KFbAIWtl", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3rd_hrk9n9qR5Cid9YFEM4", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "29owOQREv628S8VWRFsf76", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1FfSOR1Kr7uP3ifhNPIr2R", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3U3NuI5Ff9oxwcAtvKlS$g", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3W3yqegpH56BP3TwTm1s6q", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0GjeHMg$X7nACuVVH5eT9M", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3CAHXZpbz2vxOrRaANleGu", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "0yUNM6lc97X87IRmdDpV9D", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2i6B16PG57ieaHoOjpeVBN", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2XQC3gUsH8iPptn27dWDGp", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3VmBifHqf0TwuvTon87Ufh", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3A4xLmZYbDehBCjX$R1I03", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1WMEupoXzD2A7K5U$6ShcT", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "2J8AjdQizAZhpj8c7lH0Ba", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1das3qMIv2jBE3GRxi2nOT", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "3s1vsBCU1B4B98jwLfN5uJ", "ifc_class": "IfcWindow", "name": "(unnamed)", "type_name": ""}, {"guid": "1mnO8lkJPAxAdy5CqGuXg3", "ifc_class": "IfcSite", "name": "(unnamed)", "type_name": ""}], "types": []}</script>
+<script>
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+  }
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  /* ── Tabbed drill helpers ── */
+
+  function _typesTab(types) {
+    var sorted = types.slice().sort(function (a, b) { return b.instance_count - a.instance_count; });
+    return {
+      label: 'Typer',
+      count: sorted.length,
+      render: function () {
+        if (!sorted.length) return '<div class="modal-empty">Ingen typer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>IFC-klasse</th><th>Typenavn</th><th class="num">Instanser</th></tr></thead><tbody>';
+        sorted.forEach(function (t) {
+          html += '<tr><td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(t.ifc_class) + '</span></td>' +
+            '<td style="font-weight: 500;">' + escapeHtml(t.name) + '</td>' +
+            '<td class="num">' + t.instance_count + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['IFC-klasse', 'Typenavn', 'Instanser'],
+          rows: sorted.map(function (t) { return [t.ifc_class, t.name, t.instance_count]; }),
+        };
+      },
+    };
+  }
+
+  function _materialsTab(types) {
+    var matCounts = {};
+    types.forEach(function (t) {
+      (t.materials || []).forEach(function (m) {
+        if (!matCounts[m]) matCounts[m] = { name: m, types: 0, instances: 0 };
+        matCounts[m].types += 1;
+        matCounts[m].instances += t.instance_count;
+      });
+    });
+    var rows = Object.values(matCounts).sort(function (a, b) { return b.instances - a.instances; });
+    return {
+      label: 'Materialer',
+      count: rows.length,
+      render: function () {
+        if (!rows.length) return '<div class="modal-empty">Ingen materialer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Materialnavn</th><th class="num">Typer</th><th class="num">Instanser</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td><td class="num">' + r.types + '</td><td class="num">' + r.instances + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Materialnavn', 'Typer', 'Instanser'],
+          rows: rows.map(function (r) { return [r.name, r.types, r.instances]; }),
+        };
+      },
+    };
+  }
+
+  function _instancesTab(predicate, totalOverride) {
+    var rows = (DRILL.instances || []).filter(predicate);
+    // totalOverride: when filtering by IFC class we know the true total from instance_counts;
+    // for material/storey filters we can only count what we have.
+    var displayCount = totalOverride != null ? totalOverride : rows.length;
+    return {
+      label: 'Instanser',
+      count: displayCount,
+      render: function () {
+        if (!rows.length) {
+          if (totalOverride && totalOverride > 0) {
+            return '<div class="modal-empty">' + totalOverride + ' instanser i modellen, men ingen i payload (sample-grense)</div>';
+          }
+          return '<div class="modal-empty">Ingen instanser</div>';
+        }
+        var truncated = totalOverride != null && totalOverride > rows.length;
+        var html = '';
+        if (truncated) {
+          html += '<div style="font-size: 11px; color: var(--text-tertiary); padding: 8px 0; font-style: italic;">Viser ' + rows.length + ' av ' + totalOverride + ' instanser (sample-grense per klasse). Last ned for full liste fra modellsync-databasen.</div>';
+        }
+        html += '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Navn</th><th>GUID</th><th>IFC-klasse</th><th>Type</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td>' +
+            '<td style="font-family: monospace; font-size: 10px; color: var(--text-tertiary);">' + escapeHtml(r.guid) + '</td>' +
+            '<td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(r.ifc_class) + '</span></td>' +
+            '<td>' + escapeHtml(r.type_name) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Navn', 'GUID', 'IFC-klasse', 'Type'],
+          rows: rows.map(function (r) { return [r.name, r.guid, r.ifc_class, r.type_name]; }),
+        };
+      },
+    };
+  }
+
+  function drillIfcClass(cls) {
+    // cls is the instance class from the treemap (e.g. IfcMember)
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.instance_class === cls || t.ifc_class === cls;
+    });
+    var totalCount = (DRILL.instance_counts || {})[cls] || 0;
+    openTabbedModal(
+      cls,
+      matchingTypes.length + ' typer · ' + totalCount + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        _instancesTab(function (i) { return i.ifc_class === cls; }, totalCount),
+      ]
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    var typesWithStoreyCount = matchingTypes.map(function (t) {
+      return Object.assign({}, t, { instance_count: t.storeys[storeyName] });
+    });
+    var totalInstances = typesWithStoreyCount.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Etasje: ' + storeyName,
+      typesWithStoreyCount.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(typesWithStoreyCount),
+        _materialsTab(typesWithStoreyCount),
+        // Storey-level instance filtering needs per-instance storey data we don't capture yet
+        { label: 'Instanser', count: 0, render: function () { return '<div class="modal-empty">Per-instans etasjedata ikke tilgjengelig ennå</div>'; }, exportRows: function () { return { headers: [], rows: [] }; } },
+      ]
+    );
+  }
+
+  function drillMaterial(matName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    var typeNames = {};
+    matchingTypes.forEach(function (t) { typeNames[t.name] = true; });
+    var totalInstances = matchingTypes.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Materiale: ' + matName,
+      matchingTypes.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        // Materials don't propagate to per-instance index, so filter by matching type name
+        _instancesTab(function (i) { return typeNames[i.type_name]; }),
+      ]
+    );
+  }
+</script>
+
+  <script>
+    // ── Resizable table columns ──
+    (function () {
+      function initResizable(table) {
+        var storageKey = 'colw:' + location.pathname + ':' + (table.id || 'tbl');
+        var saved = {};
+        try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (e) {}
+
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach(function (th, i) {
+          if (saved[i]) th.style.width = saved[i] + 'px';
+          var grip = document.createElement('div');
+          grip.className = 'col-resizer';
+          th.appendChild(grip);
+          grip.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            grip.classList.add('dragging');
+            var startX = e.clientX;
+            var startW = th.offsetWidth;
+            function onMove(ev) {
+              var w = Math.max(40, startW + (ev.clientX - startX));
+              th.style.width = w + 'px';
+            }
+            function onUp() {
+              document.removeEventListener('mousemove', onMove);
+              document.removeEventListener('mouseup', onUp);
+              grip.classList.remove('dragging');
+              saved[i] = th.offsetWidth;
+              try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (e) {}
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('table.resizable').forEach(initResizable);
+      });
+    })();
+
+    var _modalState = { title: '', subtitle: '', rows: [] };
+    function openDrillModal(title, subtitle, rows) {
+      _modalState = { title: title, subtitle: subtitle || '', rows: rows || [] };
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+
+    /**
+     * Open a modal with custom HTML body and a tabs strip.
+     * tabs = [{label, count, render: () => htmlString, exportRows: () => [headers, rows[]]}]
+     */
+    function openTabbedModal(title, subtitle, tabs) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      var tabBar = document.createElement('div');
+      tabBar.className = 'tabs';
+      tabBar.style.cssText = 'margin-bottom: 12px; margin-top: -4px;';
+      var content = document.createElement('div');
+
+      var activeIdx = 0;
+      function renderTab(idx) {
+        activeIdx = idx;
+        Array.from(tabBar.children).forEach(function (b, i) {
+          b.classList.toggle('active', i === idx);
+        });
+        content.innerHTML = tabs[idx].render();
+      }
+      tabs.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.className = 'tab';
+        btn.type = 'button';
+        btn.innerHTML = t.label + ' <span style="color: var(--text-tertiary); font-weight: 400;">' + t.count + '</span>';
+        btn.onclick = function () { renderTab(i); };
+        tabBar.appendChild(btn);
+      });
+      body.appendChild(tabBar);
+      body.appendChild(content);
+      renderTab(0);
+      document.getElementById('drill-modal').classList.add('open');
+
+      // Wire CSV/XLSX to whatever tab is active
+      window.downloadModalCsv = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadCsv((title.replace(/[^\w-]+/g, '_') + '_' + tabs[activeIdx].label + '_' + stamp + '.csv').toLowerCase(), ex.headers, ex.rows);
+      };
+      window.downloadModalXlsx = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadXlsx((title.replace(/[^\w-]+/g, '_') + '_' + stamp + '.xlsx').toLowerCase(), [{
+          name: tabs[activeIdx].label.slice(0, 28) || 'data',
+          headers: ex.headers,
+          rows: ex.rows,
+        }]);
+      };
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    function _modalSheetName() {
+      return (_modalState.title || 'data').replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 28) || 'data';
+    }
+    function _modalRowsArray() {
+      return (_modalState.rows || []).map(function (r) {
+        return [r.name || '', r.count !== undefined ? r.count : ''];
+      });
+    }
+    function downloadModalCsv() {
+      downloadCsv(_modalSheetName() + '.csv', ['Navn', 'Antall'], _modalRowsArray());
+    }
+    function downloadModalXlsx() {
+      downloadXlsx(_modalSheetName() + '.xlsx', [{
+        name: _modalSheetName(),
+        headers: ['Navn', 'Antall'],
+        rows: _modalRowsArray(),
+      }]);
+    }
+
+    /* ──────────────────────────────────────────
+       Download utilities (CSV + XLSX, no deps)
+       Ported from EdvardGK/ifc-health-check
+       ────────────────────────────────────────── */
+    function _triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function downloadCsv(filename, headers, rows) {
+      function esc(v) {
+        var s = String(v == null ? '' : v);
+        return (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0)
+          ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }
+      var lines = [headers.map(esc).join(',')];
+      rows.forEach(function (r) { lines.push(r.map(esc).join(',')); });
+      _triggerDownload(new Blob(['\uFEFF' + lines.join('\n')], {type: 'text/csv;charset=utf-8'}), filename);
+    }
+    function downloadJson(filename, data) {
+      _triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}), filename);
+    }
+    function downloadXlsx(filename, sheets) {
+      _triggerDownload(_createXlsx(sheets), filename);
+    }
+
+    /* Minimal XLSX builder (store-only ZIP, no deps). sheets = [{name, headers, rows}] */
+    function _createXlsx(sheets) {
+      var ssMap = new Map(), ssList = [];
+      function si(s) {
+        var k = String(s);
+        if (ssMap.has(k)) return ssMap.get(k);
+        var i = ssList.length; ssList.push(k); ssMap.set(k, i); return i;
+      }
+      function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      function col(i) {
+        var s = ''; i++;
+        while (i > 0) { i--; s = String.fromCharCode(65 + (i % 26)) + s; i = Math.floor(i / 26); }
+        return s;
+      }
+      sheets.forEach(function (sh) {
+        sh.headers.forEach(function (h) { si(h); });
+        sh.rows.forEach(function (r) { r.forEach(function (c) { if (typeof c !== 'number') si(c); }); });
+      });
+      var shXmls = sheets.map(function (sh) {
+        var x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>';
+        for (var ci = 0; ci < sh.headers.length; ci++) {
+          var maxLen = sh.headers[ci].length;
+          sh.rows.forEach(function (row) { var v = String(row[ci] == null ? '' : row[ci]); if (v.length > maxLen) maxLen = v.length; });
+          var w = Math.min(Math.max(maxLen + 3, 10), 60);
+          x += '<col min="' + (ci + 1) + '" max="' + (ci + 1) + '" width="' + w + '" bestFit="1" customWidth="1"/>';
+        }
+        x += '</cols><sheetData>';
+        x += '<row r="1">' + sh.headers.map(function (h, ci) { return '<c r="' + col(ci) + '1" t="s" s="1"><v>' + si(h) + '</v></c>'; }).join('') + '</row>';
+        sh.rows.forEach(function (row, ri) {
+          x += '<row r="' + (ri + 2) + '">' + row.map(function (c, ci) {
+            var ref = col(ci) + (ri + 2);
+            return typeof c === 'number'
+              ? '<c r="' + ref + '"><v>' + c + '</v></c>'
+              : '<c r="' + ref + '" t="s"><v>' + si(c) + '</v></c>';
+          }).join('') + '</row>';
+        });
+        return x + '</sheetData></worksheet>';
+      });
+      var ss = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="' + ssList.length + '" uniqueCount="' + ssList.length + '">';
+      ssList.forEach(function (s) { ss += '<si><t>' + esc(s) + '</t></si>'; });
+      ss += '</sst>';
+      var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+        '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+        '<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>';
+      sheets.forEach(function (_, i) { ct += '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; });
+      ct += '</Types>';
+      var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+      var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>';
+      sheets.forEach(function (s, i) { wb += '<sheet name="' + esc(s.name) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; });
+      wb += '</sheets></workbook>';
+      var wbr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+      sheets.forEach(function (_, i) { wbr += '<Relationship Id="rId' + (i + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + (i + 1) + '.xml"/>'; });
+      wbr += '<Relationship Id="rId' + (sheets.length + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
+      wbr += '<Relationship Id="rId' + (sheets.length + 2) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>';
+      wbr += '</Relationships>';
+      var sty = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>' +
+        '<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>' +
+        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+        '<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>';
+      var files = [
+        { name: '[Content_Types].xml', data: ct },
+        { name: '_rels/.rels', data: rels },
+        { name: 'xl/workbook.xml', data: wb },
+        { name: 'xl/_rels/workbook.xml.rels', data: wbr },
+        { name: 'xl/styles.xml', data: sty },
+        { name: 'xl/sharedStrings.xml', data: ss },
+      ];
+      shXmls.forEach(function (xml, i) { files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: xml }); });
+      return new Blob([_zipStore(files).buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    function _crc32(data) {
+      var c = 0xFFFFFFFF;
+      for (var i = 0; i < data.length; i++) {
+        c ^= data[i];
+        for (var j = 0; j < 8; j++) c = (c >>> 1) ^ (c & 1 ? 0xEDB88320 : 0);
+      }
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    function _zipStore(files) {
+      var enc = new TextEncoder();
+      var entries = files.map(function (f) { return { name: enc.encode(f.name), data: enc.encode(f.data) }; });
+      var offset = 0, locals = [];
+      entries.forEach(function (e) {
+        var hdr = new Uint8Array(30 + e.name.length);
+        var dv = new DataView(hdr.buffer);
+        dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true);
+        var cr = _crc32(e.data);
+        dv.setUint32(14, cr, true); dv.setUint32(18, e.data.length, true); dv.setUint32(22, e.data.length, true);
+        dv.setUint16(26, e.name.length, true);
+        hdr.set(e.name, 30);
+        locals.push({ hdr: hdr, data: e.data, offset: offset, name: e.name, crc: cr });
+        offset += hdr.length + e.data.length;
+      });
+      var cdStart = offset, cds = [];
+      locals.forEach(function (l) {
+        var cd = new Uint8Array(46 + l.name.length);
+        var dv = new DataView(cd.buffer);
+        dv.setUint32(0, 0x02014b50, true); dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+        dv.setUint32(16, l.crc, true); dv.setUint32(20, l.data.length, true); dv.setUint32(24, l.data.length, true);
+        dv.setUint16(28, l.name.length, true); dv.setUint32(42, l.offset, true);
+        cd.set(l.name, 46);
+        cds.push(cd);
+        offset += cd.length;
+      });
+      var eocd = new Uint8Array(22);
+      var dv = new DataView(eocd.buffer);
+      dv.setUint32(0, 0x06054b50, true); dv.setUint16(8, entries.length, true); dv.setUint16(10, entries.length, true);
+      dv.setUint32(12, offset - cdStart, true); dv.setUint32(16, cdStart, true);
+      var out = new Uint8Array(offset + 22), p = 0;
+      locals.forEach(function (l) { out.set(l.hdr, p); p += l.hdr.length; out.set(l.data, p); p += l.data.length; });
+      cds.forEach(function (cd) { out.set(cd, p); p += cd.length; });
+      out.set(eocd, p);
+      return out;
+    }
+  </script>
+</body>
+</html>
