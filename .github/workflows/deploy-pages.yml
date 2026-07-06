@@ -10,8 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-# One deployment at a time; queue rather than cancel so status-page
-# pushes don't produce "cancelled" noise.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -33,10 +31,14 @@ jobs:
         with:
           path: '.'
 
-      # GitHub Pages' backend intermittently returns "Deployment failed,
-      # try again later" during syncing_files. Retry up to 3x so these
-      # transients don't fail the run (and email). Same uploaded artifact
-      # is reused across attempts.
+      # The published site is large, so GitHub Pages' syncing_files step
+      # intermittently returns "Deployment failed, try again later" in
+      # correlated bursts. Retry a few times spread over several minutes to
+      # cross a bad window. All attempts are non-fatal: if every attempt in a
+      # burst fails, the run still succeeds (no failure email) and the next
+      # scheduled status-page push (~30 min) redeploys. A warning is written
+      # to the run summary so persistent breakage is still visible in the
+      # Actions tab.
       - name: Deploy (attempt 1)
         id: d1
         continue-on-error: true
@@ -44,7 +46,7 @@ jobs:
 
       - name: Wait before retry 2
         if: steps.d1.outcome == 'failure'
-        run: sleep 45
+        run: sleep 40
 
       - name: Deploy (attempt 2)
         id: d2
@@ -54,9 +56,19 @@ jobs:
 
       - name: Wait before retry 3
         if: steps.d1.outcome == 'failure' && steps.d2.outcome == 'failure'
-        run: sleep 60
+        run: sleep 120
 
-      - name: Deploy (attempt 3, final)
+      - name: Deploy (attempt 3)
         id: d3
         if: steps.d1.outcome == 'failure' && steps.d2.outcome == 'failure'
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+
+      - name: Report deploy result
+        run: |
+          if [ "${{ steps.d1.outcome }}" = "success" ] || [ "${{ steps.d2.outcome }}" = "success" ] || [ "${{ steps.d3.outcome }}" = "success" ]; then
+            echo "Pages deploy succeeded." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::warning::All deploy attempts hit the GitHub Pages transient; site was NOT updated this cycle. Next status-page push (~30 min) will retry." 
+            echo "⚠️ Pages deploy failed all attempts this cycle (transient). Not emailed; next push retries." >> "$GITHUB_STEP_SUMMARY"
+          fi
