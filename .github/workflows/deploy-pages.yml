@@ -1,0 +1,62 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; queue rather than cancel so status-page
+# pushes don't produce "cancelled" noise.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      # GitHub Pages' backend intermittently returns "Deployment failed,
+      # try again later" during syncing_files. Retry up to 3x so these
+      # transients don't fail the run (and email). Same uploaded artifact
+      # is reused across attempts.
+      - name: Deploy (attempt 1)
+        id: d1
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before retry 2
+        if: steps.d1.outcome == 'failure'
+        run: sleep 45
+
+      - name: Deploy (attempt 2)
+        id: d2
+        if: steps.d1.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before retry 3
+        if: steps.d1.outcome == 'failure' && steps.d2.outcome == 'failure'
+        run: sleep 60
+
+      - name: Deploy (attempt 3, final)
+        id: d3
+        if: steps.d1.outcome == 'failure' && steps.d2.outcome == 'failure'
+        uses: actions/deploy-pages@v4
