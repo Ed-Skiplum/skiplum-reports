@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNM_ARK_Exterior.ifc — Modellarbeidsflate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #eeeeed;
+      --bg-gradient: linear-gradient(135deg, #eeeeed 0%, #e4e6f0 50%, #eeeeed 100%);
+      --card: #ffffff;
+      --primary: #157954;
+      --primary-light: rgba(21, 121, 84, 0.1);
+      --accent: #D0D34D;
+      --navy: #21263A;
+      --text-primary: #21263A;
+      --text-secondary: #525d78;
+      --text-tertiary: #717b94;
+      --border: #d2d4d3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --radius: 0.75rem;
+      --sidebar-w: 256px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --panel-pad: 16px;
+      --card-gap: 16px;
+
+      /* Traffic lights */
+      --tl-green-bg: #dcfce7;
+      --tl-green-text: #166534;
+      --tl-green-dot: #22c55e;
+      --tl-yellow-bg: #fef9c3;
+      --tl-yellow-text: #854d0e;
+      --tl-yellow-dot: #eab308;
+      --tl-red-bg: #fee2e2;
+      --tl-red-text: #991b1b;
+      --tl-red-dot: #ef4444;
+      --tl-gray-bg: #f1f5f9;
+      --tl-gray-text: #94a3b8;
+
+      /* Type-status (type browser) */
+      --st-mapped-bg: #dcfce7;
+      --st-mapped-text: #166534;
+      --st-mapped-dot: #22c55e;
+      --st-pending-bg: #f1f5f9;
+      --st-pending-text: #64748b;
+      --st-pending-dot: #94a3b8;
+      --st-review-bg: #fef9c3;
+      --st-review-text: #854d0e;
+      --st-review-dot: #eab308;
+      --st-followup-bg: #fee2e2;
+      --st-followup-text: #991b1b;
+      --st-followup-dot: #ef4444;
+      --st-ignored-bg: #f1f5f9;
+      --st-ignored-text: #94a3b8;
+      --st-ignored-dot: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: 'rlig' 1, 'calt' 1;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(199, 206, 232, 0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(199, 206, 232, 0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(199, 206, 232, 0.4); }
+
+    /* ═══════════════════════════════════════════
+       SHELL
+       ═══════════════════════════════════════════ */
+    .shell { display: flex; height: 100vh; width: 100vw; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      display: flex; flex-direction: column;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+    }
+    .sidebar-brand { padding: 12px; border-bottom: 1px solid var(--glass-border); }
+    .sidebar-brand a {
+      display: flex; align-items: center; gap: var(--space-sm); width: 100%;
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; text-decoration: none;
+      color: var(--text-primary); transition: background 0.15s;
+    }
+    .sidebar-brand a:hover { background: rgba(255,255,255,0.6); }
+    .brand-icon {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+    }
+    .brand-name { flex: 1; text-align: left; font-weight: 600; font-size: 13px; }
+
+    .sidebar-search {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 12px; border-bottom: 1px solid var(--glass-border);
+    }
+    .search-btn {
+      flex: 1; display: flex; align-items: center; gap: var(--space-sm);
+      padding: 6px var(--space-sm); border: none; background: transparent;
+      border-radius: 6px; cursor: pointer; font: inherit; font-size: 13px;
+      color: var(--text-secondary); transition: background 0.15s;
+    }
+    .search-btn:hover { background: rgba(255,255,255,0.6); }
+    .icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-secondary); transition: background 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.6); }
+
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: var(--space-sm); }
+    .project-label {
+      padding: 6px 12px; font-size: 11px; color: var(--text-tertiary);
+      font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; font-size: 13px;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-item.disabled { color: var(--text-tertiary); cursor: default; opacity: 0.55; }
+    .nav-item.disabled:hover { background: transparent; color: var(--text-tertiary); }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-soon {
+      margin-left: auto; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 999px;
+      background: var(--tl-gray-bg); color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nav-section { margin-top: 16px; }
+    .nav-section-label {
+      padding: 6px 12px; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+    .nav-section-items { margin-top: 4px; }
+
+    .sidebar-footer { border-top: 1px solid var(--border); padding: var(--space-sm); }
+    .user-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: var(--space-sm) 12px; border-radius: 6px; cursor: pointer;
+      border: none; background: none; width: 100%; font: inherit;
+      text-align: left; transition: background 0.15s;
+    }
+    .user-row:hover { background: rgba(255,255,255,0.6); }
+    .user-avatar {
+      width: 24px; height: 24px; background: var(--primary); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .user-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+    .footer-actions { display: flex; align-items: center; gap: 2px; margin-top: 4px; }
+    .lang-btn {
+      padding: var(--space-xs) var(--space-sm); border: none; background: transparent;
+      border-radius: 4px; cursor: pointer; font: inherit;
+      font-size: 11px; font-weight: 600; color: var(--text-tertiary); transition: all 0.15s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.6); }
+    .lang-btn.active { color: var(--primary); background: var(--primary-light); }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .top-accent { height: 3px; background: linear-gradient(to right, #D0D34D, #157954, #21263A); flex-shrink: 0; }
+    .content { flex: 1; overflow-y: auto; padding: var(--space-lg) var(--space-xl); }
+
+    /* ═══════════════════════════════════════════
+       PAGE HEADER
+       ═══════════════════════════════════════════ */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .page-header h1 { font-size: 22px; font-weight: 700; }
+    .page-header-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .header-actions { display: flex; gap: var(--space-sm); }
+
+    /* Back link (model workspace) */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
+      margin-bottom: 16px; cursor: pointer; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Model header */
+    .model-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .model-header h1 { font-size: 22px; font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+    }
+    .badge-version { background: var(--primary-light); color: var(--primary); }
+    .badge-disc { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-status { background: var(--tl-green-bg); color: var(--tl-green-text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); cursor: pointer;
+      border: none; background: none; font: inherit;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; position: relative; bottom: -1px;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════════
+       BENTO + CARDS
+       ═══════════════════════════════════════════ */
+    .bento { display: grid; gap: var(--space-md); }
+    .bento-overview {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      align-items: start;
+    }
+    .bento-overview > .card { overflow: visible; }
+    .bento-12 {
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto 1fr 1fr 1fr;
+      grid-auto-rows: minmax(0, auto);
+      gap: 12px;
+      height: 100%;
+      min-height: 0;
+    }
+    /* Cards inside the model-workspace bento can scroll internally so
+       overflowing content stays accessible without clamping the grid. */
+    .bento-12 > .card { min-height: 0; overflow: auto; }
+    .bento-12 .treemap-card { display: flex; flex-direction: column; }
+    .bento-12 .treemap-card .treemap-grid {
+      aspect-ratio: auto;
+      flex: 1;
+      min-height: 0;
+    }
+    /* Viewport-fit chain for model_workspace: .content must be a column
+       flex with the active tab-panel + bento-12 absorbing remaining
+       height. Scoped via :has(.bento-12) so other pages stay block. */
+    .content:has(.bento-12) {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .content:has(.bento-12) > .back-link,
+    .content:has(.bento-12) > .model-header,
+    .content:has(.bento-12) > .tabs { flex-shrink: 0; }
+    .content:has(.bento-12) > .tab-panel.active {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+    }
+    .content:has(.bento-12) > .tab-panel.active > .bento-12 {
+      flex: 1; min-height: 0;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .card-sm { padding: 12px; }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card-value { font-size: 28px; font-weight: 700; line-height: 1; }
+    .card-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-row-2 { grid-row: span 2; }
+
+    /* ═══════════════════════════════════════════
+       KPI STRIP
+       ═══════════════════════════════════════════ */
+    .kpi-strip {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: flex; gap: 10px;
+    }
+    .kpi-chip {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .kpi-val { font-size: 20px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-val.primary { color: var(--primary); }
+    .kpi-val.green { color: var(--tl-green-text); }
+    .kpi-val.yellow { color: var(--tl-yellow-text); }
+    .kpi-val.red { color: var(--tl-red-text); }
+    .kpi-lbl { font-size: 11px; color: var(--text-secondary); }
+    .kpi-sub { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TRAFFIC LIGHTS
+       ═══════════════════════════════════════════ */
+    .tl { display: inline-flex; align-items: center; gap: 6px; }
+    .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .tl-dot.green { background: var(--tl-green-dot); }
+    .tl-dot.yellow { background: var(--tl-yellow-dot); }
+    .tl-dot.red { background: var(--tl-red-dot); }
+    .tl-dot.gray { background: var(--tl-gray-text); }
+
+    .tl-cell {
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; text-align: center;
+    }
+    .tl-cell.green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tl-cell.yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tl-cell.red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tl-cell.gray { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+
+    /* tl-text: same colors but no background — value-as-text style */
+    .tl-text { font-size: 11px; font-weight: 600; }
+    .tl-text.green { color: var(--tl-green-text); }
+    .tl-text.yellow { color: var(--tl-yellow-text); }
+    .tl-text.red { color: var(--tl-red-text); }
+    .tl-text.gray { color: var(--tl-gray-text); }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS BARS
+       ═══════════════════════════════════════════ */
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label-left { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
+    .bar-label { font-size: 12px; color: var(--text-secondary); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--primary); }
+    .bar-fill.green { background: var(--tl-green-dot); }
+    .bar-fill.yellow { background: var(--tl-yellow-dot); }
+    .bar-fill.red { background: var(--tl-red-dot); }
+    .bar-fill.primary { background: var(--primary); }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--text-primary); width: 60px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ═══════════════════════════════════════════
+       TABLES
+       ═══════════════════════════════════════════ */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dash-table th {
+      text-align: left; padding: var(--space-sm) 10px; font-weight: 600; font-size: 11px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dash-table th.center, .dash-table td.center { text-align: center; }
+    .dash-table td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+    .dash-table tr:hover td { background: #f8fafc; }
+    .dash-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .matrix-table th {
+      padding: 6px var(--space-sm); font-weight: 600; font-size: 10px;
+      color: var(--text-secondary); background: var(--tl-gray-bg);
+      border-bottom: 2px solid #cbd5e1; text-align: center;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .matrix-table th:first-child { text-align: left; }
+    .matrix-table td {
+      padding: 5px var(--space-sm); border-bottom: 1px solid #e2e8f0;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+    .matrix-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+    .matrix-table tr:hover td { background: #f8fafc; }
+
+    /* ═══════════════════════════════════════════
+       REQUIREMENT LIST
+       ═══════════════════════════════════════════ */
+    .req-list { list-style: none; }
+    .req-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: var(--space-sm) 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .req-item:last-child { border-bottom: none; }
+    .req-status {
+      width: 20px; height: 20px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 11px;
+    }
+    .req-status.pass { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .req-status.fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .req-status.warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .req-status.na { background: var(--tl-gray-bg); color: var(--tl-gray-text); }
+    .req-text { flex: 1; color: var(--text-primary); }
+    .req-model { font-size: 11px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       TAGS
+       ═══════════════════════════════════════════ */
+    .tag {
+      display: inline-block; padding: 2px var(--space-sm); border-radius: 4px;
+      font-size: 11px; font-weight: 500; margin: 1px 2px;
+    }
+    .tag-green { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .tag-yellow { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .tag-red { background: var(--tl-red-bg); color: var(--tl-red-text); }
+    .tag-gray { background: var(--tl-gray-bg); color: #475569; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+
+    .disc-tag { padding: 2px var(--space-sm); border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.03em; }
+    .disc-ark { background: #e8f0fe; color: #1a56db; }
+    .disc-rib { background: #fef3c7; color: #92400e; }
+    .disc-riv { background: #d1fae5; color: #065f46; }
+    .disc-rie { background: #fce7f3; color: #9d174d; }
+    .disc-rig { background: #f0fdf4; color: #065f46; }
+    .disc-lark { background: #ecfdf5; color: #047857; }
+    .disc-bimk { background: var(--tl-gray-bg); color: #475569; }
+    .disc-default { background: var(--tl-gray-bg); color: #475569; }
+
+    /* ═══════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md); background: var(--primary); color: white;
+      border: none; border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #126b4a; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius); font: inherit;
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.02); border-color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════
+       MODEL WORKSPACE — SECTIONS
+       ═══════════════════════════════════════════ */
+    .model-id { grid-column: 1 / 6; grid-row: 2; }
+    .geom-card { grid-column: 1 / 6; grid-row: 3; }
+    .geom-stack { height: 14px; border-radius: 7px; overflow: hidden; display: flex; margin-bottom: 8px; }
+    .geom-seg { height: 100%; }
+    .geom-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; }
+    .geom-legend-item { display: flex; align-items: center; gap: 4px; }
+    .geom-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .geom-legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .geom-legend-label { color: var(--text-secondary); }
+
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 28px; }
+    .id-section-title {
+      font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .id-row { display: flex; gap: 6px; font-size: 11px; padding: 2px 0; }
+    .id-key { color: var(--text-secondary); }
+    .id-key::after { content: ':'; }
+    .id-val { color: var(--text-primary); font-weight: 500; margin-left: auto; }
+
+    .treemap-card { grid-column: 6 / 10; grid-row: 2 / 4; }
+    .treemap-grid {
+      position: relative; width: 100%; aspect-ratio: 16/10;
+      border-radius: 6px; overflow: hidden;
+    }
+    .tm-cell {
+      position: absolute;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 600; color: white; overflow: hidden; padding: 2px;
+      line-height: 1.2;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .tm-count { font-size: 8px; font-weight: 400; opacity: 0.85; }
+
+    .quality-card { grid-column: 10 / 13; grid-row: 2 / 4; }
+    .q-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 11px;
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-label { color: var(--text-secondary); }
+    .q-val { font-weight: 600; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 4px; font-size: 11px; }
+    .q-ok { background: var(--tl-green-bg); color: var(--tl-green-text); }
+    .q-warn { background: var(--tl-yellow-bg); color: var(--tl-yellow-text); }
+    .q-fail { background: var(--tl-red-bg); color: var(--tl-red-text); }
+
+    .storey-card { grid-column: span 3; }
+    .storey-row {
+      display: grid; grid-template-columns: 60px 36px 1fr 32px; gap: 4px;
+      align-items: center; font-size: 11px; padding: 3px 0;
+    }
+    .storey-name { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .storey-elev { color: var(--text-tertiary); font-variant-numeric: tabular-nums; text-align: right; font-size: 10px; }
+    .storey-bar { height: 7px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+    .storey-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--primary), var(--accent)); }
+    .storey-count { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: right; font-variant-numeric: tabular-nums; }
+
+    .type-progress-card { grid-column: span 3; }
+    .progress-stack { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 10px; }
+    .progress-seg { height: 100%; transition: width 0.3s; }
+    .progress-legend { display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+    .legend-count { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    .legend-label { color: var(--text-secondary); }
+
+    /* Materials card (replaces MMI) */
+    .materials-card { grid-column: span 3; }
+
+    /* Versions/info card */
+    .info-card { grid-column: span 3; }
+    .mmi-card { grid-column: span 3; display: flex; flex-direction: column; gap: 8px; }
+    .mmi-card .card-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .mmi-card .card-header-meta { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .mmi-body { display: flex; align-items: center; gap: 14px; flex: 1; min-height: 0; }
+    .mmi-donut { width: 110px; height: 110px; flex-shrink: 0; }
+    .mmi-legend {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11px; flex: 1; min-width: 0;
+      overflow-y: auto;
+    }
+    .mmi-legend li {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 6px;
+    }
+    .mmi-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .mmi-legend-label { color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mmi-legend-count { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+    .mmi-legend-pct { font-variant-numeric: tabular-nums; color: var(--text-tertiary); min-width: 36px; text-align: right; }
+    .mmi-source { font-size: 10px; color: var(--text-tertiary); font-style: italic; margin-top: 4px; word-break: break-word; }
+    .mmi-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 16px 8px; text-align: center; gap: 4px; color: var(--text-tertiary); }
+    .mmi-empty-title { font-size: 13px; font-weight: 600; }
+    .mmi-empty-sub { font-size: 11px; }
+
+    /* Validation tab */
+    .summary-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md); margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+
+    /* Metadata tab */
+    .meta-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    }
+    .meta-group-header {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .meta-group-header:hover { background: #f8fafc; }
+    .meta-group-header .chevron { width: 16px; height: 16px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .meta-group-header.collapsed .chevron { transform: rotate(-90deg); }
+    .meta-group-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .meta-group-body { padding: 0 20px var(--space-md); }
+    .meta-group-body.collapsed { display: none; }
+    .meta-row { display: flex; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-key { width: 200px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+    .meta-val { font-size: 12px; color: var(--text-primary); font-weight: 500; }
+
+    /* Spatial tree */
+    .spatial-tree { font-size: 12px; }
+    .tree-node { padding: var(--space-xs) 0; }
+    .tree-node-inner {
+      display: flex; align-items: center; gap: 6px;
+      padding: var(--space-xs) var(--space-sm); border-radius: 4px;
+    }
+    .tree-node-inner:hover { background: rgba(0,0,0,0.02); }
+    .tree-icon { color: var(--text-tertiary); flex-shrink: 0; }
+    .tree-label { color: var(--text-primary); }
+    .tree-type { color: var(--text-tertiary); font-size: 11px; }
+    .tree-children { padding-left: 20px; border-left: 1px solid var(--border); margin-left: 8px; }
+
+    /* ═══════════════════════════════════════════
+       TYPE BROWSER
+       ═══════════════════════════════════════════ */
+    .tb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      flex-shrink: 0;
+    }
+    .tb-header h1 { font-size: 16px; font-weight: 700; white-space: nowrap; }
+    .tb-model-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer; min-width: 200px;
+    }
+    .tb-stats {
+      display: flex; align-items: center; gap: 12px;
+      margin-left: auto; font-size: 12px; color: var(--text-secondary);
+    }
+    .tb-stats strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-filters {
+      display: flex; align-items: center; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .tb-search { position: relative; width: 220px; }
+    .tb-search input {
+      width: 100%; padding: 5px 28px 5px 30px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; background: white;
+      outline: none; transition: border-color 0.15s;
+    }
+    .tb-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(21,121,84,0.1); }
+    .tb-search svg { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); }
+    .tb-search .search-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; border: none; background: var(--tl-gray-bg);
+      border-radius: 50%; cursor: pointer; color: var(--text-tertiary);
+      display: none; align-items: center; justify-content: center;
+      font-size: 12px; line-height: 1; padding: 0; transition: all 0.15s;
+    }
+    .tb-search .search-clear:hover { background: var(--border); color: var(--text-primary); }
+    .tb-search.has-value .search-clear { display: flex; }
+    .tb-select {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font: inherit; font-size: 12px; color: var(--text-primary);
+      background: white; cursor: pointer;
+    }
+    .tb-filter-sep { width: 1px; height: 20px; background: var(--border); }
+    .tb-count { font-size: 11px; color: var(--text-tertiary); white-space: nowrap; }
+    .tb-actions { display: flex; gap: 4px; margin-left: auto; }
+
+    .tb-progress {
+      display: flex; align-items: center; gap: 12px;
+      padding: 6px var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .progress-bar { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; display: flex; }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-label strong { color: var(--text-primary); font-weight: 600; }
+
+    .tb-body {
+      flex: 1; display: grid;
+      grid-template-columns: minmax(220px, 1.2fr) minmax(320px, 2fr) minmax(300px, 1.6fr);
+      min-height: 0;
+    }
+
+    .tb-nav { border-right: 1px solid var(--border); overflow-y: auto; background: rgba(255,255,255,0.4); }
+    .type-group { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .type-group-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-secondary);
+      cursor: pointer; transition: background 0.15s;
+      background: rgba(0,0,0,0.02);
+    }
+    .type-group-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-group-count { font-size: 10px; color: var(--text-tertiary); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .type-group-mapped { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .type-group-mapped.complete { color: var(--st-mapped-text); }
+    .type-group-mapped.partial { color: var(--text-tertiary); }
+    .type-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px 6px 24px;
+      font-size: 11px; cursor: pointer;
+      transition: background 0.1s;
+      border-left: 2px solid transparent;
+    }
+    .type-row:hover { background: rgba(0,0,0,0.03); }
+    .type-row.selected { background: var(--primary-light); border-left-color: var(--primary); }
+    .type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .type-row-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+    .type-row-code { font-size: 10px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .type-row-count { font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; min-width: 20px; text-align: right; }
+
+    .tb-form {
+      overflow-y: auto;
+      padding: var(--panel-pad) var(--space-lg);
+      background: var(--card);
+    }
+    .form-empty {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-tertiary); font-size: 13px;
+    }
+
+    .tb-right {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      background: rgba(255,255,255,0.4);
+    }
+    .info-panel { padding: var(--panel-pad); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .info-type-name { font-size: 14px; font-weight: 600; }
+    .info-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .info-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 10px; font-weight: 500;
+    }
+    .info-badge.ifc { background: #f1f5f9; color: var(--text-secondary); font-family: 'SF Mono', 'Cascadia Code', monospace; }
+    .info-badge.disc { background: #e8f0fe; color: #1a56db; }
+    .info-badge.count { background: #f1f5f9; color: var(--text-secondary); }
+    .info-props { margin-top: 10px; font-size: 11px; }
+    .info-prop-row { display: flex; justify-content: space-between; padding: 3px 0; }
+    .info-prop-label { color: var(--text-tertiary); }
+    .info-prop-value { color: var(--text-primary); font-weight: 500; }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.25s ease both; }
+
+    /* Browser viz row + view toggle (used by type/materials browsers) */
+    .browser-viz {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);
+      padding: var(--space-md) var(--space-lg) 0;
+    }
+    .browser-viz .card { padding: 14px 16px; }
+    .browser-viz .card-title { font-size: 10px; }
+    .browser-viz .treemap-grid { aspect-ratio: 16/8; }
+
+    .top-bar-list { display: flex; flex-direction: column; gap: 4px; }
+    .top-bar-row {
+      display: grid; grid-template-columns: 180px 1fr 50px; gap: 8px;
+      align-items: center; font-size: 11px;
+    }
+    .top-bar-row .top-bar-label {
+      color: var(--text-secondary); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-bar-row .top-bar-track {
+      height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+    }
+    .top-bar-row .top-bar-fill {
+      height: 100%; background: var(--primary); border-radius: 4px;
+    }
+    .top-bar-row .top-bar-count {
+      font-weight: 600; color: var(--text-primary);
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+
+    .view-toggle {
+      display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+    }
+    .view-toggle button {
+      padding: 5px 10px; border: none; background: white;
+      cursor: pointer; color: var(--text-tertiary); transition: all 0.15s;
+      font: inherit; font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .view-toggle button:not(:last-child) { border-right: 1px solid var(--border); }
+    .view-toggle button.active { background: var(--primary-light); color: var(--primary); }
+    .view-toggle button:hover:not(.active) { background: #f8f8f8; }
+
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: var(--space-md) var(--space-lg);
+    }
+    .browse-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 11px;
+    }
+    .browse-card-name {
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      word-break: break-word; line-height: 1.3;
+    }
+    .browse-card-meta {
+      display: flex; gap: 6px; flex-wrap: wrap; font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    .browse-card-pills { display: flex; flex-wrap: wrap; gap: 3px; }
+    .browse-card-pills .tl-cell { font-size: 9px; padding: 1px 6px; }
+    .browse-card-models {
+      display: flex; flex-wrap: wrap; gap: 3px; line-height: 1.6;
+    }
+    .browse-card-mat {
+      font-size: 10px; color: var(--text-secondary);
+      word-break: break-word;
+    }
+
+    /* Wrapping/sizable columns: cells wrap between min and max width */
+    table.wrappable td, table.wrappable th {
+      white-space: normal !important;
+      word-break: break-word;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      vertical-align: top;
+    }
+    table.wrappable td.wrap-tags { line-height: 1.7; }
+
+    /* Resizable table columns (drag handles in header) */
+    table.resizable { table-layout: auto; }
+    table.resizable th { position: relative; }
+    table.resizable th .col-resizer {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 6px;
+      cursor: col-resize; user-select: none;
+      background: transparent; transition: background 0.15s;
+    }
+    table.resizable th .col-resizer:hover,
+    table.resizable th .col-resizer.dragging { background: var(--primary); opacity: 0.4; }
+
+    /* Drill-down popup */
+    .drill-target { cursor: pointer; transition: all 0.15s; }
+    .drill-target:hover { filter: brightness(1.05); outline: 1px solid var(--primary); outline-offset: 1px; }
+    .tm-cell.active-filter { outline: 3px solid var(--navy); outline-offset: -3px; filter: brightness(1.1); }
+
+    /* Reset filters button */
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px; border: 1px solid var(--tl-red-dot); border-radius: 6px;
+      font: inherit; font-size: 11px; font-weight: 500;
+      color: var(--tl-red-text); background: var(--tl-red-bg);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-reset:hover { background: var(--tl-red-dot); color: white; }
+    .btn-reset.hidden { display: none; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(33, 38, 58, 0.4);
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      cursor: pointer; color: var(--text-tertiary);
+    }
+    .modal-close:hover { background: var(--tl-gray-bg); color: var(--text-primary); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-size: 12px;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row .row-name { flex: 1; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-row .row-count { color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .modal-empty { padding: 24px; text-align: center; color: var(--text-tertiary); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="https://ed-skiplum.github.io/skiplum-reports/">
+      <span class="brand-icon">SK</span>
+      <span class="brand-name">SkiplumForge</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="project-label">Kistefos</div>
+
+    
+
+    <div style="margin-top: 8px;">
+      <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Filer</div>
+      <div class="nav-section-items">
+        <a class="nav-item active" href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/models/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
+          Modeller
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Verifikasjon</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/requirements/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+          BIM-krav
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Data</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/types/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+          Typer
+        </a>
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/materials/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Materialer
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">System</div>
+      <div class="nav-section-items">
+        <a class="nav-item " href="https://ed-skiplum.github.io/skiplum-reports/status/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Status
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <span class="user-avatar">SK</span>
+      <span class="user-name">Skiplum</span>
+    </div>
+    <div class="footer-actions">
+      <button class="lang-btn active">NO</button>
+      <button class="lang-btn">EN</button>
+    </div>
+  </div>
+</aside>
+    <div class="main">
+      <div class="top-accent"></div>
+      
+        <div class="content">
+          
+<a class="back-link fade-in" href="https://ed-skiplum.github.io/skiplum-reports/projects/kistefos/models/">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  Tilbake til modeller
+</a>
+
+<div class="model-header fade-in">
+  <h1>KNM_ARK_Exterior.ifc</h1>
+  <span class="badge badge-disc disc-ark">ARK</span>
+  <span class="badge badge-version">IFC2X3</span>
+  <span class="badge tag tag-red">Avvik</span>
+</div>
+
+<div class="tabs fade-in">
+  <button class="tab active" data-tab="overview" onclick="switchTab('overview')">Oversikt</button>
+  <button class="tab" data-tab="validation" onclick="switchTab('validation')">Validering</button>
+  <button class="tab" data-tab="metadata" onclick="switchTab('metadata')">Metadata</button>
+</div>
+
+
+<div class="tab-panel active" id="tab-overview">
+  <div class="bento bento-12 fade-in">
+
+    
+    <div class="kpi-strip">
+      <div class="kpi-chip">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">typer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">535</span>
+        <span class="kpi-lbl">elementer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">0</span>
+        <span class="kpi-lbl">etasjer</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val">41.85</span>
+        <span class="kpi-lbl">MB &middot; IFC2X3</span>
+      </div>
+      <div class="kpi-chip">
+        <span class="kpi-val red">27%</span>
+        <span class="kpi-lbl">krav oppfylt</span>
+      </div>
+    </div>
+
+    
+    <div class="card model-id">
+      <div class="card-header">
+        <div class="card-title">Modellidentitet</div>
+      </div>
+      <div class="id-grid">
+        <div>
+          <div class="id-section-title">Kontekst</div>
+          <div class="id-row"><span class="id-key">Prosjekt</span><span class="id-val">Kistefos</span></div>
+          <div class="id-row"><span class="id-key">Disiplin</span><span class="id-val">ARK</span></div>
+          <div class="id-row"><span class="id-key">Verktøy</span><span class="id-val">Asuni IFC Rhino Export Plug-in</span></div>
+          <div class="id-row"><span class="id-key">Organisasjon</span><span class="id-val">Asuni CAD</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Enheter</div>
+          <div class="id-row"><span class="id-key">Lengde</span><span class="q-val q-ok">mm</span></div>
+          <div class="id-row"><span class="id-key">Areal</span><span class="q-val q-ok">m²</span></div>
+          <div class="id-row"><span class="id-key">Volum</span><span class="q-val q-ok">m³</span></div>
+          <div class="id-row"><span class="id-key">Vinkel</span><span class="q-val q-ok">rad</span></div>
+        </div>
+        <div>
+          <div class="id-section-title">Koordinater</div>
+          <div class="id-row">
+            <span class="id-key">CRS satt</span>
+            
+            <span class="q-val q-warn">N/A</span>
+            
+          </div>
+          
+          <div class="id-row" style="font-size: 9px; color: var(--text-tertiary); font-style: italic;">IFC2X3 har ingen IfcProjectedCRS</div>
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="card card-sm geom-card">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Geometrityper</div>
+      </div>
+      <div class="geom-stack">
+        
+        <div class="geom-seg" style="width: 82.9%; background: #157954;"></div>
+        
+        <div class="geom-seg" style="width: 12.1%; background: #5dbf99;"></div>
+        
+        <div class="geom-seg" style="width: 3.2%; background: #8dd4b8;"></div>
+        
+        <div class="geom-seg" style="width: 1.5%; background: #b3e2ce;"></div>
+        
+        <div class="geom-seg" style="width: 0.2%; background: #cbd5e1;"></div>
+        
+      </div>
+      <div class="geom-legend">
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #157954;"></div>
+          <span class="geom-legend-count">445</span>
+          <span class="geom-legend-label">SurfaceModel</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #5dbf99;"></div>
+          <span class="geom-legend-count">65</span>
+          <span class="geom-legend-label">MappedRepresentation</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #8dd4b8;"></div>
+          <span class="geom-legend-count">17</span>
+          <span class="geom-legend-label">Brep</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #b3e2ce;"></div>
+          <span class="geom-legend-count">8</span>
+          <span class="geom-legend-label">SweptSolid</span>
+        </div>
+        
+        <div class="geom-legend-item">
+          <div class="geom-legend-dot" style="background: #cbd5e1;"></div>
+          <span class="geom-legend-count">1</span>
+          <span class="geom-legend-label">Curve2D</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card treemap-card">
+      <div class="card-header">
+        <div class="card-title">Elementer etter IFC-klasse</div>
+      </div>
+      <div class="treemap-grid">
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 0.0%; width: 100.0%; height: 61.4286%; background: #157954;"
+             title="IfcProxy · 344"
+             data-drill-class="IfcProxy" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcProxy<br><span class="tm-count">344</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 61.4286%; width: 81.7073%; height: 29.2857%; background: #1e9268;"
+             title="IfcBuildingElementProxy · 134"
+             data-drill-class="IfcBuildingElementProxy" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcBuildingElementProxy<br><span class="tm-count">134</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 81.7073%; top: 61.4286%; width: 18.2927%; height: 29.2857%; background: #27ab7d;"
+             title="IfcDoor · 30"
+             data-drill-class="IfcDoor" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcDoor<br><span class="tm-count">30</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 0.0%; top: 90.7143%; width: 23.0769%; height: 9.2857%; background: #3fc18a;"
+             title="IfcSlab · 12"
+             data-drill-class="IfcSlab" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSlab<br><span class="tm-count">12</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 23.0769%; top: 90.7143%; width: 19.2308%; height: 9.2857%; background: #5dbf99;"
+             title="IfcStair · 7"
+             data-drill-class="IfcStair" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcStair<br><span class="tm-count">7</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 42.3077%; top: 90.7143%; width: 19.2308%; height: 9.2857%; background: #8dd4b8;"
+             title="IfcWall · 5"
+             data-drill-class="IfcWall" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcWall<br><span class="tm-count">5</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 61.5385%; top: 90.7143%; width: 19.2308%; height: 9.2857%; background: #b3e2ce;"
+             title="IfcAnnotation · 2"
+             data-drill-class="IfcAnnotation" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcAnnotation<br><span class="tm-count">2</span></div>
+        
+        <div class="tm-cell drill-target"
+             style="left: 80.7692%; top: 90.7143%; width: 19.2308%; height: 9.2857%; background: #d4eee2;"
+             title="IfcSite · 1"
+             data-drill-class="IfcSite" onclick="drillIfcClass(this.getAttribute('data-drill-class'))">IfcSite<br><span class="tm-count">1</span></div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card quality-card">
+      <div class="card-header">
+        <div class="card-title">Kravstatus</div>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">IFC-skjema</span>
+        <span class="q-val q-warn">IFC2X3</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Forfatterverktøy</span>
+        <span class="q-val q-warn">Asuni IFC Rhino Export Plug-in</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Enhet mm</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">CRS definert</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Etasjer definert</span>
+        <span class="q-val q-warn">Mangler</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Modellhierarki</span>
+        <span class="q-val q-fail">1/535</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Typed elementer</span>
+        <span class="q-val q-fail">0%</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Ubrukte typer</span>
+        <span class="q-val ">N/A</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Ingen proxy-typer</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Unike GUID</span>
+        <span class="q-val q-ok">OK</span>
+      </div>
+      
+      <div class="q-row">
+        <span class="q-label">Basismengder (Qto)</span>
+        <span class="q-val q-fail">Mangler</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card storey-card">
+      <div class="card-header">
+        <div class="card-title">Elementer per etasje</div>
+      </div>
+      
+    </div>
+
+    
+    <div class="card type-progress-card">
+      <div class="card-header">
+        <div class="card-title">Topp IFC-klasser</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcProxy')">
+          <span class="bar-label" style="width: 110px;">IfcProxy</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 64%;"></div></div>
+          <span class="bar-count" style="width: 36px;">344</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcBuildingElementProxy')">
+          <span class="bar-label" style="width: 110px;">IfcBuildingElementProxy</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 25%;"></div></div>
+          <span class="bar-count" style="width: 36px;">134</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcDoor')">
+          <span class="bar-label" style="width: 110px;">IfcDoor</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 6%;"></div></div>
+          <span class="bar-count" style="width: 36px;">30</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcSlab')">
+          <span class="bar-label" style="width: 110px;">IfcSlab</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 2%;"></div></div>
+          <span class="bar-count" style="width: 36px;">12</span>
+        </div>
+        
+        <div class="bar-row drill-target" onclick="drillIfcClass('IfcStair')">
+          <span class="bar-label" style="width: 110px;">IfcStair</span>
+          <div class="bar-track"><div class="bar-fill primary" style="width: 1%;"></div></div>
+          <span class="bar-count" style="width: 36px;">7</span>
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <div class="card materials-card">
+      <div class="card-header">
+        <div class="card-title">Materialer</div>
+      </div>
+      <div class="kpi-chip" style="border: none; padding: 0; margin-bottom: 12px;">
+        <span class="kpi-val primary">0</span>
+        <span class="kpi-lbl">unike materialer</span>
+      </div>
+      
+    </div>
+
+    
+    <div class="card mmi-card">
+      <div class="card-header">
+        <div class="card-title">MMI-fordeling</div>
+        
+      </div>
+      
+      <div class="mmi-empty">
+        <div class="mmi-empty-title">Ingen MMI-data</div>
+        <div class="mmi-empty-sub">Ingen IfcElement i modellen har en egenskap som heter «MMI».</div>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-validation">
+  <div class="summary-cards fade-in">
+    <div class="summary-card">
+      <div class="card-title">Bestått</div>
+      <div class="card-value" style="color: var(--tl-green-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Krav oppfylt</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Advarsler</div>
+      <div class="card-value" style="color: var(--tl-yellow-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Bør utbedres</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-title">Feil</div>
+      <div class="card-value" style="color: var(--tl-red-text); margin-top: 8px;">3</div>
+      <div class="card-sub">Må utbedres</div>
+    </div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-header">
+      <div class="card-title">Regelresultater</div>
+    </div>
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th style="width: 40px;">Status</th>
+          <th>Regel</th>
+          <th>Kategori</th>
+          <th>Melding</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">IFC-skjema</td>
+          <td><span class="tag tag-gray">Format</span></td>
+          <td style="color: var(--text-secondary);">Anbefaler IFC4 eller nyere</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Forfatterverktøy</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">Asuni IFC Rhino Export Plug-in</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Enhet mm</td>
+          <td><span class="tag tag-gray">Geometri</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot yellow"></span></td>
+          <td style="font-weight: 500;">Etasjer definert</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">Mangler</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Modellhierarki</td>
+          <td><span class="tag tag-gray">Struktur</span></td>
+          <td style="color: var(--text-secondary);">534 elementer uten plassering (100%)</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Typed elementer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">534 av 534 elementer mangler IfcTypeObject</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Ingen proxy-typer</td>
+          <td><span class="tag tag-gray">Typer</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot green"></span></td>
+          <td style="font-weight: 500;">Unike GUID</td>
+          <td><span class="tag tag-gray">Identitet</span></td>
+          <td style="color: var(--text-secondary);">OK</td>
+        </tr>
+        
+        <tr>
+          <td><span class="tl-dot red"></span></td>
+          <td style="font-weight: 500;">Basismengder (Qto)</td>
+          <td><span class="tag tag-gray">Mengder</span></td>
+          <td style="color: var(--text-secondary);">Ingen Qto_* base quantity property sets funnet</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="tab-panel" id="tab-metadata">
+  <div class="meta-group fade-in">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">IFC Header</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row"><span class="meta-key">Skjema</span><span class="meta-val">IFC2X3</span></div>
+      <div class="meta-row"><span class="meta-key">Forfatterverktøy</span><span class="meta-val">Asuni IFC Rhino Export Plug-in</span></div>
+      <div class="meta-row"><span class="meta-key">Organisasjon</span><span class="meta-val">Asuni CAD</span></div>
+      <div class="meta-row"><span class="meta-key">Filnavn</span><span class="meta-val">KNM_ARK_Exterior.ifc</span></div>
+      <div class="meta-row"><span class="meta-key">Filstørrelse</span><span class="meta-val">41.85 MB</span></div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.05s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Romlig struktur</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="spatial-tree">
+        
+        <div class="tree-node">
+          <div class="tree-node-inner">
+            <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span class="tree-label">Kistefos</span>
+            <span class="tree-type">IfcProject</span>
+          </div>
+          <div class="tree-children">
+            
+            <div class="tree-node">
+              <div class="tree-node-inner">
+                <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+                <span class="tree-label">Site</span>
+                <span class="tree-type">IfcSite</span>
+              </div>
+              <div class="tree-children">
+                
+                <div class="tree-node">
+                  <div class="tree-node-inner">
+                    <svg class="tree-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <span class="tree-label">Bygg</span>
+                    <span class="tree-type">IfcBuilding</span>
+                  </div>
+                  <div class="tree-children">
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-group fade-in" style="animation-delay: 0.1s;">
+    <div class="meta-group-header" onclick="toggleMetaGroup(this)">
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="meta-group-title">Koordinatsystem</span>
+    </div>
+    <div class="meta-group-body">
+      <div class="meta-row">
+        <span class="meta-key">CRS satt</span>
+        <span class="meta-val">Nei</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="drill-modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Detaljer</div>
+          <div class="modal-sub" id="modal-sub"></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button class="btn-outline" id="modal-csv" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalCsv()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            CSV
+          </button>
+          <button class="btn-primary" id="modal-xlsx" style="font-size: 11px; padding: 5px 10px;" onclick="downloadModalXlsx()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            XLSX
+          </button>
+          <button class="modal-close" onclick="closeModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  
+<script id="model-data" type="application/json">{"instance_counts": {"IfcAnnotation": 2, "IfcBuildingElementProxy": 134, "IfcDoor": 30, "IfcProxy": 344, "IfcSite": 1, "IfcSlab": 12, "IfcStair": 7, "IfcWall": 5}, "instances": [{"guid": "1EJ_vFxr56ah2o8g2enpoe", "ifc_class": "IfcAnnotation", "name": "(unnamed)", "type_name": ""}, {"guid": "0LKqfIXIvD4fZk6W7xLmVO", "ifc_class": "IfcAnnotation", "name": "(unnamed)", "type_name": ""}, {"guid": "3ekMCI$Ib9dB6Z8XBKh0Yt", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0gMI1FkkD0Sh6m9XzrMIes", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3SKC$7jED0fO4wYnp1qhfc", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2eO1ASMDzF_u1QCtW6nosv", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3BLa_9UKLFNBLoWHYikrrC", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "169Eyg4l13xBXZV0PKK_6o", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1LM0vEP_94NgjCMG9EuJQP", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3kVveFW8r5ff7JhlwJ7Sv4", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "37EZV4TMj8WA0ksy9HuqKT", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3s9afScFj0lQuu4ZMFyV1v", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2LbTccHF5B0eTOjAcmDW98", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0jKgvnHir4Nue$0062BdyK", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1XCCyeYE17EPQ3t58cK6IJ", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0Pkq10wbf9Pgvvzr9AbcAa", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3xzbP1gk501h3TKOs8PO0Y", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3P8dX4Rs5FwxiOPCeXZvGX", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0bpDYT5cPCcQXf2FQMZMNa", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0G12WCmZP4PBJOgy5bVylH", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "050Y0K_o1BfurdSFkj5Jr5", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2DPTL$9gbFQwTD3o2nMeSl", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1poETlpZ58_ResDXRtFiPX", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1$SHHwQnXFDQRTLxRZmN3d", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "10c_l7tDv9Sxja0vwsx2F2", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0B6V2IdSf00egY53xtiFU4", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1jvoiGKF123QTKnNZ_atbt", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3GglYeTJ96FQdxC625Rp_D", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3f0m9AE5j5swi2mrDqG9he", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2tU2OzI45AYuEmRZUvJVsR", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1EMRt2RJr2QhccoXbOmW8k", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3EU18z34T3DPDCLf_1V6$f", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3I6lbTGFnBB8gLj61CktQN", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2hs3MAGHL2kwzNUCxUckho", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3ZLoaFTJLC0RN$JOZLWFNM", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0yxIbmadnAcBjrlYsxbCJF", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3QvpVOBAnFEfShEk2FuGa9", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1KEhjoacf3wQGcZLClDjEh", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0r$N7y2d9CuwAqPF6OsQ8_", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1moHlwnI97TAOnktgQVLQG", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3J90Q8Ykr1wxZEOs3NxeM6", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3hrnlRAwb3bBKcZ5H9Ptbr", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3xC43aI6v79x7jxHRULZuH", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3DE5aJbyP0BhYXY86XowA0", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0lBv4fM89Dlx4G0RON9I1s", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1mQYT4U1fAcAvV1UicqbpR", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0i$Ro08JLAQxQ5mslyIUvA", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3kKt6VVZ195QtHhr$QzcBM", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1$TqQ8KcD4EOJf35aP1lw9", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3TOji18u9CDv$eDD2ZeT7F", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0NCG9cjvz5o9iLsxvOw1eq", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1a8si0mwr7FQHIrggYaU9q", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3PS7Y5AMb4XutEX8YXGqeV", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1l69VMxrf22hqSigbtLGey", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0LLN7p7MT4UQtoX712bs3i", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "06mD_KLhv8SwWjpgedS_3M", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1GjrdC_rr6lPGXrW9Au1kV", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2XYXLPdVnE2gQP667PJJps", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2GnrT6OFH1Yvm50EeQSnR3", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2$k2_lWNfCI9$D$FAay4bi", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1lceuxf5v7$O2Hwja9V4Hq", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0nUOu0Rpz3jREDlAzd19YZ", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2u1opFwY95ROn2xKK8y2VQ", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "27KssOx5zFqPljHfCxzPtX", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2N$0e_HtT27BPooC098b93", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1s9dUg2qv53eOk03NJSxPL", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0n1Mr03kbAMPoGEPMiH3MX", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3e8wVaosnDqBGQX5e4X1ZX", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Fq5D67fbE9gWYe7Dq1NUX", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "20wW$t27L2veB6UTp0vZCJ", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "14H3Ut$VHDVB8N5tUiX4c$", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1VDknV2EjEU8fO4oveKi7e", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3AnJFQ1pP1vxpm8LNYsuYs", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1bqkvDrUn8FuTTVTtCG_$F", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2JhUu4ToHBV8HRAU83N7E6", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0kyNAVLOb4BOmApRAaoApP", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1iksA0d7r9yhD8vEhMpzXM", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0RXOtUdPj2YfANgLG3ua3v", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0BpZDVgIf17eKY9VDqb6FZ", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0r78TSeX57gPvhDyNoxZKs", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0SagQZaJn9w9BXds8iQy0d", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "26snhpBNT40BmfX$4DbhU1", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "11qwKUfgzEaRu$AeBmL5F4", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "00reLLd9nA1xIAW6OVbssn", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0zWXYYQZPDVe5ewqgpwijM", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1QB7HT95v8ZwZmAE8W7kII", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1Lgjqaeu1Ai8Q9i$D8VUAT", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1i9tUx6L52t8ZHe$z9Sjrg", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3PUSasjvjE$wfdXJN3VCQ7", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3IsspbGHT9CR_Zu1n49_q4", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0JAzPUgKr9X9TLidOXtMDe", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0mqJR7IY9FCBzw80rxt7dM", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0Vxye7Hoz2eB$HcMQywegO", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2DCmxeMsH5_eqCC0XgrgHZ", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "13aWkHKKj4Dvjvrn2iV7Yk", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0SUEwvHtL5Bf2mCCsOQqP1", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2rrtvQIwj3_8FgJ9oYvE7k", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0gYEPfTLL3mBAIuFLznluW", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2yjNBIGu1Da9RqCfO9ApRO", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1AogXsLxTF4ulv65VrEPR8", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0TMwTxnWDEBBa28Mq78JSC", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3ClbqjzZT97RGlsZPU2DHA", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "06IZX_nVXBTBLt2_cSqC7T", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0luMcg$iL4cR$6d3qk9M0i", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3v$Z6azRD5Fvy1xWJ3JM7a", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0J6KzSRH1F4B9m3xvgK_di", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0r5VEMldj36PSoDuprBf8C", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0_9Rc_SFLDCwm1kt4JXpJr", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0trRnlUT15fxxzgWsfziaz", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1dcXypLeL5OP89Hrzj6U4$", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "30MWBSM3v6_xGeHZAcajtn", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0YhJXnDg56DRUZX_NonPuD", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3$Ca7JeNXFyuwDYmBMRebw", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "347FfP2998deGzEqRHKrJr", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3xR3Xi58bE2Al0LJ5_MBSW", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1SImC9lDnECxNSLTBJLQsf", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3N9eELjtbF$RuLtTnPTp72", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "19XjYPh_j5ogwXYrH9YuIf", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2D9YxqTT50_uV3wpbvN4wK", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3c1n_iRKj6MwmrFnzgNdgT", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1EVFYpKLH4cfgtD53$6af7", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3i2T$BQuv8FO6qhmW1dFsQ", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0vL9tBdPD8DwLmIZUMTOKE", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1r3kKIpLP7lvkgm4geCrR1", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3apgtjt$1E2fQC$Y06pLkA", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3dy_Kz57z9COOcTa6qFctd", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2faHLNczn7LASFelN4Ltfc", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "36VvjmnIT2RfbLRXiUnmCf", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2CR5jr$Lr4ZRZB0xYl6KHY", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1K$ApYPAH3wu$vCMNdcHfa", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2wFpqlXgHFmeNLb8H6a_zU", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "29u___0WXDaBhN9N5RBlFf", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "34ml3mE8H2oBg5GfGHlawP", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "14NawCmjX8NQZ3hfgrjx3T", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "21CJg74V9EseSh2iL0g8zG", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "23GDrgGSX8EBEHNUvReTyz", "ifc_class": "IfcBuildingElementProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1LOu5kr0L71RNgmDmwBrQe", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "3Q2dkquhz1i8G_ph8ALlfY", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2CraIkGRXFwAaiz58DdR1h", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2HJOYhmrv2yAT7rzjAE_M7", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "0NZfgGZSj4RP7BzYDEOn$H", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "18ZQcB8IL4MR8KmPqb8x4k", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1Pt16_G_LEnhGPENDJl7T3", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "27FZaPrF54kxT4LWmA02ge", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "0d4JafDcT5JgGWiB_XzZSt", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1_aNj4ipTBCxwvRmGg4Sak", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1NV41An6r3OAaTtSYwz87_", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "00FdafAfj5PfrSphUvexeY", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1x_I2f_6f2DQE8JAgxWo$v", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "3UIesLcZjB0AjizTMWLI5D", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "0Fop71qRr8VPtisexX3Wzb", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2PnRD_c9v3IAT0D2Y7Avx1", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1ScBv2U0n05uR8Nu7mIAHq", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "0sCTSqzvT64g5vvN7_6GKg", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2Gqr4t2zf1z9k5J$PnD4bU", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2Qbh1Locz4YR3nBFlLHm$Q", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "208aBDXL16bPkjkdfzQ$9i", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1z$48B52DFewaycyksjt3P", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1RrmBlLO59VPcA1xNJJRiI", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "3QIlnUIqr4xhB9YEkyolFA", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2dT4AVY3H4BuCo3XHjiWbh", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "3E1M9QvPb3HOYRYbE5S9eV", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2ZfI2_tor5rPU4Nj6xo_gP", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1RK1ee3FX61wjxod2Q7aPz", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1bWOkEGM9CBQtAWkTO1Bk_", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "2NKv7lwFD2w8IwqUp5_4s1", "ifc_class": "IfcDoor", "name": "(unnamed)", "type_name": ""}, {"guid": "1KwyteVeLDkO9PRiS1k7XT", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "2itKxyp8b1ZgZy8cpFLRI9", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "3BIWVLyJzCshJNy3C43$xu", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "0zlcGRyUH6vQyEbXMQDxsI", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "1bcJz6FE9ELg0x_YlmOAQw", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "33xum8LMPD$xv$2krVvbG3", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "1VH9f3ixjDSgA4UArz2ruS", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "2gaIYjHjHFdeRSDAUBTovj", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "0AMGMZw9v0uPwaO1jFc90q", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "2rW3Pz1O183O80uqYu2Dbg", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "2$h66dyY51YxghgaVEbkSt", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "22m44FYqP1JezhwNAN4wxC", "ifc_class": "IfcSlab", "name": "(unnamed)", "type_name": ""}, {"guid": "1JLdswDAzAWhJgTq14PK_Q", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3FNGLwRgn8PAN7WhDXhLDo", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1oFhb_L0bFAxInQO9R4tmj", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "3E9CuhSWv0Uu8J$gMZj$Fi", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1uiccoBz19wBvIXpmMKhIY", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1os4fpaeH5thf$XSlfw8hO", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "17cnjGW8zCIBgqmH6oNGAE", "ifc_class": "IfcStair", "name": "(unnamed)", "type_name": ""}, {"guid": "1p05WjuJL5wugHjx19VzpT", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "0OGLepVrXFWAPYtVKO1ZEo", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1LSvMkMFTAa9s8$nS1L9XK", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2LHjUK9Kv7Xu_Qgag1qwPE", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "1$3sR1H2zDpe38bV$J_fkg", "ifc_class": "IfcWall", "name": "(unnamed)", "type_name": ""}, {"guid": "2s$Q7YwnvAiQQ6fYvL5VZR", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1x8Wctcmf0tgic0S0HznGp", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1fO9sRSHD4evwao6x9mBEO", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2pSVGynQ17NeRWpor7gBWq", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Bz1paPpL8D8SCFNDy5kR2", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2u$Ked0vT31uYe$O7yU40f", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3YRFJu5JXCl9ts8BoN0PCP", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1k8OVdU4X2yBNmle4HWw2I", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3BLAiypI13pBCzedtIrVLU", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "32Ybs1NHv84hyabNCx8NuB", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3GpgzDxkL1tutXE_koaUuq", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0$DBvY6Yb5b8i98yMzSyPk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3QkiOYhxD27OiXIJX1aSAB", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0qp0dCzGLFvPF41$jgB4zl", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2HNgm_StL1CRHnA_Y86QwM", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2XSgUqwAX2YeBOKDGHcfF1", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0djguZsjf30xYJwZbvh5dB", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2TPd7NMff53uL4pfSAz4jP", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Vogcjr2v8bBcSMwVvYnMi", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3qZALvul135BXu8CP7P2BH", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2_FIzzb5T9Eu5vqREdB$Ew", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2elzPsINjD4BmoRWl3_PGn", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2IiWG9gv1DePNt6aLG78Cx", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2dB6DCg_LDqPgVJbcG0p3e", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "12SaQTjPj6fuaaZzMcQiDl", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "28F_bZylT3JPTuPxstZtbJ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2hkTvtO_H7eP47CzppgWJl", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1UNJQ2Ejr0QfipkJIAJ3So", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3MUI8tmQLA99VERXAH8Bj8", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2WWnezQ_13IAx4RpQ4gvPu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2ydrPrgRnCZQis0XNwJTK7", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2D3zh0FWHCfRZ0qEpCUFId", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0dWq$b4nXExhZYxh18QkiX", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0nOyLc6FT5bA1d867Exdti", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0lLN427yf9PPxjP75gv6sq", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3bX8wAQAfEQ9TvJHzhU77B", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2AMcswYLD7mutfKL_WUWps", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0Ya5cKzMbAAhU3BY9c1npY", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2rNi88YDH1KQv5XmLFvq9X", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0QlC_bwSrAyg4snHUSfx99", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "12LXS2uUrDyPSbU9NDZyqI", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "083Nqu2sT468ooUk2M4fQ$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "38jyDQw49AkPBP66YGhNox", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2RJbcQEkz7zhp2Alktagn$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "34EDp45q1Dk90nBQpMwH_2", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1yFfrtmUT63gAI2eljPzah", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1z5jErmUXEwhgP8pZdQ12s", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1W_tq2wdf1zgwK5GvEUpv8", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0yWNJPLw17geYcFLF4O1lw", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2RIhJ1Vmz7Vw8b7y4shwrg", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "21OUia6zH7F8ZeeB6uoMOI", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2IF4GD6cX6bx9Tqb7ls48p", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1uz7r3h8r48wwRY7NpOImD", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2A1FNCPCP5EgEEq5V6TOX9", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1UZBTOad56d9jYhXhl70l2", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0FMWywvAf64RrWaonIat_z", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3GFeyW7sr4yPuJlwW_LUw5", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "125E6Z4fTC5AUSJWUdK_cX", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0XoUiv9Pn1hw1pdrGaRaMB", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3JkCaOIbHCoRlag4pJu4OH", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0NjoSRofv8LuuXA$FxpqJr", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "25yzr7ut140efnPmaRez8t", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2smqoRalL6t9duhMJRziOt", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "345yuQjML4MQoTz4hStMwu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "38Rv8uA41Fb94AuIPfPQlx", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "249JEmso90efeowl7pFoyD", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3ciV5JEIHAC9CbvsLFpO7p", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0fKD2o11TCXxgG$rDWh2Ag", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0DXJ7UDuT44uItZnLIiN1O", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0S5mkkErP0BekRS8j_e6pO", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3BKHXaBLb14f19KZlh1wMy", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "02Gh7UAyLFJxyyomy9erH4", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "00IIrYLYz2mAz4_vclUyTZ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1ksZGSMDb3c8n3CsleKJ7J", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0k0GyhuJL0ivJUaJexa6eE", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3p4vZhlgLCK8Fyr5pbBcuu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2xTi7LDy1AGO7$KJCcc97c", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2zTQY4JaHCS9LMuMU1xKSj", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Bgv73miTCtwvdm7Q9f49m", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3NMJ6pKbP6nwDC8kmtvQhy", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1gDhwjlRn8M9Pyl8ldGLxK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "11bHKKGIL91BGpx7uQ46Yp", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2p7woj2wr5Ohnza1p5FsU1", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3scQjf$9r1Y9e8IJ$w6G0i", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1FxSO8CMP1BRzMlS$Zbla7", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2GV60ho4nF4gvHj9fh_mAB", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3iLwRtpDD3pOuVApmTY90s", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2O1gXEGir72OHOT_AGGign", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3SSx13tSX1i8txbiXkvRgk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0L34HUc9D4BgzsQHNfrBx1", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2XlFGtlp9B5A82aH0vhjet", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2J4U2Wr3n2IA9GdHy1aGw$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0O7X1u6R9DdhBgvrbOuUzE", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3VaeGF4$jDOOtIEXLfmqOd", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0PUIJ2x7L81xXzQaS0P6tP", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1TkdwMXlfD6QZ6yOyCm7zZ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2iTxsdvyv5qBRB6L6ogZeB", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3_hoBzThD1k8pcTzKv7SoL", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0iyjlkRO150wOkYFx$ShF3", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1IflwrNUbDw8XQCDL_hN35", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1R33YCpYn2_R5jA7uvs4iE", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1GHDsbAbLAoQRZ_ulfVUm_", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0JghGj0CP2Tuek6GEvZpeN", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3VmlivEYD1hOxnY$$QtqQF", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0o1$PQq_D3DhaJ0ktHT1at", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0CqvGpkxrCkucrw_1lEz4y", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2biLOZQbr7a9yffii8gYBC", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "17kmxLz4PED80WH4XvhMwe", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3D6uJWo957j9YELpIHwyhc", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "30pfKDFKD2yOoOJ1FsXfR6", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3gYn5yye5AVAoKkgEYDnEQ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1cDXJ5qwnEEBzRKeiVpbR4", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1sTafExdr5Gf8R634xjaMu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0C8jBrOnb0sAaZU8kM4RAF", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1uiNJOAS55yvzuS_WAs4Ep", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "30COF6xN5C7hYP4BUYI8rR", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1NU7_z4w98iwtjy315iUAJ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3ury1kGmjFRxT6vsugtN8u", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2TXWlbE6X7o8psu1yxJ0dD", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0E$ztJJ_P3ou2hgS7ylsRt", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "34$LB3nGT8Luhj97K1ZY3T", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0QcRyqevD9xuW63S_XSVaF", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0XtVy48AH9gAabzEjKcY_x", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1qU44RGZbFfQUZam9DwIg8", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3ncW6kIK58cRTlQeoyZNwc", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2lDh6JtgT9qeVbU8waHQeW", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "20UqbGmFzDXQXZkfVSsdcG", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1V49RRQ9D4dv31hgWBOh7P", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0zDXc5lGn5yPqUfVdJdnCF", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3gwqkWpiXC0xTkrZDzLEAJ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3Dz2dmZ1D8JBtVoUr7WALv", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2cLdJetfr3IwoFI_WpWLwQ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2O$dsYfw14p90ZS5ih6iBU", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3p6PhrIKn7TQGEhoVpf7NM", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3dDrCZC5nEPP$Aar2pju$K", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3XqBB7BZv87uMuwk45hGXZ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2GFcw6IGz59AtmBhYyleMH", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2GtJM2IsX2MA97C4sYMfpX", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "319OPS3EzAl96b2bDr4jk4", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0bomiLUn19iwXbjX02gw2P", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3zlCSapZzCARULVUmo_vUu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3j3TMf_7HB2vZwKRjXKX$F", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "028L8cL7TA8PVP1NHjQIuc", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0u3mg9Z2bENPGZcYcpvzQq", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3ZX$VzbALAOvXu5I5qaArr", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3mv1XVERzDYwepBjNg6x0e", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1uTepbvnj5VfkvynlkG$Ln", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2qST6vgX9FcOgZ9K6AKHnn", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2EvzrZLQj3OPDLEkWIMZ3s", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3hzB6wmbzA8hu07asoKm$w", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1xvOajyLzEGPDR2yA6sCVv", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "32IcUpXuvEDwSvWs$b_sg3", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1y702X6HTFNAq8AHiskii4", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1QCGV5IMz4BBIFIbHMHkX_", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0vuVid_RH5yfx7a3bsybwG", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3C0n2IC896ORBERqycu4IB", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1fX004dgPDCRk4nScqonn0", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1N8XiNRGbD6PTBe9vsuof5", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "31KNTPID5DPOtXumH3rr2D", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0pOm5Y2pb2_OVSeycTnZ$w", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1ymjss7Ir6ogRDh6CQh0KK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1eQW22BdTCfg4teZZY$761", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2LIIC_4mD6EBmFl4sTKLwM", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3kj7eZhinE1Rnun3ygIdSO", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0lE4pPmbn1NABIDU4vjA0d", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2i2JwdFtL9wvNbpueEkxpv", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1i6I1IKfj3aPt5pfMNItFd", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2yfKaOk251GeHnBKP96K_g", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2MUcwNkwj7GevwLG5DkLX$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2UnpWuZi143h3ZshPESMeb", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2iPWciLGP1_OHRI9lzOKB9", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1jneIOYGfBUu3wzDuTHu7I", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3PICjpQs94Qejnoo_T_Hyk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1P3t0SMwf0ufMEaSBR2XyS", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2W2HqfiirDK9piG9ZZdeH2", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2707qFdPPDQg3oE7sCg$Hz", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3Tfk_2DDXEMwDGPFvd1UgM", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2jDeDgoJj4Xgp102EP2wNf", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "22Z_TvvAf2NfwTSG$WEmbm", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1S7$WxCsf6I9YDPWUasbA7", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0iM0jTvqn7Tx3Icn1WtA9Q", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2WJ8AcAiX9TxDMYVMMPnOT", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2d8kV3THL6xBs9PtkolDr6", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2yeuVR6LP5BBuU1ERUCi23", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0PgPf4x8LD9u7cq7fjIDWJ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3xyzrbborABxfaxzlrmi88", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3ulx4f_4T1n9l0Xk40$hFH", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2OxTZAodv6WORdxItO0h8t", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2ZYOYc75D1Zverskmb0jL$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1LloLOXkT0Df6TjyoDTfMS", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0crxXnEX91iwZyZ0KqA2xW", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0IZZjUzVvBef0e7n_tTY0f", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0urktMcx5Fy9zKy1mrGp1e", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "133HGqCbXDPwHonxP7bhzZ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3Ww4PxeZr5J9eAvdFQGLTx", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3hRQXpMYfCee91spbsYztb", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1hEfSFcHr6K9MeneL1O9fb", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1$jjfD0dn7Q8K6xdmmR8yk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Zhr5EZLf7TxCekB5hgzAH", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1u2u01oXL1heoGTVo_Xmdi", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0yqr71kzz8zQN6e1S6BCUY", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3wt0eRAu906AHQ$JnUSgGt", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "00qSj6ml131uupcQzpSFsj", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3wCcKkTu5Dg8xdK9XzCCUA", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3345uCFev6gfhZlme4Ki4l", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1148UXAvnEUfc9yAgu6go3", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3S01J29kb8nBqOHCdHf$j7", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2CcXL8S_9DJ9JdLvgqrz8P", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2KIo_KWIPC$ftHWXyHirT1", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1pvjp5Sx1B4QK3p5RDzmw0", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "336qKhfIXCnhhSvaBOzA4E", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "02DvfLPIL7SOG3FSycKopT", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2hT7VZ7qv9guqraxiqrWd_", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "07atsdiZDEGBuIseMWdeRh", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Euq3nHg508hzjytlJhHs3", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3sqGx6hkL7De6DSGPCiPO7", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0iLj2pgCf7fOFuxESb5KRb", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0iobOmptnBnRj0eC4dCxTO", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1KTzPGuULCixiaROhXgxXV", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1MYCGoSzX6qR4ftJ$OtIrY", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3mt3_E8S99thXSDmTwd_Vp", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1jEAT$cwv2P8KuH5LP7WwA", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3DVUlUr593lAX7FQtEOh0A", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1SYvpP2gT5WQGFU7IU6LiK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2RvGCo2$zBOhjnhWGn3Z8N", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1B3R6v$V105RgHxi$V0JOA", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0QJ4$EQTf28f4qwBKAcpyM", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1vyeKsUkX0nOuNL9wStePP", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2bk_F_bg5BtxUsy9D$qVOc", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2qcsdXv6rBkgT$e014sMma", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3PA0Ym1WbA4QECJKn_B4xQ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3BA1yrAgPECh2AhE5AuRhn", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3l8J0365bFQuZTnpr_mL$b", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3_xz0yPEv8fOnv6NgGUngd", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1CFyr1xk5CbB1N3ypWz6sV", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1dKj9DKefAHert57b8DrGn", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2xHlADs3P5h9mvTzbIDVyg", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1y9YNzodf0Lf2oQECJMaXD", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "30BMjXQSHBXOSFNF_O65IP", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0IghzN0Hj7fxHy$iineuAe", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0LrNdCcX19GgGWO60BRTXZ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1iejLg_g15lgjiwatwQbj5", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2wrmipJDDAAQukrBIG9uGb", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2CXGgj4dX5ywDQxNrHPloF", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "18_78x4I9EGux3faE5GYrr", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1i$nz8UBn4F8jlRwiHPKtD", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Jv2KzL4XEiBsKAo46nWB5", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "119VVNiy52sAXlf36N0931", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1USsd1HYL1fwX$_w$FVa_u", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3uYYJlBT19VwWin$jZ3080", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1pwpO3gqrDoOScSbwUoZKW", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2U7lVcc414sfVI5RITdX6K", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1LsZb0WGf1_AYGwLF2N_wX", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2LMd0YZVv2uwFhLk2JAYKK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "266Hq9H0f6jw0lGnP3IWPi", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0__gWKRRL05xGGm7qxaH$4", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0h7nlF4hj6yxRFwYCl5qkK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3QAjSO28vDBQeyZhvJVpbA", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3cXqkz$n99mwS6spf8jYh1", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Iei1VNoz18BbqyQaYDnK2", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2KLOyJF797Vx967Q19iRbN", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3uMDA8woLCbg6cV8lYZ$0y", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2krpfKXYrDLBWpeWdf8XLy", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1KNGgW8fD058FS_Rtz0_8l", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "38VbsWCuj7U98DsnGkXzhR", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "36i4wA$71BPPj3P3Pl69rg", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2TrMuNapzE_uLxagwGABMK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "14jNV2ABn2aeR3S1v60cce", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0UdmXyZ6zFwhWxB6Jp2qFF", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "04J6lQ42n4FgRjnGCfmT7X", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1p4kHI0SH7OPygQGxAWTpD", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2iVidyTwD9$ODagFCDYaIY", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3BLhbv$NDBtv9CrGvII7dP", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "285iR371j7h8gcVp88h1Vi", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0USP_Gk8fFUe4cR5maMQ4A", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1V3nfRgHH2_fJsNZoXUAXI", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0xWukg9jP5YupjYzbdQh7i", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3faEnyifL4bA6P1_AqPVcZ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2WwTrPS3b3MxVFYLKP0HUs", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2H8lw2yBr77vERDJQ$Ncn5", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "19lJn8rBf5Au_SjtebGaFl", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "27dtLLP1v08feTYDJkJIai", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2VO4k0HkD9eOidONb73H4n", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3wGCp6Ps96qRn8ppBWMf2Z", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3_r4y$sAbFSvDz9sAYDwKL", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3MkVk3wtv4m8Le0jxuv9LG", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2h_2mfSZDA98UeZgbVNWgg", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2O41zVq5LAMxf8kSzndebC", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3lBuOln59AUe5ePsh58UKw", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0oiFWDJ1n9bA7GUSnFUAtD", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1VHxlPy2D6Gxkkfv_o__$9", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3srec0LPLFkOmnCD8W9op6", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1YLBw933n6DPRwRtf7HG2L", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3hke1F8vf32hvQMgd5yXVb", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "17ftdrxWb0HhCs6WjuutKj", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "393UYAY6T0AggxlnRd4GEP", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1nqwIYBzn33Rb$wU8dJae_", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "349cPisQrEreZKK1rpCez7", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1gL_9Mph1CIOSAsaiNrKgO", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0hz1Vm0Sb1ZPTvihoY13LL", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2h5WA84e17oBlOb4TbXdfy", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0FIHR0J2XCmxi2ByW0TLuV", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2xyxmb71594f__F5hoEUjM", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3VcTRic_93JBuFMIM55oJ_", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3DAPIVC7jA093sNV3X0vHw", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2aZKdFgMv2rPTByC9vOSpE", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2$_pA5n8j0f9jOW_T4ssVA", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2kqT7jUbDCyBblIMg7u8xS", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "067Xa9XGTFevYJNfJ1kW9C", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1$4Fg_i5X8qOBGrgmoRbBK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1lYJ01tjL8pufx7oJALooa", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3g$N$AQV94oBRsP4nWvUiu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "33jTAduTj9MQoKnwK5P7Lu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2jm5kJCA5BqwSJ$MyiCDWb", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "021yAuPTPAOfF0yw2yju14", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1EyLk3uyH0s9SXQR7cE40g", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0WYKuaBRr5UAwG2E2V2Iba", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1fMzwYyqH36B5FElraFzi$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2$_qi1R1XAnhBdXd$sHXLk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3$WZtEUGL9_OzC_tpPuVDp", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0ScamO8aX9gOA0X8dYL8J3", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2Jve$4Va1AZQd9DvXgLRdj", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2cq8kDeKz2_9PJqXn1Jcw$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0mXI$kQMHELAApgerjKCtQ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2w9XBJjoz2Kx3KOzV8ssQy", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "370GExy295D9aojyralNLK", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2t4x6at6n2Y8p6j9bqnCCJ", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1PjMwTPAX09BjOJakW0Hsu", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2QXoNms5XEYRYgoVwhHCEV", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3jrYGm8WP4I9iNMsjEYFQk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1ESZnu$Vr4$fgj0LkDhc8h", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "138ZjJbgf55gdXwaeXuR7K", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1KA9Nfx2n3sQrZqKTfRdp1", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0kCtyGhLbBLPskhDxKhNSk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0gtztYwvD8XP7v_ZrSscjk", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2tVEmdKyH3zRuRxrSrBOx0", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1HtJam7ufEx9s2rKa$6ou3", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "3nZ1FMZy18NRR6JGub0IHN", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2n6Q_eKsj93w_HPHCq1pg$", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "15rVlEo5D7GAQeY4NL4Amd", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0QKefoMIP9cfuQD1RAApSC", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1zyK3gstj6mAPO6lp3wDDs", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "2BBAfkK49E2vV$C4yd3LQe", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "1QM94$cZz8aQZcUP9XclJ1", "ifc_class": "IfcProxy", "name": "(unnamed)", "type_name": ""}, {"guid": "0wvxnkuGXAeQzOq5dQyn5H", "ifc_class": "IfcSite", "name": "(unnamed)", "type_name": ""}], "types": []}</script>
+<script>
+  var DRILL = JSON.parse(document.getElementById('model-data').textContent);
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    var btn = document.querySelector('.tab[data-tab="' + name + '"]');
+    if (btn) btn.classList.add('active');
+    var panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+  }
+  function toggleMetaGroup(header) {
+    header.classList.toggle('collapsed');
+    var body = header.nextElementSibling;
+    body.classList.toggle('collapsed');
+  }
+
+  /* ── Tabbed drill helpers ── */
+
+  function _typesTab(types) {
+    var sorted = types.slice().sort(function (a, b) { return b.instance_count - a.instance_count; });
+    return {
+      label: 'Typer',
+      count: sorted.length,
+      render: function () {
+        if (!sorted.length) return '<div class="modal-empty">Ingen typer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>IFC-klasse</th><th>Typenavn</th><th class="num">Instanser</th></tr></thead><tbody>';
+        sorted.forEach(function (t) {
+          html += '<tr><td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(t.ifc_class) + '</span></td>' +
+            '<td style="font-weight: 500;">' + escapeHtml(t.name) + '</td>' +
+            '<td class="num">' + t.instance_count + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['IFC-klasse', 'Typenavn', 'Instanser'],
+          rows: sorted.map(function (t) { return [t.ifc_class, t.name, t.instance_count]; }),
+        };
+      },
+    };
+  }
+
+  function _materialsTab(types) {
+    var matCounts = {};
+    types.forEach(function (t) {
+      (t.materials || []).forEach(function (m) {
+        if (!matCounts[m]) matCounts[m] = { name: m, types: 0, instances: 0 };
+        matCounts[m].types += 1;
+        matCounts[m].instances += t.instance_count;
+      });
+    });
+    var rows = Object.values(matCounts).sort(function (a, b) { return b.instances - a.instances; });
+    return {
+      label: 'Materialer',
+      count: rows.length,
+      render: function () {
+        if (!rows.length) return '<div class="modal-empty">Ingen materialer</div>';
+        var html = '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Materialnavn</th><th class="num">Typer</th><th class="num">Instanser</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td><td class="num">' + r.types + '</td><td class="num">' + r.instances + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Materialnavn', 'Typer', 'Instanser'],
+          rows: rows.map(function (r) { return [r.name, r.types, r.instances]; }),
+        };
+      },
+    };
+  }
+
+  function _instancesTab(predicate, totalOverride) {
+    var rows = (DRILL.instances || []).filter(predicate);
+    // totalOverride: when filtering by IFC class we know the true total from instance_counts;
+    // for material/storey filters we can only count what we have.
+    var displayCount = totalOverride != null ? totalOverride : rows.length;
+    return {
+      label: 'Instanser',
+      count: displayCount,
+      render: function () {
+        if (!rows.length) {
+          if (totalOverride && totalOverride > 0) {
+            return '<div class="modal-empty">' + totalOverride + ' instanser i modellen, men ingen i payload (sample-grense)</div>';
+          }
+          return '<div class="modal-empty">Ingen instanser</div>';
+        }
+        var truncated = totalOverride != null && totalOverride > rows.length;
+        var html = '';
+        if (truncated) {
+          html += '<div style="font-size: 11px; color: var(--text-tertiary); padding: 8px 0; font-style: italic;">Viser ' + rows.length + ' av ' + totalOverride + ' instanser (sample-grense per klasse). Last ned for full liste fra modellsync-databasen.</div>';
+        }
+        html += '<table class="dash-table" style="font-size: 11px;"><thead><tr><th>Navn</th><th>GUID</th><th>IFC-klasse</th><th>Type</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          html += '<tr><td>' + escapeHtml(r.name) + '</td>' +
+            '<td style="font-family: monospace; font-size: 10px; color: var(--text-tertiary);">' + escapeHtml(r.guid) + '</td>' +
+            '<td><span class="tag tag-gray" style="font-family: monospace; font-size: 10px;">' + escapeHtml(r.ifc_class) + '</span></td>' +
+            '<td>' + escapeHtml(r.type_name) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        return html;
+      },
+      exportRows: function () {
+        return {
+          headers: ['Navn', 'GUID', 'IFC-klasse', 'Type'],
+          rows: rows.map(function (r) { return [r.name, r.guid, r.ifc_class, r.type_name]; }),
+        };
+      },
+    };
+  }
+
+  function drillIfcClass(cls) {
+    // cls is the instance class from the treemap (e.g. IfcMember)
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.instance_class === cls || t.ifc_class === cls;
+    });
+    var totalCount = (DRILL.instance_counts || {})[cls] || 0;
+    openTabbedModal(
+      cls,
+      matchingTypes.length + ' typer · ' + totalCount + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        _instancesTab(function (i) { return i.ifc_class === cls; }, totalCount),
+      ]
+    );
+  }
+
+  function drillStorey(storeyName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return t.storeys && t.storeys[storeyName];
+    });
+    var typesWithStoreyCount = matchingTypes.map(function (t) {
+      return Object.assign({}, t, { instance_count: t.storeys[storeyName] });
+    });
+    var totalInstances = typesWithStoreyCount.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Etasje: ' + storeyName,
+      typesWithStoreyCount.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(typesWithStoreyCount),
+        _materialsTab(typesWithStoreyCount),
+        // Storey-level instance filtering needs per-instance storey data we don't capture yet
+        { label: 'Instanser', count: 0, render: function () { return '<div class="modal-empty">Per-instans etasjedata ikke tilgjengelig ennå</div>'; }, exportRows: function () { return { headers: [], rows: [] }; } },
+      ]
+    );
+  }
+
+  function drillMaterial(matName) {
+    var matchingTypes = (DRILL.types || []).filter(function (t) {
+      return (t.materials || []).indexOf(matName) >= 0;
+    });
+    var typeNames = {};
+    matchingTypes.forEach(function (t) { typeNames[t.name] = true; });
+    var totalInstances = matchingTypes.reduce(function (s, t) { return s + t.instance_count; }, 0);
+    openTabbedModal(
+      'Materiale: ' + matName,
+      matchingTypes.length + ' typer · ' + totalInstances + ' instanser',
+      [
+        _typesTab(matchingTypes),
+        _materialsTab(matchingTypes),
+        // Materials don't propagate to per-instance index, so filter by matching type name
+        _instancesTab(function (i) { return typeNames[i.type_name]; }),
+      ]
+    );
+  }
+</script>
+
+  <script>
+    // ── Resizable table columns ──
+    (function () {
+      function initResizable(table) {
+        var storageKey = 'colw:' + location.pathname + ':' + (table.id || 'tbl');
+        var saved = {};
+        try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (e) {}
+
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach(function (th, i) {
+          if (saved[i]) th.style.width = saved[i] + 'px';
+          var grip = document.createElement('div');
+          grip.className = 'col-resizer';
+          th.appendChild(grip);
+          grip.addEventListener('mousedown', function (e) {
+            e.preventDefault();
+            grip.classList.add('dragging');
+            var startX = e.clientX;
+            var startW = th.offsetWidth;
+            function onMove(ev) {
+              var w = Math.max(40, startW + (ev.clientX - startX));
+              th.style.width = w + 'px';
+            }
+            function onUp() {
+              document.removeEventListener('mousemove', onMove);
+              document.removeEventListener('mouseup', onUp);
+              grip.classList.remove('dragging');
+              saved[i] = th.offsetWidth;
+              try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (e) {}
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('table.resizable').forEach(initResizable);
+      });
+    })();
+
+    var _modalState = { title: '', subtitle: '', rows: [] };
+    function openDrillModal(title, subtitle, rows) {
+      _modalState = { title: title, subtitle: subtitle || '', rows: rows || [] };
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+      if (!rows || rows.length === 0) {
+        body.innerHTML = '<div class="modal-empty">Ingen data</div>';
+      } else {
+        rows.forEach(function (r) {
+          var row = document.createElement('div');
+          row.className = 'modal-row';
+          row.innerHTML =
+            '<div class="row-name">' + (r.name || '') + '</div>' +
+            (r.count !== undefined ? '<div class="row-count">' + r.count + '</div>' : '');
+          body.appendChild(row);
+        });
+      }
+      document.getElementById('drill-modal').classList.add('open');
+    }
+
+    /**
+     * Open a modal with custom HTML body and a tabs strip.
+     * tabs = [{label, count, render: () => htmlString, exportRows: () => [headers, rows[]]}]
+     */
+    function openTabbedModal(title, subtitle, tabs) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = subtitle || '';
+      var body = document.getElementById('modal-body');
+      body.innerHTML = '';
+
+      var tabBar = document.createElement('div');
+      tabBar.className = 'tabs';
+      tabBar.style.cssText = 'margin-bottom: 12px; margin-top: -4px;';
+      var content = document.createElement('div');
+
+      var activeIdx = 0;
+      function renderTab(idx) {
+        activeIdx = idx;
+        Array.from(tabBar.children).forEach(function (b, i) {
+          b.classList.toggle('active', i === idx);
+        });
+        content.innerHTML = tabs[idx].render();
+      }
+      tabs.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.className = 'tab';
+        btn.type = 'button';
+        btn.innerHTML = t.label + ' <span style="color: var(--text-tertiary); font-weight: 400;">' + t.count + '</span>';
+        btn.onclick = function () { renderTab(i); };
+        tabBar.appendChild(btn);
+      });
+      body.appendChild(tabBar);
+      body.appendChild(content);
+      renderTab(0);
+      document.getElementById('drill-modal').classList.add('open');
+
+      // Wire CSV/XLSX to whatever tab is active
+      window.downloadModalCsv = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadCsv((title.replace(/[^\w-]+/g, '_') + '_' + tabs[activeIdx].label + '_' + stamp + '.csv').toLowerCase(), ex.headers, ex.rows);
+      };
+      window.downloadModalXlsx = function () {
+        var ex = tabs[activeIdx].exportRows();
+        var stamp = new Date().toISOString().slice(0, 10);
+        downloadXlsx((title.replace(/[^\w-]+/g, '_') + '_' + stamp + '.xlsx').toLowerCase(), [{
+          name: tabs[activeIdx].label.slice(0, 28) || 'data',
+          headers: ex.headers,
+          rows: ex.rows,
+        }]);
+      };
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function closeModal() { document.getElementById('drill-modal').classList.remove('open'); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    function _modalSheetName() {
+      return (_modalState.title || 'data').replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 28) || 'data';
+    }
+    function _modalRowsArray() {
+      return (_modalState.rows || []).map(function (r) {
+        return [r.name || '', r.count !== undefined ? r.count : ''];
+      });
+    }
+    function downloadModalCsv() {
+      downloadCsv(_modalSheetName() + '.csv', ['Navn', 'Antall'], _modalRowsArray());
+    }
+    function downloadModalXlsx() {
+      downloadXlsx(_modalSheetName() + '.xlsx', [{
+        name: _modalSheetName(),
+        headers: ['Navn', 'Antall'],
+        rows: _modalRowsArray(),
+      }]);
+    }
+
+    /* ──────────────────────────────────────────
+       Download utilities (CSV + XLSX, no deps)
+       Ported from EdvardGK/ifc-health-check
+       ────────────────────────────────────────── */
+    function _triggerDownload(blob, filename) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function downloadCsv(filename, headers, rows) {
+      function esc(v) {
+        var s = String(v == null ? '' : v);
+        return (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0)
+          ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }
+      var lines = [headers.map(esc).join(',')];
+      rows.forEach(function (r) { lines.push(r.map(esc).join(',')); });
+      _triggerDownload(new Blob(['\uFEFF' + lines.join('\n')], {type: 'text/csv;charset=utf-8'}), filename);
+    }
+    function downloadJson(filename, data) {
+      _triggerDownload(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}), filename);
+    }
+    function downloadXlsx(filename, sheets) {
+      _triggerDownload(_createXlsx(sheets), filename);
+    }
+
+    /* Minimal XLSX builder (store-only ZIP, no deps). sheets = [{name, headers, rows}] */
+    function _createXlsx(sheets) {
+      var ssMap = new Map(), ssList = [];
+      function si(s) {
+        var k = String(s);
+        if (ssMap.has(k)) return ssMap.get(k);
+        var i = ssList.length; ssList.push(k); ssMap.set(k, i); return i;
+      }
+      function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+      function col(i) {
+        var s = ''; i++;
+        while (i > 0) { i--; s = String.fromCharCode(65 + (i % 26)) + s; i = Math.floor(i / 26); }
+        return s;
+      }
+      sheets.forEach(function (sh) {
+        sh.headers.forEach(function (h) { si(h); });
+        sh.rows.forEach(function (r) { r.forEach(function (c) { if (typeof c !== 'number') si(c); }); });
+      });
+      var shXmls = sheets.map(function (sh) {
+        var x = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>';
+        for (var ci = 0; ci < sh.headers.length; ci++) {
+          var maxLen = sh.headers[ci].length;
+          sh.rows.forEach(function (row) { var v = String(row[ci] == null ? '' : row[ci]); if (v.length > maxLen) maxLen = v.length; });
+          var w = Math.min(Math.max(maxLen + 3, 10), 60);
+          x += '<col min="' + (ci + 1) + '" max="' + (ci + 1) + '" width="' + w + '" bestFit="1" customWidth="1"/>';
+        }
+        x += '</cols><sheetData>';
+        x += '<row r="1">' + sh.headers.map(function (h, ci) { return '<c r="' + col(ci) + '1" t="s" s="1"><v>' + si(h) + '</v></c>'; }).join('') + '</row>';
+        sh.rows.forEach(function (row, ri) {
+          x += '<row r="' + (ri + 2) + '">' + row.map(function (c, ci) {
+            var ref = col(ci) + (ri + 2);
+            return typeof c === 'number'
+              ? '<c r="' + ref + '"><v>' + c + '</v></c>'
+              : '<c r="' + ref + '" t="s"><v>' + si(c) + '</v></c>';
+          }).join('') + '</row>';
+        });
+        return x + '</sheetData></worksheet>';
+      });
+      var ss = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="' + ssList.length + '" uniqueCount="' + ssList.length + '">';
+      ssList.forEach(function (s) { ss += '<si><t>' + esc(s) + '</t></si>'; });
+      ss += '</sst>';
+      var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+        '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+        '<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>';
+      sheets.forEach(function (_, i) { ct += '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; });
+      ct += '</Types>';
+      var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+      var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>';
+      sheets.forEach(function (s, i) { wb += '<sheet name="' + esc(s.name) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; });
+      wb += '</sheets></workbook>';
+      var wbr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+      sheets.forEach(function (_, i) { wbr += '<Relationship Id="rId' + (i + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + (i + 1) + '.xml"/>'; });
+      wbr += '<Relationship Id="rId' + (sheets.length + 1) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>';
+      wbr += '<Relationship Id="rId' + (sheets.length + 2) + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>';
+      wbr += '</Relationships>';
+      var sty = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts>' +
+        '<fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills>' +
+        '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+        '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+        '<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>';
+      var files = [
+        { name: '[Content_Types].xml', data: ct },
+        { name: '_rels/.rels', data: rels },
+        { name: 'xl/workbook.xml', data: wb },
+        { name: 'xl/_rels/workbook.xml.rels', data: wbr },
+        { name: 'xl/styles.xml', data: sty },
+        { name: 'xl/sharedStrings.xml', data: ss },
+      ];
+      shXmls.forEach(function (xml, i) { files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: xml }); });
+      return new Blob([_zipStore(files).buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    function _crc32(data) {
+      var c = 0xFFFFFFFF;
+      for (var i = 0; i < data.length; i++) {
+        c ^= data[i];
+        for (var j = 0; j < 8; j++) c = (c >>> 1) ^ (c & 1 ? 0xEDB88320 : 0);
+      }
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    function _zipStore(files) {
+      var enc = new TextEncoder();
+      var entries = files.map(function (f) { return { name: enc.encode(f.name), data: enc.encode(f.data) }; });
+      var offset = 0, locals = [];
+      entries.forEach(function (e) {
+        var hdr = new Uint8Array(30 + e.name.length);
+        var dv = new DataView(hdr.buffer);
+        dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true);
+        var cr = _crc32(e.data);
+        dv.setUint32(14, cr, true); dv.setUint32(18, e.data.length, true); dv.setUint32(22, e.data.length, true);
+        dv.setUint16(26, e.name.length, true);
+        hdr.set(e.name, 30);
+        locals.push({ hdr: hdr, data: e.data, offset: offset, name: e.name, crc: cr });
+        offset += hdr.length + e.data.length;
+      });
+      var cdStart = offset, cds = [];
+      locals.forEach(function (l) {
+        var cd = new Uint8Array(46 + l.name.length);
+        var dv = new DataView(cd.buffer);
+        dv.setUint32(0, 0x02014b50, true); dv.setUint16(4, 20, true); dv.setUint16(6, 20, true);
+        dv.setUint32(16, l.crc, true); dv.setUint32(20, l.data.length, true); dv.setUint32(24, l.data.length, true);
+        dv.setUint16(28, l.name.length, true); dv.setUint32(42, l.offset, true);
+        cd.set(l.name, 46);
+        cds.push(cd);
+        offset += cd.length;
+      });
+      var eocd = new Uint8Array(22);
+      var dv = new DataView(eocd.buffer);
+      dv.setUint32(0, 0x06054b50, true); dv.setUint16(8, entries.length, true); dv.setUint16(10, entries.length, true);
+      dv.setUint32(12, offset - cdStart, true); dv.setUint32(16, cdStart, true);
+      var out = new Uint8Array(offset + 22), p = 0;
+      locals.forEach(function (l) { out.set(l.hdr, p); p += l.hdr.length; out.set(l.data, p); p += l.data.length; });
+      cds.forEach(function (cd) { out.set(cd, p); p += cd.length; });
+      out.set(eocd, p);
+      return out;
+    }
+  </script>
+</body>
+</html>
