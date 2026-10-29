@@ -118,10 +118,10 @@
         <span class="brand-icon">SK</span>
         <div>
           <h1>Systemstatus</h1>
-          <div class="sub">Auto-refresh hvert 60. sekund &middot; Generert 29. oct 2026 12:30:02</div>
+          <div class="sub">Auto-refresh hvert 60. sekund &middot; Generert 29. oct 2026 13:00:02</div>
         </div>
       </div>
-      <span class="badge badge-green">OK</span>
+      <span class="badge badge-red">Krever oppmerksomhet</span>
     </div>
 
     
@@ -203,11 +203,11 @@
       <!-- P2 Hourly card -->
       <div class="card">
         <div class="card-title">P2 - Hourly (ACC + Notion + fargekoding)</div>
-        <div class="kv-row"><span class="kv-key">Forrige kjøring</span><span class="kv-val mono">29.10 12:00:02</span></div>
-        <div class="kv-row"><span class="kv-key">Forrige status</span><span class="kv-val"><span class="pill pill-ok">OK</span></span></div>
-        <div class="kv-row"><span class="kv-key">Varighet</span><span class="kv-val mono">8m 51s</span></div>
-        <div class="kv-row"><span class="kv-key">Neste planlagte</span><span class="kv-val mono">10/29/2026 1:00:00 PM</span></div>
-        <div class="kv-row"><span class="kv-key">Suksess siste 24t</span><span class="kv-val mono">13 / 13</span></div>
+        <div class="kv-row"><span class="kv-key">Forrige kjøring</span><span class="kv-val mono">29.10 13:00:02</span></div>
+        <div class="kv-row"><span class="kv-key">Forrige status</span><span class="kv-val"><span class="pill pill-warn">Pågår</span></span></div>
+        <div class="kv-row"><span class="kv-key">Varighet</span><span class="kv-val mono">-</span></div>
+        <div class="kv-row"><span class="kv-key">Neste planlagte</span><span class="kv-val mono">10/29/2026 2:00:00 PM</span></div>
+        <div class="kv-row"><span class="kv-key">Suksess siste 24t</span><span class="kv-val mono">12 / 13</span></div>
       </div>
 
     </div>
@@ -471,6 +471,48 @@
     <div class="card" style="margin-bottom: 16px;">
       <div class="card-title">Siste hendelser (24t)</div>
       <div class="issues">
+        
+        <div class="issue-row">
+          <span class="issue-time">29.10 12:51 (x6, fra 12:36)</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">Gr+�nland 55: HTTPSConnectionPool(host='node1.field.dalux.com', port=443): Max retries exceeded with url: /service/api/6.1/projects/7696349554/file_areas/49254671650/files?bookmark=eyJhIjoiMTA0MjA1NjQ</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">29.10 12:51 (x6, fra 12:36)</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">DALUX_WATCH_ERROR Gr+�nland 55: HTTPSConnectionPool(host='node1.field.dalux.com', port=443): Max retries exceeded with url: /service/api/6.1/projects/7696349554/file_areas/49254671650/files?bookmark=e</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">29.10 12:51 (x6, fra 12:36)</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">Henrik Ibsens gate 90: HTTPSConnectionPool(host='node1.field.dalux.com', port=443): Max retries exceeded with url: /service/api/6.1/projects/S390452693887352833/file_areas/S390452696894668802/files?bo</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">29.10 12:51 (x6, fra 12:36)</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">DALUX_WATCH_ERROR Henrik Ibsens gate 90: HTTPSConnectionPool(host='node1.field.dalux.com', port=443): Max retries exceeded with url: /service/api/6.1/projects/S390452693887352833/file_areas/S390452696</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">29.10 12:51 (x6, fra 12:36)</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">S+�rkedalsveien 8: HTTPSConnectionPool(host='node1.field.dalux.com', port=443): Max retries exceeded with url: /service/api/6.1/projects/7175997933/file_areas/49809703144/files?bookmark=eyJhIjoiMTA0MT</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">29.10 12:51 (x6, fra 12:36)</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">DALUX_WATCH_ERROR S+�rkedalsveien 8: HTTPSConnectionPool(host='node1.field.dalux.com', port=443): Max retries exceeded with url: /service/api/6.1/projects/7175997933/file_areas/49809703144/files?bookm</span>
+        </div>
         
         <div class="issue-row">
           <span class="issue-time">28.10 13:13:24</span>
