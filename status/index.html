@@ -118,10 +118,10 @@
         <span class="brand-icon">SK</span>
         <div>
           <h1>Systemstatus</h1>
-          <div class="sub">Auto-refresh hvert 60. sekund &middot; Generert 04. nov 2026 12:30:07</div>
+          <div class="sub">Auto-refresh hvert 60. sekund &middot; Generert 04. nov 2026 13:00:16</div>
         </div>
       </div>
-      <span class="badge badge-green">OK</span>
+      <span class="badge badge-red">Krever oppmerksomhet</span>
     </div>
 
     
@@ -203,11 +203,11 @@
       <!-- P2 Hourly card -->
       <div class="card">
         <div class="card-title">P2 - Hourly (ACC + Notion + fargekoding)</div>
-        <div class="kv-row"><span class="kv-key">Forrige kjøring</span><span class="kv-val mono">04.11 12:00:02</span></div>
-        <div class="kv-row"><span class="kv-key">Forrige status</span><span class="kv-val"><span class="pill pill-ok">OK</span></span></div>
-        <div class="kv-row"><span class="kv-key">Varighet</span><span class="kv-val mono">14m 40s</span></div>
-        <div class="kv-row"><span class="kv-key">Neste planlagte</span><span class="kv-val mono">11/4/2026 1:00:00 PM</span></div>
-        <div class="kv-row"><span class="kv-key">Suksess siste 24t</span><span class="kv-val mono">13 / 13</span></div>
+        <div class="kv-row"><span class="kv-key">Forrige kjøring</span><span class="kv-val mono">04.11 13:00:06</span></div>
+        <div class="kv-row"><span class="kv-key">Forrige status</span><span class="kv-val"><span class="pill pill-warn">Pågår</span></span></div>
+        <div class="kv-row"><span class="kv-key">Varighet</span><span class="kv-val mono">-</span></div>
+        <div class="kv-row"><span class="kv-key">Neste planlagte</span><span class="kv-val mono">11/4/2026 2:00:00 PM</span></div>
+        <div class="kv-row"><span class="kv-key">Suksess siste 24t</span><span class="kv-val mono">12 / 13</span></div>
       </div>
 
     </div>
@@ -473,17 +473,59 @@
       <div class="issues">
         
         <div class="issue-row">
+          <span class="issue-time">04.11 12:53 (x4, fra 14:45)</span>
+          <span class="issue-level lvl-warning">WARNING</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">standard.yaml beside krav.yaml differs from the engine's standard/standard.yaml -- the engine's is used</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">04.11 12:36:07</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">Henrik Ibsens gate 90: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\GullbrandSkiplum\\dev\\Automation\\logs\\mottakskontroll\\HI90\\run\\if</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">04.11 12:36:07</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">DALUX_WATCH_ERROR Henrik Ibsens gate 90: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\GullbrandSkiplum\\dev\\Automation\\logs\\mottakskontr</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">04.11 12:35:46</span>
+          <span class="issue-level lvl-warning">WARNING</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">FEIL: paritet mot modellrapporten:</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">04.11 12:35:46</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">MOTTAKSKONTROLL_ERROR mottakskontroll: engine exit 1 (log C:\Users\GullbrandSkiplum\dev\Automation\logs\mottakskontroll\HI90\run\engine.log)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">04.11 12:35:46</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">Henrik Ibsens gate 90: mottakskontroll: mottakskontroll: engine exit 1 (log C:\Users\GullbrandSkiplum\dev\Automation\logs\mottakskontroll\HI90\run\engine.log)</span>
+        </div>
+        
+        <div class="issue-row">
+          <span class="issue-time">04.11 12:35:46</span>
+          <span class="issue-level lvl-error">ERROR</span>
+          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
+          <span style="flex: 1;">DALUX_WATCH_ERROR Henrik Ibsens gate 90: mottakskontroll: mottakskontroll: engine exit 1 (log C:\Users\GullbrandSkiplum\dev\Automation\logs\mottakskontroll\HI90\run\engine.log)</span>
+        </div>
+        
+        <div class="issue-row">
           <span class="issue-time">04.11 11:03 (x3, fra 16:04)</span>
           <span class="issue-level lvl-warning">WARNING</span>
           <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxFast</span>
           <span style="flex: 1;">Stasjonshagen H�vik: error - Dalux dialog still empty after login (log: C:\Automation\logs\dalux-uploads\Stasjonshagen_H�vik_20261104_110201.log)</span>
-        </div>
-        
-        <div class="issue-row">
-          <span class="issue-time">04.11 05:13 (x2, fra 14:45)</span>
-          <span class="issue-level lvl-warning">WARNING</span>
-          <span style="color: var(--text-tertiary); min-width: 110px;">Run-DaluxWatch</span>
-          <span style="flex: 1;">standard.yaml beside krav.yaml differs from the engine's standard/standard.yaml -- the engine's is used</span>
         </div>
         
       </div>
